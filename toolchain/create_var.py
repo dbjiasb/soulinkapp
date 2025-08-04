@@ -17,10 +17,11 @@ def encrypt_string(plaintext: str) -> str:
     return base64.b64encode(ciphertext).decode('utf-8')
 
 def generate_security_constants(prefix='security'):
-    input_file = Path('scan_result_var.txt')
+    script_dir = Path(__file__).parent
+    input_file = script_dir / 'scan_result_var.txt'
     
     if not input_file.exists():
-        print(f"错误：未找到输入文件 {input_file}")
+        print(f"错误：未找到输入文件 {input_file.absolute()}")
         return
 
     content = input_file.read_text(encoding='utf-8')
@@ -60,8 +61,8 @@ def generate_security_constants(prefix='security'):
     
     # 新增路径构建逻辑
     script_dir = Path(__file__).parent
-    target_dir = script_dir / 'pods' / 'modules' / 'lib' / 'base' / 'crypt'
-    target_dir.mkdir(parents=True, exist_ok=True)  # 自动创建目录
+    target_dir = script_dir.parent / 'modules' / 'lib' / 'base' / 'crypt'
+    target_dir.mkdir(parents=True, exist_ok=True)
     output_file = target_dir / 'security.dart'
     
     output_file.write_text('\n'.join(dart_code), encoding='utf-8')

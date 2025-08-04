@@ -22,9 +22,12 @@ def extract_dart_strings():
     )
     
     # 新增三个文件句柄（移动到过滤条件之后）
-    asset_file = open('scan_result_assets.txt', 'w', encoding='utf-8')
-    text_file = open('scan_result_product_text.txt', 'w', encoding='utf-8')
-    code_file = open('scan_result_other.txt', 'w', encoding='utf-8')
+    output_dir = Path(__file__).parent
+    
+    # 修改所有文件打开语句
+    asset_file = open(output_dir/'scan_result_assets.txt', 'w', encoding='utf-8')
+    text_file = open(output_dir/'scan_result_product_text.txt', 'w', encoding='utf-8')
+    code_file = open(output_dir/'scan_result_other.txt', 'w', encoding='utf-8')
     
     # 新增API请求正则表达式
     api_request_pattern = re.compile(
@@ -72,13 +75,13 @@ def extract_dart_strings():
     dart_var_pattern = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')  # 新增变量名匹配规则
 
     # 在最终分类部分修改条件判断
-    with open('scan_result_assets.txt', 'w', encoding='utf-8') as asset_file, \
-         open('scan_result_product_text.txt', 'w', encoding='utf-8') as text_file, \
-         open('scan_result_link.txt', 'w', encoding='utf-8') as link_file, \
-         open('scan_result_route.txt', 'w', encoding='utf-8') as route_file, \
-         open('scan_result_api.txt', 'w', encoding='utf-8') as api_file, \
-         open('scan_result_var.txt', 'w', encoding='utf-8') as var_file, \
-         open('scan_result_other.txt', 'w', encoding='utf-8') as code_file:
+    with open(output_dir/'scan_result_assets.txt', 'w', encoding='utf-8') as asset_file, \
+         open(output_dir/'scan_result_product_text.txt', 'w', encoding='utf-8') as text_file, \
+         open(output_dir/'scan_result_link.txt', 'w', encoding='utf-8') as link_file, \
+         open(output_dir/'scan_result_route.txt', 'w', encoding='utf-8') as route_file, \
+         open(output_dir/'scan_result_api.txt', 'w', encoding='utf-8') as api_file, \
+         open(output_dir/'scan_result_var.txt', 'w', encoding='utf-8') as var_file, \
+         open(output_dir/'scan_result_other.txt', 'w', encoding='utf-8') as code_file:
 
         # 收集所有API字符串
         api_strings = {s for quote, s in unique_strings if quote == ''}
