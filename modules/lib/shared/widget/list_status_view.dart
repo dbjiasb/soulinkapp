@@ -1,0 +1,69 @@
+import 'package:flutter/material.dart';
+
+enum ListStatus { idle, loading, success, empty, error }
+
+class ListStatusView extends StatelessWidget {
+  final ListStatus status;
+  String? description;
+
+  ListStatusView({super.key, required this.status});
+
+  Widget buildEmptyView() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset('packages/modules/assets/images/list_status_empty.png', width: 156, height: 156),
+          Text(description ?? 'No data', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
+        ],
+      ),
+    );
+  }
+
+  Widget buildErrorView() {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Image.asset('packages/modules/assets/images/list_status_empty.png', width: 156, height: 156),
+          Text(
+            description ?? 'Network exception, please try again later',
+            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8)),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildLoadingView() {
+    return CircularProgressIndicator(color: Color(0xFFE962F6));
+  }
+
+  Widget buildSuccessView() {
+    return const SizedBox.shrink();
+  }
+
+  Widget buildView(ListStatus status) {
+    switch (status) {
+      case ListStatus.idle:
+        return buildSuccessView();
+      case ListStatus.loading:
+        return buildLoadingView();
+      case ListStatus.empty:
+        return buildEmptyView();
+      case ListStatus.error:
+        return buildErrorView();
+      case ListStatus.success:
+        return buildSuccessView();
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(child: buildView(status));
+  }
+}
+
+// class ListStatusViewController extends GetxController {
+//   var status = ListStatus.idle.obs;
+// }
