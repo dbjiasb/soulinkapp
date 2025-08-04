@@ -2,3 +2,8 @@ debug/.dart_tool
 debug/build
 release/.dart_tool
 release/build
+debug/.flutter-plugins-dependencies
+release/.flutter-plugins
+release/.flutter-plugins-dependencies
+debug/.flutter-plugins-dependencies
+debug/.flutter-plugins-dependencies
