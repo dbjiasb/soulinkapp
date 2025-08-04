@@ -22,13 +22,13 @@ class SkeletonView extends StatelessWidget {
   Widget _buildIconButton(String icon, int index) {
     String normalIconPath = '';
     String selectedIconPath = '';
-    if(icon== 'chat'){
+    if(icon== Security.security_chat){
       normalIconPath = ImagePath.bottom_bar_chat_normal;
       selectedIconPath = ImagePath.bottom_bar_chat_selected;
-    }else if(icon== 'list'){
+    }else if(icon== Security.security_list){
       normalIconPath = ImagePath.bottom_bar_list_normal;
       selectedIconPath = ImagePath.bottom_bar_list_selected;
-    }else if(icon== 'personal'){
+    }else if(icon== Security.security_personal){
       normalIconPath = ImagePath.bottom_bar_personal_normal;
       selectedIconPath = ImagePath.bottom_bar_personal_selected;
     }else{

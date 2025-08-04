@@ -263,9 +263,9 @@ class EditMyInfoLogic extends GetxController {
   }
 
   void toggleGender() {
-    if(genderText.value == 'Male'){
+    if(genderText.value == Security.security_Male){
       genderText.value = Security.security_Female;
-    }else if(genderText.value == 'Female'){
+    }else if(genderText.value == Security.security_Female){
       genderText.value = Security.security_unknown;
     }else{
       genderText.value = Security.security_Male;
@@ -274,9 +274,9 @@ class EditMyInfoLogic extends GetxController {
 
   void saveMyInfo() async {
     var gender = 0;
-    if(genderText.value == 'Male'){
+    if(genderText.value == Security.security_Male){
       gender = 1;
-    } else if(genderText.value == 'Female'){
+    } else if(genderText.value == Security.security_Female){
       gender = 2;
     } else {
       gender = 0;
