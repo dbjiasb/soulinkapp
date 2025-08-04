@@ -1,3 +1,4 @@
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:core';
 
@@ -44,8 +45,8 @@ class LoginChannelView extends StatelessWidget {
         child: IconButton(
           padding: const EdgeInsets.all(0),
           onPressed: null,
-          icon: Image.asset('packages/modules/assets/images/login/login_unselect.png'),
-          selectedIcon: Image.asset('packages/modules/assets/images/login/login_selected.png'),
+          icon: Image.asset(ImagePath.lg_un),
+          selectedIcon: Image.asset(ImagePath.lg_se),
           iconSize: 14,
           isSelected: viewController.checked.value,
         ),
@@ -102,14 +103,14 @@ class LoginChannelView extends StatelessWidget {
     LoginChannel email = LoginChannel(
       Security.security_email,
       'Sign in with E-mail',
-      'packages/modules/assets/images/login/login_mail.png',
+      ImagePath.lg_mail,
       Color(0xFF333333),
       Colors.white,
       () {
         Get.toNamed(Routers.login.name);
       },
     );
-    LoginChannel apple = LoginChannel(Security.security_apple, 'Sign in with Apple', 'packages/modules/assets/images/login/login_apple.png', Colors.white, Colors.black, () async {
+    LoginChannel apple = LoginChannel(Security.security_apple, 'Sign in with Apple', ImagePath.lg_apple, Colors.white, Colors.black, () async {
       ApiResponse response = await AccountService.instance.loginWithApple();
       if (response.isSuccess) {
         //弹出所有页面并进入主页
@@ -162,14 +163,14 @@ class LoginChannelView extends StatelessWidget {
         },
         child: Stack(
           children: [
-            Image.asset('packages/modules/assets/images/login/login_bg.png', width: double.infinity, height: double.infinity, fit: BoxFit.cover),
+            Image.asset(ImagePath.lg_bg, width: double.infinity, height: double.infinity, fit: BoxFit.cover),
             SafeArea(
               child: Container(
                 margin: EdgeInsets.only(top: 124, bottom: 24),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Image.asset('packages/modules/assets/images/login/login_app.png', width: 120, height: 120),
+                    Image.asset(ImagePath.lg_app, width: 120, height: 120),
                     Column(mainAxisAlignment: MainAxisAlignment.center, children: [_buildLoginChannels(), SizedBox(height: 65), _buildAgreeText()]),
                   ],
                 ),

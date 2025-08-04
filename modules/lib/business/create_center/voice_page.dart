@@ -2,6 +2,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 
@@ -76,7 +77,7 @@ class OCVoicePage extends StatelessWidget {
               onPressed: () {
                 Get.back();
               },
-              icon: Image.asset('$commImgDir/icon_back.png', height: 24, width: 24),
+              icon: Image.asset(ImagePath.back_icon, height: 24, width: 24),
             ),
             const Expanded(
               child: Text(
@@ -164,7 +165,7 @@ class OCVoicePage extends StatelessWidget {
                     onTap: () {
                       playVoice(item);
                     },
-                    child: Image.asset('$ocImgDir/oc_audio.png', height: 24, width: 24),
+                    child: Image.asset(ImagePath.cr_audio, height: 24, width: 24),
                   ),
               Expanded(
                 child: Container(

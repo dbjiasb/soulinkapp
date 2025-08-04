@@ -1,6 +1,7 @@
 import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/business/account/account_view.dart';
 import 'package:modules/business/chat/chat_sessions_view.dart';
 import 'package:modules/business/home_page_lists/home_page.dart';
@@ -19,8 +20,24 @@ class SkeletonView extends StatelessWidget {
   SkeletonViewController viewController = Get.put(SkeletonViewController());
 
   Widget _buildIconButton(String icon, int index) {
-    String normalIconPath = 'packages/modules/assets/images/bottom_bar_${icon}_normal.png';
-    String selectedIconPath = 'packages/modules/assets/images/bottom_bar_${icon}_selected.png';
+    String normalIconPath = '';
+    String selectedIconPath = '';
+    switch(icon){
+      case 'chat':
+        normalIconPath = ImagePath.btm_bar_chat_n;
+        selectedIconPath = ImagePath.btm_bar_chat_s;
+        break;
+      case 'list':
+        normalIconPath = ImagePath.btm_bar_list_n;
+        selectedIconPath = ImagePath.btm_bar_list_s;
+        break;
+      case 'personal':
+        normalIconPath = ImagePath.btm_bar_personal_n;
+        selectedIconPath = ImagePath.btm_bar_personal_s;
+        break;
+      default:
+        throw Exception('Unknown icon: $icon');
+    }
 
     return Obx(
       () => IconButton(

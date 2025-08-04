@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/preferences/preferences.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/core/account/account_service.dart';
@@ -157,7 +158,7 @@ class ChatImageCell extends ChatCell {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset('packages/modules/assets/images/chat/chat_res_refresh.png', width: 12, height: 12),
+                Image.asset(ImagePath.ct_refresh_res, width: 12, height: 12),
                 SizedBox(width: 4),
                 Text(text, style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: AppFonts.medium)),
               ],
@@ -234,14 +235,14 @@ class ChatImageCell extends ChatCell {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (type == ChatCellType.chat) Image.asset('packages/modules/assets/images/chat/chat_lock_portrait.png', width: 36, height: 36),
+              if (type == ChatCellType.chat) Image.asset(ImagePath.ct_lock_portrait, width: 36, height: 36),
               SizedBox(height: 8),
-              if (!MyAccount.isSubscribed || MyAccount.isWkPrem && MyAccount.freeImgLeftTimes == 0)
+              if (!MyAccount.isSubscribed || MyAccount.isWkPrem && MyAccount.freeImgLeftTimes <= 0 || imageMessage.currencyType == 1)
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(
-                      imageMessage.currencyType == 1 ? 'packages/modules/assets/images/gem.png' : 'packages/modules/assets/images/coin.png',
+                      imageMessage.currencyType == 1 ? ImagePath.gem : ImagePath.coin,
                       width: 24,
                       height: 24,
                     ),
@@ -272,7 +273,7 @@ class ChatImageCell extends ChatCell {
                           spacing: 7,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset('packages/modules/assets/images/account/premium_gem.png', width: 16, height: 16),
+                            Image.asset(ImagePath.premium_gem, width: 16, height: 16),
                             Text('Pro Free', style: TextStyle(color: Color(0xFFFFE96F), fontSize: 14, fontWeight: AppFonts.medium)),
                           ],
                         ),
@@ -283,7 +284,7 @@ class ChatImageCell extends ChatCell {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.asset('packages/modules/assets/images/chat/chat_res_lock.png', width: 16, height: 16),
+                            Image.asset(ImagePath.ct_lock_res, width: 16, height: 16),
                             SizedBox(width: 4),
                             Text(Security.security_Unlock, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
                           ],

@@ -1,10 +1,9 @@
-import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:modules/base/api_service/api_request.dart';
-import 'package:modules/base/api_service/api_service.dart';
+import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/business/create_center/create_oc_dialog.dart';
 import 'package:modules/business/home_page_lists/role_manager.dart';
@@ -15,7 +14,6 @@ import 'package:modules/shared/app_theme.dart';
 import 'package:modules/shared/widget/avatar_view.dart';
 
 import '../../shared/interactions.dart';
-
 
 class AccountView extends StatelessWidget {
   AccountView({super.key});
@@ -40,9 +38,7 @@ class AccountView extends StatelessWidget {
           Container(
             height: 150,
             padding: EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(
-              image: DecorationImage(image: AssetImage('packages/modules/assets/images/account/account_head_bg.png'), fit: BoxFit.cover),
-            ),
+            decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.act_view_head_bg), fit: BoxFit.cover)),
             child: SafeArea(
               bottom: false,
               child: Row(
@@ -51,12 +47,7 @@ class AccountView extends StatelessWidget {
                   Container(
                     child: Row(
                       children: [
-                        Obx(
-                          () =>
-                              avatarUrl.isEmpty
-                                  ? Image.asset('packages/modules/assets/images/account/account_default_avatar.png', height: 68, width: 68)
-                                  : AvatarView(url: avatarUrl, size: 68),
-                        ),
+                        Obx(() => avatarUrl.isEmpty ? Image.asset(ImagePath.avatar, height: 68, width: 68) : AvatarView(url: avatarUrl, size: 68)),
                         SizedBox(width: 12),
                         Column(
                           spacing: 3,
@@ -71,7 +62,7 @@ class AccountView extends StatelessWidget {
                                   onTap: () {
                                     Get.toNamed(Routers.editMe.name);
                                   },
-                                  child: Image.asset('packages/modules/assets/images/account/account_edit.png', height: 14, width: 14),
+                                  child: Image.asset(ImagePath.edit, height: 14, width: 14),
                                 ),
                               ],
                             ),
@@ -86,7 +77,7 @@ class AccountView extends StatelessWidget {
                                     onTap: () {
                                       Interactions.copyToClipboard(ID.toString());
                                     },
-                                    child: Image.asset('packages/modules/assets/images/string_cpy.png', height: 12, width: 12),
+                                    child: Image.asset(ImagePath.copy, height: 12, width: 12),
                                   ),
                                 ],
                               ),
@@ -101,7 +92,7 @@ class AccountView extends StatelessWidget {
                     onTap: () {
                       Get.toNamed(Routers.setting.name);
                     },
-                    child: Image.asset('packages/modules/assets/images/account/account_setting.png', width: 24, height: 24),
+                    child: Image.asset(ImagePath.setting, width: 24, height: 24),
                   ),
                 ],
               ),
@@ -129,12 +120,12 @@ class AccountView extends StatelessWidget {
             decoration: BoxDecoration(
               color: Color(0xFF191A17),
               borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(image: AssetImage('packages/modules/assets/images/account/premium_feelie_pro_bg.png'), fit: BoxFit.cover),
+              image: DecorationImage(image: AssetImage(ImagePath.feelie_pro_bg), fit: BoxFit.cover),
             ),
             child: Row(
               spacing: 8,
               children: [
-                Image.asset('packages/modules/assets/images/account/premium_gem.png', height: 24, width: 24),
+                Image.asset(ImagePath.premium_gem, height: 24, width: 24),
                 const Text('Feelie Pro', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
                 Spacer(),
                 // myPremium.isPremium
@@ -142,7 +133,7 @@ class AccountView extends StatelessWidget {
                     ? Obx(
                       () => RichText(
                         text: TextSpan(
-                          children: [ 
+                          children: [
                             TextSpan(
                               text: 'Expires on ',
                               style: TextStyle(color: const Color(0xFFFFFFFF).withOpacity(0.6), fontSize: 14, fontWeight: FontWeight.w600),
@@ -156,7 +147,7 @@ class AccountView extends StatelessWidget {
                       ),
                     )
                     : Container(),
-                Image.asset('packages/modules/assets/images/arrow_right_highlight.png', height: 16, width: 16),
+                Image.asset(ImagePath.r_arrow_highlight, height: 16, width: 16),
               ],
             ),
           ),
@@ -176,7 +167,7 @@ class AccountView extends StatelessWidget {
                 child: Row(
                   spacing: 8,
                   children: [
-                    Image.asset('packages/modules/assets/images/account/account_wallet.png', height: 20, width: 20),
+                    Image.asset(ImagePath.act_wallet, height: 20, width: 20),
                     Text(Security.security_Wallet, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 13)),
                     Spacer(),
                     // Image.asset('packages/modules/assets/images/arrow_right_highlight.png', height: 16, width: 16),
@@ -212,7 +203,7 @@ class AccountView extends StatelessWidget {
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Color(0xFF232328)),
         child: Row(
           children: [
-            Image.asset(type == 0 ? 'packages/modules/assets/images/coin.png' : 'packages/modules/assets/images/gem.png', width: 24, height: 24),
+            Image.asset(type == 0 ? ImagePath.coin : ImagePath.gem, width: 24, height: 24),
             SizedBox(width: 8),
             Obx(
               () => Text(
@@ -221,7 +212,7 @@ class AccountView extends StatelessWidget {
               ),
             ),
             Spacer(),
-            Image.asset('packages/modules/assets/images/arrow_right.png', height: 16, width: 16),
+            Image.asset(ImagePath.r_arrow, height: 16, width: 16),
           ],
         ),
       ),
@@ -242,13 +233,10 @@ class AccountView extends StatelessWidget {
                 Row(
                   spacing: 8,
                   children: [
-                    Image.asset('packages/modules/assets/images/account/account_my_oc.png', height: 24, width: 24),
+                    Image.asset(ImagePath.act_my_companions, height: 24, width: 24),
                     Text('My Companion', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
                     Spacer(),
-                    GestureDetector(
-                      child: Image.asset('packages/modules/assets/images/account/account_add_oc.png', height: 28, width: 28),
-                      onTap: CreateOcDialog.show,
-                    ),
+                    GestureDetector(child: Image.asset(ImagePath.act_add_oc, height: 28, width: 28), onTap: CreateOcDialog.show),
                   ],
                 ),
                 Expanded(
@@ -299,7 +287,7 @@ class AccountView extends StatelessWidget {
                 child: Text(Security.security_Mine, style: TextStyle(color: Color(0xFFAFF062), fontSize: 11, fontFamily: Security.security_AiTag)),
               ),
             const Spacer(),
-            Image.asset('packages/modules/assets/images/arrow_right.png', width: 16, height: 16),
+            Image.asset(ImagePath.r_arrow, width: 16, height: 16),
           ],
         ),
       ),
@@ -310,7 +298,12 @@ class AccountView extends StatelessWidget {
     Get.toNamed(
       Routers.chat.name,
       arguments: {
-        Security.security_session: jsonEncode({Security.security_id: id, Security.security_name: name, Security.security_avatar: avatarUrl, Security.security_backgroundUrl: coverUrl}),
+        Security.security_session: jsonEncode({
+          Security.security_id: id,
+          Security.security_name: name,
+          Security.security_avatar: avatarUrl,
+          Security.security_backgroundUrl: coverUrl,
+        }),
         Security.security_call: false,
       },
     );

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/crypt/constants.dart';
 import 'package:modules/core/account/account_service.dart';
 import 'package:modules/shared/formatters/date_formatter.dart';
@@ -66,7 +67,7 @@ class VoiceCallView extends StatelessWidget {
       case CallStatus.aiSpeaking:
         return Column(
           children: [
-            Image.asset('packages/modules/assets/images/call/triangle_arrow.png', width: 24, height: 12),
+            Image.asset(ImagePath.ct_triangle_arrow, width: 24, height: 12),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 43),
               child: Container(
@@ -86,7 +87,7 @@ class VoiceCallView extends StatelessWidget {
             SizedBox(height: 40),
             GestureDetector(
               onTap: viewController.interruptAI,
-              child: Image.asset('packages/modules/assets/images/call/interrupt_talk.png', width: 32, height: 32),
+              child: Image.asset(ImagePath.ct_interrupt_talk, width: 32, height: 32),
             ),
             SizedBox(height: 4),
             Text('Interrupt AI', style: TextStyle(fontSize: 14, color: Color(0xFFABABAD), fontWeight: FontWeight.w500)),
@@ -96,7 +97,7 @@ class VoiceCallView extends StatelessWidget {
         return Column(
           children: [
             SizedBox(height: 144),
-            SizedBox(height: 24, child: SVGASimpleImage(assetsName: 'packages/modules/assets/images/call/speaking.svga')),
+            SizedBox(height: 24, child: SVGASimpleImage(assetsName: ImagePath.speaking)),
             SizedBox(height: 16),
             Text('I\'am listening...', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFFABABAD))),
           ],
@@ -190,7 +191,7 @@ class VoiceCallView extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: viewController.onCallCancel,
-                            child: Image.asset('packages/modules/assets/images/call/end_call.png', width: 64, height: 64),
+                            child: Image.asset(ImagePath.ct_end_call, width: 64, height: 64),
                           ),
                           SizedBox(width: 60),
                           GestureDetector(
@@ -200,8 +201,8 @@ class VoiceCallView extends StatelessWidget {
                             child: Obx(
                               () => Image.asset(
                                 !viewController.muted.value
-                                    ? 'packages/modules/assets/images/call/open_mic.png'
-                                    : 'packages/modules/assets/images/call/turn_off_mic.png',
+                                    ? ImagePath.ct_open_mic
+                                    : ImagePath.ct_close_mic,
                                 width: 64,
                                 height: 64,
                               ),

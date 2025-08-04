@@ -1,3 +1,4 @@
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
@@ -61,7 +62,7 @@ class PersonViewPage extends StatelessWidget {
                   width: 32,
                   height: 44,
                   alignment: Alignment.center,
-                  child: Image.asset('packages/modules/assets/images/icon_back.png', width: 24, height: 24),
+                  child: Image.asset(ImagePath.back_icon, width: 24, height: 24),
                 ),
               ),
             ),
@@ -121,7 +122,7 @@ class PersonViewPage extends StatelessWidget {
                           onTap: () {
                             Interactions.copyToClipboard(controller.id.toString());
                           },
-                          child: Image.asset('$imagesDir/string_cpy.png', height: 16, width: 16),
+                          child: Image.asset(ImagePath.copy, height: 16, width: 16),
                         ),
                       ],
                     ),
@@ -189,7 +190,7 @@ class PersonViewPage extends StatelessWidget {
         },
         child:
             controller.star == 0
-                ? _buildButtonContent(Security.security_Follow, '$imagesDir/add.png', Color(0xFFE962F6))
+                ? _buildButtonContent(Security.security_Follow, ImagePath.add, Color(0xFFE962F6))
                 : _buildButtonContent(Security.security_Followed, null, Colors.transparent, hasBorder: true),
       ),
     );
@@ -304,7 +305,7 @@ class PersonViewPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 5,
           children: [
-            Image.asset('$assetsDir/person/to_chat.png', width: 24, height: 24),
+            Image.asset(ImagePath.per_to_chat, width: 24, height: 24),
             Text(Security.security_Chat, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
           ],
         ),
@@ -345,7 +346,7 @@ class PersonViewController extends GetxController {
 
   Map get baseInfo => userInfo[EncHelper.ps_bsif] ?? {};
 
-  String get avatarUrl => userInfo[EncHelper.ps_bsif]?[EncHelper.ps_avturl] ?? '$imagesDir/account/account_default_avatar.png';
+  String get avatarUrl => userInfo[EncHelper.ps_bsif]?[EncHelper.ps_avturl] ?? ImagePath.avatar;
 
   String get background => personalInfo[EncHelper.ps_bg] ?? '';
 
@@ -375,7 +376,7 @@ class PersonViewController extends GetxController {
 
   String get type {
     if (baseInfo[EncHelper.ps_act] == 1 || baseInfo[EncHelper.ps_act] == 3 || baseInfo[EncHelper.ps_act] == 4) {
-      return '$imagesDir/person/ai_tag.png';
+      return ImagePath.per_ai_tag;
     }
     return '';
   }

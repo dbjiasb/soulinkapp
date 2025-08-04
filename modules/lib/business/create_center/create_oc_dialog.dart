@@ -7,6 +7,7 @@ import 'package:modules/base/webview/web_view.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 import 'package:modules/core/account/account_service.dart';
 
+import '../../base/assets/image_path.dart';
 import '../../base/router/router_names.dart';
 import '../../shared/app_theme.dart';
 
@@ -40,7 +41,7 @@ class CreateOcDialog extends StatelessWidget {
       height: 248,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        image: DecorationImage(image: AssetImage('$ocImgDir/oc_dialog_bg.png'), fit: BoxFit.cover),
+        image: DecorationImage(image: AssetImage(ImagePath.cr_dialog_bg), fit: BoxFit.cover),
       ),
       child: Row(children: [IconButton(onPressed: Get.back, icon: Image.asset(width: 32, height: 32, '$ocImgDir/oc_dialog_back.png'))]),
     );
@@ -87,7 +88,7 @@ class CreateOcDialog extends StatelessWidget {
                     onTap: () {
                       _logic.consent.value = !_logic.consent.value;
                     },
-                    child: Image.asset('$commImgDir/report_${_logic.consent.value == true ? 'selected' : 'unselect'}.png'),
+                    child: Image.asset(_logic.consent.value == true ? ImagePath.report_se:ImagePath.report_un),
                   ),
                 ),
               ),
@@ -143,12 +144,12 @@ class CreateOcDialog extends StatelessWidget {
     if(MyAccount.isMthPrem || MyAccount.isYrPrem){
       // 权益支付 - 无限
       btnContent = [
-        Image.asset(width: 18, height: 18, '$commImgDir/account/premium_gem.png'),
+        Image.asset(width: 18, height: 18, ImagePath.premium_gem),
       ];
     }else if (MyAccount.isWkPrem && MyAccount.freeOcLeftTimes>0){
       // 权益支付 - 花费一次机会
       btnContent = [
-        Image.asset(width: 18, height: 18, '$commImgDir/account/premium_gem.png'),
+        Image.asset(width: 18, height: 18, ImagePath.premium_gem),
         RichText(text: TextSpan(text: '(${MyAccount.freeOcUsedTimes}/${MyAccount.freeOcUsedTimes + MyAccount.freeOcLeftTimes})', style: btnTextStyle)),
       ];
     }else {

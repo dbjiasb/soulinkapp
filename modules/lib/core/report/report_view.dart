@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/core/report/report_manager.dart';
 
 class ReportContentView extends StatefulWidget {
@@ -44,7 +45,7 @@ class _ReportContentViewState extends State<ReportContentView> {
                   Row(
                     children: [
                       Image.asset(
-                        selectedIndex == index ? 'packages/modules/assets/images/report_selected.png' : 'packages/modules/assets/images/report_unselect.png',
+                        selectedIndex == index ? ImagePath.report_se : ImagePath.report_un,
                         width: 16,
                         height: 16,
                       ),

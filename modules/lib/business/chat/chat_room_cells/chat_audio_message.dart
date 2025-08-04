@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/business/chat/chat_room_cells/chat_cell.dart';
 import 'package:modules/business/chat/chat_room_cells/chat_message.dart';
 import 'package:modules/shared/app_theme.dart';
@@ -216,9 +217,9 @@ class ChatAudioView extends StatelessWidget {
   // 播放
 
   final imagePaths = [
-    'packages/modules/assets/images/chat/voice_play1.png',
-    'packages/modules/assets/images/chat/voice_play2.png',
-    'packages/modules/assets/images/chat/voice_play3.png',
+    ImagePath.ct_audio_wave1,
+    ImagePath.ct_audio_wave2,
+    ImagePath.ct_audio_wave3,
   ];
   final currentIndex = 2.obs;
   final actionAnim = false.obs;

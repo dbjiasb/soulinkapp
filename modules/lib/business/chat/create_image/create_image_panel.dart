@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_response.dart';
 import 'package:modules/base/crypt/security.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/business/chat/chat_room/chat_room_view.dart';
 import 'package:modules/business/chat/create_image/create_image_manager.dart';
 import 'package:modules/shared/widget/balance_view.dart';
@@ -199,7 +200,11 @@ class CreateImagePanelController extends GetxController {
   }
 
   String get currencyIcon {
-    return 'packages/modules/assets/images/${config.value.type == 1 ? 'gem' : 'coin'}.png';
+    if(config.value.type == 1){
+      return ImagePath.gem;
+    }else{
+      return ImagePath.coin;
+    }
   }
 
   @override

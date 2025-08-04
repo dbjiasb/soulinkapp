@@ -9,6 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 import 'package:modules/core/account/account_service.dart';
@@ -33,7 +34,7 @@ class GenPage extends StatelessWidget {
   Widget genBody() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 44),
-      decoration: BoxDecoration(image: DecorationImage(image: AssetImage('$ocImgDir/oc_gen_bg.png'), fit: BoxFit.fill)),
+      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.cr_gen_bg), fit: BoxFit.fill)),
       child: Stack(
         children: [
           Row(
@@ -43,7 +44,7 @@ class GenPage extends StatelessWidget {
                 onPressed: () {
                   showStopDialog();
                 },
-                icon: Image.asset('$commImgDir/icon_back.png', height: 24, width: 24),
+                icon: Image.asset(ImagePath.back_icon, height: 24, width: 24),
               ),
             ],
           ),
@@ -52,7 +53,7 @@ class GenPage extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    SizedBox(height: 200, width: 200, child: SVGASimpleImage(assetsName: '$ocAnimDir/gen_ing.svga')),
+                    SizedBox(height: 200, width: 200, child: SVGASimpleImage(assetsName: ImagePath.generating)),
                     Text('Generating...', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: Color(0xFFFFFFFF))),
                   ],
                 ),
@@ -86,7 +87,7 @@ class GenPage extends StatelessWidget {
                         onPressed: () {
                           startRegeneration();
                         },
-                        icon: Image.asset('$ocImgDir/oc_regen.png', height: 32, width: 32),
+                        icon: Image.asset(ImagePath.cr_regen, height: 32, width: 32),
                       ),
                     ],
                   ),

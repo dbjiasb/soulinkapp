@@ -1,6 +1,7 @@
 import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/shared/widget/keep_alive_wrapper.dart';
 
 import '../chat_room_cells/chat_message.dart';
@@ -31,7 +32,7 @@ class ChatHistoryView extends StatelessWidget {
         appBar: AppBar(
           leading: GestureDetector(
             onTap: () => Get.back(),
-            child: Container(alignment: Alignment.center, child: Image.asset('packages/modules/assets/images/icon_back.png', width: 24, height: 24)),
+            child: Container(alignment: Alignment.center, child: Image.asset(ImagePath.back_icon, width: 24, height: 24)),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,

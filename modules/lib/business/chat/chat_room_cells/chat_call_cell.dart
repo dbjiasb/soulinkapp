@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/business/chat/chat_room_cells/chat_message.dart';
 import 'package:modules/shared/formatters/date_formatter.dart';
 
@@ -74,7 +75,7 @@ class ChatCallCell extends ChatCell {
             children: [
               Text(callMessage.externalText),
               SizedBox(width: 4),
-              Image.asset('packages/modules/assets/images/call/phone_call.png', width: 20, height: 20, color: Color(0xFFE962F6)),
+              Image.asset(ImagePath.ct_phone_call, width: 20, height: 20, color: Color(0xFFE962F6)),
             ],
           ),
         ),

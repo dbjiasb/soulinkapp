@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/core/account/account_service.dart';
 import 'package:modules/core/util/es_helper.dart';
 import 'package:modules/shared/app_theme.dart';
@@ -20,7 +21,7 @@ class RechargeCurrencyView extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.secondPage,
       appBar: AppBar(
-        leading: InkWell(onTap: Get.back, child: Container(padding: EdgeInsets.all(16), child: Image.asset('$assetsDir/icon_back.png', fit: BoxFit.fill))),
+        leading: InkWell(onTap: Get.back, child: Container(padding: EdgeInsets.all(16), child: Image.asset(ImagePath.back_icon, fit: BoxFit.fill))),
         centerTitle: true,
         backgroundColor: AppColors.secondPage,
         title: Text(controller.rcgType == 0 ? EncHelper.rcg_titlCois : EncHelper.rcg_titlGms, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),

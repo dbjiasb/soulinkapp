@@ -9,6 +9,7 @@ import 'package:modules/core/account/account_service.dart';
 import 'package:modules/shared/widget/balance_view.dart';
 import 'package:modules/shared/widget/list_status_view.dart';
 
+import '../../../base/assets/image_path.dart';
 import 'gift_manager.dart';
 
 class GiftItem {
@@ -18,7 +19,7 @@ class GiftItem {
   String get giftUrl => info[Security.security_giftIcon] ?? '';
   String get giftName => info[Security.security_giftName] ?? '';
   int get currency => info[Security.security_currencyType] ?? 0;
-  String get currencyIcon => 'packages/modules/assets/images/${currency == 1 ? 'gem' : 'coin'}.png';
+  String get currencyIcon => currency == 1 ? ImagePath.gem: ImagePath.coin;
   int get price => info[Security.security_price] ?? 0;
   int get giftId => info[Security.security_giftId] ?? 0;
 }

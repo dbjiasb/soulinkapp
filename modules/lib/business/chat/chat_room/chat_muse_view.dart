@@ -2,6 +2,7 @@ import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/event_center/event_center.dart';
 import 'package:modules/shared/widget/list_status_view.dart';
 
@@ -36,8 +37,8 @@ class ChatMuseView extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Image.asset('packages/modules/assets/images/chat/chat_tips_decoration_left.png', width: 32, height: 32),
-                                Image.asset('packages/modules/assets/images/chat/chat_tips_decoration_right.png', width: 32, height: 32),
+                                Image.asset(ImagePath.ct_l_tips_decoration, width: 32, height: 32),
+                                Image.asset(ImagePath.ct_r_tips_decoration, width: 32, height: 32),
                               ],
                             ),
 

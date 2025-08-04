@@ -1,3 +1,4 @@
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
 
@@ -25,7 +26,7 @@ class CreateAccountView extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-              child: Image.asset('packages/modules/assets/images/login/login_mail.png', width: 24, height: 24),
+              child: Image.asset(ImagePath.lg_mail, width: 24, height: 24),
             ),
             Expanded(
               child: TextFormField(
@@ -57,7 +58,7 @@ class CreateAccountView extends StatelessWidget {
           children: [
             Container(
               margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-              child: Image.asset('packages/modules/assets/images/login/login_verify_code.png', width: 24, height: 24),
+              child: Image.asset(ImagePath.lg_code, width: 24, height: 24),
             ),
             Expanded(
               child: TextFormField(
@@ -156,8 +157,8 @@ class CreateAccountView extends StatelessWidget {
         child: IconButton(
           padding: const EdgeInsets.all(0),
           onPressed: null,
-          icon: Image.asset('packages/modules/assets/images/login/login_unselect.png'),
-          selectedIcon: Image.asset('packages/modules/assets/images/login/login_selected.png'),
+          icon: Image.asset(ImagePath.lg_un),
+          selectedIcon: Image.asset(ImagePath.lg_se),
           iconSize: 14,
           isSelected: viewController.checked.value,
         ),
@@ -211,7 +212,7 @@ class CreateAccountView extends StatelessWidget {
         },
         child: Stack(
           children: [
-            Image.asset('packages/modules/assets/images/login/login_bg.png', width: double.infinity, height: double.infinity, fit: BoxFit.cover),
+            Image.asset(ImagePath.lg_bg, width: double.infinity, height: double.infinity, fit: BoxFit.cover),
             SafeArea(
               child: SingleChildScrollView(
                 child: Column(
@@ -221,7 +222,7 @@ class CreateAccountView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(height: 124),
-                        Image.asset('packages/modules/assets/images/login/login_app.png', width: 120, height: 120),
+                        Image.asset(ImagePath.lg_app, width: 120, height: 120),
                         SizedBox(height: 62),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -250,7 +251,7 @@ class CreateAccountView extends StatelessWidget {
                     width: 32,
                     height: 44,
                     alignment: Alignment.center,
-                    child: Image.asset('packages/modules/assets/images/icon_back.png', width: 24, height: 24),
+                    child: Image.asset(ImagePath.back_icon, width: 24, height: 24),
                   ),
                 ),
               ),

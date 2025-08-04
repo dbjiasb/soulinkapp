@@ -7,6 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_response.dart';
 import 'package:modules/base/crypt/security.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/event_center/event_center.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/business/chat/chat_room_cells/chat_message.dart';
@@ -100,7 +101,7 @@ class ChatRoomView extends StatelessWidget {
           children: [
             Text(title, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
             Spacer(),
-            tail ?? Image.asset('packages/modules/assets/images/arrow_right.png', height: 16, width: 16),
+            tail ?? Image.asset(ImagePath.r_arrow, height: 16, width: 16),
           ],
         ),
       ),
@@ -207,7 +208,7 @@ class ChatRoomView extends StatelessWidget {
               width: 32,
               height: 44,
               alignment: Alignment.center,
-              child: Image.asset('packages/modules/assets/images/icon_back.png', width: 24, height: 24),
+              child: Image.asset(ImagePath.back_icon, width: 24, height: 24),
             ),
           ),
           SizedBox(width: 4),
@@ -239,7 +240,7 @@ class ChatRoomView extends StatelessWidget {
             child: Row(
               spacing: 6,
               children: [
-                Image.asset('packages/modules/assets/images/gem.png', height: 16, width: 16),
+                Image.asset(ImagePath.gem, height: 16, width: 16),
                 Obx(() => Text(MyAccount.gems.toString(), style: TextStyle(color: Colors.white, fontSize: 12))),
               ],
             ),
@@ -251,7 +252,7 @@ class ChatRoomView extends StatelessWidget {
             child: Row(
               spacing: 6,
               children: [
-                Image.asset('packages/modules/assets/images/coin.png', height: 16, width: 16),
+                Image.asset(ImagePath.coin, height: 16, width: 16),
                 Obx(() => Text(MyAccount.coins.toString(), style: TextStyle(color: Colors.white, fontSize: 12))),
               ],
             ),
@@ -260,7 +261,7 @@ class ChatRoomView extends StatelessWidget {
             onPressed: () {
               _scaffoldKey.currentState?.openEndDrawer();
             },
-            icon: Image.asset('packages/modules/assets/images/more.png', width: 24, height: 24),
+            icon: Image.asset(ImagePath.more, width: 24, height: 24),
           ),
           SizedBox(width: 5),
         ],

@@ -1,3 +1,4 @@
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 import 'dart:ui';
@@ -51,7 +52,7 @@ class CreateOcEntryItem extends RoleItem {
         child: Container(
           alignment: Alignment.bottomLeft,
           padding: EdgeInsets.all(12),
-          decoration: BoxDecoration(image: DecorationImage(image: AssetImage('packages/modules/assets/images/oc/oc_entry_bg.png'), fit: BoxFit.fitWidth)),
+          decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.cr_entry_bg), fit: BoxFit.fitWidth)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -66,7 +67,7 @@ class CreateOcEntryItem extends RoleItem {
                   spacing: 4,
                   children: [
                     Text(Security.security_GO, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
-                    Image.asset('packages/modules/assets/images/go.png', height: 10, width: 10),
+                    Image.asset(ImagePath.go, height: 10, width: 10),
                   ],
                 ),
               ),
@@ -114,7 +115,7 @@ class VirtualRoleItem extends RoleItem {
                 imageUrl: coverUrl,
                 fit: BoxFit.cover,
                 errorWidget: (context, url, error) => Image.asset(
-                  'packages/modules/assets/images/person/empty_cover.png',
+                  ImagePath.per_empty_cover,
                   fit: BoxFit.cover,
                 ),
               ),

@@ -2,6 +2,7 @@ import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/business/account/edit_my_info_view.dart';
 import 'package:modules/shared/app_theme.dart';
 
@@ -20,10 +21,10 @@ class SettingItem {
 
 class AccountSettings extends StatelessWidget {
   List<SettingItem> get items => <SettingItem>[
-    SettingItem(title: 'Terms of service', icon: 'packages/modules/assets/images/terms_service.png', onTap: checkTermsOfService),
-    SettingItem(title: 'Privacy policy', icon: 'packages/modules/assets/images/privacy_policy.png', onTap: checkPrivacyPolicy),
-    SettingItem(title: 'Log out', icon: 'packages/modules/assets/images/log_out.png', onTap: logout),
-    SettingItem(title: 'Account Deletion', icon: 'packages/modules/assets/images/account_deletion.png', onTap: deleteAccount),
+    SettingItem(title: 'Terms of service', icon: ImagePath.terms_of_service, onTap: checkTermsOfService),
+    SettingItem(title: 'Privacy policy', icon: ImagePath.privacy_policy, onTap: checkPrivacyPolicy),
+    SettingItem(title: 'Log out', icon: ImagePath.act_log_out, onTap: logout),
+    SettingItem(title: 'Account Deletion', icon: ImagePath.act_delete_account, onTap: deleteAccount),
   ];
 
   @override
@@ -64,7 +65,7 @@ class AccountSettings extends StatelessWidget {
                           Image.asset(item.icon, width: 24, height: 24, color: Colors.white),
                           Text(item.title, style: TextStyle(color: Colors.white, fontSize: 16)),
                           Spacer(),
-                          Image.asset('$assetsDir/arrow_right.png', height: 16, width: 16),
+                          Image.asset(ImagePath.r_arrow, height: 16, width: 16),
                         ],
                       ),
                     ),

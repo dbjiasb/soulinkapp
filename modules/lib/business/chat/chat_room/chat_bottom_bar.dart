@@ -10,6 +10,7 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/business/chat/chat_manager.dart';
 import 'package:modules/business/chat/chat_room/chat_room_view.dart';
@@ -80,9 +81,9 @@ class ChatBottomBar extends StatelessWidget {
                             height: 72,
                             padding: EdgeInsets.symmetric(horizontal: 83),
                             decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage('packages/modules/assets/images/chat/${viewController._isCanceled.value?'cancel_':''}send.png'),fit: BoxFit.contain)
+                                image: DecorationImage(image: AssetImage(viewController._isCanceled.value?ImagePath.ct_voice_cancel:ImagePath.ct_voice_send),fit: BoxFit.contain)
                             ),
-                            child: Padding(padding: EdgeInsets.only(left: 35,top: 18,right: 35,bottom: 30),child: SVGASimpleImage(assetsName: 'packages/modules/assets/anim/voice_wave.svga'),),
+                            child: Padding(padding: EdgeInsets.only(left: 35,top: 18,right: 35,bottom: 30),child: SVGASimpleImage(assetsName: ImagePath.voice_wave),),
                           )),
                           Container(
                             height: 44,
@@ -105,7 +106,7 @@ class ChatBottomBar extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         image: DecorationImage(
-                          image: AssetImage('packages/modules/assets/images/chat/chat_input_voice_bg.png'),
+                          image: AssetImage(ImagePath.ct_voice_input_bg),
                           fit: BoxFit.fitWidth,
                           alignment: Alignment.topCenter,
                         ),
@@ -157,7 +158,7 @@ class ChatBottomBar extends StatelessWidget {
                 margin: EdgeInsets.only(left: 12, right: 8),
                 child: Obx(
                   () => Image.asset(
-                    'packages/modules/assets/images/chat/chat_input_${viewController._audioInputMode.value ? 'keyboard' : 'voice'}.png',
+                    viewController._audioInputMode.value ? ImagePath.ct_voice:ImagePath.ct_keyboard,
                     width: 24,
                     height: 24,
                   ),
@@ -215,7 +216,7 @@ class ChatBottomBar extends StatelessWidget {
                                 margin: EdgeInsets.only(right: 12),
                                 child: Obx(
                                   () => Image.asset(
-                                    'packages/modules/assets/images/chat/chat_input_tips${viewController.barState.value == ChatRoomBottomBarState.muse ? '_light' : ''}.png',
+                                    viewController.barState.value == ChatRoomBottomBarState.muse ? ImagePath.ct_tips_litht:ImagePath.ct_tips,
                                     width: 20,
                                     height: 20,
                                   ),
@@ -254,27 +255,27 @@ class ChatBottomBar extends StatelessWidget {
             onTap: () {
               viewController.showImageSelector();
             },
-            child: Image.asset('packages/modules/assets/images/chat/req_image.png', width: 24, height: 24),
+            child: Image.asset(ImagePath.ct_req_img, width: 24, height: 24),
           ),
           GestureDetector(
             onTap: () {
               viewController.toCall();
             },
-            child: Image.asset('packages/modules/assets/images/chat/chat_voice_call.png', width: 24, height: 24),
+            child: Image.asset(ImagePath.ct_voice_call, width: 24, height: 24),
           ),
 
           GestureDetector(
             onTap: () {
               viewController.showGiftPanel();
             },
-            child: Image.asset('packages/modules/assets/images/chat/chat_send_gift.png', width: 24, height: 24),
+            child: Image.asset(ImagePath.ct_send_gift, width: 24, height: 24),
           ),
 
           GestureDetector(
             onTap: () {
               viewController.updateBarState(ChatRoomBottomBarState.detailed);
             },
-            child: Image.asset('packages/modules/assets/images/chat/chat_input_more.png', width: 24, height: 24),
+            child: Image.asset(ImagePath.ct_input_more, width: 24, height: 24),
           ),
         ],
       ),
@@ -306,11 +307,11 @@ class ChatBottomBar extends StatelessWidget {
   Widget buildDetailedBar() {
     String path = 'packages/modules/assets/images/chat/chat_bottom_';
     List<Map<String, dynamic>> items = [
-      {Security.security_title: Security.security_Custom, Security.security_icon: '${path}custom.png', Security.security_action: onCreateImageButtonClicked},
-      {Security.security_title: 'Ask for Pic', Security.security_icon: '${path}image.png', Security.security_action: askForImage},
-      {Security.security_title: Security.security_History, Security.security_icon: '${path}history.png', Security.security_action: onChatHistoryButtonClicked},
-      {Security.security_title: 'Ask for Video', Security.security_icon: '${path}video.png', Security.security_action: askForVideo},
-      {Security.security_title: 'Voice Call', Security.security_icon: '${path}audio.png', Security.security_action: toCall},
+      {Security.security_title: Security.security_Custom, Security.security_icon: ImagePath.ct_custom, Security.security_action: onCreateImageButtonClicked},
+      {Security.security_title: 'Ask for Pic', Security.security_icon: ImagePath.ct_ask_for_pic, Security.security_action: askForImage},
+      {Security.security_title: Security.security_History, Security.security_icon: ImagePath.ct_history, Security.security_action: onChatHistoryButtonClicked},
+      {Security.security_title: 'Ask for Video', Security.security_icon: ImagePath.ct_ask_for_video, Security.security_action: askForVideo},
+      {Security.security_title: 'Voice Call', Security.security_icon: ImagePath.ct_audio_call, Security.security_action: toCall},
     ];
 
     return Container(

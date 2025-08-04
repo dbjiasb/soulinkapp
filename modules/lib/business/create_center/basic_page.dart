@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 
@@ -190,7 +191,7 @@ class BasicCore extends StatelessWidget {
                               );
                             }
 
-                            return Center(child: Image.asset('$ocImgDir/oc_add_pic.png', height: 24, width: 24));
+                            return Center(child: Image.asset(ImagePath.cr_add_pic, height: 24, width: 24));
                           }),
                         ),
                       ],
@@ -314,7 +315,7 @@ class BasicCore extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(width: 24, height: 24, '$commImgDir/female.png'),
+                              Image.asset(width: 24, height: 24, ImagePath.female),
                               const SizedBox(width: 4),
                               Text(Security.security_Female, style: TextStyle(color: Color(0xFFF832B2), fontSize: 11, fontWeight: FontWeight.w600)),
                             ],
@@ -342,7 +343,7 @@ class BasicCore extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Image.asset(width: 24, height: 24, '$commImgDir/male.png'),
+                              Image.asset(width: 24, height: 24, ImagePath.male),
                               const SizedBox(width: 4),
                               Text(Security.security_Female, style: TextStyle(color: Color(0xFF339FF0), fontSize: 11, fontWeight: FontWeight.w600)),
                             ],
@@ -389,7 +390,7 @@ class BasicCore extends StatelessWidget {
                       const SizedBox(width: 12),
                       _controller.soundPlaying.value
                           ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: AppColors.main))
-                          : Image.asset(height: 24, width: 24, '$ocImgDir/oc_audio.png'),
+                          : Image.asset(height: 24, width: 24, ImagePath.cr_audio),
                       const SizedBox(width: 8),
                       const Text('Click to play', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF999999))),
                     ],
@@ -417,7 +418,7 @@ class BasicCore extends StatelessWidget {
                               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.undo),
                             )
                             : Container(),
-                        Image.asset(height: 16, width: 16, '$commImgDir/arrow_right.png'),
+                        Image.asset(height: 16, width: 16, ImagePath.r_arrow),
                         const SizedBox(width: 12),
                       ],
                     ),
@@ -763,7 +764,7 @@ class BasicPage extends StatelessWidget {
             _controller.ocDependency.save();
             Get.back();
           },
-          icon: Image.asset('$commImgDir/icon_back.png', height: 24, width: 24),
+          icon: Image.asset(ImagePath.back_icon, height: 24, width: 24),
         ),
         title: Text(
           textAlign: TextAlign.center,

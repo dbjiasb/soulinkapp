@@ -7,6 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_request.dart';
 import 'package:modules/base/api_service/api_service.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/business/purchase/payment_service.dart';
 import 'package:modules/core/account/account_service.dart';
 import 'package:modules/core/util/calendar_helper.dart';
@@ -28,7 +29,7 @@ class RechargePremiumView extends StatelessWidget {
   }
 
   Widget _buildBackground() {
-    return Image.asset(EncHelper.rcg_premBg, fit: BoxFit.cover, width: double.infinity, height: double.infinity);
+    return Image.asset(ImagePath.rcg_premBg, fit: BoxFit.cover, width: double.infinity, height: double.infinity);
   }
 
   Widget _buildBackButton(RechargePremiumViewController controller) {
@@ -121,7 +122,7 @@ class RechargePremiumView extends StatelessWidget {
           width: 76,
           child: Stack(
             children: [
-              Image.asset(EncHelper.rcg_avtBg, fit: BoxFit.cover),
+              Image.asset(ImagePath.rcg_avtBg, fit: BoxFit.cover),
               Padding(
                 padding: const EdgeInsets.all(6),
                 child:
@@ -171,7 +172,7 @@ class RechargePremiumView extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(EncHelper.rcg_bnfHedr, height: 16, width: 16),
+          Image.asset(ImagePath.rcg_bnfHedr, height: 16, width: 16),
           const SizedBox(width: 4),
           Expanded(child: Text(feature, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500))),
         ],

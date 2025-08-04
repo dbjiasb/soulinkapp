@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/preferences/preferences.dart';
 import 'package:modules/business/chat/chat_voice_manager.dart';
 import 'package:modules/core/account/account_service.dart';
@@ -167,18 +168,18 @@ class ChatTextAudioView extends StatelessWidget {
     ChatTextAudioStatus status = textMessage.audioStatus.value;
     switch (status) {
       case ChatTextAudioStatus.unlock:
-        return Image.asset('packages/modules/assets/images/chat/chat_tts_lock.png', width: 16, height: 16);
+        return Image.asset(ImagePath.ct_tts_lock, width: 16, height: 16);
       case ChatTextAudioStatus.loading:
         return Container(
           padding: EdgeInsets.all(2),
           child: SizedBox(width: 12, height: 12, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)),
         );
       case ChatTextAudioStatus.ready:
-        return Image.asset('packages/modules/assets/images/chat/chat_tts_play.png', width: 16, height: 16);
+        return Image.asset(ImagePath.ct_tts_play, width: 16, height: 16);
       case ChatTextAudioStatus.playing:
-        return Image.asset('packages/modules/assets/images/chat/chat_tts_playing.png', width: 16, height: 16);
+        return Image.asset(ImagePath.ct_tts_playing, width: 16, height: 16);
       case ChatTextAudioStatus.pause:
-        return Image.asset('packages/modules/assets/images/chat/chat_tts_play.png', width: 16, height: 16);
+        return Image.asset(ImagePath.ct_tts_play, width: 16, height: 16);
     }
   }
 
