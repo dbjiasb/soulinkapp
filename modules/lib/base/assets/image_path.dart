@@ -75,7 +75,7 @@ abstract final class ImagePath {
   static const String chat_bottom_image = 'packages/modules/assets/soulink/chat_bottom_image.png';
   static const String chat_bottom_video = 'packages/modules/assets/soulink/chat_bottom_video.png';
   static const String chat_bottom_history = 'packages/modules/assets/soulink/chat_bottom_history.png';
-  static const String chat_bottom_audio_call = 'packages/modules/assets/soulink/chat_bottom_audio_call.png';
+  static const String chat_bottom_audio_call = 'packages/modules/assets/soulink/chat_bottom_audio.png';
   static const String chat_tips_decoration_left = 'packages/modules/assets/soulink/chat_tips_decoration_left.png';
   static const String chat_tips_decoration_right = 'packages/modules/assets/soulink/chat_tips_decoration_right.png';
   static const String phone_call = 'packages/modules/assets/soulink/phone_call.png';
