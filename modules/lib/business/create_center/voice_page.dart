@@ -77,7 +77,7 @@ class OCVoicePage extends StatelessWidget {
               onPressed: () {
                 Get.back();
               },
-              icon: Image.asset(ImagePath.back_icon, height: 24, width: 24),
+              icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
             ),
             const Expanded(
               child: Text(
@@ -109,7 +109,7 @@ class OCVoicePage extends StatelessWidget {
                               alignment: Alignment.center,
                               child: Wrap(
                                 children: [
-                                  RotatedBox(quarterTurns: _logic.expandStatus.value, child: Image.asset(ImagePath.back_icon, height: 16, width: 16)),
+                                  RotatedBox(quarterTurns: _logic.expandStatus.value, child: Image.asset(ImagePath.icon_back, height: 16, width: 16)),
                                   Text(value, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
                                 ],
                               ),
@@ -165,7 +165,7 @@ class OCVoicePage extends StatelessWidget {
                     onTap: () {
                       playVoice(item);
                     },
-                    child: Image.asset(ImagePath.cr_audio, height: 24, width: 24),
+                    child: Image.asset(ImagePath.oc_audio, height: 24, width: 24),
                   ),
               Expanded(
                 child: Container(

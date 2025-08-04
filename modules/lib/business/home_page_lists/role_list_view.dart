@@ -52,7 +52,7 @@ class CreateOcEntryItem extends RoleItem {
         child: Container(
           alignment: Alignment.bottomLeft,
           padding: EdgeInsets.all(12),
-          decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.cr_entry_bg), fit: BoxFit.fitWidth)),
+          decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.oc_entry_bg), fit: BoxFit.fitWidth)),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -115,7 +115,7 @@ class VirtualRoleItem extends RoleItem {
                 imageUrl: coverUrl,
                 fit: BoxFit.cover,
                 errorWidget: (context, url, error) => Image.asset(
-                  ImagePath.per_empty_cover,
+                  ImagePath.empty_cover,
                   fit: BoxFit.cover,
                 ),
               ),

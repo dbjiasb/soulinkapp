@@ -20,7 +20,7 @@ class RechargeCurrencyView extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.secondPage,
       appBar: AppBar(
-        leading: InkWell(onTap: Get.back, child: Container(padding: EdgeInsets.all(16), child: Image.asset(ImagePath.back_icon, fit: BoxFit.fill))),
+        leading: InkWell(onTap: Get.back, child: Container(padding: EdgeInsets.all(16), child: Image.asset(ImagePath.icon_back, fit: BoxFit.fill))),
         centerTitle: true,
         backgroundColor: AppColors.secondPage,
         title: Text(controller.rcgType == 0 ? EncHelper.rcg_titlCois : EncHelper.rcg_titlGms, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),

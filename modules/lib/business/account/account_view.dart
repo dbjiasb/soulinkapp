@@ -38,7 +38,7 @@ class AccountView extends StatelessWidget {
           Container(
             height: 150,
             padding: EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.act_view_head_bg), fit: BoxFit.cover)),
+            decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.account_head_bg), fit: BoxFit.cover)),
             child: SafeArea(
               bottom: false,
               child: Row(
@@ -62,7 +62,7 @@ class AccountView extends StatelessWidget {
                                   onTap: () {
                                     Get.toNamed(Routers.editMe.name);
                                   },
-                                  child: Image.asset(ImagePath.edit, height: 14, width: 14),
+                                  child: Image.asset(ImagePath.account_edit, height: 14, width: 14),
                                 ),
                               ],
                             ),
@@ -77,7 +77,7 @@ class AccountView extends StatelessWidget {
                                     onTap: () {
                                       Interactions.copyToClipboard(ID.toString());
                                     },
-                                    child: Image.asset(ImagePath.copy, height: 12, width: 12),
+                                    child: Image.asset(ImagePath.string_cpy, height: 12, width: 12),
                                   ),
                                 ],
                               ),
@@ -92,7 +92,7 @@ class AccountView extends StatelessWidget {
                     onTap: () {
                       Get.toNamed(Routers.setting.name);
                     },
-                    child: Image.asset(ImagePath.setting, width: 24, height: 24),
+                    child: Image.asset(ImagePath.account_setting, width: 24, height: 24),
                   ),
                 ],
               ),
@@ -120,7 +120,7 @@ class AccountView extends StatelessWidget {
             decoration: BoxDecoration(
               color: Color(0xFF191A17),
               borderRadius: BorderRadius.circular(16),
-              image: DecorationImage(image: AssetImage(ImagePath.feelie_pro_bg), fit: BoxFit.cover),
+              image: DecorationImage(image: AssetImage(ImagePath.premium_feelie_pro_bg), fit: BoxFit.cover),
             ),
             child: Row(
               spacing: 8,
@@ -147,7 +147,7 @@ class AccountView extends StatelessWidget {
                       ),
                     )
                     : Container(),
-                Image.asset(ImagePath.r_arrow_highlight, height: 16, width: 16),
+                Image.asset(ImagePath.arrow_right_highlight, height: 16, width: 16),
               ],
             ),
           ),
@@ -167,7 +167,7 @@ class AccountView extends StatelessWidget {
                 child: Row(
                   spacing: 8,
                   children: [
-                    Image.asset(ImagePath.act_wallet, height: 20, width: 20),
+                    Image.asset(ImagePath.account_wallet, height: 20, width: 20),
                     Text(Security.security_Wallet, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 13)),
                     Spacer(),
                   ],
@@ -211,7 +211,7 @@ class AccountView extends StatelessWidget {
               ),
             ),
             Spacer(),
-            Image.asset(ImagePath.r_arrow, height: 16, width: 16),
+            Image.asset(ImagePath.arrow_right, height: 16, width: 16),
           ],
         ),
       ),
@@ -232,10 +232,10 @@ class AccountView extends StatelessWidget {
                 Row(
                   spacing: 8,
                   children: [
-                    Image.asset(ImagePath.act_my_companions, height: 24, width: 24),
+                    Image.asset(ImagePath.account_my_oc, height: 24, width: 24),
                     Text('My Companion', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
                     Spacer(),
-                    GestureDetector(child: Image.asset(ImagePath.act_add_oc, height: 28, width: 28), onTap: CreateOcDialog.show),
+                    GestureDetector(child: Image.asset(ImagePath.account_add_oc, height: 28, width: 28), onTap: CreateOcDialog.show),
                   ],
                 ),
                 Expanded(
@@ -286,7 +286,7 @@ class AccountView extends StatelessWidget {
                 child: Text(Security.security_Mine, style: TextStyle(color: Color(0xFFAFF062), fontSize: 11, fontFamily: Security.security_AiTag)),
               ),
             const Spacer(),
-            Image.asset(ImagePath.r_arrow, width: 16, height: 16),
+            Image.asset(ImagePath.arrow_right, width: 16, height: 16),
           ],
         ),
       ),

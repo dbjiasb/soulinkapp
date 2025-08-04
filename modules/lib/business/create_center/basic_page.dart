@@ -191,7 +191,7 @@ class BasicCore extends StatelessWidget {
                               );
                             }
 
-                            return Center(child: Image.asset(ImagePath.cr_add_pic, height: 24, width: 24));
+                            return Center(child: Image.asset(ImagePath.oc_add_pic, height: 24, width: 24));
                           }),
                         ),
                       ],
@@ -390,7 +390,7 @@ class BasicCore extends StatelessWidget {
                       const SizedBox(width: 12),
                       _controller.soundPlaying.value
                           ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: AppColors.main))
-                          : Image.asset(height: 24, width: 24, ImagePath.cr_audio),
+                          : Image.asset(height: 24, width: 24, ImagePath.oc_audio),
                       const SizedBox(width: 8),
                       const Text('Click to play', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF999999))),
                     ],
@@ -418,7 +418,7 @@ class BasicCore extends StatelessWidget {
                               style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.undo),
                             )
                             : Container(),
-                        Image.asset(height: 16, width: 16, ImagePath.r_arrow),
+                        Image.asset(height: 16, width: 16, ImagePath.arrow_right),
                         const SizedBox(width: 12),
                       ],
                     ),
@@ -622,7 +622,7 @@ class BasicCore extends StatelessWidget {
             children: [
               Text(Security.security_Physique, style: TextStyle(color: AppColors.undo, fontSize: 11, fontWeight: FontWeight.w500)),
               SizedBox(width: 4),
-              RotatedBox(quarterTurns: _controller.expandPhysiqueRotate.value, child: Image.asset(ImagePath.r_arrow, width: 16, height: 16)),
+              RotatedBox(quarterTurns: _controller.expandPhysiqueRotate.value, child: Image.asset(ImagePath.arrow_right, width: 16, height: 16)),
             ],
           ),
         ),
@@ -764,7 +764,7 @@ class BasicPage extends StatelessWidget {
             _controller.ocDependency.save();
             Get.back();
           },
-          icon: Image.asset(ImagePath.back_icon, height: 24, width: 24),
+          icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
         ),
         title: Text(
           textAlign: TextAlign.center,

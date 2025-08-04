@@ -45,7 +45,7 @@ class _ReportContentViewState extends State<ReportContentView> {
                   Row(
                     children: [
                       Image.asset(
-                        selectedIndex == index ? ImagePath.report_se : ImagePath.report_un,
+                        selectedIndex == index ? ImagePath.report_selected : ImagePath.report_unselect,
                         width: 16,
                         height: 16,
                       ),

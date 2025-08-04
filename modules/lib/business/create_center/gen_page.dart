@@ -34,7 +34,7 @@ class GenPage extends StatelessWidget {
   Widget genBody() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 44),
-      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.cr_gen_bg), fit: BoxFit.fill)),
+      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.oc_gen_bg), fit: BoxFit.fill)),
       child: Stack(
         children: [
           Row(
@@ -44,7 +44,7 @@ class GenPage extends StatelessWidget {
                 onPressed: () {
                   showStopDialog();
                 },
-                icon: Image.asset(ImagePath.back_icon, height: 24, width: 24),
+                icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
               ),
             ],
           ),
@@ -53,7 +53,7 @@ class GenPage extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    SizedBox(height: 200, width: 200, child: SVGASimpleImage(assetsName: ImagePath.generating)),
+                    SizedBox(height: 200, width: 200, child: SVGASimpleImage(assetsName: ImagePath.gen_ing)),
                     Text('Generating...', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: Color(0xFFFFFFFF))),
                   ],
                 ),
@@ -87,7 +87,7 @@ class GenPage extends StatelessWidget {
                         onPressed: () {
                           startRegeneration();
                         },
-                        icon: Image.asset(ImagePath.cr_regen, height: 32, width: 32),
+                        icon: Image.asset(ImagePath.oc_regen, height: 32, width: 32),
                       ),
                     ],
                   ),

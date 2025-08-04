@@ -101,7 +101,7 @@ class ChatRoomView extends StatelessWidget {
           children: [
             Text(title, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
             Spacer(),
-            tail ?? Image.asset(ImagePath.r_arrow, height: 16, width: 16),
+            tail ?? Image.asset(ImagePath.arrow_right, height: 16, width: 16),
           ],
         ),
       ),
@@ -136,7 +136,7 @@ class ChatRoomView extends StatelessWidget {
               width: 32,
               height: 44,
               alignment: Alignment.center,
-              child: Image.asset(ImagePath.back_icon, width: 24, height: 24),
+              child: Image.asset(ImagePath.icon_back, width: 24, height: 24),
             ),
           ),
           SizedBox(width: 4),

@@ -63,7 +63,7 @@ class EditMyInfoPage extends StatelessWidget {
                                   ? Image.asset(ImagePath.account_default_avatar, height: 68, width: 68)
                                   : AvatarView(url: MyAccount.avatar, size: 68),
                         ),
-                        Positioned(right: 0, bottom: 0, child: Image.asset(ImagePath.act_upload_img_vdo, height: 24, width: 24)),
+                        Positioned(right: 0, bottom: 0, child: Image.asset(ImagePath.upload_img_vdo, height: 24, width: 24)),
                       ],
                     ),
                   ),
@@ -147,7 +147,7 @@ class EditMyInfoPage extends StatelessWidget {
           Text(Security.security_Gender, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
           Spacer(),
           Obx(() => Text(controller.genderText.value, style: TextStyle(color: Colors.white, fontSize: 11, height: 1.0))),
-          GestureDetector(onTap: controller.toggleGender, child: Image.asset(ImagePath.r_arrow, height: 16, width: 16)),
+          GestureDetector(onTap: controller.toggleGender, child: Image.asset(ImagePath.arrow_right, height: 16, width: 16)),
         ],
       ),
     );
@@ -181,7 +181,7 @@ class EditMyInfoPage extends StatelessWidget {
                 controller.handleBirthday(picked);
               }
             },
-            child: Image.asset(ImagePath.r_arrow, height: 16, width: 16),
+            child: Image.asset(ImagePath.arrow_right, height: 16, width: 16),
           ),
         ],
       ),

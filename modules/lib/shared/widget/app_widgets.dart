@@ -12,7 +12,7 @@ class AppWidgets {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Image.asset(
-        type == 0 ? ImagePath.real_tag:ImagePath.ai_tag,
+        type == 0 ? ImagePath.ic_tag_real:ImagePath.ic_tag_ai,
         height: 8,
         fit: BoxFit.fitHeight,
       )

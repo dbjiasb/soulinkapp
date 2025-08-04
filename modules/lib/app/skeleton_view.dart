@@ -23,14 +23,14 @@ class SkeletonView extends StatelessWidget {
     String normalIconPath = '';
     String selectedIconPath = '';
     if(icon== 'chat'){
-      normalIconPath = ImagePath.btm_bar_chat_n;
-      selectedIconPath = ImagePath.btm_bar_chat_s;
+      normalIconPath = ImagePath.bottom_bar_chat_normal;
+      selectedIconPath = ImagePath.bottom_bar_chat_selected;
     }else if(icon== 'list'){
-      normalIconPath = ImagePath.btm_bar_list_n;
-      selectedIconPath = ImagePath.btm_bar_list_s;
+      normalIconPath = ImagePath.bottom_bar_list_normal;
+      selectedIconPath = ImagePath.bottom_bar_list_selected;
     }else if(icon== 'personal'){
-      normalIconPath = ImagePath.btm_bar_personal_n;
-      selectedIconPath = ImagePath.btm_bar_personal_s;
+      normalIconPath = ImagePath.bottom_bar_personal_normal;
+      selectedIconPath = ImagePath.bottom_bar_personal_selected;
     }else{
       throw Exception('Unknown icon: $icon');
     }

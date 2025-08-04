@@ -75,7 +75,7 @@ class ChatCallCell extends ChatCell {
             children: [
               Text(callMessage.externalText),
               SizedBox(width: 4),
-              Image.asset(ImagePath.ct_phone_call, width: 20, height: 20, color: Color(0xFFE962F6)),
+              Image.asset(ImagePath.phone_call, width: 20, height: 20, color: Color(0xFFE962F6)),
             ],
           ),
         ),

@@ -21,10 +21,10 @@ class SettingItem {
 
 class AccountSettings extends StatelessWidget {
   List<SettingItem> get items => <SettingItem>[
-    SettingItem(title: 'Terms of service', icon: ImagePath.terms_of_service, onTap: checkTermsOfService),
+    SettingItem(title: 'Terms of service', icon: ImagePath.terms_service, onTap: checkTermsOfService),
     SettingItem(title: 'Privacy policy', icon: ImagePath.privacy_policy, onTap: checkPrivacyPolicy),
-    SettingItem(title: 'Log out', icon: ImagePath.act_log_out, onTap: logout),
-    SettingItem(title: 'Account Deletion', icon: ImagePath.act_delete_account, onTap: deleteAccount),
+    SettingItem(title: 'Log out', icon: ImagePath.log_out, onTap: logout),
+    SettingItem(title: 'Account Deletion', icon: ImagePath.account_deletion, onTap: deleteAccount),
   ];
 
   @override
@@ -65,7 +65,7 @@ class AccountSettings extends StatelessWidget {
                           Image.asset(item.icon, width: 24, height: 24, color: Colors.white),
                           Text(item.title, style: TextStyle(color: Colors.white, fontSize: 16)),
                           Spacer(),
-                          Image.asset(ImagePath.r_arrow, height: 16, width: 16),
+                          Image.asset(ImagePath.arrow_right, height: 16, width: 16),
                         ],
                       ),
                     ),

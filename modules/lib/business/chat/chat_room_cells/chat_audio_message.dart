@@ -217,9 +217,9 @@ class ChatAudioView extends StatelessWidget {
   // 播放
 
   final imagePaths = [
-    ImagePath.ct_audio_wave1,
-    ImagePath.ct_audio_wave2,
-    ImagePath.ct_audio_wave3,
+    ImagePath.voice_play1,
+    ImagePath.voice_play2,
+    ImagePath.voice_play3,
   ];
   final currentIndex = 2.obs;
   final actionAnim = false.obs;

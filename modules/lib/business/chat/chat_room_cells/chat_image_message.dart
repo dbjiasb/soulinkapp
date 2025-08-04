@@ -158,7 +158,7 @@ class ChatImageCell extends ChatCell {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(ImagePath.ct_refresh_res, width: 12, height: 12),
+                Image.asset(ImagePath.chat_res_refresh, width: 12, height: 12),
                 SizedBox(width: 4),
                 Text(text, style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: AppFonts.medium)),
               ],
@@ -235,7 +235,7 @@ class ChatImageCell extends ChatCell {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (type == ChatCellType.chat) Image.asset(ImagePath.ct_lock_portrait, width: 36, height: 36),
+              if (type == ChatCellType.chat) Image.asset(ImagePath.chat_lock_portrait, width: 36, height: 36),
               SizedBox(height: 8),
               if (!MyAccount.isSubscribed || MyAccount.isWkPrem && MyAccount.freeImgLeftTimes <= 0 || imageMessage.currencyType == 1)
                 Row(
@@ -284,7 +284,7 @@ class ChatImageCell extends ChatCell {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.asset(ImagePath.ct_lock_res, width: 16, height: 16),
+                            Image.asset(ImagePath.chat_res_lock, width: 16, height: 16),
                             SizedBox(width: 4),
                             Text(Security.security_Unlock, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
                           ],

@@ -61,7 +61,7 @@ class PersonViewPage extends StatelessWidget {
                   width: 32,
                   height: 44,
                   alignment: Alignment.center,
-                  child: Image.asset(ImagePath.back_icon, width: 24, height: 24),
+                  child: Image.asset(ImagePath.icon_back, width: 24, height: 24),
                 ),
               ),
             ),
@@ -121,7 +121,7 @@ class PersonViewPage extends StatelessWidget {
                           onTap: () {
                             Interactions.copyToClipboard(controller.id.toString());
                           },
-                          child: Image.asset(ImagePath.copy, height: 16, width: 16),
+                          child: Image.asset(ImagePath.string_cpy, height: 16, width: 16),
                         ),
                       ],
                     ),
@@ -285,7 +285,7 @@ class PersonViewPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           spacing: 5,
           children: [
-            Image.asset(ImagePath.per_to_chat, width: 24, height: 24),
+            Image.asset(ImagePath.to_chat, width: 24, height: 24),
             Text(Security.security_Chat, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
           ],
         ),
@@ -356,7 +356,7 @@ class PersonViewController extends GetxController {
 
   String get type {
     if (baseInfo[EncHelper.ps_act] == 1 || baseInfo[EncHelper.ps_act] == 3 || baseInfo[EncHelper.ps_act] == 4) {
-      return ImagePath.per_ai_tag;
+      return ImagePath.ai_tag;
     }
     return '';
   }

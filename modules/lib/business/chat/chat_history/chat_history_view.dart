@@ -32,7 +32,7 @@ class ChatHistoryView extends StatelessWidget {
         appBar: AppBar(
           leading: GestureDetector(
             onTap: () => Get.back(),
-            child: Container(alignment: Alignment.center, child: Image.asset(ImagePath.back_icon, width: 24, height: 24)),
+            child: Container(alignment: Alignment.center, child: Image.asset(ImagePath.icon_back, width: 24, height: 24)),
           ),
           backgroundColor: Colors.transparent,
           elevation: 0,

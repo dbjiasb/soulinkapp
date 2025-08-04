@@ -81,7 +81,7 @@ class ChatBottomBar extends StatelessWidget {
                             height: 72,
                             padding: EdgeInsets.symmetric(horizontal: 83),
                             decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage(viewController._isCanceled.value?ImagePath.ct_voice_cancel:ImagePath.ct_voice_send),fit: BoxFit.contain)
+                                image: DecorationImage(image: AssetImage(viewController._isCanceled.value?ImagePath.cancel_send:ImagePath.send),fit: BoxFit.contain)
                             ),
                             child: Padding(padding: EdgeInsets.only(left: 35,top: 18,right: 35,bottom: 30),child: SVGASimpleImage(assetsName: ImagePath.voice_wave),),
                           )),
@@ -106,7 +106,7 @@ class ChatBottomBar extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.transparent,
                         image: DecorationImage(
-                          image: AssetImage(ImagePath.ct_voice_input_bg),
+                          image: AssetImage(ImagePath.chat_input_voice_bg),
                           fit: BoxFit.fitWidth,
                           alignment: Alignment.topCenter,
                         ),
@@ -158,7 +158,7 @@ class ChatBottomBar extends StatelessWidget {
                 margin: EdgeInsets.only(left: 12, right: 8),
                 child: Obx(
                   () => Image.asset(
-                    viewController._audioInputMode.value ? ImagePath.ct_voice:ImagePath.ct_keyboard,
+                    viewController._audioInputMode.value ? ImagePath.chat_input_voice:ImagePath.chat_input_keyboard,
                     width: 24,
                     height: 24,
                   ),
@@ -216,7 +216,7 @@ class ChatBottomBar extends StatelessWidget {
                                 margin: EdgeInsets.only(right: 12),
                                 child: Obx(
                                   () => Image.asset(
-                                    viewController.barState.value == ChatRoomBottomBarState.muse ? ImagePath.ct_tips_litht:ImagePath.ct_tips,
+                                    viewController.barState.value == ChatRoomBottomBarState.muse ? ImagePath.chat_input_tips_light:ImagePath.chat_input_tips,
                                     width: 20,
                                     height: 20,
                                   ),
@@ -255,27 +255,27 @@ class ChatBottomBar extends StatelessWidget {
             onTap: () {
               viewController.showImageSelector();
             },
-            child: Image.asset(ImagePath.ct_req_img, width: 24, height: 24),
+            child: Image.asset(ImagePath.req_image, width: 24, height: 24),
           ),
           GestureDetector(
             onTap: () {
               viewController.toCall();
             },
-            child: Image.asset(ImagePath.ct_voice_call, width: 24, height: 24),
+            child: Image.asset(ImagePath.chat_voice_call, width: 24, height: 24),
           ),
 
           GestureDetector(
             onTap: () {
               viewController.showGiftPanel();
             },
-            child: Image.asset(ImagePath.ct_send_gift, width: 24, height: 24),
+            child: Image.asset(ImagePath.chat_send_gift, width: 24, height: 24),
           ),
 
           GestureDetector(
             onTap: () {
               viewController.updateBarState(ChatRoomBottomBarState.detailed);
             },
-            child: Image.asset(ImagePath.ct_input_more, width: 24, height: 24),
+            child: Image.asset(ImagePath.chat_input_more, width: 24, height: 24),
           ),
         ],
       ),
@@ -306,11 +306,11 @@ class ChatBottomBar extends StatelessWidget {
 
   Widget buildDetailedBar() {
     List<Map<String, dynamic>> items = [
-      {Security.security_title: Security.security_Custom, Security.security_icon: ImagePath.ct_custom, Security.security_action: onCreateImageButtonClicked},
-      {Security.security_title: 'Ask for Pic', Security.security_icon: ImagePath.ct_ask_for_pic, Security.security_action: askForImage},
-      {Security.security_title: Security.security_History, Security.security_icon: ImagePath.ct_history, Security.security_action: onChatHistoryButtonClicked},
-      {Security.security_title: 'Ask for Video', Security.security_icon: ImagePath.ct_ask_for_video, Security.security_action: askForVideo},
-      {Security.security_title: 'Voice Call', Security.security_icon: ImagePath.ct_audio_call, Security.security_action: toCall},
+      {Security.security_title: Security.security_Custom, Security.security_icon: ImagePath.chat_bottom_custom, Security.security_action: onCreateImageButtonClicked},
+      {Security.security_title: 'Ask for Pic', Security.security_icon: ImagePath.chat_bottom_image, Security.security_action: askForImage},
+      {Security.security_title: Security.security_History, Security.security_icon: ImagePath.chat_bottom_history, Security.security_action: onChatHistoryButtonClicked},
+      {Security.security_title: 'Ask for Video', Security.security_icon: ImagePath.chat_bottom_video, Security.security_action: askForVideo},
+      {Security.security_title: 'Voice Call', Security.security_icon: ImagePath.chat_bottom_audio_call, Security.security_action: toCall},
     ];
 
     return Container(

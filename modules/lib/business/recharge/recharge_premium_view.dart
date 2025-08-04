@@ -29,7 +29,7 @@ class RechargePremiumView extends StatelessWidget {
   }
 
   Widget _buildBackground() {
-    return Image.asset(ImagePath.rcg_premBg, fit: BoxFit.cover, width: double.infinity, height: double.infinity);
+    return Image.asset(ImagePath.premium_rcg_bg, fit: BoxFit.cover, width: double.infinity, height: double.infinity);
   }
 
   Widget _buildBackButton(RechargePremiumViewController controller) {
@@ -122,7 +122,7 @@ class RechargePremiumView extends StatelessWidget {
           width: 76,
           child: Stack(
             children: [
-              Image.asset(ImagePath.rcg_avtBg, fit: BoxFit.cover),
+              Image.asset(ImagePath.premium_rcg_avatarbg, fit: BoxFit.cover),
               Padding(
                 padding: const EdgeInsets.all(6),
                 child:
@@ -172,7 +172,7 @@ class RechargePremiumView extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(ImagePath.rcg_bnfHedr, height: 16, width: 16),
+          Image.asset(ImagePath.premium_rcg_bnfheader, height: 16, width: 16),
           const SizedBox(width: 4),
           Expanded(child: Text(feature, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500))),
         ],

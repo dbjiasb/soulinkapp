@@ -234,7 +234,7 @@ class AdvanceCore extends StatelessWidget {
                             runAlignment: WrapAlignment.center,
                             spacing: 4,
                             children: [
-                              Image.asset(ImagePath.cr_add_pic, height: 16, width: 16),
+                              Image.asset(ImagePath.oc_add_pic, height: 16, width: 16),
                               const Text('Add rounds', style: TextStyle(color: Color(0xFF12151C), fontSize: 12, fontWeight: FontWeight.w500)),
                               Text(
                                 '(${_logic.dialogStyle.length ~/ 2}/5）',
@@ -274,7 +274,7 @@ class AdvancePage extends StatelessWidget {
             _logic.ocDependency.save();
             Get.back();
           },
-          icon: Image.asset(ImagePath.back_icon, height: 24, width: 24),
+          icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
         ),
         title: Text(
           textAlign: TextAlign.center,
@@ -351,7 +351,7 @@ class AdvancePage extends StatelessWidget {
                 _logic.ocDependency.save();
                 Get.back();
               },
-              icon: Image.asset(ImagePath.back_icon, height: 24, width: 24),
+              icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
             ),
             const Expanded(
               child: Text(

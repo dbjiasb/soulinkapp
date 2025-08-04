@@ -37,8 +37,8 @@ class ChatMuseView extends StatelessWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Image.asset(ImagePath.ct_l_tips_decoration, width: 32, height: 32),
-                                Image.asset(ImagePath.ct_r_tips_decoration, width: 32, height: 32),
+                                Image.asset(ImagePath.chat_tips_decoration_left, width: 32, height: 32),
+                                Image.asset(ImagePath.chat_tips_decoration_right, width: 32, height: 32),
                               ],
                             ),
 

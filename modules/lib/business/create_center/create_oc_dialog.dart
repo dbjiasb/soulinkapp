@@ -41,9 +41,9 @@ class CreateOcDialog extends StatelessWidget {
       height: 248,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        image: DecorationImage(image: AssetImage(ImagePath.cr_dialog_bg), fit: BoxFit.cover),
+        image: DecorationImage(image: AssetImage(ImagePath.oc_dialog_bg), fit: BoxFit.cover),
       ),
-      child: Row(children: [IconButton(onPressed: Get.back, icon: Image.asset(width: 32, height: 32, ImagePath.cr_dialog_back))]),
+      child: Row(children: [IconButton(onPressed: Get.back, icon: Image.asset(width: 32, height: 32, ImagePath.oc_dialog_back))]),
     );
   }
 
@@ -88,7 +88,7 @@ class CreateOcDialog extends StatelessWidget {
                     onTap: () {
                       _logic.consent.value = !_logic.consent.value;
                     },
-                    child: Image.asset(_logic.consent.value == true ? ImagePath.report_se:ImagePath.report_un),
+                    child: Image.asset(_logic.consent.value == true ? ImagePath.report_selected:ImagePath.report_unselect),
                   ),
                 ),
               ),

@@ -43,7 +43,7 @@ class BalanceView extends StatelessWidget {
 
   String get icon => type == BalanceType.coin ? ImagePath.coin : ImagePath.gem;
 
-  String get addIcon => ImagePath.ic_add;
+  String get addIcon => ImagePath.icon_add;
 
   @override
   Widget build(BuildContext context) {

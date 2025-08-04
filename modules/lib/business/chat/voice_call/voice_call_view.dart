@@ -67,7 +67,7 @@ class VoiceCallView extends StatelessWidget {
       case CallStatus.aiSpeaking:
         return Column(
           children: [
-            Image.asset(ImagePath.ct_triangle_arrow, width: 24, height: 12),
+            Image.asset(ImagePath.triangle_arrow, width: 24, height: 12),
             Container(
               margin: EdgeInsets.symmetric(horizontal: 43),
               child: Container(
@@ -87,7 +87,7 @@ class VoiceCallView extends StatelessWidget {
             SizedBox(height: 40),
             GestureDetector(
               onTap: viewController.interruptAI,
-              child: Image.asset(ImagePath.ct_interrupt_talk, width: 32, height: 32),
+              child: Image.asset(ImagePath.interrupt_talk, width: 32, height: 32),
             ),
             SizedBox(height: 4),
             Text('Interrupt AI', style: TextStyle(fontSize: 14, color: Color(0xFFABABAD), fontWeight: FontWeight.w500)),
@@ -191,7 +191,7 @@ class VoiceCallView extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: viewController.onCallCancel,
-                            child: Image.asset(ImagePath.ct_end_call, width: 64, height: 64),
+                            child: Image.asset(ImagePath.end_call, width: 64, height: 64),
                           ),
                           SizedBox(width: 60),
                           GestureDetector(
@@ -201,8 +201,8 @@ class VoiceCallView extends StatelessWidget {
                             child: Obx(
                               () => Image.asset(
                                 !viewController.muted.value
-                                    ? ImagePath.ct_open_mic
-                                    : ImagePath.ct_close_mic,
+                                    ? ImagePath.open_mic
+                                    : ImagePath.turn_off_mic,
                                 width: 64,
                                 height: 64,
                               ),
