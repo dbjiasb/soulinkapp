@@ -7,3 +7,10 @@ release/.flutter-plugins
 release/.flutter-plugins-dependencies
 debug/.flutter-plugins-dependencies
 debug/.flutter-plugins-dependencies
+toolchain/scan_result_api.txt
+toolchain/scan_result_assets.txt
+toolchain/scan_result_link.txt
+toolchain/scan_result_other.txt
+toolchain/scan_result_product_text.txt
+toolchain/scan_result_route.txt
+toolchain/scan_result_var.txt
