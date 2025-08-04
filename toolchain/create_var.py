@@ -48,27 +48,28 @@ def generate_security_constants(prefix='security'):
     
     existing_vars = set()
     if output_file.exists():
-        # 解析现有文件中的变量
-        content = output_file.read_text(encoding='utf-8')
-        existing_var_pattern = re.compile(r'static late final String (\w+) = _decrypt')
-        existing_vars = set(existing_var_pattern.findall(content))
-        
-        # 保留文件头部（import和类定义）
-        # 修正后的header处理逻辑
-        header = []
-        in_class = False
-        for line in content.splitlines():
-            if line.strip().startswith('abstract final class Security'):
-                in_class = True
-            if in_class and line.strip().startswith('static late final'):
+        # 读取现有内容并找到最后一个右括号
+        existing_content = output_file.read_text(encoding='utf-8').splitlines()
+        # 查找最后一个右括号的行
+        closing_brace_index = None
+        for i in reversed(range(len(existing_content))):
+            line = existing_content[i]
+            stripped = line.strip()
+            if stripped == '}':
+                closing_brace_index = i
                 break
-            header.append(line.rstrip('\n'))
+        # 确定header_content
+        if closing_brace_index is not None:
+            header_content = existing_content[:closing_brace_index]
+        else:
+            header_content = existing_content
+            print("警告：未找到闭合的右括号，可能导致生成的文件格式错误")
         
-        # 修正后的footer处理
-        footer = ['}']
-        
-        # 修正字符串转义
-        header = [
+        # 解析现有变量
+        existing_vars = set(re.findall(r'static late final String (\w+) = _decrypt', '\n'.join(existing_content)))
+    else:
+        # 创建新文件的头部内容
+        header_content = [
             'import \'package:encrypt/encrypt.dart\';',
             '/// 安全相关字符串常量（运行时解密）',
             'abstract final class Security {',
@@ -82,7 +83,6 @@ def generate_security_constants(prefix='security'):
             '  }'
         ]
 
-
     # 生成新变量（过滤已存在的）
     new_vars = [
         f'  static late final String {prefix}_{var} = _decrypt(\'{encrypted}\');'
@@ -90,9 +90,8 @@ def generate_security_constants(prefix='security'):
         if f'{prefix}_{var}' not in existing_vars
     ]
 
-    # 合并内容
-    dart_code = header + new_vars + footer
-    
+    # 合并内容并添加闭合括号
+    dart_code = header_content + new_vars + ['}']
     output_file.write_text('\n'.join(dart_code), encoding='utf-8')
     print(f"生成成功：{output_file.absolute()}")
     print("请执行以下操作：")
