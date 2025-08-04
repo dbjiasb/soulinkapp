@@ -305,7 +305,6 @@ class ChatBottomBar extends StatelessWidget {
   }
 
   Widget buildDetailedBar() {
-    String path = 'packages/modules/assets/images/chat/chat_bottom_';
     List<Map<String, dynamic>> items = [
       {Security.security_title: Security.security_Custom, Security.security_icon: ImagePath.ct_custom, Security.security_action: onCreateImageButtonClicked},
       {Security.security_title: 'Ask for Pic', Security.security_icon: ImagePath.ct_ask_for_pic, Security.security_action: askForImage},

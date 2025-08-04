@@ -148,19 +148,6 @@ class VirtualRoleItem extends RoleItem {
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            // SizedBox(width: 12),
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     _onItemClicked(call: true);
-                            //   },
-                            //   child: Image.asset('packages/modules/assets/images/call/call.png', width: 40, height: 40),
-                            // ),
-                            // Text(
-                            //   bio,
-                            //   maxLines: 3,
-                            //   overflow: TextOverflow.ellipsis,
-                            //   style: TextStyle(color: Color(0xB3FFFFFF), fontWeight: FontWeight.w500, fontSize: 11),
-                            // ),
                           ],
                         ),
                       )

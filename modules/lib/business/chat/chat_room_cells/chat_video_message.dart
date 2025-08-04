@@ -303,26 +303,6 @@ class ChatVideoCell extends ChatCell {
             ),
           ),
 
-          // GestureDetector(
-          //   onTap: () {
-          //     //解锁视频
-          //     showUnlockDialogIfNeeded();
-          //   },
-          //   child: Container(
-          //     width: 132,
-          //     height: 36,
-          //     decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: AppColors.primary),
-          //     alignment: Alignment.center,
-          //     child: Row(
-          //       mainAxisSize: MainAxisSize.min,
-          //       children: [
-          //         Image.asset('packages/modules/assets/images/chat/chat_res_lock.png', width: 16, height: 16),
-          //         SizedBox(width: 4),
-          //         Text(Security.security_Unlock, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );

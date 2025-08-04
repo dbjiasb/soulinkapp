@@ -22,21 +22,17 @@ class SkeletonView extends StatelessWidget {
   Widget _buildIconButton(String icon, int index) {
     String normalIconPath = '';
     String selectedIconPath = '';
-    switch(icon){
-      case 'chat':
-        normalIconPath = ImagePath.btm_bar_chat_n;
-        selectedIconPath = ImagePath.btm_bar_chat_s;
-        break;
-      case 'list':
-        normalIconPath = ImagePath.btm_bar_list_n;
-        selectedIconPath = ImagePath.btm_bar_list_s;
-        break;
-      case 'personal':
-        normalIconPath = ImagePath.btm_bar_personal_n;
-        selectedIconPath = ImagePath.btm_bar_personal_s;
-        break;
-      default:
-        throw Exception('Unknown icon: $icon');
+    if(icon== 'chat'){
+      normalIconPath = ImagePath.btm_bar_chat_n;
+      selectedIconPath = ImagePath.btm_bar_chat_s;
+    }else if(icon== 'list'){
+      normalIconPath = ImagePath.btm_bar_list_n;
+      selectedIconPath = ImagePath.btm_bar_list_s;
+    }else if(icon== 'personal'){
+      normalIconPath = ImagePath.btm_bar_personal_n;
+      selectedIconPath = ImagePath.btm_bar_personal_s;
+    }else{
+      throw Exception('Unknown icon: $icon');
     }
 
     return Obx(

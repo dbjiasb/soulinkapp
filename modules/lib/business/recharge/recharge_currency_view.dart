@@ -9,7 +9,6 @@ import 'package:modules/shared/app_theme.dart';
 
 import '../purchase/payment_service.dart';
 
-const assetsDir = 'packages/modules/assets/images';
 
 class RechargeCurrencyView extends StatelessWidget {
   RechargeCurrencyView({super.key});

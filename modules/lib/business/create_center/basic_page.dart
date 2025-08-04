@@ -622,7 +622,7 @@ class BasicCore extends StatelessWidget {
             children: [
               Text(Security.security_Physique, style: TextStyle(color: AppColors.undo, fontSize: 11, fontWeight: FontWeight.w500)),
               SizedBox(width: 4),
-              RotatedBox(quarterTurns: _controller.expandPhysiqueRotate.value, child: Image.asset('$commImgDir/arrow_right.png', width: 16, height: 16)),
+              RotatedBox(quarterTurns: _controller.expandPhysiqueRotate.value, child: Image.asset(ImagePath.r_arrow, width: 16, height: 16)),
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:modules/base/assets/image_path.dart';
 
 enum ListStatus { idle, loading, success, empty, error }
 
@@ -13,7 +14,7 @@ class ListStatusView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset('packages/modules/assets/images/list_status_empty.png', width: 156, height: 156),
+          Image.asset(ImagePath.list_empty, width: 156, height: 156),
           Text(description ?? 'No data', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
         ],
       ),
@@ -25,7 +26,7 @@ class ListStatusView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset('packages/modules/assets/images/list_status_empty.png', width: 156, height: 156),
+          Image.asset(ImagePath.list_empty, width: 156, height: 156),
           Text(
             description ?? 'Network exception, please try again later',
             style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8)),

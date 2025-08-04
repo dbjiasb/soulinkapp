@@ -12,10 +12,6 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../core/util/es_helper.dart';
 
-const commImgDir = 'packages/modules/assets/images';
-const ocImgDir = '$commImgDir/oc';
-const ocAnimDir = 'packages/modules/assets/anim';
-
 final account = AccountService.instance.account;
 
 class GenerationResult {

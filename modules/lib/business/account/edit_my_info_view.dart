@@ -60,7 +60,7 @@ class EditMyInfoPage extends StatelessWidget {
                         Obx(
                           () =>
                               MyAccount.avatar.isEmpty
-                                  ? Image.asset(ImagePath.avatar, height: 68, width: 68)
+                                  ? Image.asset(ImagePath.account_default_avatar, height: 68, width: 68)
                                   : AvatarView(url: MyAccount.avatar, size: 68),
                         ),
                         Positioned(right: 0, bottom: 0, child: Image.asset(ImagePath.act_upload_img_vdo, height: 24, width: 24)),
@@ -263,31 +263,23 @@ class EditMyInfoLogic extends GetxController {
   }
 
   void toggleGender() {
-    switch (genderText.value) {
-      case 'Male':
-        genderText.value = Security.security_Female;
-        break;
-      case 'Female':
-        genderText.value = Security.security_unknown;
-        break;
-      case 'unknown':
-        genderText.value = Security.security_Male;
-        break;
+    if(genderText.value == 'Male'){
+      genderText.value = Security.security_Female;
+    }else if(genderText.value == 'Female'){
+      genderText.value = Security.security_unknown;
+    }else{
+      genderText.value = Security.security_Male;
     }
   }
 
   void saveMyInfo() async {
     var gender = 0;
-    switch (genderText.value) {
-      case 'Male':
-        gender = 1;
-        break;
-      case 'Female':
-        gender = 2;
-        break;
-      case 'Unknown':
-        gender = 0;
-        break;
+    if(genderText.value == 'Male'){
+      gender = 1;
+    } else if(genderText.value == 'Female'){
+      gender = 2;
+    } else {
+      gender = 0;
     }
     EasyLoading.show(status: 'Updating information...');
     final rtn = await AccountService.instance.updateMyInfo(

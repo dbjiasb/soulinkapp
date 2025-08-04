@@ -47,7 +47,7 @@ class AccountView extends StatelessWidget {
                   Container(
                     child: Row(
                       children: [
-                        Obx(() => avatarUrl.isEmpty ? Image.asset(ImagePath.avatar, height: 68, width: 68) : AvatarView(url: avatarUrl, size: 68)),
+                        Obx(() => avatarUrl.isEmpty ? Image.asset(ImagePath.account_default_avatar, height: 68, width: 68) : AvatarView(url: avatarUrl, size: 68)),
                         SizedBox(width: 12),
                         Column(
                           spacing: 3,
@@ -170,7 +170,6 @@ class AccountView extends StatelessWidget {
                     Image.asset(ImagePath.act_wallet, height: 20, width: 20),
                     Text(Security.security_Wallet, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 13)),
                     Spacer(),
-                    // Image.asset('packages/modules/assets/images/arrow_right_highlight.png', height: 16, width: 16),
                   ],
                 ),
               ),

@@ -43,7 +43,7 @@ class CreateOcDialog extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         image: DecorationImage(image: AssetImage(ImagePath.cr_dialog_bg), fit: BoxFit.cover),
       ),
-      child: Row(children: [IconButton(onPressed: Get.back, icon: Image.asset(width: 32, height: 32, '$ocImgDir/oc_dialog_back.png'))]),
+      child: Row(children: [IconButton(onPressed: Get.back, icon: Image.asset(width: 32, height: 32, ImagePath.cr_dialog_back))]),
     );
   }
 
@@ -155,7 +155,7 @@ class CreateOcDialog extends StatelessWidget {
     }else {
       // 金币支付
       btnContent = [
-        Image.asset(width: 18, height: 18, '$commImgDir/coin.png'),
+        Image.asset(width: 18, height: 18, ImagePath.coin),
         RichText(text: TextSpan(text: '300', style: btnTextStyle)),
       ];
     }

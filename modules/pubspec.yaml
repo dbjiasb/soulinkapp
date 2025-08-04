@@ -34,6 +34,7 @@ flutter:
     - assets/images/person/
     - assets/images/oc/
     - assets/anim/
+    - assets/soulink/
   fonts:
     - family: AiTag
       fonts:

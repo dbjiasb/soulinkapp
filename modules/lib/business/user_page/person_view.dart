@@ -17,7 +17,6 @@ import 'package:modules/shared/interactions.dart';
 
 import '../../../core/user_manager/user_manager.dart';
 
-const imagesDir = 'packages/modules/assets/images';
 
 class PersonViewPage extends StatelessWidget {
   PersonViewPage({Key? key}) : super(key: key);
@@ -131,25 +130,6 @@ class PersonViewPage extends StatelessWidget {
               ),
             ),
           ),
-          // Positioned(
-          //   left: 16,
-          //   top: 27,
-          //   child: SafeArea(
-          //     child: Row(
-          //       children: [
-          //         GestureDetector(
-          //           onTap: Get.back,
-          //           child: Container(
-          //             width: 32,
-          //             height: 44,
-          //             alignment: Alignment.center,
-          //             child: Image.asset('packages/modules/assets/images/icon_back.png', width: 24, height: 24),
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //   ),
-          // ),
         ],
       ),
     );
@@ -346,7 +326,7 @@ class PersonViewController extends GetxController {
 
   Map get baseInfo => userInfo[EncHelper.ps_bsif] ?? {};
 
-  String get avatarUrl => userInfo[EncHelper.ps_bsif]?[EncHelper.ps_avturl] ?? ImagePath.avatar;
+  String get avatarUrl => userInfo[EncHelper.ps_bsif]?[EncHelper.ps_avturl] ?? ImagePath.account_default_avatar;
 
   String get background => personalInfo[EncHelper.ps_bg] ?? '';
 

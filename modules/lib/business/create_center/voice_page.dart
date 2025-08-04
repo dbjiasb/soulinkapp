@@ -109,7 +109,7 @@ class OCVoicePage extends StatelessWidget {
                               alignment: Alignment.center,
                               child: Wrap(
                                 children: [
-                                  RotatedBox(quarterTurns: _logic.expandStatus.value, child: Image.asset('$commImgDir/icon_back.png', height: 16, width: 16)),
+                                  RotatedBox(quarterTurns: _logic.expandStatus.value, child: Image.asset(ImagePath.back_icon, height: 16, width: 16)),
                                   Text(value, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
                                 ],
                               ),

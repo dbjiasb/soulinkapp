@@ -1,3 +1,4 @@
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +12,7 @@ class AppWidgets {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Image.asset(
-        'packages/modules/assets/images/ic_tag_${type == 0 ? 'real':Security.security_ai}.png',
+        type == 0 ? ImagePath.real_tag:ImagePath.ai_tag,
         height: 8,
         fit: BoxFit.fitHeight,
       )
