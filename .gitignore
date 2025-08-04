@@ -1,0 +1,4 @@
+debug/.dart_tool
+debug/build
+release/.dart_tool
+release/build

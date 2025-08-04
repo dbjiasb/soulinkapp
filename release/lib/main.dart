@@ -1,5 +1,6 @@
 // import 'package:pods';
-import 'package:pods/main.dart';
+import 'package:modules/main.dart';
+
 void main(List<String> args) async {
   //从底层开始初始化
   // WidgetsFlutterBinding.ensureInitialized();
