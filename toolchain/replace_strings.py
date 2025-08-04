@@ -27,7 +27,7 @@ def replace_security_strings(enable_backup=False):
     total_replacements = 0
     
     # 需要排除的文件列表
-    excluded_files = {'security.dart', 'constants.dart', 'es_helper.dart'}
+    excluded_files = {'security.dart'}
     
     # 遍历所有Dart文件
     for dart_file in project_dir.rglob('*.dart'):

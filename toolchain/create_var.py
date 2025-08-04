@@ -35,38 +35,66 @@ def generate_security_constants(prefix='security'):
         cleaned = var.strip("'\" \n")
         if var_pattern.match(cleaned) and cleaned not in seen:
             seen.add(cleaned)
-            valid_vars.append((cleaned, encrypt_string(cleaned)))  # 存储变量名和加密值
+            valid_vars.append((cleaned, encrypt_string(cleaned)))
 
     if not valid_vars:
         print("警告：输入文件中没有有效的变量名")
         return
 
-    # 生成Dart代码部分修改变量名
-    dart_code = [
-        'import \'package:encrypt/encrypt.dart\';\n',
-        '/// 安全相关字符串常量（运行时解密）',
-        'abstract final class Security {',
-        '  Security._();\n',
-        f'  static final _aesKey = Key.fromUtf8("{KEY.decode()}");',
-        f'  static final _iv = IV.fromUtf8("{IV.decode()}");\n',
-        '  static String _decrypt(String encrypted) {',
-        '    final cipher = AES(_aesKey, mode: AESMode.cbc);',
-        '    final encrypter = Encrypter(cipher);',
-        '    return encrypter.decrypt64(encrypted, iv: _iv);',
-        '  }\n',
-        *[f'  static late final String {prefix}_{var} = _decrypt(\'{encrypted}\');' 
-          for var, encrypted in valid_vars],
-        '}\n'
-    ]
-    
-    # 新增路径构建逻辑
-    script_dir = Path(__file__).parent
+    # 新增文件存在检查与解析逻辑
     target_dir = script_dir.parent / 'modules' / 'lib' / 'base' / 'crypt'
     target_dir.mkdir(parents=True, exist_ok=True)
     output_file = target_dir / 'security.dart'
     
+    existing_vars = set()
+    if output_file.exists():
+        # 解析现有文件中的变量
+        content = output_file.read_text(encoding='utf-8')
+        existing_var_pattern = re.compile(r'static late final String (\w+) = _decrypt')
+        existing_vars = set(existing_var_pattern.findall(content))
+        
+        # 保留文件头部（import和类定义）
+        # 修正后的header处理逻辑
+        header = []
+        in_class = False
+        for line in content.splitlines():
+            if line.strip().startswith('abstract final class Security'):
+                in_class = True
+            if in_class and line.strip().startswith('static late final'):
+                break
+            header.append(line.rstrip('\n'))
+        
+        # 修正后的footer处理
+        footer = ['}']
+        
+        # 修正字符串转义
+        header = [
+            'import \'package:encrypt/encrypt.dart\';',
+            '/// 安全相关字符串常量（运行时解密）',
+            'abstract final class Security {',
+            '  Security._();',
+            f'  static final _aesKey = Key.fromUtf8(\'{KEY.decode()}\');',
+            f'  static final _iv = IV.fromUtf8(\'{IV.decode()}\');',
+            '  static String _decrypt(String encrypted) {',
+            '    final cipher = AES(_aesKey, mode: AESMode.cbc);',
+            '    final encrypter = Encrypter(cipher);',
+            '    return encrypter.decrypt64(encrypted, iv: _iv);',
+            '  }'
+        ]
+
+
+    # 生成新变量（过滤已存在的）
+    new_vars = [
+        f'  static late final String {prefix}_{var} = _decrypt(\'{encrypted}\');'
+        for var, encrypted in valid_vars
+        if f'{prefix}_{var}' not in existing_vars
+    ]
+
+    # 合并内容
+    dart_code = header + new_vars + footer
+    
     output_file.write_text('\n'.join(dart_code), encoding='utf-8')
-    print(f"生成成功：{output_file.absolute()}")  # 显示完整路径
+    print(f"生成成功：{output_file.absolute()}")
     print("请执行以下操作：")
     print("1. 在pubspec.yaml添加依赖：encrypt: ^5.0.1")
     print("2. 安装加密库：flutter pub get")

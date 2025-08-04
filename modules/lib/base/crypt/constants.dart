@@ -1,55 +1,56 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:io';
 
 class Constants {
-  static String get replace => Platform.environment['abc'] ?? '';
+  static String get replace => Platform.environment[Security.security_abc] ?? '';
 
   //user
-  static String get tUid => 'targetUid'; //targetUid
-  static String get senderId => 'fromUserId'; //fromUserId
-  static String get receiverId => 'toUserId'; // toUserId
-  static String get userData => 'userInfo'; //userInfo
-  static String get acType => 'accountType'; //accountType
-  static String get pVer => 'poolVersion';
+  static String get tUid => Security.security_targetUid; //targetUid
+  static String get senderId => Security.security_fromUserId; //fromUserId
+  static String get receiverId => Security.security_toUserId; // toUserId
+  static String get userData => Security.security_userInfo; //userInfo
+  static String get acType => Security.security_accountType; //accountType
+  static String get pVer => Security.security_poolVersion;
 
   //chat
-  static String get nativeId => 'clientId';
-  static String get infoType => 'msgType';
-  static String get pullTag => 'syncKey';
-  static String get newestTag => 'lastMsgId';
-  static String get rawItems => 'msgItems';
-  static String get rawSessions => 'sessions';
-  static String get messages => 'msgList';
+  static String get nativeId => Security.security_clientId;
+  static String get infoType => Security.security_msgType;
+  static String get pullTag => Security.security_syncKey;
+  static String get newestTag => Security.security_lastMsgId;
+  static String get rawItems => Security.security_msgItems;
+  static String get rawSessions => Security.security_sessions;
+  static String get messages => Security.security_msgList;
   //api
-  static String get statusData => 'statusInfo';
-  static String get apiName => 'apiMethod';
-  static String get secretTag => 'factor';
+  static String get statusData => Security.security_statusInfo;
+  static String get apiName => Security.security_apiMethod;
+  static String get secretTag => Security.security_factor;
 
   //call
-  static String get dialId => 'callId'; //callId
-  static String get remaining => 'remainFreeTime'; //remainFreeTime
-  static String get dialType => 'rtcType'; //rtcType
-  static String get initiator => 'rtcSelfUid'; //rtcSelfUid
-  static String get recipient => 'rtcTargetUid'; //rtcTargetUid
-  static String get costPerMinute => 'costEveryMinute'; //costEveryMinute
-  static String get propType => 'currencyType'; //currencyType
-  static String get profitPerMinute => 'earnEveryMinute'; //costEveryMinute
-  static String get carrier => 'payload';
-  static String get commandId => 'cmdID';
+  static String get dialId => Security.security_callId; //callId
+  static String get remaining => Security.security_remainFreeTime; //remainFreeTime
+  static String get dialType => Security.security_rtcType; //rtcType
+  static String get initiator => Security.security_rtcSelfUid; //rtcSelfUid
+  static String get recipient => Security.security_rtcTargetUid; //rtcTargetUid
+  static String get costPerMinute => Security.security_costEveryMinute; //costEveryMinute
+  static String get propType => Security.security_currencyType; //currencyType
+  static String get profitPerMinute => Security.security_earnEveryMinute; //costEveryMinute
+  static String get carrier => Security.security_payload;
+  static String get commandId => Security.security_cmdID;
 
   //adjust
-  static String get adReferrer => 'fbInstallReferrer'; //fbInstallReferrer
-  static String get adClickTag => 'clickLabel'; //clickLabel
-  static String get adToken => 'trackerToken';
-  static String get adCost => 'costAmount';
-  static String get adTracker => 'trackerName';
-  static String get adTeam => 'adgroup';
-  static String get adNet => 'network';
-  static String get adElection => 'campaign';
-  static String get adBuild => 'creative';
-  static String get adCurrency => 'costCurrency';
+  static String get adReferrer => Security.security_fbInstallReferrer; //fbInstallReferrer
+  static String get adClickTag => Security.security_clickLabel; //clickLabel
+  static String get adToken => Security.security_trackerToken;
+  static String get adCost => Security.security_costAmount;
+  static String get adTracker => Security.security_trackerName;
+  static String get adTeam => Security.security_adgroup;
+  static String get adNet => Security.security_network;
+  static String get adElection => Security.security_campaign;
+  static String get adBuild => Security.security_creative;
+  static String get adCurrency => Security.security_costCurrency;
 
-  static String get adSetupInfo => 'adjustInstallData';
-  static String get adUpdate => 'adjustAttrUpdate';
-  static String get adDevice => 'adjustDeviceId';
-  static String get adKey => 'adjustId';
+  static String get adSetupInfo => Security.security_adjustInstallData;
+  static String get adUpdate => Security.security_adjustAttrUpdate;
+  static String get adDevice => Security.security_adjustDeviceId;
+  static String get adKey => Security.security_adjustId;
 }
