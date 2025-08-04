@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -176,7 +177,7 @@ class AccountView extends StatelessWidget {
                   spacing: 8,
                   children: [
                     Image.asset('packages/modules/assets/images/account/account_wallet.png', height: 20, width: 20),
-                    Text('Wallet', style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 13)),
+                    Text(Security.security_Wallet, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 13)),
                     Spacer(),
                     // Image.asset('packages/modules/assets/images/arrow_right_highlight.png', height: 16, width: 16),
                   ],
@@ -204,7 +205,7 @@ class AccountView extends StatelessWidget {
   Widget walletItem(int type) {
     return InkWell(
       onTap: () {
-        Get.toNamed(Routers.rechargeCurrency.name, arguments: {'rcgType': type});
+        Get.toNamed(Routers.rechargeCurrency.name, arguments: {Security.security_rcgType: type});
       },
       child: Container(
         padding: EdgeInsets.all(12),
@@ -289,13 +290,13 @@ class AccountView extends StatelessWidget {
           children: [
             AvatarView(url: companion[EncHelper.ac_avt], size: 40),
             const SizedBox(width: 12),
-            Text(companion[EncHelper.ac_nn] ?? 'Unnamed', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
+            Text(companion[EncHelper.ac_nn] ?? Security.security_Unnamed, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
             const SizedBox(width: 12),
             if (companion[EncHelper.ps_act] == 4)
               Container(
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white.withOpacity(0.1)),
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                child: Text('Mine', style: TextStyle(color: Color(0xFFAFF062), fontSize: 11, fontFamily: 'AiTag')),
+                child: Text(Security.security_Mine, style: TextStyle(color: Color(0xFFAFF062), fontSize: 11, fontFamily: Security.security_AiTag)),
               ),
             const Spacer(),
             Image.asset('packages/modules/assets/images/arrow_right.png', width: 16, height: 16),
@@ -309,8 +310,8 @@ class AccountView extends StatelessWidget {
     Get.toNamed(
       Routers.chat.name,
       arguments: {
-        'session': jsonEncode({'id': id, 'name': name, 'avatar': avatarUrl, 'backgroundUrl': coverUrl}),
-        'call': false,
+        Security.security_session: jsonEncode({Security.security_id: id, Security.security_name: name, Security.security_avatar: avatarUrl, Security.security_backgroundUrl: coverUrl}),
+        Security.security_call: false,
       },
     );
   }
@@ -344,11 +345,11 @@ class AccountViewController extends GetxController {
     if (!hasMore) return;
     final rsp = await RoleManager.instance.getRoleList();
     if (rsp.isSuccess) {
-      poolVer = rsp.data['poolVersion'];
-      hasMore = rsp.data['hasMore'];
+      poolVer = rsp.data[Security.security_poolVersion];
+      hasMore = rsp.data[Security.security_hasMore];
       pageIdx++;
 
-      myCompanions.addAll(rsp.data['param'] ?? []);
+      myCompanions.addAll(rsp.data[Security.security_param] ?? []);
       myCompanions.refresh();
     }
     _loadingCompanions.value = false;

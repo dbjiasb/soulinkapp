@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -34,7 +35,7 @@ class AdManager {
   }
 
   AdjustConfig get adjustConfig {
-    return AdjustConfig('d08nqwsispa8', AdjustEnvironment.production)
+    return AdjustConfig(Security.security_d08nqwsispa8, AdjustEnvironment.production)
       // ..fbAppId = '123'
       // ..processName = 'lumina'
       ..attributionCallback = (AdjustAttribution attribution) {
@@ -51,7 +52,7 @@ class AdManager {
   Future<void> handleAdjustAttribution(AdjustAttribution attribution) async {
     await initData(attribution);
     Map<String, String> event = {Constants.adKey: await adId, Constants.adDevice: await platformAdId, Constants.adSetupInfo: data, Constants.adUpdate: '1'};
-    sendEvent('adjust', event);
+    sendEvent(Security.security_adjust, event);
   }
 
   Future<void> initData(AdjustAttribution attribution) async {
@@ -65,8 +66,8 @@ class AdManager {
       Constants.adNet: attribution.network ?? '',
       Constants.adElection: attribution.campaign ?? '',
       Constants.adBuild: attribution.creative ?? '',
-      'adid': await adId,
-      'costType': attribution.costType ?? '',
+      Security.security_adid: await adId,
+      Security.security_costType: attribution.costType ?? '',
       Constants.adCurrency: attribution.costCurrency ?? '',
     };
 
@@ -74,7 +75,7 @@ class AdManager {
   }
 
   static sendEvent(String eventName, Map<String, String>? event) async {
-    ApiRequest request = ApiRequest('sendData', params: {'name': eventName, 'param': event});
+    ApiRequest request = ApiRequest('sendData', params: {Security.security_name: eventName, Security.security_param: event});
 
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {

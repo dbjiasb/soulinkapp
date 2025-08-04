@@ -4,8 +4,12 @@ import shutil
 from pathlib import Path
 
 def replace_security_strings(enable_backup=False):
+    script_dir = Path(__file__).parent  # 新增脚本目录定义
+    
     # 读取所有需要替换的变量名
-    with open('scan_result_var.txt', 'r', encoding='utf-8') as f:
+    input_file = script_dir / 'scan_result_var.txt'  # 修改为绝对路径
+    # 读取所有需要替换的变量名
+    with open(input_file, 'r', encoding='utf-8') as f:
         security_strings = [line.strip().strip("'\"") for line in f.readlines()]
     
     # 按长度降序排序，避免部分匹配

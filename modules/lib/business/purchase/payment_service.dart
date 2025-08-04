@@ -1,21 +1,24 @@
 import 'dart:async';
 import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/preferences/preferences.dart';
 
 import '../../base/api_service/api_service_export.dart';
 import '../../core/account/account_service.dart';
 
-const kCachedExceptionOrderKey = "kCachedExceptionOrderKey";
+String kCachedExceptionOrderKey = Security.security_kCachedExceptionOrderKey;
+
 class PurchaseManager {
   static final PurchaseManager instance = PurchaseManager._internal();
   factory PurchaseManager() => instance;
-  PurchaseManager._internal() ;
+  PurchaseManager._internal();
 
-  Function(bool,String?)? rechargeEventCallback;
+  Function(bool, String?)? rechargeEventCallback;
   List<ProductDetails> _products = [];
   bool _initialized = false;
 
@@ -42,16 +45,15 @@ class PurchaseManager {
   }
 
   void fixedExceptionOrdersIfNeeded() async {
-
     await Future.delayed(const Duration(seconds: 5));
 
     var exceptionOrders = Preferences.instance.getMap(kCachedExceptionOrderKey);
     if (exceptionOrders.isNotEmpty) {
       for (var key in exceptionOrders.keys) {
         var pair = exceptionOrders[key];
-        var productId = pair['pid'];
-        var receipt = pair['receipt'];
-        checkPurchasedToken(productId, receipt,key);
+        var productId = pair[Security.security_pid];
+        var receipt = pair[Security.security_receipt];
+        checkPurchasedToken(productId, receipt, key);
       }
     }
   }
@@ -78,18 +80,20 @@ class PurchaseManager {
   }
 
   Future<bool> checkPurchasedToken(String pid, String receipt, String cacheKey) async {
-
-    final req = ApiRequest('fullConfirmPurchase',params: {
-      "receipt": receipt,
-      "id": pid,
-      "store": "1",
-      'order': '${MyAccount.id}_${DateTime.now().millisecondsSinceEpoch}',
-      'channel': Platform.isIOS ? 2 : 1,
-    });
+    final req = ApiRequest(
+      'fullConfirmPurchase',
+      params: {
+        Security.security_receipt: receipt,
+        Security.security_id: pid,
+        Security.security_store: "1",
+        Security.security_order: '${MyAccount.id}_${DateTime.now().millisecondsSinceEpoch}',
+        Security.security_channel: Platform.isIOS ? 2 : 1,
+      },
+    );
 
     var rsp = await ApiService.instance.sendRequest(req);
 
-    if(rsp.statusCode == 200 && (rsp.bsnsCode == 0 || rsp.bsnsCode == 2010)){
+    if (rsp.statusCode == 200 && (rsp.bsnsCode == 0 || rsp.bsnsCode == 2010)) {
       AccountService.instance.refreshBalance();
       EasyLoading.showToast('Purchased Success');
       if (cachedReceipts.containsKey(cacheKey)) {
@@ -102,17 +106,15 @@ class PurchaseManager {
     return false;
   }
 
-
   Future<void> onPurchaseEventCallback(PurchaseDetails purchase) async {
-
     debugPrint("Recharge >> purchase callback: ${purchase.productID} pid ${purchase.purchaseID} status: ${purchase.status} error: ${purchase.error}");
 
     switch (purchase.status) {
       case PurchaseStatus.purchased:
       case PurchaseStatus.restored:
         Preferences.instance.setMap(kCachedExceptionOrderKey, {
-          'pid': purchase.productID,
-          'receipt': purchase.verificationData.serverVerificationData,
+          Security.security_pid: purchase.productID,
+          Security.security_receipt: purchase.verificationData.serverVerificationData,
         });
         var isSuc = await checkPurchase(purchase);
         rechargeEventCallback?.call(isSuc, purchase.productID);
@@ -128,18 +130,18 @@ class PurchaseManager {
       case PurchaseStatus.canceled:
         EasyLoading.dismiss();
         break;
-      }
+    }
 
     if (purchase.pendingCompletePurchase) {
-       InAppPurchase.instance.completePurchase(purchase);
+      InAppPurchase.instance.completePurchase(purchase);
     }
   }
 
   Future<void> startRecharge(String productId) async {
     debugPrint("Recharge >> startRecharge $productId, products ${_products.length}");
     ProductDetails? product;
-    for(var pro in _products){
-      if(pro.id == productId){
+    for (var pro in _products) {
+      if (pro.id == productId) {
         product = pro;
       }
     }
@@ -154,5 +156,4 @@ class PurchaseManager {
     final PurchaseParam purchaseParam = PurchaseParam(productDetails: product, applicationUserName: MyAccount.id);
     iap.buyConsumable(purchaseParam: purchaseParam);
   }
-  
 }

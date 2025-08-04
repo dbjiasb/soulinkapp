@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modules/shared/widget/keep_alive_wrapper.dart';
@@ -17,8 +18,8 @@ class ChatHistoryView extends StatelessWidget {
   final ChatHistoryViewController controller = Get.put(ChatHistoryViewController());
 
   List<ChatHistoryModel> models = [
-    ChatHistoryModel(ChatMessageType.image, 'Photos', () => KeepAliveWrapper(child: ChatCategoryView(category: ChatMessageType.image))),
-    ChatHistoryModel(ChatMessageType.video, 'Videos', () => KeepAliveWrapper(child: ChatCategoryView(category: ChatMessageType.video))),
+    ChatHistoryModel(ChatMessageType.image, Security.security_Photos, () => KeepAliveWrapper(child: ChatCategoryView(category: ChatMessageType.image))),
+    ChatHistoryModel(ChatMessageType.video, Security.security_Videos, () => KeepAliveWrapper(child: ChatCategoryView(category: ChatMessageType.video))),
   ];
 
   @override

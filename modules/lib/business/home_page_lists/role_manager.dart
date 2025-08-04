@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
 
 enum RoleListType {
@@ -27,11 +28,11 @@ class RoleManager {
 
   Future<ApiResponse> getRoleList({int version = 0, int pageIndex = 0, int targetUid = 0, RoleListType type = RoleListType.ai, int pageSize = 20}) async {
     Map<String, dynamic> params = {};
-    params['version'] = version;
-    params['index'] = pageIndex;
-    params['length'] = pageSize;
-    params['type'] = type.value;
-    params['userId'] = targetUid;
+    params[Security.security_version] = version;
+    params[Security.security_index] = pageIndex;
+    params[Security.security_length] = pageSize;
+    params[Security.security_type] = type.value;
+    params[Security.security_userId] = targetUid;
 
     ApiRequest request = ApiRequest('fetchUsers', params: params);
     return await ApiService.instance.sendRequest(request);

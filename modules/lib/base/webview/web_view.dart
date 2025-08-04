@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -8,8 +9,8 @@ class WebView extends StatelessWidget {
   WebView({super.key});
 
   Map get arguments => Get.arguments ?? {};
-  String get title => arguments['title'] ?? '';
-  String get url => arguments['url'] ?? 'https://cdn.luminaai.buzz/';
+  String get title => arguments[Security.security_title] ?? '';
+  String get url => arguments[Security.security_url] ?? 'https://cdn.luminaai.buzz/';
 
   late final WebViewController webController =
       WebViewController()

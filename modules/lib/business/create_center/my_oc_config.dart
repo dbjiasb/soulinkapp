@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui';
@@ -138,17 +139,17 @@ class OcDependency {
   }
 
   void _initializeFromMap(Map<dynamic, dynamic> map) {
-    final roleInfo = map['info']?['roleInfo'] ?? map[EncHelper.cr_cusri];
+    final roleInfo = map[Security.security_info]?[Security.security_roleInfo] ?? map[EncHelper.cr_cusri];
     if (roleInfo == null) return;
 
     // 设置必填字段
-    configs['uid'] = roleInfo['uid'];
-    configs['nickName'] = roleInfo['nickName'];
-    configs['gender'] = (roleInfo['gender'] == 1 || roleInfo['gender'] == 2) ? roleInfo['gender'] : 2;
-    configs['chatBackground'] = roleInfo['chatBackground'];
-    configs['masterUid'] = roleInfo['masterUid']??0;
-    configs['age'] = roleInfo['age'];
-    configs['avatarUrl'] = roleInfo['avatarUrl'];
+    configs[Security.security_uid] = roleInfo[Security.security_uid];
+    configs[Security.security_nickName] = roleInfo[Security.security_nickName];
+    configs[Security.security_gender] = (roleInfo[Security.security_gender] == 1 || roleInfo[Security.security_gender] == 2) ? roleInfo[Security.security_gender] : 2;
+    configs[Security.security_chatBackground] = roleInfo[Security.security_chatBackground];
+    configs[Security.security_masterUid] = roleInfo[Security.security_masterUid]??0;
+    configs[Security.security_age] = roleInfo[Security.security_age];
+    configs[Security.security_avatarUrl] = roleInfo[Security.security_avatarUrl];
 
     // 设置 EncHelper 相关字段
     final encFields = [
@@ -168,12 +169,12 @@ class OcDependency {
   }
 
   void _setDefaultValues() {
-    configs['nickName'] = '';
-    configs['gender'] = 2;
-    configs['age'] = 18;
-    configs['avatarUrl'] = '';
-    configs['chatBackground'] = '';
-    configs['masterUid'] = account.id;
+    configs[Security.security_nickName] = '';
+    configs[Security.security_gender] = 2;
+    configs[Security.security_age] = 18;
+    configs[Security.security_avatarUrl] = '';
+    configs[Security.security_chatBackground] = '';
+    configs[Security.security_masterUid] = account.id;
 
     // 设置 EncHelper 默认值
     configs[EncHelper.cr_tvid] = '';
@@ -208,8 +209,8 @@ class OcDependency {
   // 生成角色背景图
   Future<bool> createForBgRegeneration() async {
     final rtn = await OcManager.instance.generateImageBg(configs, 0);
-    if (rtn != null && rtn['statusInfo']['traceId'] != null) {
-      traceId = rtn['statusInfo']['traceId'];
+    if (rtn != null && rtn[Security.security_statusInfo][Security.security_traceId] != null) {
+      traceId = rtn[Security.security_statusInfo][Security.security_traceId];
       return true;
     } else {
       return false;
@@ -219,8 +220,8 @@ class OcDependency {
   // 编辑时重新生成背景图
   Future<bool> editForBgRegeneration() async {
     final rtn = await OcManager.instance.generateImageBg(configs, 1);
-    if (rtn != null && rtn['traceId'] != null) {
-      traceId = rtn['traceId'];
+    if (rtn != null && rtn[Security.security_traceId] != null) {
+      traceId = rtn[Security.security_traceId];
       return true;
     } else {
       return false;
@@ -234,7 +235,7 @@ class OcDependency {
   }
 
   Future<void> downloadImage(Map rtn) async {
-    final imageUrl = rtn['imageUrl'];
+    final imageUrl = rtn[Security.security_imageUrl];
     // 缓存到本地
     final response = await http.get(Uri.parse(imageUrl));
     dir ??= await getTemporaryDirectory();
@@ -322,7 +323,7 @@ class OcDependency {
       final ext = path.split('.').last;
       final croppedFilePath = path.replaceAll('.$ext', '_cropped.$ext');
 
-      await File(croppedFilePath).writeAsBytes(ext.toLowerCase() == 'png' ? img.encodePng(croppedImage) : img.encodeJpg(croppedImage));
+      await File(croppedFilePath).writeAsBytes(ext.toLowerCase() == Security.security_png ? img.encodePng(croppedImage) : img.encodeJpg(croppedImage));
       return croppedFilePath;
     }
     return '';

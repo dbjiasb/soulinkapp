@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_response.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/event_center/event_center.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/business/chat/chat_room_cells/chat_message.dart';
@@ -27,7 +28,7 @@ import '../chat_voice_player.dart';
 import './chat_bottom_bar.dart';
 
 const String chatImageDirectory = 'packages/pods/modules/assets/images/chat/';
-const String chatRoomViewTag = 'chat_room_view';
+String chatRoomViewTag = Security.security_chat_room_view;
 
 class ChatRoomView extends StatelessWidget {
   ChatRoomView({super.key});
@@ -78,7 +79,7 @@ class ChatRoomView extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 16),
           children: [
             _drawerTemplate(
-              'Report',
+              Security.security_Report,
               onTap: () {
                 ReportHelper.showReportDialog(int.parse(viewController.session.id));
               },
@@ -212,7 +213,7 @@ class ChatRoomView extends StatelessWidget {
           SizedBox(width: 4),
           GestureDetector(
             onTap: () {
-              Get.toNamed(Routers.person.name, arguments: {'personId': viewController.userId});
+              Get.toNamed(Routers.person.name, arguments: {Security.security_personId: viewController.userId});
             },
             child: Container(
               width: 32,
@@ -281,10 +282,7 @@ class ChatRoomView extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             _buildBackgroundView(),
-            SafeArea(
-              bottom: false,
-              child: Column(children: [_buildNavigationBar(), Obx(() => _buildChatRoomView()), ChatBottomBar()]),
-            ),
+            SafeArea(bottom: false, child: Column(children: [_buildNavigationBar(), Obx(() => _buildChatRoomView()), ChatBottomBar()])),
           ],
         ),
       ),
@@ -351,20 +349,20 @@ class ChatRoomViewController extends GetxController {
       session.backgroundUrl.refresh();
     }
 
-    bool call = arguments['call'] ?? false;
+    bool call = arguments[Security.security_call] ?? false;
     if (call) {
       toCall();
     }
   }
 
   onImagePrepared(Event event) {
-    ChatMessage message = event.data['message'];
+    ChatMessage message = event.data[Security.security_message];
     //替换messages中的消息
     replaceMessage(message);
   }
 
   void toCall() {
-    Get.toNamed(Routers.call.name, arguments: {'session': session.toRouter()});
+    Get.toNamed(Routers.call.name, arguments: {Security.security_session: session.toRouter()});
   }
 
   @override
@@ -395,7 +393,7 @@ class ChatRoomViewController extends GetxController {
   }
 
   static createSession(Map<String, dynamic> arguments) {
-    String sessionJson = arguments['session'];
+    String sessionJson = arguments[Security.security_session];
     Map<String, dynamic> sessionMap = jsonDecode(sessionJson);
 
     ChatSession chatSession = ChatSession.fromRouter(sessionMap);
@@ -525,7 +523,7 @@ class ChatRoomViewController extends GetxController {
     //   return;
     // }
     ChatMessage message = ChatTextMessage.fromText(text, userId);
-    sendMessage(message); 
+    sendMessage(message);
   }
 
   void sendMessage(ChatMessage message) async {
@@ -579,7 +577,7 @@ class ChatRoomViewController extends GetxController {
       }
 
       message.audioStatus.value = ChatTextAudioStatus.ready;
-    }else if(message is ChatAudioMessage){
+    } else if (message is ChatAudioMessage) {
       ChatVoiceManager.instance.downloadSrc(message.audioUrl);
     }
   }
@@ -589,12 +587,12 @@ class ChatRoomViewController extends GetxController {
     EasyLoading.show();
     ApiResponse response = await ChatManager.instance.unlockMessage(message);
     if (response.isSuccess) {
-      ChatMessage newMessage = ChatMessage.fromServer(response.data['msg']);
+      ChatMessage newMessage = ChatMessage.fromServer(response.data[Security.security_msg]);
       await downloadMessageResource(newMessage);
       await ChatManager.instance.messageHandler.insertMessage(newMessage);
 
       // 更新权益信息
-      MyAccount.setPremInfo(response.data['ownPremiumInfo']);
+      MyAccount.setPremInfo(response.data[Security.security_ownPremiumInfo]);
       EasyLoading.dismiss();
       replaceMessage(newMessage);
     } else {
@@ -619,7 +617,7 @@ class ChatRoomViewController extends GetxController {
     ApiResponse response = await ChatManager.instance.reloadMessage(message);
     if (response.isSuccess) {
       EasyLoading.dismiss();
-      ChatMessage newMessage = ChatMessage.fromServer(response.data['msg']);
+      ChatMessage newMessage = ChatMessage.fromServer(response.data[Security.security_msg]);
       await ChatManager.instance.messageHandler.insertMessage(newMessage);
       replaceMessage(newMessage);
     } else {

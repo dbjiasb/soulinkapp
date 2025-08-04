@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
@@ -110,7 +111,7 @@ class CreateAccountView extends StatelessWidget {
           ),
           child: Center(
             child: Text(
-              'Continue',
+              Security.security_Continue,
               style: TextStyle(color: viewController.canContinue.value ? Colors.white : const Color(0xFF999999), fontSize: 16, fontWeight: FontWeight.bold),
             ),
           ),
@@ -140,11 +141,11 @@ class CreateAccountView extends StatelessWidget {
   }
 
   _onPrivacyPolicyClicked() {
-    Get.toNamed(Routers.webView.name, arguments: {'title': 'Privacy policy', 'url': 'https://cdn.luminaai.buzz/lumina/privacy.html'});
+    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Privacy policy', Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'});
   }
 
   _onTermsOfServiceClicked() {
-    Get.toNamed(Routers.webView.name, arguments: {'title': 'Terms of service', 'url': 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
+    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
   }
 
   Widget _buildCheckButton() {

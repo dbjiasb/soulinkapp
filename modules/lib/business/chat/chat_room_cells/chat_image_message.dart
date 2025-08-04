@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 import 'dart:ui';
 
@@ -30,7 +31,7 @@ class ChatImageMessage extends ChatMessage {
 
   @override
   Map<String, dynamic> toServer() {
-    return {...super.toServer(), 'jsonBody': info, 'id': id};
+    return {...super.toServer(), Security.security_jsonBody: info, Security.security_id: id};
   }
 
   @override
@@ -55,7 +56,7 @@ class ChatImageMessage extends ChatMessage {
         lockInfo: {},
         nativeId: (const Uuid().v4()).replaceAll('-', ''),
       ) {
-    Map body = {'url': url, 'base64': base64 ?? ''};
+    Map body = {Security.security_url: url, Security.security_base64: base64 ?? ''};
     info = jsonEncode(body);
   }
 
@@ -66,24 +67,24 @@ class ChatImageMessage extends ChatMessage {
     return _decodedMap ?? {};
   }
 
-  String get imageUrl => decodedMap['url'] ?? '';
-  bool get prepared => decodedMap['prepared'] == 1 || (decodedMap['prepared'] == null && imageUrl.isNotEmpty);
+  String get imageUrl => decodedMap[Security.security_url] ?? '';
+  bool get prepared => decodedMap[Security.security_prepared] == 1 || (decodedMap[Security.security_prepared] == null && imageUrl.isNotEmpty);
 
   String get thumbnailBase64 {
-    return decodedMap['base64'] ?? '';
+    return decodedMap[Security.security_base64] ?? '';
   }
 
-  bool get locked => lockInfo.isEmpty || lockInfo['unlock'] == 1;
+  bool get locked => lockInfo.isEmpty || lockInfo[Security.security_unlock] == 1;
 
-  int get unlockPrice => lockInfo['cost'] ?? 0;
+  int get unlockPrice => lockInfo[Security.security_cost] ?? 0;
 
-  int get currencyType => lockInfo['costType'] ?? 0;
+  int get currencyType => lockInfo[Security.security_costType] ?? 0;
 
-  bool get canReload => locked && renewInfo['reload'] == 1;
+  bool get canReload => locked && renewInfo[Security.security_reload] == 1;
 
-  int get reloadPrice => renewInfo['cost'] ?? 0;
+  int get reloadPrice => renewInfo[Security.security_cost] ?? 0;
 
-  int get reloadCurrencyType => renewInfo['costType'] ?? 0;
+  int get reloadCurrencyType => renewInfo[Security.security_costType] ?? 0;
 }
 
 class ChatImageCell extends ChatCell {
@@ -100,7 +101,7 @@ class ChatImageCell extends ChatCell {
           if (imageMessage.prepared && imageMessage.locked)
             GestureDetector(
               onTap: () {
-                Get.toNamed(Routers.imageBrowser.name, arguments: {'imageUrl': imageMessage.imageUrl});
+                Get.toNamed(Routers.imageBrowser.name, arguments: {Security.security_imageUrl: imageMessage.imageUrl});
               },
               child: CachedNetworkImage(imageUrl: imageMessage.imageUrl, fit: BoxFit.cover),
             )
@@ -138,7 +139,7 @@ class ChatImageCell extends ChatCell {
   Widget renderReloadViewIfNeeded() {
     //使Container根据自身内容自适应宽度
     if (!imageMessage.canReload || type == ChatCellType.category) return SizedBox.shrink();
-    String text = imageMessage.reloadPrice == 0 ? 'Free' : '${imageMessage.reloadPrice} ${imageMessage.reloadCurrencyType == 1 ? 'Gems' : 'Coins'}';
+    String text = imageMessage.reloadPrice == 0 ? Security.security_Free : '${imageMessage.reloadPrice} ${imageMessage.reloadCurrencyType == 1 ? 'Gems' : 'Coins'}';
 
     return Row(
       children: [
@@ -186,7 +187,7 @@ class ChatImageCell extends ChatCell {
     );
   }
 
-  static String kChatImageUnlockPromptKey = 'kChatImageUnlockPromptKey';
+  static String kChatImageUnlockPromptKey = Security.security_kChatImageUnlockPromptKey;
 
   bool get prompted => Preferences.instance.getString(kChatImageUnlockPromptKey) != null;
 
@@ -284,7 +285,7 @@ class ChatImageCell extends ChatCell {
                           children: [
                             Image.asset('packages/modules/assets/images/chat/chat_res_lock.png', width: 16, height: 16),
                             SizedBox(width: 4),
-                            Text('Unlock', style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
+                            Text(Security.security_Unlock, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
                           ],
                         ),
                       ),

@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/preferences/preferences.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/core/account/account_service.dart';
@@ -37,22 +38,22 @@ class ChatVideoMessage extends ChatMessage {
     return _decodedMap ?? {};
   }
 
-  String get coverUrl => decodedMap['coverUrl'] ?? '';
-  String get videoUrl => decodedMap['url'] ?? '';
-  bool get prepared => decodedMap['prepared'] == 1;
+  String get coverUrl => decodedMap[Security.security_coverUrl] ?? '';
+  String get videoUrl => decodedMap[Security.security_url] ?? '';
+  bool get prepared => decodedMap[Security.security_prepared] == 1;
 
   String get thumbnailBase64 {
-    return decodedMap['base64'] ?? '';
+    return decodedMap[Security.security_base64] ?? '';
   }
 
-  bool get locked => lockInfo['unlock'] == 1;
-  int get unlockPrice => lockInfo['cost'] ?? 0;
-  int get currencyType => lockInfo['costType'] ?? 0;
+  bool get locked => lockInfo[Security.security_unlock] == 1;
+  int get unlockPrice => lockInfo[Security.security_cost] ?? 0;
+  int get currencyType => lockInfo[Security.security_costType] ?? 0;
 
-  bool get canReload => locked && renewInfo['reload'] == 1;
+  bool get canReload => locked && renewInfo[Security.security_reload] == 1;
 
-  int get reloadPrice => renewInfo['cost'] ?? 0;
-  int get reloadCurrencyType => renewInfo['costType'] ?? 0;
+  int get reloadPrice => renewInfo[Security.security_cost] ?? 0;
+  int get reloadCurrencyType => renewInfo[Security.security_costType] ?? 0;
 }
 
 class ChatVideoCell extends ChatCell {
@@ -63,7 +64,7 @@ class ChatVideoCell extends ChatCell {
   Widget renderPlayButton() {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routers.videoPlayer.name, arguments: {'videoUrl': videoMessage.videoUrl});
+        Get.toNamed(Routers.videoPlayer.name, arguments: {Security.security_videoUrl: videoMessage.videoUrl});
       },
       child: Center(
         child: Container(
@@ -118,7 +119,7 @@ class ChatVideoCell extends ChatCell {
     return type == ChatCellType.chat ? buildChatCell() : buildVideoCell();
   }
 
-  static const kChatVideoUnlockPromptKey = 'kChatVideoUnlockPromptKey';
+  static String kChatVideoUnlockPromptKey = Security.security_kChatVideoUnlockPromptKey;
 
   bool get prompted => Preferences.instance.getString(kChatVideoUnlockPromptKey) != null;
   set prompted(bool value) {
@@ -158,7 +159,8 @@ class ChatVideoCell extends ChatCell {
   Widget renderReloadViewIfNeeded() {
     //使Container根据自身内容自适应宽度
     if (!videoMessage.canReload) return SizedBox.shrink();
-    String text = videoMessage.reloadPrice == 0 ? 'Free' : '${videoMessage.reloadPrice} ${videoMessage.reloadCurrencyType == 1 ? 'Gems' : 'Coins'}';
+    String text =
+        videoMessage.reloadPrice == 0 ? Security.security_Free : '${videoMessage.reloadPrice} ${videoMessage.reloadCurrencyType == 1 ? 'Gems' : 'Coins'}';
 
     return Row(
       children: [
@@ -265,7 +267,7 @@ class ChatVideoCell extends ChatCell {
                           children: [
                             Image.asset('packages/modules/assets/images/chat/chat_res_lock.png', width: 16, height: 16),
                             SizedBox(width: 4),
-                            Text('Unlock', style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
+                            Text(Security.security_Unlock, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
                           ],
                         ),
                       ),
@@ -315,7 +317,7 @@ class ChatVideoCell extends ChatCell {
           //       children: [
           //         Image.asset('packages/modules/assets/images/chat/chat_res_lock.png', width: 16, height: 16),
           //         SizedBox(width: 4),
-          //         Text('Unlock', style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
+          //         Text(Security.security_Unlock, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
           //       ],
           //     ),
           //   ),

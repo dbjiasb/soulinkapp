@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -17,7 +18,7 @@ class TTSResult {
   TTSResult(this.ttsUrl, this.ttsDuration, this.success);
 
   Map<String, dynamic> toJson() {
-    return {'ttsUrl': ttsUrl, 'ttsDuration': ttsDuration};
+    return {Security.security_ttsUrl: ttsUrl, Security.security_ttsDuration: ttsDuration};
   }
 
   factory TTSResult.error() {
@@ -38,14 +39,14 @@ class ChatVoiceManager {
 
   Future<TTSResult> textToVoice(ChatTextMessage message) async {
     ApiRequest request = ApiRequest('convertContentToVoice',
-        params: {'userId': message.senderId, 'content': message.text});
+        params: {Security.security_userId: message.senderId, Security.security_content: message.text});
 
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
-      String url = response.data['ttsUrl'] ?? '';
+      String url = response.data[Security.security_ttsUrl] ?? '';
       String path = pathForUrl(url);
-      int duration = response.data['time'] ?? 0;
-      List<int> bytes = (response.data['result'] as List<dynamic>).map((
+      int duration = response.data[Security.security_time] ?? 0;
+      List<int> bytes = (response.data[Security.security_result] as List<dynamic>).map((
           item) => item as int).toList();
       final file = File(path);
       file.writeAsBytesSync(bytes);

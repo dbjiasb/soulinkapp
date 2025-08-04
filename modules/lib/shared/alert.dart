@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -47,7 +48,7 @@ showAlert(Widget? title, Widget? content, {String? confirmText, String? cancelTe
                         width: 143,
                         height: 50,
                         alignment: Alignment.center,
-                        child: Text(cancelText ?? 'Cancel', style: TextStyle(color: Color(0xFFCBCBCB), fontWeight: FontWeight.w600, fontSize: 16)),
+                        child: Text(cancelText ?? Security.security_Cancel, style: TextStyle(color: Color(0xFFCBCBCB), fontWeight: FontWeight.w600, fontSize: 16)),
                       ),
                     ),
                     Container(width: 2, height: 20, color: Color(0xFFFAFAFA)),
@@ -60,7 +61,7 @@ showAlert(Widget? title, Widget? content, {String? confirmText, String? cancelTe
                         width: 143,
                         height: 50,
                         alignment: Alignment.center,
-                        child: Text(confirmText ?? 'Confirm', style: TextStyle(color: Color(0xFF7D2DFF), fontWeight: FontWeight.w600, fontSize: 16)),
+                        child: Text(confirmText ?? Security.security_Confirm, style: TextStyle(color: Color(0xFF7D2DFF), fontWeight: FontWeight.w600, fontSize: 16)),
                       ),
                     ),
                   ],

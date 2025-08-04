@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:modules/base/app_info/app_manager.dart';
 import 'package:modules/base/crypt/constants.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/preferences/preferences.dart';
 import 'package:uuid/uuid.dart';
 
@@ -10,7 +11,7 @@ import 'api_config.dart';
 import 'api_request.dart';
 import 'api_response.dart';
 
-const kDeviceId = 'kDeviceId';
+String kDeviceId = Security.security_kDeviceId;
 
 class ApiService {
   //生成单利
@@ -29,7 +30,7 @@ class ApiService {
   static ApiService get instance => _instance;
 
   void init() {
-    _headers = {'Content-Type': 'application/json', 'Accept': 'application/json'};
+    _headers = {'Content-Type': 'application/json', Security.security_Accept: 'application/json'};
     _dio = Dio(
       BaseOptions(baseUrl: ApiConfig.baseUrl, connectTimeout: const Duration(seconds: 30), receiveTimeout: const Duration(seconds: 30), headers: _headers),
     );
@@ -68,25 +69,25 @@ class ApiService {
   Map<String, dynamic> base() {
     return {
       ..._tokens,
-      "did": deviceId,
+      Security.security_did: deviceId,
 
       /// guid
-      "platform": "1",
+      Security.security_platform: "1",
 
       /// platform
-      "app": "lumina&apple",
+      Security.security_app: "lumina&apple",
 
       ///channel
-      "lang": "en",
-      "ver": AppManager.instance.appVersion,
-      "build": "1",
+      Security.security_lang: Security.security_en,
+      Security.security_ver: AppManager.instance.appVersion,
+      Security.security_build: "1",
 
       /// versionname
-      "sysVer": "9.168.68.41",
-      "zone": "UTC-6",
+      Security.security_sysVer: "9.168.68.41",
+      Security.security_zone: "UTC-6",
 
       /// timezone
-      "deviceModel": "deviceName",
+      Security.security_deviceModel: Security.security_deviceName,
     };
   }
 
@@ -94,16 +95,16 @@ class ApiService {
     debugPrint('[apiService] start sendRequest ${request.toString()}');
     try {
       Map<String, dynamic> body = {
-        'method': request.method,
-        'data': [
-          {'base': base(), ...request.params},
-          {'encode': true, 'key': cryptKey},
+        Security.security_method: request.method,
+        Security.security_data: [
+          {Security.security_base: base(), ...request.params},
+          {Security.security_encode: true, Security.security_key: cryptKey},
         ],
       };
 
       Map data = {};
       data[Constants.apiName] = request.method;
-      data['body'] = Encryptor.encryptMap(body);
+      data[Security.security_body] = Encryptor.encryptMap(body);
 
       Dio dio = Dio(
         BaseOptions(
@@ -121,7 +122,7 @@ class ApiService {
       return apiResponse;
     } catch (e) {
       debugPrint('[apiService] end error ${e.toString()}');
-      return ApiResponse.withError({'code': -1, 'description': 'Network error, please try again later'});
+      return ApiResponse.withError({Security.security_code: -1, Security.security_description: 'Network error, please try again later'});
     }
   }
 }

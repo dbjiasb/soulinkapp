@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -102,9 +103,9 @@ class HomePageViewController extends GetxController {
   PageController pageController = PageController();
   var selectedIndex = 0.obs;
   List<RoleListItem> items = [
-    RoleListItem('Discovery', () => KeepAliveWrapper(child: RoleListView(type: RoleListType.ai))),
-    RoleListItem('Real', () => KeepAliveWrapper(child: RoleListView(type: RoleListType.real))),
-    RoleListItem('OC', () => KeepAliveWrapper(child: RoleListView(type: RoleListType.custom_ai))),
+    RoleListItem(Security.security_Discovery, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.ai))),
+    RoleListItem(Security.security_Real, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.real))),
+    RoleListItem(Security.security_OC, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.custom_ai))),
     RoleListItem('Pro only', () => KeepAliveWrapper(child: RoleListView(type: RoleListType.pro_only))),
   ];
 }

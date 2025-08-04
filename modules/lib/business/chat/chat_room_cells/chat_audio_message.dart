@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -44,7 +45,7 @@ class ChatAudioMessage extends ChatMessage {
       ) {
     sendState = ChatMessageSendStatus.sending.obs;
     if (isMine()) audioStatus.value = ChatTextAudioStatus.ready;
-    info = jsonEncode({'url': url, 'desc': desc, 'length': duration});
+    info = jsonEncode({Security.security_url: url, Security.security_desc: desc, Security.security_length: duration});
   }
 
   ChatAudioMessage.fromServer(Map map) : super.fromServerData(map) {}
@@ -57,7 +58,7 @@ class ChatAudioMessage extends ChatMessage {
 
   @override
   Map<String, dynamic> toServer() {
-    return {...super.toServer(), 'jsonBody': info, 'id': id};
+    return {...super.toServer(), Security.security_jsonBody: info, Security.security_id: id};
   }
 
   @override
@@ -73,18 +74,18 @@ class ChatAudioMessage extends ChatMessage {
   }
 
   @override
-  String get audioUrl => decodedMap['url'] ?? '';
+  String get audioUrl => decodedMap[Security.security_url] ?? '';
 
   @override
-  int get audioDuration => decodedMap['length'] ?? 0;
+  int get audioDuration => decodedMap[Security.security_length] ?? 0;
 
-  String get audioDesc => decodedMap['desc'] ?? '';
+  String get audioDesc => decodedMap[Security.security_desc] ?? '';
 
-  // bool get locked => lockInfo['unlock'] == 1;
+  // bool get locked => lockInfo[Security.security_unlock] == 1;
   //
-  // int get unlockPrice => lockInfo['cost'] ?? 0;
+  // int get unlockPrice => lockInfo[Security.security_cost] ?? 0;
   //
-  // int get unlockCurrency => lockInfo['costType'];
+  // int get unlockCurrency => lockInfo[Security.security_costType];
 }
 
 class ChatAudioCell extends ChatCell {
@@ -160,7 +161,7 @@ class ChatAudioView extends StatelessWidget {
 
   ChatAudioMessage get audioMessage => message as ChatAudioMessage;
 
-  // static String kChatTTSPrompted = 'kChatTTSPrompted';
+  // static String kChatTTSPrompted = Security.security_kChatTTSPrompted;
   //
   // bool get prompted => Preferences.instance.getString(kChatTTSPrompted) != null;
   //

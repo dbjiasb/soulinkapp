@@ -1,9 +1,8 @@
-import 'dart:collection';
-
 import 'package:audioplayers/audioplayers.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 
 import '../../core/util/es_helper.dart';
@@ -32,24 +31,24 @@ class OCVoicePage extends StatelessWidget {
                               onTap: () {
                                 _logic.selectItem(item);
                               },
-                              child: buildVoiceItem(item, item['name'], item['tags']),
+                              child: buildVoiceItem(item, item[Security.security_name], item[Security.security_tags]),
                             );
                           }
-                          if (_logic.selectedGender.value == 'Female' && item['gender'] == 2) {
+                          if (_logic.selectedGender.value == Security.security_Female && item[Security.security_gender] == 2) {
                             return GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 _logic.selectItem(item);
                               },
-                              child: buildVoiceItem(item, item['name'], item['tags']),
+                              child: buildVoiceItem(item, item[Security.security_name], item[Security.security_tags]),
                             );
-                          } else if (_logic.selectedGender.value == 'Male' && item['gender'] == 1) {
+                          } else if (_logic.selectedGender.value == Security.security_Male && item[Security.security_gender] == 1) {
                             return GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
                                 _logic.selectItem(item);
                               },
-                              child: buildVoiceItem(item, item['name'], item['tags']),
+                              child: buildVoiceItem(item, item[Security.security_name], item[Security.security_tags]),
                             );
                           }
                           return Container();
@@ -109,7 +108,7 @@ class OCVoicePage extends StatelessWidget {
                               alignment: Alignment.center,
                               child: Wrap(
                                 children: [
-                                  RotatedBox(quarterTurns: _logic.expandStatus.value, child: Image.asset('$commImgDir/icon_back.png',height: 16,width: 16,)),
+                                  RotatedBox(quarterTurns: _logic.expandStatus.value, child: Image.asset('$commImgDir/icon_back.png', height: 16, width: 16)),
                                   Text(value, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
                                 ],
                               ),
@@ -159,7 +158,7 @@ class OCVoicePage extends StatelessWidget {
         children: [
           Row(
             children: [
-              playingVoiceItem['vid'] == item['vid']
+              playingVoiceItem[Security.security_vid] == item[Security.security_vid]
                   ? Container(margin: EdgeInsets.only(right: 8), width: 16, height: 16, child: CircularProgressIndicator(color: AppColors.main))
                   : InkWell(
                     onTap: () {
@@ -174,7 +173,7 @@ class OCVoicePage extends StatelessWidget {
                 ),
               ),
               Obx(() {
-                return _logic.selectedItem['name'] == itemName
+                return _logic.selectedItem[Security.security_name] == itemName
                     ? Container(
                       width: 24,
                       height: 24,
@@ -186,11 +185,20 @@ class OCVoicePage extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 8),
-          Wrap(spacing: 4, runSpacing: 4, children: labels.map((label) => Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: Color(0xFF2F3031)),
-            child: Text(label, style: TextStyle(fontWeight: FontWeight.w500, color: AppColors.undo, fontSize: 11)),
-          )).toList()),
+          Wrap(
+            spacing: 4,
+            runSpacing: 4,
+            children:
+                labels
+                    .map(
+                      (label) => Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: Color(0xFF2F3031)),
+                        child: Text(label, style: TextStyle(fontWeight: FontWeight.w500, color: AppColors.undo, fontSize: 11)),
+                      ),
+                    )
+                    .toList(),
+          ),
         ],
       ),
     );
@@ -201,12 +209,12 @@ class OCVoicePage extends StatelessWidget {
       onTap: () {
         Get.back(
           result: {
-            'name': _logic.selectedItem['name'] ?? "",
-            'vid': _logic.selectedItem['vid'] ?? "",
+            Security.security_name: _logic.selectedItem[Security.security_name] ?? "",
+            Security.security_vid: _logic.selectedItem[Security.security_vid] ?? "",
             EncHelper.cr_eurl: _logic.selectedItem[EncHelper.cr_eurl] ?? "",
-            'gender': _logic.selectedItem['gender'] ?? "",
-            'def': _logic.selectedItem['def'] ?? "",
-            'tags': _logic.selectedItem['tags'] != null ? List<String>.from(_logic.selectedItem['tags']) : null,
+            Security.security_gender: _logic.selectedItem[Security.security_gender] ?? "",
+            Security.security_def: _logic.selectedItem[Security.security_def] ?? "",
+            Security.security_tags: _logic.selectedItem[Security.security_tags] != null ? List<String>.from(_logic.selectedItem[Security.security_tags]) : null,
           },
         );
       },
@@ -217,7 +225,7 @@ class OCVoicePage extends StatelessWidget {
           width: 343,
           alignment: Alignment.center,
           decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: AppColors.ocMain),
-          child: const Text('Save', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
+          child: Text(Security.security_Save, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
         ),
       ),
     );
@@ -234,7 +242,7 @@ class OCVoiceLogic extends GetxController {
 
   var expandStatus = 1.obs;
 
-  var genders = ['All Gender', 'Male', 'Female'];
+  var genders = ['All Gender', Security.security_Male, Security.security_Female];
   var selectedGender = 'All Gender'.obs;
 
   void resetGender(String? value) {
@@ -243,12 +251,12 @@ class OCVoiceLogic extends GetxController {
 
   void selectItem(Map input) {
     selectedItem.value = {
-      'name': input['name'],
-      'vid': input['vid'],
+      Security.security_name: input[Security.security_name],
+      Security.security_vid: input[Security.security_vid],
       EncHelper.cr_eurl: input[EncHelper.cr_eurl],
-      'gender': input['gender'],
-      'def': input['def'],
-      'tags': input['tags'],
+      Security.security_gender: input[Security.security_gender],
+      Security.security_def: input[Security.security_def],
+      Security.security_tags: input[Security.security_tags],
     };
   }
 
@@ -268,12 +276,12 @@ class OCVoiceLogic extends GetxController {
     config.value =
         voiceLibs.map((item) {
           return {
-            'name': item['name'] ?? "",
-            'vid': item['vid'] ?? "",
+            Security.security_name: item[Security.security_name] ?? "",
+            Security.security_vid: item[Security.security_vid] ?? "",
             EncHelper.cr_eurl: item[EncHelper.cr_eurl] ?? "",
-            'gender': item['gender'] ?? "",
-            'def': item['def'] ?? "",
-            'tags': item['tags'] != null ? List<String>.from(item['tags']) : null,
+            Security.security_gender: item[Security.security_gender] ?? "",
+            Security.security_def: item[Security.security_def] ?? "",
+            Security.security_tags: item[Security.security_tags] != null ? List<String>.from(item[Security.security_tags]) : null,
           };
         }).toList();
   }

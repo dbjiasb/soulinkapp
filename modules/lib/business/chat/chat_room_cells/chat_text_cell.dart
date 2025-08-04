@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -33,29 +34,29 @@ class ChatTextMessage extends ChatMessage {
 
   @override
   Map<String, dynamic> toServer() {
-    return {...super.toServer(), 'content': text};
+    return {...super.toServer(), Security.security_content: text};
   }
 
   @override
   Map<String, Object?> toDatabase() {
-    return {...super.toDatabase(), 'content': text};
+    return {...super.toDatabase(), Security.security_content: text};
   }
 
   // 修复后的 fromDatabase 构造函数
   ChatTextMessage.fromDatabase(Map<String, Object?> map) : super.fromLocalData(map) {
-    text = (map['content'] as String?) ?? '';
-    sessionId = (map['sessionId'] as String?) ?? '';
-    sendState = ChatMessageSendStatus.fromDigit(map['sendState'] as int? ?? 0).obs;
-    bool locked = lockInfo['unlock'] == 1;
+    text = (map[Security.security_content] as String?) ?? '';
+    sessionId = (map[Security.security_sessionId] as String?) ?? '';
+    sendState = ChatMessageSendStatus.fromDigit(map[Security.security_sendState] as int? ?? 0).obs;
+    bool locked = lockInfo[Security.security_unlock] == 1;
     audioStatus = ChatTextAudioStatus.fromDigit(locked ? ChatTextAudioStatus.ready.digit : 0).obs;
   }
 
   ChatTextMessage.fromServer(Map map) : super.fromServerData(map) {
-    text = map['content'] ?? '';
-    int sessionType = map['sessionType'] ?? 0;
-    sessionId = sessionType == 0 ? (senderId == ownerId ? receiverId : senderId).toString() : (map['sessionId'] ?? '');
+    text = map[Security.security_content] ?? '';
+    int sessionType = map[Security.security_sessionType] ?? 0;
+    sessionId = sessionType == 0 ? (senderId == ownerId ? receiverId : senderId).toString() : (map[Security.security_sessionId] ?? '');
     sendState = ChatMessageSendStatus.fromDigit(0).obs;
-    bool locked = map['unlock']?['unlock'] == 1;
+    bool locked = map[Security.security_unlock]?[Security.security_unlock] == 1;
     audioStatus = ChatTextAudioStatus.fromDigit(locked ? ChatTextAudioStatus.ready.digit : 0).obs;
   }
 
@@ -86,9 +87,9 @@ class ChatTextMessage extends ChatMessage {
     return _decodedInfo!;
   }
 
-  int get unlockPrice => lockInfo['cost'];
+  int get unlockPrice => lockInfo[Security.security_cost];
 
-  int get unlockCurrency => lockInfo['costType'];
+  int get unlockCurrency => lockInfo[Security.security_costType];
 
   @override
   set info(String value) {
@@ -97,10 +98,10 @@ class ChatTextMessage extends ChatMessage {
   }
 
   @override
-  int get audioDuration => decodedInfo['ttsDuration'] ?? 0;
+  int get audioDuration => decodedInfo[Security.security_ttsDuration] ?? 0;
 
   @override
-  String get audioUrl => decodedInfo['ttsUrl'] ?? '';
+  String get audioUrl => decodedInfo[Security.security_ttsUrl] ?? '';
 }
 
 class ChatTextCell extends ChatCell {
@@ -181,7 +182,7 @@ class ChatTextAudioView extends StatelessWidget {
     }
   }
 
-  static String kChatTTSPrompted = 'kChatTTSPrompted';
+  static String kChatTTSPrompted = Security.security_kChatTTSPrompted;
 
   bool get prompted => Preferences.instance.getString(kChatTTSPrompted) != null;
 

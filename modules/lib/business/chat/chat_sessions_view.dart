@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/event_center/event_center.dart';
@@ -35,7 +36,7 @@ class ChatSessionCell extends StatelessWidget {
   Widget build(context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routers.chat.name, arguments: {'session': session.toRouter()});
+        Get.toNamed(Routers.chat.name, arguments: {Security.security_session: session.toRouter()});
       },
       child: Container(
         color: Colors.transparent, //不设置背景颜色，否则会影响点击事件，暂不清楚原因
@@ -106,7 +107,7 @@ class ChatSessionsView extends StatelessWidget {
           end: Alignment.bottomRight,
         ).createShader(bounds);
       },
-      child: Text('Message', style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w900)),
+      child: Text(Security.security_Message, style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w900)),
     );
   }
 

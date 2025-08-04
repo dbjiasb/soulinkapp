@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -34,8 +35,8 @@ class ChatGiftMessage extends ChatMessage {
     return _decodedInfo ?? {};
   }
 
-  String get imageUrl => decodedInfo['giftIcon'] ?? '';
-  int get giftCount => decodedInfo['giftCount'] ?? 0;
+  String get imageUrl => decodedInfo[Security.security_giftIcon] ?? '';
+  int get giftCount => decodedInfo[Security.security_giftCount] ?? 0;
 }
 
 class ChatGiftCell extends ChatCell {
@@ -63,7 +64,7 @@ class ChatGiftCell extends ChatCell {
             child: Row(
               mainAxisSize: MainAxisSize.min, // 防止横向拉伸
               children: [
-                Text('Sent', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 11)),
+                Text(Security.security_Sent, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 11)),
                 SizedBox(width: 4),
                 CachedNetworkImage(imageUrl: giftMessage.imageUrl, width: 32, height: 32),
                 SizedBox(width: 4),

@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -69,7 +70,7 @@ class ChatCategoryViewController extends GetxController {
     EasyLoading.show();
     ApiResponse response = await ChatManager.instance.unlockMessage(message);
     if (response.isSuccess) {
-      ChatMessage newMessage = ChatMessage.fromServer(response.data['msg']);
+      ChatMessage newMessage = ChatMessage.fromServer(response.data[Security.security_msg]);
       await ChatManager.instance.messageHandler.insertMessage(newMessage);
       EasyLoading.dismiss();
       replaceMessage(newMessage);

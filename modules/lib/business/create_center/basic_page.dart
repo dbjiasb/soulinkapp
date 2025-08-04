@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 
 import '../../base/router/router_names.dart';
@@ -27,7 +28,7 @@ class BasicCore extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _createInfoLabel('Identify'),
+                _createInfoLabel(Security.security_Identify),
                 const SizedBox(height: 12),
                 _createRoleImageSection(),
                 const SizedBox(height: 8),
@@ -35,15 +36,15 @@ class BasicCore extends StatelessWidget {
                 const SizedBox(height: 8),
                 _createGenderSelectionSection(),
                 const SizedBox(height: 20),
-                _createInfoLabel('Sound'),
+                _createInfoLabel(Security.security_Sound),
                 const SizedBox(height: 12),
                 _createSoundSelectionSection(),
                 const SizedBox(height: 20),
-                _createInfoLabel('Age'),
+                _createInfoLabel(Security.security_Age),
                 const SizedBox(height: 12),
                 _createAgeSliderSection(),
                 const SizedBox(height: 20),
-                _createInfoLabel('Personality'),
+                _createInfoLabel(Security.security_Personality),
                 const SizedBox(height: 12),
                 _createShynessSliderSection(),
                 const SizedBox(height: 8),
@@ -51,7 +52,7 @@ class BasicCore extends StatelessWidget {
                 const SizedBox(height: 8),
                 _createMysterySliderSection(),
                 const SizedBox(height: 20),
-                _createInfoLabel('Physique'),
+                _createInfoLabel(Security.security_Physique),
                 const SizedBox(height: 12),
                 _createBodyTypeSliderSection(),
                 const SizedBox(height: 32),
@@ -229,7 +230,7 @@ class BasicCore extends StatelessWidget {
             Obx(
               () => Row(
                 children: [
-                  const Text('Name', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12)),
+                  Text(Security.security_Name, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12)),
                   Expanded(
                     child: Text(
                       textAlign: TextAlign.center,
@@ -291,7 +292,7 @@ class BasicCore extends StatelessWidget {
           decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: AppColors.ocBox),
           child: Column(
             children: [
-              const Row(children: [Text('Gender', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12))]),
+              Row(children: [Text(Security.security_Gender, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12))]),
               const SizedBox(height: 8),
               Row(
                 children: [
@@ -315,7 +316,7 @@ class BasicCore extends StatelessWidget {
                             children: [
                               Image.asset(width: 24, height: 24, '$commImgDir/female.png'),
                               const SizedBox(width: 4),
-                              const Text('Female', style: TextStyle(color: Color(0xFFF832B2), fontSize: 11, fontWeight: FontWeight.w600)),
+                              Text(Security.security_Female, style: TextStyle(color: Color(0xFFF832B2), fontSize: 11, fontWeight: FontWeight.w600)),
                             ],
                           ),
                         ),
@@ -343,7 +344,7 @@ class BasicCore extends StatelessWidget {
                             children: [
                               Image.asset(width: 24, height: 24, '$commImgDir/male.png'),
                               const SizedBox(width: 4),
-                              const Text('Female', style: TextStyle(color: Color(0xFF339FF0), fontSize: 11, fontWeight: FontWeight.w600)),
+                              Text(Security.security_Female, style: TextStyle(color: Color(0xFF339FF0), fontSize: 11, fontWeight: FontWeight.w600)),
                             ],
                           ),
                         ),
@@ -410,8 +411,11 @@ class BasicCore extends StatelessWidget {
                       spacing: 20,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        _controller.selectedSound['name'] != null
-                            ? Text(_controller.selectedSound['name'], style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.undo))
+                        _controller.selectedSound[Security.security_name] != null
+                            ? Text(
+                              _controller.selectedSound[Security.security_name],
+                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.undo),
+                            )
                             : Container(),
                         Image.asset(height: 16, width: 16, '$commImgDir/arrow_right.png'),
                         const SizedBox(width: 12),
@@ -470,11 +474,11 @@ class BasicCore extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: Column(
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Shy', style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
-                  Text('Flirty', style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text(Security.security_Shy, style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text(Security.security_Flirty, style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
                 ],
               ),
               Obx(
@@ -507,7 +511,7 @@ class BasicCore extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(EncHelper.cr_pesi, style: const TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
-                  const Text('Optimistic', style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text(Security.security_Optimistic, style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
                 ],
               ),
               Obx(
@@ -536,13 +540,21 @@ class BasicCore extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: Column(
             children: [
-              const Row(
+              Row(
                 children: [
                   Expanded(
-                    child: Text(textAlign: TextAlign.left, 'Ordinary', style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
+                    child: Text(
+                      textAlign: TextAlign.left,
+                      Security.security_Ordinary,
+                      style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11),
+                    ),
                   ),
                   Expanded(
-                    child: Text(textAlign: TextAlign.right, 'Mysterious', style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
+                    child: Text(
+                      textAlign: TextAlign.right,
+                      Security.security_Mysterious,
+                      style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11),
+                    ),
                   ),
                 ],
               ),
@@ -572,11 +584,11 @@ class BasicCore extends StatelessWidget {
           padding: const EdgeInsets.all(12),
           child: Column(
             children: [
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Slim', style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
-                  Text('Curvy', style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text(Security.security_Slim, style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text(Security.security_Curvy, style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
                 ],
               ),
               Obx(
@@ -607,7 +619,7 @@ class BasicCore extends StatelessWidget {
           () => Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Physique', style: TextStyle(color: AppColors.undo, fontSize: 11, fontWeight: FontWeight.w500)),
+              Text(Security.security_Physique, style: TextStyle(color: AppColors.undo, fontSize: 11, fontWeight: FontWeight.w500)),
               SizedBox(width: 4),
               RotatedBox(quarterTurns: _controller.expandPhysiqueRotate.value, child: Image.asset('$commImgDir/arrow_right.png', width: 16, height: 16)),
             ],
@@ -623,8 +635,8 @@ class BasicCore extends StatelessWidget {
       return Column(
         children:
             labels.map((item) {
-              final itemKey = item['itemKey'] as String? ?? '';
-              final tags = item['tags'] as List<String>? ?? [];
+              final itemKey = item[Security.security_itemKey] as String? ?? '';
+              final tags = item[Security.security_tags] as List<String>? ?? [];
 
               return Container(
                 padding: const EdgeInsets.all(16),
@@ -679,8 +691,8 @@ class BasicCore extends StatelessWidget {
       return Column(
         children:
             labels.map((item) {
-              final itemKey = item['itemKey'] as String? ?? '';
-              final tags = item['tags'] as List<String>? ?? [];
+              final itemKey = item[Security.security_itemKey] as String? ?? '';
+              final tags = item[Security.security_tags] as List<String>? ?? [];
 
               return Container(
                 padding: const EdgeInsets.all(16),
@@ -762,10 +774,12 @@ class BasicPage extends StatelessWidget {
           Container(
             padding: EdgeInsets.all(16),
             child: Row(
-              children: [const Text('1', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'SF Pro bold')),
-                const Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: 'SF Pro bold')),]
+              children: [
+                const Text('1', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'SF Pro bold')),
+                const Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: 'SF Pro bold')),
+              ],
             ),
-          )
+          ),
         ],
       ),
       backgroundColor: AppColors.main,
@@ -802,7 +816,7 @@ class BasicPage extends StatelessWidget {
                   color: _controller.canProceed.value ? AppColors.ocMain : Color(0xFF42364A),
                 ),
                 child: Text(
-                  'Next',
+                  Security.security_Next,
                   style: TextStyle(color: _controller.canProceed.value ? Colors.white : Color(0xFF86649F), fontSize: 14, fontWeight: FontWeight.w900),
                 ),
               ),
@@ -877,35 +891,35 @@ class BasicController extends GetxController {
     characterImageUrl.value = characterConfig[EncHelper.cr_piurl] ?? '';
 
     // Name
-    characterName.value = characterConfig['nickName'] ?? '';
+    characterName.value = characterConfig[Security.security_nickName] ?? '';
     nameInputController.text = characterName.value;
 
     // Age
-    if (characterConfig['age'] == null || characterConfig['age'] < 18 || characterConfig['age'] > 60) {
+    if (characterConfig[Security.security_age] == null || characterConfig[Security.security_age] < 18 || characterConfig[Security.security_age] > 60) {
       characterAge.value = 18;
     } else {
-      characterAge.value = characterConfig['age'];
+      characterAge.value = characterConfig[Security.security_age];
     }
 
     // Gender
-    selectedGender.value = characterConfig['gender'] ?? 2;
+    selectedGender.value = characterConfig[Security.security_gender] ?? 2;
 
     physiqueAttributes.value = characterConfig[EncHelper.cr_cfg] ?? {};
 
-    if (physiqueAttributes['shy'] != null) {
-      shynessLevel.value = double.parse(physiqueAttributes['shy'].toString());
+    if (physiqueAttributes[Security.security_shy] != null) {
+      shynessLevel.value = double.parse(physiqueAttributes[Security.security_shy].toString());
     }
 
     if (physiqueAttributes[EncHelper.cr_pesi] != null) {
       optimismLevel.value = double.parse(physiqueAttributes[EncHelper.cr_pesi].toString());
     }
 
-    if (physiqueAttributes['Ordinary'] != null) {
-      mysteryLevel.value = double.parse(physiqueAttributes['Ordinary'].toString());
+    if (physiqueAttributes[Security.security_Ordinary] != null) {
+      mysteryLevel.value = double.parse(physiqueAttributes[Security.security_Ordinary].toString());
     }
 
-    if (physiqueAttributes['Slim'] != null) {
-      bodyType.value = double.parse(physiqueAttributes['Slim'].toString());
+    if (physiqueAttributes[Security.security_Slim] != null) {
+      bodyType.value = double.parse(physiqueAttributes[Security.security_Slim].toString());
     }
   }
 
@@ -917,93 +931,93 @@ class BasicController extends GetxController {
       }
 
       malePhysiqueLabels.value =
-          RxList.from(configMap['config'][EncHelper.cr_dis_cfg]['2'][EncHelper.cr_apr][EncHelper.cr_exim] as List).map((item) {
+          RxList.from(configMap[Security.security_config][EncHelper.cr_dis_cfg]['2'][EncHelper.cr_apr][EncHelper.cr_exim] as List).map((item) {
             return {
-              'itemKey': item['itemKey'] ?? "",
-              'showType': item['showType'] ?? 0,
-              'desc': item['desc'] ?? "",
-              'startDesc': item['startDesc'] ?? "",
-              'endDesc': item['endDesc'] ?? "",
-              'startValue': item['startValue'] ?? 0,
-              'endValue': item['endValue'] ?? 0,
-              'defaultValue': item['defaultValue'] ?? 0,
-              'tags': item['tags'] != null ? List<String>.from(item['tags']) : null,
+              Security.security_itemKey: item[Security.security_itemKey] ?? "",
+              Security.security_showType: item[Security.security_showType] ?? 0,
+              Security.security_desc: item[Security.security_desc] ?? "",
+              Security.security_startDesc: item[Security.security_startDesc] ?? "",
+              Security.security_endDesc: item[Security.security_endDesc] ?? "",
+              Security.security_startValue: item[Security.security_startValue] ?? 0,
+              Security.security_endValue: item[Security.security_endValue] ?? 0,
+              Security.security_defaultValue: item[Security.security_defaultValue] ?? 0,
+              Security.security_tags: item[Security.security_tags] != null ? List<String>.from(item[Security.security_tags]) : null,
               EncHelper.cr_defval2: item[EncHelper.cr_defval2] ?? "",
               EncHelper.cr_tbs: item[EncHelper.cr_tbs] != null ? List<String>.from(item[EncHelper.cr_tbs]) : null,
-              'icon': item['icon'] ?? "",
+              Security.security_icon: item[Security.security_icon] ?? "",
             };
           }).toList();
       malePhysiqueLabels.refresh();
       maleCollapsedPhysiqueLabels.addAll(
-        (configMap['config'][EncHelper.cr_dis_cfg]['2'][EncHelper.cr_apr][EncHelper.cr_fields] as List).map((item) {
+        (configMap[Security.security_config][EncHelper.cr_dis_cfg]['2'][EncHelper.cr_apr][EncHelper.cr_fields] as List).map((item) {
           return {
-            'itemKey': item['itemKey'] ?? "",
-            'showType': item['showType'] ?? 0,
-            'desc': item['desc'] ?? "",
-            'startDesc': item['startDesc'] ?? "",
-            'endDesc': item['endDesc'] ?? "",
-            'startValue': item['startValue'] ?? 0,
-            'endValue': item['endValue'] ?? 0,
-            'defaultValue': item['defaultValue'] ?? 0,
-            'tags': item['tags'] != null ? List<String>.from(item['tags']) : null,
+            Security.security_itemKey: item[Security.security_itemKey] ?? "",
+            Security.security_showType: item[Security.security_showType] ?? 0,
+            Security.security_desc: item[Security.security_desc] ?? "",
+            Security.security_startDesc: item[Security.security_startDesc] ?? "",
+            Security.security_endDesc: item[Security.security_endDesc] ?? "",
+            Security.security_startValue: item[Security.security_startValue] ?? 0,
+            Security.security_endValue: item[Security.security_endValue] ?? 0,
+            Security.security_defaultValue: item[Security.security_defaultValue] ?? 0,
+            Security.security_tags: item[Security.security_tags] != null ? List<String>.from(item[Security.security_tags]) : null,
             EncHelper.cr_defval2: item[EncHelper.cr_defval2] ?? "",
             EncHelper.cr_tbs: item[EncHelper.cr_tbs] != null ? List<String>.from(item[EncHelper.cr_tbs]) : null,
-            'icon': item['icon'] ?? "",
+            Security.security_icon: item[Security.security_icon] ?? "",
           };
         }).toList(),
       );
 
       femalePhysiqueLabels.value =
-          RxList.from(configMap['config'][EncHelper.cr_dis_cfg]['1'][EncHelper.cr_apr][EncHelper.cr_exim] as List).map((item) {
+          RxList.from(configMap[Security.security_config][EncHelper.cr_dis_cfg]['1'][EncHelper.cr_apr][EncHelper.cr_exim] as List).map((item) {
             return {
-              'itemKey': item['itemKey'] ?? "",
-              'showType': item['showType'] ?? 0,
-              'desc': item['desc'] ?? "",
-              'startDesc': item['startDesc'] ?? "",
-              'endDesc': item['endDesc'] ?? "",
-              'startValue': item['startValue'] ?? 0,
-              'endValue': item['endValue'] ?? 0,
-              'defaultValue': item['defaultValue'] ?? 0,
-              'tags': item['tags'] != null ? List<String>.from(item['tags']) : null,
+              Security.security_itemKey: item[Security.security_itemKey] ?? "",
+              Security.security_showType: item[Security.security_showType] ?? 0,
+              Security.security_desc: item[Security.security_desc] ?? "",
+              Security.security_startDesc: item[Security.security_startDesc] ?? "",
+              Security.security_endDesc: item[Security.security_endDesc] ?? "",
+              Security.security_startValue: item[Security.security_startValue] ?? 0,
+              Security.security_endValue: item[Security.security_endValue] ?? 0,
+              Security.security_defaultValue: item[Security.security_defaultValue] ?? 0,
+              Security.security_tags: item[Security.security_tags] != null ? List<String>.from(item[Security.security_tags]) : null,
               EncHelper.cr_defval2: item[EncHelper.cr_defval2] ?? "",
               EncHelper.cr_tbs: item[EncHelper.cr_tbs] != null ? List<String>.from(item[EncHelper.cr_tbs]) : null,
-              'icon': item['icon'] ?? "",
+              Security.security_icon: item[Security.security_icon] ?? "",
             };
           }).toList();
       femalePhysiqueLabels.refresh();
 
       femaleCollapsedPhysiqueLabels.addAll(
-        (configMap['config'][EncHelper.cr_dis_cfg]['1'][EncHelper.cr_apr][EncHelper.cr_fields] as List).map((item) {
+        (configMap[Security.security_config][EncHelper.cr_dis_cfg]['1'][EncHelper.cr_apr][EncHelper.cr_fields] as List).map((item) {
           return {
-            'itemKey': item['itemKey'] ?? "",
-            'showType': item['showType'] ?? 0,
-            'desc': item['desc'] ?? "",
-            'startDesc': item['startDesc'] ?? "",
-            'endDesc': item['endDesc'] ?? "",
-            'startValue': item['startValue'] ?? 0,
-            'endValue': item['endValue'] ?? 0,
-            'defaultValue': item['defaultValue'] ?? 0,
-            'tags': item['tags'] != null ? List<String>.from(item['tags']) : null,
+            Security.security_itemKey: item[Security.security_itemKey] ?? "",
+            Security.security_showType: item[Security.security_showType] ?? 0,
+            Security.security_desc: item[Security.security_desc] ?? "",
+            Security.security_startDesc: item[Security.security_startDesc] ?? "",
+            Security.security_endDesc: item[Security.security_endDesc] ?? "",
+            Security.security_startValue: item[Security.security_startValue] ?? 0,
+            Security.security_endValue: item[Security.security_endValue] ?? 0,
+            Security.security_defaultValue: item[Security.security_defaultValue] ?? 0,
+            Security.security_tags: item[Security.security_tags] != null ? List<String>.from(item[Security.security_tags]) : null,
             EncHelper.cr_defval2: item[EncHelper.cr_defval2] ?? "",
             EncHelper.cr_tbs: item[EncHelper.cr_tbs] != null ? List<String>.from(item[EncHelper.cr_tbs]) : null,
-            'icon': item['icon'] ?? "",
+            Security.security_icon: item[Security.security_icon] ?? "",
           };
         }).toList(),
       );
 
       // Voice configurations
-      voiceConfigurations.addAll(List<Map<dynamic, dynamic>>.from(configMap['config'][EncHelper.cr_tcfg]));
+      voiceConfigurations.addAll(List<Map<dynamic, dynamic>>.from(configMap[Security.security_config][EncHelper.cr_tcfg]));
 
       if (characterConfig[EncHelper.cr_tvid].isNotEmpty) {
         for (var config in voiceConfigurations) {
-          if (config['vid'] == characterConfig[EncHelper.cr_tvid]) {
+          if (config[Security.security_vid] == characterConfig[EncHelper.cr_tvid]) {
             selectedSound.value = {
-              'name': config['name'],
-              'vid': config['vid'],
+              Security.security_name: config[Security.security_name],
+              Security.security_vid: config[Security.security_vid],
               EncHelper.cr_eurl: config[EncHelper.cr_eurl],
-              'gender': config['gender'],
-              'def': config['def'],
-              'tags': config['tags'],
+              Security.security_gender: config[Security.security_gender],
+              Security.security_def: config[Security.security_def],
+              Security.security_tags: config[Security.security_tags],
             };
             break;
           }
@@ -1023,7 +1037,7 @@ class BasicController extends GetxController {
       canProceed.value = _validateForm();
       final validationResult = await OcManager.instance.checkPic(uploadedImageUrl);
       characterConfig[EncHelper.cr_piurl] = uploadedImageUrl;
-      ocDependency.traceId = validationResult?['statusInfo']?['traceId'] ?? '';
+      ocDependency.traceId = validationResult?[Security.security_statusInfo]?[Security.security_traceId] ?? '';
     } else {
       EasyLoading.showToast('Unknown error, please upload again.');
     }
@@ -1032,7 +1046,7 @@ class BasicController extends GetxController {
 
   void updateCharacterName(String input) {
     characterName.value = input;
-    characterConfig['nickName'] = characterName.value;
+    characterConfig[Security.security_nickName] = characterName.value;
     if (characterName.value.length >= 3) {
       nameValidationError.value = '';
     }
@@ -1041,35 +1055,35 @@ class BasicController extends GetxController {
 
   void selectGender(int genderValue) {
     selectedGender.value = genderValue;
-    characterConfig['gender'] = selectedGender.value;
+    characterConfig[Security.security_gender] = selectedGender.value;
   }
 
   void navigateToVoiceLibrary() async {
     final selectedVoice = await Get.toNamed(Routers.createVoice.name, arguments: voiceConfigurations);
     if (selectedVoice != null) {
       selectedSound.value = {
-        'name': selectedVoice['name'],
-        'vid': selectedVoice['vid'],
+        Security.security_name: selectedVoice[Security.security_name],
+        Security.security_vid: selectedVoice[Security.security_vid],
         EncHelper.cr_eurl: selectedVoice[EncHelper.cr_eurl],
-        'gender': selectedVoice['gender'],
-        'def': selectedVoice['def'],
-        'tags': selectedVoice['tags'],
+        Security.security_gender: selectedVoice[Security.security_gender],
+        Security.security_def: selectedVoice[Security.security_def],
+        Security.security_tags: selectedVoice[Security.security_tags],
       };
-      characterConfig[EncHelper.cr_tvid] = selectedVoice['vid'];
-      characterConfig[EncHelper.cr_cfg]['mp3_url'] = selectedSound[EncHelper.cr_eurl];
-      characterConfig[EncHelper.cr_cfg]['mp3_name'] = selectedSound['name'];
+      characterConfig[EncHelper.cr_tvid] = selectedVoice[Security.security_vid];
+      characterConfig[EncHelper.cr_cfg][Security.security_mp3_url] = selectedSound[EncHelper.cr_eurl];
+      characterConfig[EncHelper.cr_cfg][Security.security_mp3_name] = selectedSound[Security.security_name];
       soundSelected.value = true;
     }
   }
 
   void adjustAge(int newAge) {
     characterAge.value = newAge;
-    characterConfig['age'] = characterAge.value;
+    characterConfig[Security.security_age] = characterAge.value;
   }
 
   void adjustShynessLevel(double level) {
     shynessLevel.value = level;
-    characterConfig[EncHelper.cr_cfg]['shy'] = level.toInt();
+    characterConfig[EncHelper.cr_cfg][Security.security_shy] = level.toInt();
   }
 
   void adjustOptimismLevel(double level) {
@@ -1079,12 +1093,12 @@ class BasicController extends GetxController {
 
   void adjustMysteryLevel(double level) {
     mysteryLevel.value = level;
-    characterConfig[EncHelper.cr_cfg]['Ordinary'] = level.toInt();
+    characterConfig[EncHelper.cr_cfg][Security.security_Ordinary] = level.toInt();
   }
 
   void adjustBodyType(double type) {
     bodyType.value = type;
-    characterConfig[EncHelper.cr_cfg]['Slim'] = type.toInt();
+    characterConfig[EncHelper.cr_cfg][Security.security_Slim] = type.toInt();
   }
 
   void selectPhysiqueAttribute(String key, String value) {

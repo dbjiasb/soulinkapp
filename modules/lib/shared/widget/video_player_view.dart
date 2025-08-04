@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 // 用Getx库实现一个视频播放器，播放器接受 videoUrl 作为参数，并播放视频
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -56,7 +57,7 @@ class VideoPlayerViewController extends GetxController {
   late VideoPlayerController playerController;
   late Future<void> initializeVideoPlayerFuture;
 
-  String get videoUrl => Get.arguments['videoUrl'] ?? '';
+  String get videoUrl => Get.arguments[Security.security_videoUrl] ?? '';
 
   var isPlaying = false.obs;
 

@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modules/business/account/account_view.dart';
@@ -83,19 +84,19 @@ class SkeletonViewController extends GetxController {
 
   List<BottomBarItem> items = <BottomBarItem>[
     BottomBarItem(
-      name: 'list',
+      name: Security.security_list,
       builder: () {
         return KeepAliveWrapper(child: HomePageView());
       },
     ),
     BottomBarItem(
-      name: 'chat',
+      name: Security.security_chat,
       builder: () {
         return KeepAliveWrapper(child: ChatSessionsView());
       },
     ),
     BottomBarItem(
-      name: 'personal',
+      name: Security.security_personal,
       builder: () {
         return KeepAliveWrapper(child: AccountView());
       },

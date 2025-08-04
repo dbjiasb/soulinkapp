@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/database/data_center.dart';
 import 'package:modules/core/account/account_service.dart';
 import 'package:sqflite/sqflite.dart';
@@ -26,8 +27,8 @@ class ChatMessageHandler {
 
   Future<void> upgradeTable() async {
     Map upgradeInfo = DataCenter.instance.upgradeInfo;
-    int oldVersion = upgradeInfo['oldVersion'] as int;
-    int newVersion = upgradeInfo['newVersion'] as int;
+    int oldVersion = upgradeInfo[Security.security_oldVersion] as int;
+    int newVersion = upgradeInfo[Security.security_newVersion] as int;
 
     for (int i = oldVersion; i < newVersion; i++) {
       int toVersion = i + 1;

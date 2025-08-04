@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
@@ -35,13 +36,13 @@ class DataCenter {
   }
 
   void onCreate(Database database, int version) async {
-    createInfo['version'] = version;
+    createInfo[Security.security_version] = version;
     observers.map((observer) => {observer.onDatabaseCreate(database, version)});
   }
 
   void onUpgrade(Database database, int oldVersion, int newVersion) async {
-    upgradeInfo['oldVersion'] = oldVersion;
-    upgradeInfo['newVersion'] = newVersion;
+    upgradeInfo[Security.security_oldVersion] = oldVersion;
+    upgradeInfo[Security.security_newVersion] = newVersion;
     observers.map((observer) => {observer.onDatabaseUpgrade(database, oldVersion, newVersion)});
   }
 }

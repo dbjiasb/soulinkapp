@@ -1,10 +1,11 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ImageViewer extends StatelessWidget {
   ImageViewer({super.key});
-  final String imageUrl = Get.arguments['imageUrl'];
+  final String imageUrl = Get.arguments[Security.security_imageUrl];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

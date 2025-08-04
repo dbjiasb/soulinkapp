@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -305,11 +306,11 @@ class ChatBottomBar extends StatelessWidget {
   Widget buildDetailedBar() {
     String path = 'packages/modules/assets/images/chat/chat_bottom_';
     List<Map<String, dynamic>> items = [
-      {'title': 'Custom', 'icon': '${path}custom.png', 'action': onCreateImageButtonClicked},
-      {'title': 'Ask for Pic', 'icon': '${path}image.png', 'action': askForImage},
-      {'title': 'History', 'icon': '${path}history.png', 'action': onChatHistoryButtonClicked},
-      {'title': 'Ask for Video', 'icon': '${path}video.png', 'action': askForVideo},
-      {'title': 'Voice Call', 'icon': '${path}audio.png', 'action': toCall},
+      {Security.security_title: Security.security_Custom, Security.security_icon: '${path}custom.png', Security.security_action: onCreateImageButtonClicked},
+      {Security.security_title: 'Ask for Pic', Security.security_icon: '${path}image.png', Security.security_action: askForImage},
+      {Security.security_title: Security.security_History, Security.security_icon: '${path}history.png', Security.security_action: onChatHistoryButtonClicked},
+      {Security.security_title: 'Ask for Video', Security.security_icon: '${path}video.png', Security.security_action: askForVideo},
+      {Security.security_title: 'Voice Call', Security.security_icon: '${path}audio.png', Security.security_action: toCall},
     ];
 
     return Container(
@@ -324,7 +325,7 @@ class ChatBottomBar extends StatelessWidget {
           Map<String, dynamic> item = items[index];
           return GestureDetector(
             onTap: () {
-              item['action']?.call();
+              item[Security.security_action]?.call();
             },
             child: Column(
               children: [
@@ -333,13 +334,13 @@ class ChatBottomBar extends StatelessWidget {
                   height: 56,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(color: Color(0x26FFFFFF), borderRadius: BorderRadius.all(Radius.circular(10))),
-                  child: Image.asset(item['icon'] ?? '', width: 32, height: 32),
+                  child: Image.asset(item[Security.security_icon] ?? '', width: 32, height: 32),
                 ),
                 SizedBox(height: 4),
                 Container(
                   alignment: Alignment.center,
                   height: 16,
-                  child: Text(item['title'] ?? '', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 11)),
+                  child: Text(item[Security.security_title] ?? '', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 11)),
                 ),
                 SizedBox(height: 12),
               ],
@@ -504,7 +505,7 @@ class ChatBottomBarController extends GetxController {
     if (compressed == null) return;
 
     EasyLoading.show();
-    String? url = await FilePushService.instance.upload(compressed, FileType.im, ext: 'jpg');
+    String? url = await FilePushService.instance.upload(compressed, FileType.im, ext: Security.security_jpg);
     if (url == null || url.isEmpty) {
       EasyLoading.showError('Upload failed, please try again later');
       return;

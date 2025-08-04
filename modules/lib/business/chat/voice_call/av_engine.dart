@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
 import 'package:modules/base/crypt/constants.dart';
@@ -61,10 +62,10 @@ class AVEngine {
         break;
 
       case TRTCCloudListener.onUserVideoAvailable:
-        if (params["available"]) {
-          addRemoteViewStreamID(params["userId"]);
+        if (params[Security.security_available]) {
+          addRemoteViewStreamID(params[Security.security_userId]);
         } else {
-          deleteRemoteViewStreamID(params["userId"]);
+          deleteRemoteViewStreamID(params[Security.security_userId]);
         }
         break;
 
@@ -213,10 +214,10 @@ class AVEngine {
   static int breakNum = 0;
   void interruptAI(int receiverId) {
     Map data = {
-      "type": 20001,
-      "sender": _userId,
-      "receiver": ['$receiverId'],
-      Constants.carrier: {"id": '$_userId-$receiverId-${breakNum++}', "timestamp": DateTime.now().millisecondsSinceEpoch ~/ 1000},
+      Security.security_type: 20001,
+      Security.security_sender: _userId,
+      Security.security_receiver: ['$receiverId'],
+      Constants.carrier: {Security.security_id: '$_userId-$receiverId-${breakNum++}', Security.security_timestamp: DateTime.now().millisecondsSinceEpoch ~/ 1000},
     };
     try {
       String encodedData = jsonEncode(data);

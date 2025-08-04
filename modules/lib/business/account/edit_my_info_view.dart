@@ -3,6 +3,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/shared/app_theme.dart';
 import 'package:modules/shared/sheet.dart';
 
@@ -33,7 +34,7 @@ class EditMyInfoPage extends StatelessWidget {
             onTap: controller.saveMyInfo,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Text('Save', style: TextStyle(color: AppColors.primary, fontSize: 14, fontWeight: FontWeight.bold)),
+              child: Text(Security.security_Save, style: TextStyle(color: AppColors.primary, fontSize: 14, fontWeight: FontWeight.bold)),
             ),
           ),
         ],
@@ -82,7 +83,7 @@ class EditMyInfoPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Profile', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+                    Text(Security.security_Profile, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                       height: 80,
@@ -118,7 +119,7 @@ class EditMyInfoPage extends StatelessWidget {
       child: Row(
         spacing: 4,
         children: [
-          Text('Name', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+          Text(Security.security_Name, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
           Spacer(),
           Expanded(
             child: TextField(
@@ -142,7 +143,7 @@ class EditMyInfoPage extends StatelessWidget {
       child: Row(
         spacing: 4,
         children: [
-          Text('Gender', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+          Text(Security.security_Gender, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
           Spacer(),
           Obx(() => Text(controller.genderText.value, style: TextStyle(color: Colors.white, fontSize: 11, height: 1.0))),
           GestureDetector(onTap: controller.toggleGender, child: Image.asset('$assetsDir/arrow_right.png', height: 16, width: 16)),
@@ -159,7 +160,7 @@ class EditMyInfoPage extends StatelessWidget {
       child: Row(
         spacing: 4,
         children: [
-          Text('Birthday', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+          Text(Security.security_Birthday, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
           Spacer(),
           Obx(
             () => Text(
@@ -263,13 +264,13 @@ class EditMyInfoLogic extends GetxController {
   void toggleGender() {
     switch (genderText.value) {
       case 'Male':
-        genderText.value = 'Female';
+        genderText.value = Security.security_Female;
         break;
       case 'Female':
-        genderText.value = 'unknown';
+        genderText.value = Security.security_unknown;
         break;
       case 'unknown':
-        genderText.value = 'Male';
+        genderText.value = Security.security_Male;
         break;
     }
   }
@@ -288,7 +289,12 @@ class EditMyInfoLogic extends GetxController {
         break;
     }
     EasyLoading.show(status: 'Updating information...');
-    final rtn = await AccountService.instance.updateMyInfo(name: nameController.text, birthday: birthdayText.value.toString(), gender: gender, bio: profileController.text);
+    final rtn = await AccountService.instance.updateMyInfo(
+      name: nameController.text,
+      birthday: birthdayText.value.toString(),
+      gender: gender,
+      bio: profileController.text,
+    );
     if (!rtn) {
       EasyLoading.showToast('Failed to update, please retry later');
       return;

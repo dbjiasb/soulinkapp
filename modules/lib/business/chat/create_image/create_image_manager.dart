@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_request.dart';
 import 'package:modules/base/api_service/api_response.dart';
@@ -7,8 +8,8 @@ import 'package:modules/base/buffer_queue/buffer_queue.dart';
 class PromptModel {
   final Map data;
   PromptModel(this.data);
-  String get name => data['typeDesc'] ?? '';
-  List get groups => data['subGroups'] ?? [];
+  String get name => data[Security.security_typeDesc] ?? '';
+  List get groups => data[Security.security_subGroups] ?? [];
 
   // 使用 late 修饰符实现懒加载
   late final List tags = _mergeTags();
@@ -16,8 +17,8 @@ class PromptModel {
   /// 计算标签列表的私有方法
   List _mergeTags() {
     return groups.fold<List>([], (previousValue, element) {
-      // 获取 element 中的 'tags' 字段
-      final tags = element['tags'];
+      // 获取 element 中的 Security.security_tags 字段
+      final tags = element[Security.security_tags];
       // 检查 tags 是否为 Iterable<String> 类型
       if (tags is Iterable) {
         previousValue.addAll(tags);
@@ -53,11 +54,11 @@ class CreateImageManager {
       return config;
     }
 
-    ApiRequest request = ApiRequest('queryPhotoPrompts', params: {'targetUid': userId.toString()});
+    ApiRequest request = ApiRequest('queryPhotoPrompts', params: {Security.security_targetUid: userId.toString()});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
-      List<PromptModel> prompts = (response.data['groups'] as List).map((e) => PromptModel(e)).toList();
-      CreateImageConfig config = CreateImageConfig(prompts, response.data['cost'] ?? 0, response.data['costType'] ?? 0);
+      List<PromptModel> prompts = (response.data[Security.security_groups] as List).map((e) => PromptModel(e)).toList();
+      CreateImageConfig config = CreateImageConfig(prompts, response.data[Security.security_cost] ?? 0, response.data[Security.security_costType] ?? 0);
       cache.setObject(userId, config);
       return config;
     } else {
@@ -66,7 +67,7 @@ class CreateImageManager {
   }
 
   Future<ApiResponse> createImage(int userId, List options) async {
-    ApiRequest request = ApiRequest('generateImage', params: {'tags': options, 'targetUid': userId});
+    ApiRequest request = ApiRequest('generateImage', params: {Security.security_tags: options, Security.security_targetUid: userId});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     return response;
   }

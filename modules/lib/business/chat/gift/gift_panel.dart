@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -14,12 +15,12 @@ class GiftItem {
   final Map<String, dynamic> info;
   GiftItem(this.info);
 
-  String get giftUrl => info['giftIcon'] ?? '';
-  String get giftName => info['giftName'] ?? '';
-  int get currency => info['currencyType'] ?? 0;
+  String get giftUrl => info[Security.security_giftIcon] ?? '';
+  String get giftName => info[Security.security_giftName] ?? '';
+  int get currency => info[Security.security_currencyType] ?? 0;
   String get currencyIcon => 'packages/modules/assets/images/${currency == 1 ? 'gem' : 'coin'}.png';
-  int get price => info['price'] ?? 0;
-  int get giftId => info['giftId'] ?? 0;
+  int get price => info[Security.security_price] ?? 0;
+  int get giftId => info[Security.security_giftId] ?? 0;
 }
 
 class GiftPanel extends StatelessWidget {
@@ -126,7 +127,7 @@ class GiftPanel extends StatelessWidget {
                                 padding: EdgeInsets.symmetric(horizontal: 18),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(color: Color(0xFFE962F6), borderRadius: BorderRadius.all(Radius.circular(14))),
-                                child: Text('Send', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
+                                child: Text(Security.security_Send, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.white)),
                               ),
                             ),
                           ],
@@ -168,7 +169,7 @@ class GiftPanelViewController extends GetxController {
     }
     ApiResponse response = await GiftManager.instance.queryGifts(recipient);
     if (response.isSuccess) {
-      items.value = response.data['panels'][0]['gifts'].map<GiftItem>((item) => GiftItem(item)).toList();
+      items.value = response.data[Security.security_panels][0][Security.security_gifts].map<GiftItem>((item) => GiftItem(item)).toList();
       listStatus.value = items.isEmpty ? ListStatus.empty : ListStatus.success;
       if (items.isNotEmpty) {
         selectedItem.value = items[0];

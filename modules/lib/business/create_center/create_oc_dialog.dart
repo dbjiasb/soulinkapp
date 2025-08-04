@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -29,7 +30,7 @@ class CreateOcDialog extends StatelessWidget {
   }
 
   void _showCopyrightAgreement() {
-    Get.to(WebView(),arguments: {'title':'Copyright Agreement','url':'https://cdn.luminaai.buzz/h5/protocol/oc_copyright.html'});
+    Get.to(WebView(),arguments: {Security.security_title:'Copyright Agreement',Security.security_url:'https://cdn.luminaai.buzz/h5/protocol/oc_copyright.html'});
   }
 
   Widget _buildHeaderSection() {
@@ -71,7 +72,7 @@ class CreateOcDialog extends StatelessWidget {
                           ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white))
                           : _logic.shouldPay.value
                           ? _buildShouldPayWidget(btnTextStyle)
-                          : Wrap(spacing: 2, children: [RichText(text: TextSpan(text: 'Continue', style: btnTextStyle))]),
+                          : Wrap(spacing: 2, children: [RichText(text: TextSpan(text: Security.security_Continue, style: btnTextStyle))]),
                 ),
               ),
             ),
@@ -127,7 +128,7 @@ class CreateOcDialog extends StatelessWidget {
   }
 
   Future<void> toCreatePage() async {
-    EasyLoading.show(status: 'Checking');
+    EasyLoading.show(status: Security.security_Checking);
     final rtn = await _logic.injectDepen();
     EasyLoading.dismiss();
     if (rtn) {
@@ -221,7 +222,7 @@ class CreateOcDialog extends StatelessWidget {
     //       Image.asset(width: 18, height: 18, 'assets/images/ic_unlimited.webp', package: 'app_biz'),
     //       RichText(
     //         text: const TextSpan(
-    //           text: 'Free',
+    //           text: Security.security_Free,
     //           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17, fontFamily: 'SF Pro Bold', color: Color(0xFFD1F254)),
     //         ),
     //       ),
@@ -255,7 +256,7 @@ class CreateAiDialogLogic extends GetxController {
   // 预创建角色，触发消费
   Future<bool> createDraft() async {
     final rsp = await OcDependency.createDraft();
-    if (rsp?['statusInfo']?['code'] == 2000) {
+    if (rsp?[Security.security_statusInfo]?[Security.security_code] == 2000) {
       // 资产不足，无法创建
       return false;
     }
@@ -270,7 +271,7 @@ class CreateAiDialogLogic extends GetxController {
     rsp.then((map) {
       if (map != null) {
         entryInfo = map;
-        if (entryInfo['status'] == 1) {
+        if (entryInfo[Security.security_status] == 1) {
           // 有草稿
           shouldPay.value = false;
         } else {

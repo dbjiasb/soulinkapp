@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -193,7 +194,7 @@ class AdvanceCore extends StatelessWidget {
                                         style: TextStyle(color: i % 2 == 0 ? Colors.black : Colors.white, fontSize: 12, fontWeight: FontWeight.w500, height: 2),
                                         controller: _logic.controllers[i],
                                         onChanged: (value) {
-                                          i % 2 == 0 ? _logic.onInputDialog('user', value, i) : _logic.onInputDialog('bot', value, i);
+                                          i % 2 == 0 ? _logic.onInputDialog(Security.security_user, value, i) : _logic.onInputDialog(Security.security_bot, value, i);
                                         },
                                         maxLines: null,
                                         minLines: 1,
@@ -324,7 +325,7 @@ class AdvancePage extends StatelessWidget {
                 ),
                 // 禁用状态颜色
                 child: Text(
-                  'Generate',
+                  Security.security_Generate,
                   style: TextStyle(color: _logic.toGen.value ? Colors.white : Color(0xFF86649F), fontSize: 14, fontWeight: FontWeight.w900),
                 ),
               ),
@@ -419,7 +420,7 @@ class AdvanceController extends GetxController {
     if (config[EncHelper.cr_alts] != null) {
       for (int i = 0; i < config[EncHelper.cr_alts].length; i++) {
         controllers.add(TextEditingController());
-        controllers[i].text = config[EncHelper.cr_alts][i]['content'];
+        controllers[i].text = config[EncHelper.cr_alts][i][Security.security_content];
         dialogStyle.add(config[EncHelper.cr_alts][i]);
       }
     }
@@ -461,16 +462,16 @@ class AdvanceController extends GetxController {
   }
 
   void onInputDialog(String msgFrom, String content, int index) {
-    dialogStyle[index]['content'] = content;
+    dialogStyle[index][Security.security_content] = content;
     config[EncHelper.cr_alts] = dialogStyle;
     dialogStyle.refresh();
   }
 
   void addRound() {
     if (dialogStyle.length < 10) {
-      dialogStyle.add({'msgFrom': 'user', 'content': '${EncHelper.cr_caa}user\'s message'});
+      dialogStyle.add({Security.security_msgFrom: Security.security_user, Security.security_content: '${EncHelper.cr_caa}user\'s message'});
       controllers.add(TextEditingController());
-      dialogStyle.add({'msgFrom': 'bot', 'content': '${EncHelper.cr_caa}OC\'s message'});
+      dialogStyle.add({Security.security_msgFrom: Security.security_bot, Security.security_content: '${EncHelper.cr_caa}OC\'s message'});
       controllers.add(TextEditingController());
       config[EncHelper.cr_alts] = dialogStyle;
     }

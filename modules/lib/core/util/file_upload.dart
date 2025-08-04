@@ -1,10 +1,10 @@
-import 'package:flutter/services.dart' show MethodChannel, rootBundle;
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show MethodChannel, rootBundle;
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:qcloud_cos_client/qcloud_cos_client.dart';
-
-
 
 import '../../base/api_service/api_request.dart';
 import '../../base/api_service/api_response.dart';
@@ -50,7 +50,7 @@ class FilePushService {
 
     String secretId = config[EncHelper.upl_tcId] ?? '';
     String secretKey = config[EncHelper.upl_tcSecret] ?? '';
-    String region = config['region'] ?? '';
+    String region = config[Security.security_region] ?? '';
     String bucketName = config[EncHelper.upl_tcBucket] ?? '';
     String token = config[EncHelper.upl_tcST] ?? '';
 
@@ -102,12 +102,12 @@ class FilePushService {
   Future<Map<String, dynamic>> getConfig(int bsnsType, {String ext = ''}) async {
     ApiRequest req = ApiRequest(
       'obtainCosConfig',
-      params: {'scene': bsnsType, 'filename': ext.isEmpty ? '' : '${bsnsType}_${DateTime.now().microsecondsSinceEpoch}.$ext'},
+      params: {Security.security_scene: bsnsType, Security.security_filename: ext.isEmpty ? '' : '${bsnsType}_${DateTime.now().microsecondsSinceEpoch}.$ext'},
     );
 
     ApiResponse? rsp = await ApiService.instance.sendRequest(req);
     if (rsp.isSuccess) {
-      return rsp.data['config'] ?? {};
+      return rsp.data[Security.security_config] ?? {};
     }
 
     return {};
@@ -115,7 +115,7 @@ class FilePushService {
 
   /// 以下方法没用，保留用以混淆
 
-  static const MethodChannel _channel = MethodChannel('oss_aliyun_plugin');
+  static MethodChannel _channel = MethodChannel(Security.security_oss_aliyun_plugin);
 
   Future<List<int>> loadFile() async {
     var bytEncHelper = await rootBundle.load("packagEncHelper/app_biz/assets/imagEncHelper/loginbg.jpg");
@@ -129,7 +129,7 @@ class FilePushService {
   Future<String> getBaseUrl() async {
     if (BaseUrl.length > 0) return BaseUrl;
 
-    BaseUrl = await _channel.invokeMethod('getBaseUrl');
+    BaseUrl = await _channel.invokeMethod(Security.security_getBaseUrl);
     return BaseUrl;
   }
 
@@ -143,10 +143,10 @@ class FilePushService {
     try {
       // **动态监听进度 & 结果**
       _channel.setMethodCallHandler((call) async {
-        if (call.method == "uploadProgrEncHelpers") {
+        if (call.method == Security.security_uploadProgrEncHelpers) {
           double progrEncHelpers = call.arguments;
           onProgrEncHelpers(progrEncHelpers); // 触发上传进度回调
-        } else if (call.method == "uploadComplete") {
+        } else if (call.method == Security.security_uploadComplete) {
           bool succEncHelpers = call.arguments;
           if (succEncHelpers) {
             String url = await getBaseUrl() + "/" + fileName;
@@ -160,7 +160,7 @@ class FilePushService {
       });
 
       // **调用 iOS 端上传方法**
-      await _channel.invokeMethod('uploadfile', {"data": fileData, "name": fileName});
+      await _channel.invokeMethod(Security.security_uploadfile, {Security.security_data: fileData, Security.security_name: fileName});
     } catch (e) {
       print("Upload failed: $e");
       onComplete(false, null); // 失败时返回 false

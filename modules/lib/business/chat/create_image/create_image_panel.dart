@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_response.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/chat/chat_room/chat_room_view.dart';
 import 'package:modules/business/chat/create_image/create_image_manager.dart';
 import 'package:modules/shared/widget/balance_view.dart';
@@ -89,7 +90,7 @@ class CreateImagePanel extends GetView<CreateImagePanelController> {
                                             ? BoxDecoration(color: const Color(0xFF7D2DFF), borderRadius: BorderRadius.circular(8))
                                             : BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(0xFFE6DFE9)),
                                     child: Text(
-                                      e['desc'] ?? '',
+                                      e[Security.security_desc] ?? '',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 12,
@@ -131,7 +132,7 @@ class CreateImagePanel extends GetView<CreateImagePanelController> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Create', style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w900)),
+                Text(Security.security_Create, style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w900)),
                 Container(padding: const EdgeInsets.symmetric(horizontal: 4), child: Image.asset(viewController.currencyIcon, width: 16, height: 16)),
                 Text(viewController.price.toString(), style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w900)),
               ],

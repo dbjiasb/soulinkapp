@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:ui';
@@ -23,18 +24,18 @@ class CallInfo {
   Map<String, dynamic> data;
   CallInfo(this.data);
   int get callId => data[Constants.dialId] ?? 0;
-  String get token => data['token'] ?? '';
+  String get token => data[Security.security_token] ?? '';
   int get remainFreeTime => data[Constants.remaining] ?? 0;
   int get rtcType => data[Constants.dialType] ?? 0;
-  String get appId => data['appId'] ?? '';
+  String get appId => data[Security.security_appId] ?? '';
   String get rtcSelfUid => data[Constants.initiator] ?? '';
   String get rtcTargetUid => data[Constants.recipient] ?? '';
-  String get roomId => data['roomId'] ?? '';
-  int get ai => data['ai'] ?? 0;
+  String get roomId => data[Security.security_roomId] ?? '';
+  int get ai => data[Security.security_ai] ?? 0;
   int get costEveryMinute => data[Constants.costPerMinute] ?? 0;
   int get currencyType => data[Constants.propType] ?? 0;
   double get earnEveryMinute => data[Constants.profitPerMinute] ?? 0;
-  int get anchor => data['anchor'] ?? 0;
+  int get anchor => data[Security.security_anchor] ?? 0;
 }
 
 class VoiceCallView extends StatelessWidget {
@@ -49,7 +50,7 @@ class VoiceCallView extends StatelessWidget {
     if (status == CallStatus.aiThinking) return 'I\'m thinking...';
     if (status == CallStatus.aiSpeaking) return 'Interrupt AI';
     if (status == CallStatus.userSpeaking) return 'I\'am listening...';
-    return 'nothing';
+    return Security.security_nothing;
   }
 
   Widget callStatusView() {
@@ -221,7 +222,7 @@ class VoiceCallView extends StatelessWidget {
 }
 
 class VoiceCallViewController extends GetxController {
-  final ChatSession session = ChatSession.fromRouter(jsonDecode(Get.arguments['session']));
+  final ChatSession session = ChatSession.fromRouter(jsonDecode(Get.arguments[Security.security_session]));
   CallInfo? callInfo;
   bool isEnd = false;
   bool isEngineCreated = false;
@@ -265,7 +266,7 @@ class VoiceCallViewController extends GetxController {
     ApiResponse response = await CallManager.instance.dial(userId: int.parse(session.id));
 
     int callId = response.data[Constants.dialId] ?? 0;
-    String appId = response.data['appId'] ?? '';
+    String appId = response.data[Security.security_appId] ?? '';
 
     if (!response.isSuccess || callId == 0 || appId.isEmpty) {
       close();
@@ -315,7 +316,7 @@ class VoiceCallViewController extends GetxController {
 
   onReceiveCustomEvent(Map data) {
     if (data[Constants.commandId] == 1) {
-      String json = data['message'];
+      String json = data[Security.security_message];
       try {
         handleCustomEvent(jsonDecode(json));
       } catch (e) {
@@ -325,7 +326,7 @@ class VoiceCallViewController extends GetxController {
   }
 
   void handleCustomEvent(Map event) {
-    int eventId = event['type'] ?? 0;
+    int eventId = event[Security.security_type] ?? 0;
     switch (eventId) {
       case 10003:
         {
@@ -335,9 +336,9 @@ class VoiceCallViewController extends GetxController {
         }
       case 10000: //字幕
         {
-          String sender = event['sender'];
-          String text = event[Constants.carrier]?['text'] ?? '';
-          bool isEnd = event[Constants.carrier]?['end'] ?? false;
+          String sender = event[Security.security_sender];
+          String text = event[Constants.carrier]?[Security.security_text] ?? '';
+          bool isEnd = event[Constants.carrier]?[Security.security_end] ?? false;
           // String round = event[Constants.carrier]?['roundid'] ?? '';
           // int? startMs = event[Constants.carrier]?['start_time_ms'] ?? -1;
           // String target = '';
@@ -358,8 +359,8 @@ class VoiceCallViewController extends GetxController {
 
       case 10001:
         {
-          int? state = event[Constants.carrier]['state'] ?? 0;
-          // int? timestamp = event[Constants.carrier]['timestamp'] ?? 0;
+          int? state = event[Constants.carrier][Security.security_state] ?? 0;
+          // int? timestamp = event[Constants.carrier][Security.security_timestamp] ?? 0;
           switch (state) {
             case 1: // 聆听中
               /// 在短时间内拨打下一个电话的时候没有回调ready导致没有计时，这里判断一下开启计时

@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 // import 'package:app_biz/common/app_theme.dart';
 // import 'package:app_biz/services/route_service.dart';
 // import 'package:audioplayers/audioplayers.dart';
@@ -150,7 +151,7 @@
 //               ),
 //               color: Colors.black),
 //           child: const Text(
-//             'Next',
+//             Security.security_Next,
 //             style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900),
 //           ),
 //         ),

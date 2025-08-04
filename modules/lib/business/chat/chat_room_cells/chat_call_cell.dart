@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -27,8 +28,8 @@ class ChatCallMessage extends ChatMessage {
   }
 
   ChatCallMessage.fromDatabase(Map<String, Object?> map) : super.fromLocalData(map) {
-    sessionId = (map['sessionId'] as String?) ?? '';
-    sendState = ChatMessageSendStatus.fromDigit(map['sendState'] as int? ?? 0).obs;
+    sessionId = (map[Security.security_sessionId] as String?) ?? '';
+    sendState = ChatMessageSendStatus.fromDigit(map[Security.security_sendState] as int? ?? 0).obs;
   }
 
   Map<String, dynamic>? _data;
@@ -41,8 +42,8 @@ class ChatCallMessage extends ChatMessage {
     return _data ?? {};
   }
 
-  String get callType => (data['audio'] as int? ?? 0) == 1 ? 'Audio' : 'Video';
-  int get callDuration => (data['callTime'] ?? 0) ~/ 1000;
+  String get callType => (data[Security.security_audio] as int? ?? 0) == 1 ? Security.security_Audio : Security.security_Video;
+  int get callDuration => (data[Security.security_callTime] ?? 0) ~/ 1000;
   @override
   String get externalText => '$callType call duration ${DateFormatter.formatSeconds(callDuration)}';
 }

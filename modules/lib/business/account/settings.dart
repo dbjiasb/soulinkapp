@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -39,7 +40,7 @@ class AccountSettings extends StatelessWidget {
                 children: [
                   GestureDetector(onTap: () => Get.back(), child: Icon(Icons.arrow_back_ios, color: Colors.white)),
                   SizedBox(width: 16),
-                  Text('Setting', style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+                  Text(Security.security_Setting, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
                 ],
               ),
             ),
@@ -78,11 +79,11 @@ class AccountSettings extends StatelessWidget {
   }
 
   void checkTermsOfService() {
-    Get.toNamed(Routers.webView.name, arguments: {'title': 'Terms of service', 'url': 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
+    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
   }
 
   void checkPrivacyPolicy() {
-    Get.toNamed(Routers.webView.name, arguments: {'title': 'Privacy policy', 'url': 'https://cdn.luminaai.buzz/lumina/privacy.html'});
+    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Privacy policy', Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'});
   }
 
   void logout() {

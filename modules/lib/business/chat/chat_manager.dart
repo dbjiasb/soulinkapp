@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:modules/base/crypt/constants.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/event_center/event_center.dart';
 import 'package:modules/base/preferences/preferences.dart';
 import 'package:modules/base/push_service/push_service.dart';
@@ -13,13 +14,13 @@ import './chat_message_handler.dart';
 import './chat_session_handler.dart';
 import 'chat_room_cells/chat_message.dart';
 
-const String kEventCenterDidPreparedImageMessage = 'kEventCenterDidPreparedImageMessage';
+String kEventCenterDidPreparedImageMessage = Security.security_kEventCenterDidPreparedImageMessage;
 
-const String kEventCenterDidQueriedNewMessages = 'kEventCenterDidQueriedNewMessages';
-const String kEventCenterDidReceivedNewMessages = 'kEventCenterDidReceivedNewMessages';
+String kEventCenterDidQueriedNewMessages = Security.security_kEventCenterDidQueriedNewMessages;
+String kEventCenterDidReceivedNewMessages = Security.security_kEventCenterDidReceivedNewMessages;
 
-const String kEventCenterDidEnterChatRoom = 'kEventCenterDidEnterChatRoom';
-const String kEventCenterWillExitChatRoom = 'kEventCenterWillExitChatRoom';
+String kEventCenterDidEnterChatRoom = Security.security_kEventCenterDidEnterChatRoom;
+String kEventCenterWillExitChatRoom = Security.security_kEventCenterWillExitChatRoom;
 
 //扩展ChatSession类，新增已发送消息id数组
 final _sentMessages = Expando<Set<int>>();
@@ -133,11 +134,11 @@ class ChatManager {
     ChatMessage message = ChatMessage.fromServer(data);
     await messageHandler.insertMessage(message);
     //刷新图片
-    EventCenter.instance.sendEvent(kEventCenterDidPreparedImageMessage, {'message': message});
+    EventCenter.instance.sendEvent(kEventCenterDidPreparedImageMessage, {Security.security_message: message});
   }
 
   void onReceivedNewMessages(Event event) async {
-    PushObject object = event.data['userInfo'] as PushObject;
+    PushObject object = event.data[Security.security_userInfo] as PushObject;
 
     //TODO: 待重构
     if (object.type == 100000 + 4) {
@@ -209,10 +210,10 @@ class ChatManager {
 
   //发送消息
   Future<SendMessageResponse> sendMessage(ChatMessage message) async {
-    ApiRequest request = ApiRequest('sendChatMsg', params: {'msg': message.toServer()});
+    ApiRequest request = ApiRequest('sendChatMsg', params: {Security.security_msg: message.toServer()});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
-      ChatMessage newMessage = ChatMessage.fromServer(response.data['msg']);
+      ChatMessage newMessage = ChatMessage.fromServer(response.data[Security.security_msg]);
       int result = await messageHandler.updateLocalMessage(newMessage);
       debugPrint('插入消息结果: $result');
       addSentMessages(newMessage);
@@ -250,7 +251,7 @@ class ChatManager {
 
     isQueryingMessages = true;
     debugPrint('[${DateTime.now()}] [ChatManager] [PullTag] getHistoryMessages: $lastPullTag ');
-    ApiRequest request = ApiRequest('syncChatHistory', params: {'position': lastPullTag});
+    ApiRequest request = ApiRequest('syncChatHistory', params: {Security.security_position: lastPullTag});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
       await handleApiResponse(response);
@@ -260,7 +261,7 @@ class ChatManager {
 
     isQueryingMessages = false;
 
-    bool hasMore = response.data['hasMore'] == 1;
+    bool hasMore = response.data[Security.security_hasMore] == 1;
     if (hasMore) {
       getHistoryMessages();
     } else {}
@@ -301,12 +302,12 @@ class ChatManager {
         session = localSession;
       } else {
         session = ChatSession(
-          id: rawSession['id'].toString(),
-          name: rawSession['title'],
-          avatar: rawSession['icon'],
+          id: rawSession[Security.security_id].toString(),
+          name: rawSession[Security.security_title],
+          avatar: rawSession[Security.security_icon],
           lastMessageTime: lastMessage.date,
           lastMessageText: lastMessage.externalText,
-          accountType: rawSession['acctType'] ?? 1,
+          accountType: rawSession[Security.security_acctType] ?? 1,
         );
       }
 
@@ -365,9 +366,9 @@ class ChatManager {
     ApiRequest request = ApiRequest(
       'sayHello',
       params: {
-        'userId': int.tryParse(session.id),
-        'toGroup': [0],
-        'status': 2,
+        Security.security_userId: int.tryParse(session.id),
+        Security.security_toGroup: [0],
+        Security.security_status: 2,
       },
     );
     ApiResponse response = await ApiService.instance.sendRequest(request);
@@ -387,12 +388,12 @@ class ChatManager {
     if (MyAccount.isWkPrem && MyAccount.freeAdoLeftTimes > 0 || MyAccount.isMthPrem || MyAccount.isYrPrem) {
       usePrem = 1;
     }
-    ApiRequest request = ApiRequest('deblockingMessage', params: {'mid': message.uuid, 'usePrem': usePrem});
+    ApiRequest request = ApiRequest('deblockingMessage', params: {Security.security_mid: message.uuid, Security.security_usePrem: usePrem});
     return await ApiService.instance.sendRequest(request);
   }
 
   Future<ApiResponse> reloadMessage(ChatMessage message) async {
-    ApiRequest request = ApiRequest('replaceMsg', params: {'uuid': message.uuid, 'action': 1});
+    ApiRequest request = ApiRequest('replaceMsg', params: {Security.security_uuid: message.uuid, Security.security_action: 1});
     return await ApiService.instance.sendRequest(request);
   }
 }

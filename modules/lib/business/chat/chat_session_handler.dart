@@ -1,14 +1,15 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/core/account/account_service.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../base/database/data_center.dart';
 import 'chat_session.dart';
 
-const kEventCenterDidCreatedNewSession = "kEventCenterDidCreatedNewSession";
+String kEventCenterDidCreatedNewSession = Security.security_kEventCenterDidCreatedNewSession;
 
 class ChatSessionHandler {
   int get ownerId => AccountService.instance.account.userId;
-  Database get database =>  DataCenter.instance.database;
+  Database get database => DataCenter.instance.database;
 
   ChatSessionHandler() {
     Map createInfo = DataCenter.instance.createInfo;
@@ -33,7 +34,6 @@ class ChatSessionHandler {
   }
 
   Future<List<ChatSession>> querySessions({String? sessionId, int? limit, int? offset}) async {
-
     String where = "ownerId = ?${sessionId != null ? " AND id = '$sessionId'" : ""}";
 
     if (offset != null && offset > 0) {
@@ -62,8 +62,8 @@ class ChatSessionHandler {
 
   Future<void> upgradeTable() async {
     Map upgradeInfo = DataCenter.instance.upgradeInfo;
-    int oldVersion = upgradeInfo['oldVersion'] as int;
-    int newVersion = upgradeInfo['newVersion'] as int;
+    int oldVersion = upgradeInfo[Security.security_oldVersion] as int;
+    int newVersion = upgradeInfo[Security.security_newVersion] as int;
 
     for (int i = oldVersion; i < newVersion; i++) {
       int toVersion = i + 1;

@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
@@ -47,7 +48,7 @@ class AudioManager {
     final tempDir = await getTemporaryDirectory();
 
     // Create recording subdirectory
-    final dirPath = path.join(tempDir.path, 'record');
+    final dirPath = path.join(tempDir.path, Security.security_record);
     final outputDir = Directory(dirPath);
     await outputDir.create(recursive: true);
 
@@ -117,7 +118,7 @@ class AudioManager {
     String dataUrl = await FilePushService.instance.upload(
         data,
         FileType.im,
-        ext: 'm4a'
+        ext: Security.security_m4a
     ) ?? '';
 
     beginTime = null;  // Reset start time

@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -14,21 +15,21 @@ class ApiResponse {
   late final String trunk;
   Map data = {};
 
-  int get bsnsCode => data[Constants.statusData]?['code'] ?? -1;
+  int get bsnsCode => data[Constants.statusData]?[Security.security_code] ?? -1;
 
   bool get isSuccess => statusCode == 200 && bsnsCode == 0;
 
   static withResponse(Map<String, dynamic> response) {
     ApiResponse apiResponse =
         ApiResponse(response: response)
-          ..statusCode = int.tryParse(response['code']) ?? 0
-          ..trunk = response['body'] ?? {};
+          ..statusCode = int.tryParse(response[Security.security_code]) ?? 0
+          ..trunk = response[Security.security_body] ?? {};
     try {
       final string = Decryptor.decrypt(apiResponse.trunk);
       JsonDecoder decoder = const JsonDecoder();
 
       apiResponse.data = decoder.convert(string);
-      apiResponse.description = apiResponse.data[Constants.statusData]?['msg'] ?? '';
+      apiResponse.description = apiResponse.data[Constants.statusData]?[Security.security_msg] ?? '';
     } catch (e) {
       apiResponse.description = 'Network error, please try again later';
       debugPrint('ApiResponse withData error: $e');
@@ -38,8 +39,8 @@ class ApiResponse {
 
   static withError(Map<String, dynamic> error) {
     return ApiResponse(response: error)
-      ..statusCode = error['code'] ?? 0
-      ..description = error['description'] ?? {};
+      ..statusCode = error[Security.security_code] ?? 0
+      ..description = error[Security.security_description] ?? {};
   }
 
   dynamic valueForKey(String key) {

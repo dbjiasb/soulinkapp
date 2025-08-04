@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
 import 'package:modules/base/buffer_queue/buffer_queue.dart';
 
@@ -36,7 +37,7 @@ class GiftManager {
       return value;
     }
 
-    ApiRequest request = ApiRequest('queryPropList', params: {'targetUid': recipient});
+    ApiRequest request = ApiRequest('queryPropList', params: {Security.security_targetUid: recipient});
 
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
@@ -49,7 +50,7 @@ class GiftManager {
   Future<SendGiftResponse> sendGift(SendGiftData data) async {
     ApiRequest request = ApiRequest(
       'sendGift',
-      params: {'toUserId': data.recipient, 'giftId': data.giftId, 'giftCount': data.giftCount, 'targetAccountStatus': data.receiverStatus},
+      params: {Security.security_toUserId: data.recipient, Security.security_giftId: data.giftId, Security.security_giftCount: data.giftCount, Security.security_targetAccountStatus: data.receiverStatus},
     );
 
     ApiResponse response = await ApiService.instance.sendRequest(request);
@@ -57,13 +58,13 @@ class GiftManager {
       SendGiftResponse result = SendGiftResponse();
       result.isSuccess = true;
       result.giftId = data.giftId;
-      result.balance = response.data['balance'];
+      result.balance = response.data[Security.security_balance];
       result.currencyType = data.currencyType;
       return result;
     } else {
       SendGiftResponse result = SendGiftResponse();
       result.isSuccess = false;
-      result.errorMsg = response.data['statusInfo']?['msg'] ?? 'Failed to send gift';
+      result.errorMsg = response.data[Security.security_statusInfo]?[Security.security_msg] ?? 'Failed to send gift';
       result.currencyType = data.currencyType;
       result.balance = data.balance;
       result.giftId = data.giftId;

@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
 import 'package:get/get.dart';
@@ -136,7 +137,7 @@ class ChatMessage implements AudioInfoInterface {
     _sessionId = sessionId;
   }
 
-  static String get tableName => 'chat_message';
+  static String get tableName => Security.security_chat_message;
 
   static String get createTableSql => '''
       CREATE TABLE IF NOT EXISTS $tableName (
@@ -159,42 +160,42 @@ class ChatMessage implements AudioInfoInterface {
 
   Map<String, Object?> toDatabase() {
     return {
-      'id': id,
-      'ownerId': ownerId,
-      'senderId': senderId,
-      'receiverId': receiverId,
-      'sessionId': sessionId,
-      'date': date.millisecondsSinceEpoch,
-      'nativeId': nativeId,
-      'type': type.value,
-      'sendState': sendState.value.digit,
-      'info': info,
-      'lockInfo': JsonEncoder().convert(lockInfo),
-      'uuid': uuid,
-      'renewInfo': JsonEncoder().convert(renewInfo),
+      Security.security_id: id,
+      Security.security_ownerId: ownerId,
+      Security.security_senderId: senderId,
+      Security.security_receiverId: receiverId,
+      Security.security_sessionId: sessionId,
+      Security.security_date: date.millisecondsSinceEpoch,
+      Security.security_nativeId: nativeId,
+      Security.security_type: type.value,
+      Security.security_sendState: sendState.value.digit,
+      Security.security_info: info,
+      Security.security_lockInfo: JsonEncoder().convert(lockInfo),
+      Security.security_uuid: uuid,
+      Security.security_renewInfo: JsonEncoder().convert(renewInfo),
     };
   }
 
   //提供一个fromData方法，用初始化列表实现
   ChatMessage.fromLocalData(Map<String, Object?> map)
-    : id = (map['id'] as int?) ?? 0,
-      senderId = (map['senderId'] as int?) ?? 0,
-      receiverId = (map['receiverId'] as int?) ?? 0,
-      date = DateTime.fromMillisecondsSinceEpoch((map['date'] as int?) ?? 0),
-      ownerId = (map['ownerId'] as int?) ?? 0,
-      type = ChatMessageType.fromValue((map['type'] as int?) ?? 0),
-      uuid = (map['uuid'] as String?) ?? '',
-      info = (map['info'] as String?) ?? '{}',
-      nativeId = map['nativeId'] as String? ?? '',
-      lockInfo = JsonDecoder().convert(map['lockInfo'] as String? ?? '{}') {
-    sessionId = (map['sessionId'] as String?) ?? '';
-    sendState = ChatMessageSendStatus.fromDigit((map['sendState'] as int?) ?? 0).obs;
-    renewInfo = JsonDecoder().convert(map['renewInfo'] as String? ?? '{}');
+    : id = (map[Security.security_id] as int?) ?? 0,
+      senderId = (map[Security.security_senderId] as int?) ?? 0,
+      receiverId = (map[Security.security_receiverId] as int?) ?? 0,
+      date = DateTime.fromMillisecondsSinceEpoch((map[Security.security_date] as int?) ?? 0),
+      ownerId = (map[Security.security_ownerId] as int?) ?? 0,
+      type = ChatMessageType.fromValue((map[Security.security_type] as int?) ?? 0),
+      uuid = (map[Security.security_uuid] as String?) ?? '',
+      info = (map[Security.security_info] as String?) ?? '{}',
+      nativeId = map[Security.security_nativeId] as String? ?? '',
+      lockInfo = JsonDecoder().convert(map[Security.security_lockInfo] as String? ?? '{}') {
+    sessionId = (map[Security.security_sessionId] as String?) ?? '';
+    sendState = ChatMessageSendStatus.fromDigit((map[Security.security_sendState] as int?) ?? 0).obs;
+    renewInfo = JsonDecoder().convert(map[Security.security_renewInfo] as String? ?? '{}');
   }
 
   //工厂方法实现
   factory ChatMessage.fromDatabase(Map<String, Object?> map) {
-    int messageType = (map['type'] as int) ?? 0;
+    int messageType = (map[Security.security_type] as int) ?? 0;
     //创建ChatMessageType
     ChatMessageType type = ChatMessageType.values.firstWhere((element) => element.value == messageType);
     switch (type) {
@@ -221,18 +222,18 @@ class ChatMessage implements AudioInfoInterface {
 
   //fromServerData，用初始化列表实现
   ChatMessage.fromServerData(Map map)
-    : id = (map['id'] as int?) ?? 0,
+    : id = (map[Security.security_id] as int?) ?? 0,
       senderId = (map[Constants.senderId] as int?) ?? 0,
       receiverId = (map[Constants.receiverId] as int?) ?? 0,
-      date = DateTime.fromMillisecondsSinceEpoch((map['sendAt'] ?? 0) * 1000),
+      date = DateTime.fromMillisecondsSinceEpoch((map[Security.security_sendAt] ?? 0) * 1000),
       ownerId = AccountService.instance.account.userId,
       type = ChatMessageType.fromValue((map[Constants.infoType] as int?) ?? 0),
-      uuid = (map['uuid'] as String?) ?? '',
-      info = (map['jsonBody'] as String?) ?? '{}',
+      uuid = (map[Security.security_uuid] as String?) ?? '',
+      info = (map[Security.security_jsonBody] as String?) ?? '{}',
       nativeId = map[Constants.nativeId] as String? ?? '',
-      lockInfo = map['unlock'] as Map? ?? {} {
+      lockInfo = map[Security.security_unlock] as Map? ?? {} {
     sendState = ChatMessageSendStatus.sent.obs;
-    renewInfo = map['reload'] as Map? ?? {};
+    renewInfo = map[Security.security_reload] as Map? ?? {};
   }
 
   factory ChatMessage.fromServer(Map map) {

@@ -9,6 +9,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 import 'package:modules/core/account/account_service.dart';
 import 'package:modules/shared/alert.dart';
@@ -66,7 +67,7 @@ class GenPage extends StatelessWidget {
   // 结果页面的 Widget
   Widget resultBody() {
     return Stack(
-      key: const ValueKey('result'), // 必须设置不同的 Key
+      key: ValueKey(Security.security_result), // 必须设置不同的 Key
       children: [
         Stack(
           children: [
@@ -118,10 +119,10 @@ class GenPage extends StatelessWidget {
 
   void showStopDialog() {
     showConfirmAlert(
-      'Tips',
+      Security.security_Tips,
       'The character creation is still ongoing. Leaving at this moment will forfeit the progress made so far. Are you sure you want to go back?',
-      confirmText: 'Confirm',
-      cancelText: 'Cancel',
+      confirmText: Security.security_Confirm,
+      cancelText: Security.security_Cancel,
       onConfirm: () {
         _logic.forceReturn();
       },
@@ -133,8 +134,8 @@ class GenPage extends StatelessWidget {
     showConfirmAlert(
       'Regeneration Tips',
       'Following the regeneration process, you’ll receive a brand-new image. You are also welcome to revisit the images you created earlier. Are you ready to move forward?',
-      confirmText: 'Yes',
-      cancelText: 'Cancel',
+      confirmText: Security.security_Yes,
+      cancelText: Security.security_Cancel,
       onConfirm: () {
         _logic.isEditPage ? _logic.regenerateInEdition() : _logic.regenerateInCreation();
       },
@@ -160,7 +161,7 @@ class GenPage extends StatelessWidget {
               child:
                   _logic.currentAvatar.value.isEmpty
                       ? const CircularProgressIndicator()
-                      : _logic.currentAvatar.value.startsWith('https')
+                      : _logic.currentAvatar.value.startsWith(Security.security_https)
                       ? ClipRRect(
                         borderRadius: BorderRadius.circular(35),
                         child: CachedNetworkImage(imageUrl: _logic.currentAvatar.value, width: 68, height: 68, fit: BoxFit.cover),
@@ -176,7 +177,7 @@ class GenPage extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: AppColors.ocMain),
-              child: Text('focus', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+              child: Text(Security.security_focus, style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
             ),
           ),
         ],
@@ -273,7 +274,7 @@ class GenOcController extends GetxController {
     final rtn = await ocDependency.queryImageResult();
     if (_resultTimer == null || interrupt.value == true) return;
 
-    if (rtn != null && (rtn['imageUrl'] as String).isNotEmpty) {
+    if (rtn != null && (rtn[Security.security_imageUrl] as String).isNotEmpty) {
       await handleResult(rtn);
     }
   }
@@ -330,8 +331,8 @@ class GenOcController extends GetxController {
     final bytes = await xFile.readAsBytes();
     final avatarUrl = await FilePushService.instance.upload(bytes, FileType.profile);
     if (avatarUrl != null) {
-      ocDependency.configs['chatBackground'] = results[currentPage.value].url;
-      ocDependency.configs['avatarUrl'] = avatarUrl;
+      ocDependency.configs[Security.security_chatBackground] = results[currentPage.value].url;
+      ocDependency.configs[Security.security_avatarUrl] = avatarUrl;
 
       late final rtn;
       if (isEditPage) {
@@ -350,13 +351,13 @@ class GenOcController extends GetxController {
         Get.toNamed(
           Routers.chat.name,
           arguments: {
-            'session': jsonEncode({
-              'id': rtn['roleUid'].toString(),
-              'name': config['nickname'] ?? '',
-              'avatar': config['avatarUrl'] ?? '',
-              'backgroundUrl': config['coverUrl'] ?? '',
+            Security.security_session: jsonEncode({
+              Security.security_id: rtn[Security.security_roleUid].toString(),
+              Security.security_name: config[Security.security_nickname] ?? '',
+              Security.security_avatar: config[Security.security_avatarUrl] ?? '',
+              Security.security_backgroundUrl: config[Security.security_coverUrl] ?? '',
             }),
-            'call': false,
+            Security.security_call: false,
           },
         );
       }

@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -156,9 +157,9 @@ class PersonViewPage extends StatelessWidget {
   Widget _buildFollowStatsRow() {
     return Row(
       children: [
-        Obx(() => _buildStatItem('Followers', controller.followers)),
+        Obx(() => _buildStatItem(Security.security_Followers, controller.followers)),
         SizedBox(width: 34),
-        Obx(() => _buildStatItem('Followings', controller.followings)),
+        Obx(() => _buildStatItem(Security.security_Followings, controller.followings)),
         Spacer(),
         // _buildFollowButton(),
       ],
@@ -188,8 +189,8 @@ class PersonViewPage extends StatelessWidget {
         },
         child:
             controller.star == 0
-                ? _buildButtonContent('Follow', '$imagesDir/add.png', Color(0xFFE962F6))
-                : _buildButtonContent('Followed', null, Colors.transparent, hasBorder: true),
+                ? _buildButtonContent(Security.security_Follow, '$imagesDir/add.png', Color(0xFFE962F6))
+                : _buildButtonContent(Security.security_Followed, null, Colors.transparent, hasBorder: true),
       ),
     );
   }
@@ -221,7 +222,7 @@ class PersonViewPage extends StatelessWidget {
       children: [
         _buildSectionTitle('About her'),
         _buildInfoRow([
-          Obx(() => _buildInfoTile('Gender', _getGenderText(controller.gender), outlineStyle, normalStyle)),
+          Obx(() => _buildInfoTile(Security.security_Gender, _getGenderText(controller.gender), outlineStyle, normalStyle)),
           Obx(
             () => _buildInfoTile(
               'Birth date',
@@ -231,14 +232,14 @@ class PersonViewPage extends StatelessWidget {
             ),
           ),
 
-          Obx(() => _buildInfoTile('Age', controller.age.toString(), outlineStyle, normalStyle)),
+          Obx(() => _buildInfoTile(Security.security_Age, controller.age.toString(), outlineStyle, normalStyle)),
         ]),
         _buildInfoRow([
-          Obx(() => _buildInfoTile('Constellation', controller.constellation, outlineStyle, normalStyle)),
-          Obx(() => _buildInfoTile('Location', controller.location.isEmpty ? '/' : controller.location, outlineStyle, normalStyle)),
+          Obx(() => _buildInfoTile(Security.security_Constellation, controller.constellation, outlineStyle, normalStyle)),
+          Obx(() => _buildInfoTile(Security.security_Location, controller.location.isEmpty ? '/' : controller.location, outlineStyle, normalStyle)),
           Obx(
             () => _buildInfoTile(
-              'Education',
+              Security.security_Education,
               controller.education.isEmpty || controller.education.first == null ? '/' : controller.location,
               outlineStyle,
               normalStyle,
@@ -251,11 +252,11 @@ class PersonViewPage extends StatelessWidget {
 
   String _getGenderText(int gender) {
     return gender == 0
-        ? 'Unknown'
+        ? Security.security_Unknown
         : gender == 1
-        ? 'Male'
+        ? Security.security_Male
         : gender == 2
-        ? 'Female'
+        ? Security.security_Female
         : '/';
   }
 
@@ -279,7 +280,7 @@ class PersonViewPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle('Profile'),
+        _buildSectionTitle(Security.security_Profile),
         Container(
           width: double.infinity,
           padding: EdgeInsets.all(12),
@@ -304,7 +305,7 @@ class PersonViewPage extends StatelessWidget {
           spacing: 5,
           children: [
             Image.asset('$assetsDir/person/to_chat.png', width: 24, height: 24),
-            Text('Chat', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
+            Text(Security.security_Chat, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
           ],
         ),
       ),
@@ -323,13 +324,13 @@ class PersonViewPage extends StatelessWidget {
     Get.toNamed(
       Routers.chat.name,
       arguments: {
-        'session': jsonEncode({
+        Security.security_session: jsonEncode({
           EncHelper.id: controller.id.toString(),
           EncHelper.nm: controller.name,
           EncHelper.avt: controller.avatarUrl,
           EncHelper.bgurl: controller.personalInfo[EncHelper.ps_cvurl],
         }),
-        'call': false,
+        Security.security_call: false,
       },
     );
   }
@@ -416,7 +417,7 @@ class PersonViewController extends GetxController {
       return;
     }
     getPersonInfo(id);
-    EasyLoading.showSuccess('Followed');
+    EasyLoading.showSuccess(Security.security_Followed);
   }
 
   Future<void> unfollowUser() async {
@@ -427,6 +428,6 @@ class PersonViewController extends GetxController {
       return;
     }
     getPersonInfo(id);
-    EasyLoading.showSuccess('Unfollowed');
+    EasyLoading.showSuccess(Security.security_Unfollowed);
   }
 }

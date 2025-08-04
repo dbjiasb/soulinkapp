@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/router/router_names.dart';
@@ -47,7 +48,7 @@ class BalanceView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routers.rechargeCurrency.name, arguments: {'rcgType': type == BalanceType.coin ? 0 : 1});
+        Get.toNamed(Routers.rechargeCurrency.name, arguments: {Security.security_rcgType: type == BalanceType.coin ? 0 : 1});
       },
       child: Container(
         height: style.height,

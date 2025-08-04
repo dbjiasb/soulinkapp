@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
@@ -93,13 +94,13 @@ class ChatMuseViewController extends GetxController {
 
     ApiRequest request = ApiRequest(
       'queryInspirationWords',
-      params: {'targetUid': Get.find<ChatRoomViewController>().userId, 'sessionId': Get.find<ChatRoomViewController>().session.id},
+      params: {Security.security_targetUid: Get.find<ChatRoomViewController>().userId, Security.security_sessionId: Get.find<ChatRoomViewController>().session.id},
     );
 
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
-      List tips = response.data['options'] ?? [];
-      items.value = tips.map((e) => e['text'] as String).toList();
+      List tips = response.data[Security.security_options] ?? [];
+      items.value = tips.map((e) => e[Security.security_text] as String).toList();
       listStatus.value = items.isEmpty ? ListStatus.empty : ListStatus.success;
     } else {
       if (items.isEmpty) {

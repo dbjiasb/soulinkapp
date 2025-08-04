@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 import 'dart:ui';
 
@@ -54,8 +55,8 @@ class CreateOcEntryItem extends RoleItem {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('Create', style: TextStyle(color: Color(0xFF36214E), fontSize: 14, fontWeight: FontWeight.w900)),
-              Text('Character', style: TextStyle(color: Color(0xFF36214E), fontSize: 14, fontWeight: FontWeight.w900)),
+              Text(Security.security_Create, style: TextStyle(color: Color(0xFF36214E), fontSize: 14, fontWeight: FontWeight.w900)),
+              Text(Security.security_Character, style: TextStyle(color: Color(0xFF36214E), fontSize: 14, fontWeight: FontWeight.w900)),
               Spacer(),
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
@@ -64,7 +65,7 @@ class CreateOcEntryItem extends RoleItem {
                   crossAxisAlignment: WrapCrossAlignment.center,
                   spacing: 4,
                   children: [
-                    Text('GO', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
+                    Text(Security.security_GO, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
                     Image.asset('packages/modules/assets/images/go.png', height: 10, width: 10),
                   ],
                 ),
@@ -80,21 +81,21 @@ class CreateOcEntryItem extends RoleItem {
 class VirtualRoleItem extends RoleItem {
   VirtualRoleItem(super.info);
 
-  String get coverUrl => info['coverUrl'] ?? '';
+  String get coverUrl => info[Security.security_coverUrl] ?? '';
 
-  String get nickname => info['nickname'] ?? '';
+  String get nickname => info[Security.security_nickname] ?? '';
 
-  String get bio => info['bio'] ?? '';
+  String get bio => info[Security.security_bio] ?? '';
 
   int get accountType => info[Constants.acType] ?? 0;
 
   void _onItemClicked({bool call = false}) {
     Map<String, dynamic> params = {};
-    params['id'] = info['uid'].toString();
-    params['name'] = info['nickname'] ?? '';
-    params['avatar'] = info['avatarUrl'] ?? '';
-    params['backgroundUrl'] = info['coverUrl'] ?? '';
-    Get.toNamed(Routers.chat.name, arguments: {'session': jsonEncode(params), 'call': call});
+    params[Security.security_id] = info[Security.security_uid].toString();
+    params[Security.security_name] = info[Security.security_nickname] ?? '';
+    params[Security.security_avatar] = info[Security.security_avatarUrl] ?? '';
+    params[Security.security_backgroundUrl] = info[Security.security_coverUrl] ?? '';
+    Get.toNamed(Routers.chat.name, arguments: {Security.security_session: jsonEncode(params), Security.security_call: call});
   }
 
   @override
@@ -271,7 +272,7 @@ class RoleListViewController extends GetxController {
 
     ApiResponse response = await RoleManager.instance.getRoleList(type: type, version: version, pageIndex: pageIndex, targetUid: targetUid);
     if (response.isSuccess) {
-      List infos = response.data['param'] ?? [];
+      List infos = response.data[Security.security_param] ?? [];
       List<RoleItem> newItems = infos.map((e) => RoleItem.fromMap(e)).toList();
 
       if (pageIndex == 0 && (type == RoleListType.ai || type == RoleListType.custom_ai)) {
@@ -280,7 +281,7 @@ class RoleListViewController extends GetxController {
       }
       items.addAll(newItems);
       status.value = items.isEmpty ? ListStatus.empty : ListStatus.success;
-      _hasMore = response.data['hasMore'] ?? true;
+      _hasMore = response.data[Security.security_hasMore] ?? true;
       _version = response.data[Constants.pVer] ?? 0;
     } else {
       if (items.isEmpty) {

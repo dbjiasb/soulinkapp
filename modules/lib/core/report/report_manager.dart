@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
 
 class ReportItem {
@@ -5,8 +6,8 @@ class ReportItem {
   bool isLast = false;
   ReportItem(this.data);
 
-  int get id => data['id'] ?? 0;
-  String get desc => data['desc'] ?? '';
+  int get id => data[Security.security_id] ?? 0;
+  String get desc => data[Security.security_desc] ?? '';
 }
 
 class ReportManager {
@@ -31,7 +32,7 @@ class ReportManager {
     ApiRequest request = ApiRequest('fetchTipOffOptions');
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
-      List data = response.data['reasons'];
+      List data = response.data[Security.security_reasons];
       reportItems = data.map((e) => ReportItem(e)).toList();
       return reportItems;
     } else {
@@ -41,7 +42,7 @@ class ReportManager {
 
   //提交举报
   Future<ApiResponse> submitReport(int userId, int reasonId, {String extra = ''}) async {
-    ApiRequest request = ApiRequest('tipOffUser', params: {'userId': userId, 'optionId': reasonId, 'additional': extra});
+    ApiRequest request = ApiRequest('tipOffUser', params: {Security.security_userId: userId, Security.security_optionId: reasonId, Security.security_additional: extra});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     return response;
   }

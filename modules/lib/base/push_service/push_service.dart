@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:modules/base/crypt/constants.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/event_center/event_center.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
@@ -12,13 +13,13 @@ import '../api_service/api_config.dart';
 import '../api_service/api_service.dart';
 import '../crypt/crypt.dart';
 
-const String kEventCenterKickOff = 'kEventCenterKickOff';
-const String kEventCenterDidPushNewMessages = 'kEventCenterDidPushNewMessages';
+String kEventCenterKickOff = Security.security_kEventCenterKickOff;
+String kEventCenterDidPushNewMessages = Security.security_kEventCenterDidPushNewMessages;
 
 enum PushServiceState { disconnected, connecting, connected }
 
 class PushId {
-  static int get kPushBaseId => Platform.environment['TEMP'] == 'Lumina' ? 0 : (50 * 2);
+  static int get kPushBaseId => Platform.environment[Security.security_TEMP] == Security.security_Lumina ? 0 : (50 * 2);
   static int get kHeartbeatId => kPushBaseId + 8;
 
   static int get kHeartbeatType => kPushBaseId + 9;
@@ -31,18 +32,18 @@ class PushId {
 
   static int get kChatMessageId => kPushBaseId + (202 - 1);
 
-  static int get kBusinessStartId => Platform.environment['TEMP'] == 'Lumina' ? 0 : (100 * 1000);
+  static int get kBusinessStartId => Platform.environment[Security.security_TEMP] == Security.security_Lumina ? 0 : (100 * 1000);
   static int get kBatchMessageKey => kBusinessStartId + 5;
 }
 
 class PushKey {
-  static String get noticeId => 'iUabcri'.replaceAll('abc', Platform.environment['TEMP'] ?? '');
+  static String get noticeId => Security.security_iUabcri.replaceAll(Security.security_abc, Platform.environment[Security.security_TEMP] ?? '');
 
-  static String get noticeContent => 'bohjkdy'.replaceAll('hjk', Platform.environment['TEMP'] ?? '');
+  static String get noticeContent => Security.security_bohjkdy.replaceAll(Security.security_hjk, Platform.environment[Security.security_TEMP] ?? '');
 
   static String get noticeUri => noticeId.toLowerCase().substring(1);
 
-  static String get noticeKey => 'jsorghnMsg'.replaceAll('rgh', Platform.environment['TEMP'] ?? '');
+  static String get noticeKey => Security.security_jsorghnMsg.replaceAll(Security.security_rgh, Platform.environment[Security.security_TEMP] ?? '');
 }
 
 class PushObject {
@@ -66,7 +67,7 @@ class PushService {
   PushService._internal();
   static PushService get instance => _instance;
 
-  final String confirm = 'confirm';
+  final String confirm = Security.security_confirm;
   WebSocketChannel? _channel;
 
   bool get loggedIn => _secretKey != '0';
@@ -183,7 +184,7 @@ class PushService {
         Map map = const JsonDecoder().convert(body[PushKey.noticeKey]);
         PushObject object = PushObject(body[PushKey.noticeId], map);
         debugPrint('[PushService] PushObject:${object.toString()}');
-        EventCenter.instance.sendEvent(kEventCenterDidPushNewMessages, {'userInfo': object});
+        EventCenter.instance.sendEvent(kEventCenterDidPushNewMessages, {Security.security_userInfo: object});
       } catch (e) {
         debugPrint('[PushService] decode error ${e.toString()}');
       }
@@ -247,7 +248,11 @@ class PushService {
   }
 
   sendHeartbeatPackage() {
-    Map map = {'yyid'.replaceAll('i', ''): 0, 'iInAjhgpp'.replaceAll('jhg', ''): isForeground ? 1 : 0, 'status': '1'};
+    Map map = {
+      Security.security_yyid.replaceAll('i', ''): 0,
+      Security.security_iInAjhgpp.replaceAll(Security.security_jhg, ''): isForeground ? 1 : 0,
+      Security.security_status: '1',
+    };
     sendData(map, 108);
   }
 
@@ -261,21 +266,21 @@ class PushService {
   //#----加密解密----#
   String encryptData(Map data, int type) {
     Map base = ApiService.instance.base();
-    base['guid'] = base['did'];
-    base['channel'] = base['app'];
-    base['versionName'] = base['ver'];
+    base[Security.security_guid] = base[Security.security_did];
+    base[Security.security_channel] = base[Security.security_app];
+    base[Security.security_versionName] = base[Security.security_ver];
 
-    data['status'] = 0;
-    data['tId'] = base;
+    data[Security.security_status] = 0;
+    data[Security.security_tId] = base;
 
-    Map origin = {'id': 0, 'appId': 0, 'uri': type, 'type': type, 'body': data};
+    Map origin = {Security.security_id: 0, Security.security_appId: 0, Security.security_uri: type, Security.security_type: type, Security.security_body: data};
 
     String str = Encryptor.encryptMap(origin, secretKey: _secretTag);
 
     Map packMap = {};
     packMap[Constants.secretTag] = _secretTag;
-    packMap['type'] = type;
-    packMap['pack'] = str;
+    packMap[Security.security_type] = type;
+    packMap[Security.security_pack] = str;
 
     return jsonEncode(packMap);
   }

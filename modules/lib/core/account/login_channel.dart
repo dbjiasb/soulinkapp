@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/security.dart';
 import 'dart:core';
 
 import 'package:flutter/gestures.dart';
@@ -28,11 +29,11 @@ class LoginChannelView extends StatelessWidget {
   }
 
   _onPrivacyPolicyClicked() {
-    Get.toNamed(Routers.webView.name, arguments: {'title': 'Privacy policy', 'url': 'https://cdn.luminaai.buzz/lumina/privacy.html'});
+    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Privacy policy', Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'});
   }
 
   _onTermsOfServiceClicked() {
-    Get.toNamed(Routers.webView.name, arguments: {'title': 'Terms of service', 'url': 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
+    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
   }
 
   Widget _buildCheckButton() {
@@ -99,7 +100,7 @@ class LoginChannelView extends StatelessWidget {
 
   Widget _buildLoginChannels() {
     LoginChannel email = LoginChannel(
-      'email',
+      Security.security_email,
       'Sign in with E-mail',
       'packages/modules/assets/images/login/login_mail.png',
       Color(0xFF333333),
@@ -108,7 +109,7 @@ class LoginChannelView extends StatelessWidget {
         Get.toNamed(Routers.login.name);
       },
     );
-    LoginChannel apple = LoginChannel('apple', 'Sign in with Apple', 'packages/modules/assets/images/login/login_apple.png', Colors.white, Colors.black, () async {
+    LoginChannel apple = LoginChannel(Security.security_apple, 'Sign in with Apple', 'packages/modules/assets/images/login/login_apple.png', Colors.white, Colors.black, () async {
       ApiResponse response = await AccountService.instance.loginWithApple();
       if (response.isSuccess) {
         //弹出所有页面并进入主页
