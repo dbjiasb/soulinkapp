@@ -3,7 +3,15 @@ from pathlib import Path
 import argparse
 
 def extract_dart_strings():
-    root_dir = Path("pods/modules")
+    # 原路径（已失效）
+    # root_dir = Path("pods/modules")
+    
+    # 新路径配置
+    root_dir = Path(__file__).parent.parent / "modules"
+    
+    # 添加路径验证
+    if not root_dir.exists():
+        raise FileNotFoundError(f"Modules目录未找到: {root_dir}")
     unique_strings = set()
     excluded_files = {"constants.dart", "es_helper.dart"}
     

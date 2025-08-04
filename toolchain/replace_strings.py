@@ -19,7 +19,7 @@ def replace_security_strings(enable_backup=False):
     ]
 
     # 配置工程目录（根据实际项目结构调整）
-    project_dir = Path('pods/modules')
+    project_dir = Path(__file__).parent.parent / "modules"
     total_replacements = 0
     
     # 需要排除的文件列表
