@@ -1,8 +1,8 @@
-import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:modules/base/crypt/constants.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/chat/chat_room_cells/chat_audio_message.dart';
 import 'package:modules/core/account/account_service.dart';
 
@@ -40,6 +40,7 @@ abstract class AudioInfoInterface {
 }
 
 enum ChatMessageType {
+  system(-4),
   time(-3),
   generating(-2),
   revoke(-1),

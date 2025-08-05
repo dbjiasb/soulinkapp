@@ -6,6 +6,8 @@ import 'chat_call_cell.dart';
 import 'chat_generating_message.dart';
 import 'chat_gift_cell.dart';
 import 'chat_image_message.dart';
+import 'chat_system_cell.dart';
+import 'chat_system_message.dart';
 import 'chat_text_cell.dart';
 import 'chat_video_message.dart';
 
@@ -46,8 +48,10 @@ class ChatCell extends StatelessWidget {
         return ChatVideoCell(message as ChatVideoMessage, unlock: unlock)..type = type;
       case ChatMessageType.gift:
         return ChatGiftCell(message as ChatGiftMessage);
-        case ChatMessageType.voice:
-          return ChatAudioCell(message as ChatAudioMessage, unlock: unlock,download: download,);
+      case ChatMessageType.voice:
+        return ChatAudioCell(message as ChatAudioMessage, unlock: unlock, download: download);
+      case ChatMessageType.system:
+        return ChatSystemCell(message as ChatSystemMessage);
       default:
         return ChatUnsupportedCell(message);
     }

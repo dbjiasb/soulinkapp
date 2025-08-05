@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +21,7 @@ import '../chat_manager.dart';
 import '../chat_room_cells/chat_audio_message.dart';
 import '../chat_room_cells/chat_cell.dart';
 import '../chat_room_cells/chat_generating_message.dart';
+import '../chat_room_cells/chat_system_message.dart';
 import '../chat_room_cells/chat_text_cell.dart';
 import '../chat_room_cells/chat_time_message.dart';
 import '../chat_session.dart';
@@ -47,8 +47,6 @@ class ChatRoomView extends StatelessWidget {
     Get.back();
   }
 
-  bool get isAi => viewController.session.accountType == 1 || viewController.session.accountType == 3 || viewController.session.accountType == 4;
-
   Widget _buildChatRoomView() {
     return Expanded(
       child: Container(
@@ -58,63 +56,16 @@ class ChatRoomView extends StatelessWidget {
                 ? null
                 : ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
-                    if (!isAi) {
-                      return ChatCell.create(
-                        viewController.messages[index],
-                        resend: viewController.resendMessage,
-                        unlock: viewController.unlockMessage,
-                        reload: viewController.reloadMessage,
-                        download: viewController.downloadMessage,
-                        onTap: viewController.onTapMessage,
-                      );
-                    } else {
-                      if (index < viewController.messages.length) {
-                        return ChatCell.create(
-                          viewController.messages[index],
-                          resend: viewController.resendMessage,
-                          unlock: viewController.unlockMessage,
-                          reload: viewController.reloadMessage,
-                          download: viewController.downloadMessage,
-                          onTap: viewController.onTapMessage,
-                        );
-                      } else {
-                        return Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 70, vertical: 12),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(22),
-                            child: Stack(
-                              children: [
-                                BackdropFilter(
-                                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
-                                  child: Container(
-                                    color: Colors.transparent,
-                                    width: double.infinity,
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.center,
-                                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(22),
-                                    color: Color(0xFF000000).withValues(alpha: 0.2)
-                                  ),
-                                  child: Text(
-                                    'Notice: Everything AI says is made up',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 11,
-                                      fontWeight: AppFonts.medium,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                      }
-                    }
+                    return ChatCell.create(
+                      viewController.messages[index],
+                      resend: viewController.resendMessage,
+                      unlock: viewController.unlockMessage,
+                      reload: viewController.reloadMessage,
+                      download: viewController.downloadMessage,
+                      onTap: viewController.onTapMessage,
+                    );
                   },
-                  itemCount: isAi ? viewController.messages.length + 1 : viewController.messages.length,
+                  itemCount: viewController.messages.length,
                   padding: EdgeInsets.zero,
                   reverse: true,
                 ),
@@ -300,6 +251,9 @@ class ChatRoomViewController extends GetxController {
     //刷新session
     await refreshSession();
     debugPrint('[ChatRoom] sid:${session.id}, greeted: ${session.greeted}');
+
+    insertAiTipsMessageIfNeeded();
+
     if (!session.greeted) {
       ChatManager.instance.sayHelloIfNeeded(session);
     }
@@ -341,6 +295,16 @@ class ChatRoomViewController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+  }
+
+  bool get isAiChat => session.accountType == 1 || session.accountType == 3 || session.accountType == 4;
+
+  //如果是ai聊天，则插入一个系统消息
+  void insertAiTipsMessageIfNeeded() {
+    if (isAiChat) {
+      ChatSystemMessage message = ChatSystemMessage();
+      insertMessages([message]);
+    }
   }
 
   // 插入时间消息的方法
