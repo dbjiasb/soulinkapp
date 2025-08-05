@@ -34,50 +34,50 @@ abstract class RoleItem {
   Widget builder(BuildContext context);
 }
 
-class CreateOcEntryItem extends RoleItem {
-  CreateOcEntryItem(super.info);
-
-  @override
-  Widget builder(BuildContext context) {
-    return _buildCreateOcEntry();
-  }
-
-  Widget _buildCreateOcEntry() {
-    return GestureDetector(
-      onTap: () {
-        CreateOcDialog.show();
-      },
-      child: AspectRatio(
-        aspectRatio: 166 / 88,
-        child: Container(
-          alignment: Alignment.bottomLeft,
-          padding: EdgeInsets.all(12),
-          decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.oc_entry_bg), fit: BoxFit.fitWidth)),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(Security.security_Create, style: TextStyle(color: Color(0xFF36214E), fontSize: 14, fontWeight: FontWeight.w900)),
-              Text(Security.security_Character, style: TextStyle(color: Color(0xFF36214E), fontSize: 14, fontWeight: FontWeight.w900)),
-              Spacer(),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(color: Color(0xFFE962F6), borderRadius: BorderRadius.circular(10)),
-                child: Wrap(
-                  crossAxisAlignment: WrapCrossAlignment.center,
-                  spacing: 4,
-                  children: [
-                    Text(Security.security_GO, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
-                    Image.asset(ImagePath.go, height: 10, width: 10),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
+// class CreateOcEntryItem extends RoleItem {
+//   CreateOcEntryItem(super.info);
+//
+//   @override
+//   Widget builder(BuildContext context) {
+//     return _buildCreateOcEntry();
+//   }
+//
+//   Widget _buildCreateOcEntry() {
+//     return GestureDetector(
+//       onTap: () {
+//         CreateOcDialog.show();
+//       },
+//       child: AspectRatio(
+//         aspectRatio: 166 / 88,
+//         child: Container(
+//           alignment: Alignment.bottomLeft,
+//           padding: EdgeInsets.all(12),
+//           decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.oc_entry_bg), fit: BoxFit.fitWidth)),
+//           child: Column(
+//             crossAxisAlignment: CrossAxisAlignment.start,
+//             children: [
+//               Text(Security.security_Create, style: TextStyle(color: Color(0xFF36214E), fontSize: 14, fontWeight: FontWeight.w900)),
+//               Text(Security.security_Character, style: TextStyle(color: Color(0xFF36214E), fontSize: 14, fontWeight: FontWeight.w900)),
+//               Spacer(),
+//               Container(
+//                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+//                 decoration: BoxDecoration(color: Color(0xFFE962F6), borderRadius: BorderRadius.circular(10)),
+//                 child: Wrap(
+//                   crossAxisAlignment: WrapCrossAlignment.center,
+//                   spacing: 4,
+//                   children: [
+//                     Text(Security.security_GO, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
+//                     Image.asset(ImagePath.go, height: 10, width: 10),
+//                   ],
+//                 ),
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 class VirtualRoleItem extends RoleItem {
   VirtualRoleItem(super.info);
@@ -274,7 +274,7 @@ class RoleListViewController extends GetxController {
 
       if (pageIndex == 0 && (type == RoleListType.ai || type == RoleListType.custom_ai)) {
         items.clear();
-        items.add(CreateOcEntryItem({}));
+        // items.add(CreateOcEntryItem({}));
       }
       items.addAll(newItems);
       status.value = items.isEmpty ? ListStatus.empty : ListStatus.success;

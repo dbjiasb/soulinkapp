@@ -128,7 +128,7 @@ class ChatSessionsView extends StatelessWidget {
                   return ChatSessionCell(viewController.sessions[index]);
                 },
               )
-              : ListStatusView(status: viewController.status.value),
+              : ListStatusView(status: viewController.status.value,description: 'No chat partner has been initiated yet',),
     );
   }
 

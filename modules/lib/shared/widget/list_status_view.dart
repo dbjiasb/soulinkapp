@@ -7,7 +7,7 @@ class ListStatusView extends StatelessWidget {
   final ListStatus status;
   String? description;
 
-  ListStatusView({super.key, required this.status});
+  ListStatusView({super.key, required this.status,this.description});
 
   Widget buildEmptyView() {
     return Center(

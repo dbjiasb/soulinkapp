@@ -54,7 +54,8 @@ class ChatSession {
       backgroundUrl = (map[Security.security_backgroundUrl] as String? ?? '').obs,
       unreadNumber = (map[Security.security_unreadNumber] as int? ?? 0).obs,
       accountType = map[Security.security_accountType] as int,
-      greeted = true {
+      greeted = true
+  {
     // 构造函数主体可以为空
   }
 
@@ -68,7 +69,6 @@ class ChatSession {
       backgroundUrl = (router[Security.security_backgroundUrl] as String? ?? '').obs,
       unreadNumber = (router[Security.security_unreadNumber] as int? ?? 0).obs, // 修复：显式转换类型后使用 .obs
       greeted = router[Security.security_greeted] ?? false;
-
   String toRouter() {
     //转换成map再用json.encode
     return JsonEncoder().convert({
@@ -79,7 +79,7 @@ class ChatSession {
       Security.security_lastMessageText: lastMessageText,
       Security.security_greeted: greeted,
       Security.security_backgroundUrl: backgroundUrl.value,
-      Security.security_unreadNumber: unreadNumber.value,
+      Security.security_unreadNumber: unreadNumber.value
     });
   }
 
