@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/business/account/account_view.dart';
 import 'package:modules/business/chat/chat_sessions_view.dart';
+import 'package:modules/business/create_center/create_oc_dialog.dart';
 import 'package:modules/business/home_page_lists/home_page.dart';
 import 'package:modules/shared/widget/keep_alive_wrapper.dart';
 
@@ -31,7 +32,10 @@ class SkeletonView extends StatelessWidget {
     }else if(icon== Security.security_personal){
       normalIconPath = ImagePath.bottom_bar_personal_normal;
       selectedIconPath = ImagePath.bottom_bar_personal_selected;
-    }else{
+    }else if(icon == 'create oc'){
+      normalIconPath = ImagePath.bottom_bar_create_oc_entry;
+      selectedIconPath = ImagePath.bottom_bar_create_oc_entry;
+    }else {
       throw Exception('Unknown icon: $icon');
     }
 
@@ -40,9 +44,8 @@ class SkeletonView extends StatelessWidget {
         onPressed: () {
           _onButtonClicked(index);
         },
-        icon: Image.asset(normalIconPath),
-        selectedIcon: Image.asset(selectedIconPath),
-        iconSize: 32,
+        icon: Image.asset(normalIconPath,width: 28,height: 28,),
+        selectedIcon: Image.asset(selectedIconPath,width: 28,height: 28,),
         isSelected: viewController.selectedIndex.value == index,
         highlightColor: Colors.transparent,
       ),
@@ -50,6 +53,11 @@ class SkeletonView extends StatelessWidget {
   }
 
   void _onButtonClicked(int index) {
+    if(index == 1){
+      // oc 入口
+      CreateOcDialog.show();
+      return ;
+    }
     viewController.pageController.jumpToPage(index);
     viewController.selectedIndex.value = index;
   }
@@ -66,24 +74,21 @@ class SkeletonView extends StatelessWidget {
         },
       ),
       extendBody: true,
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 42),
+      bottomNavigationBar: Container(
+        height: 86-34,
+        decoration: BoxDecoration(
+          border: Border.all(color: const Color(0xFF4B485B), width: 0.5),
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(16),topRight: Radius.circular(16)),
+          color: const Color(0xFF05030D),
+        ),
         child: Container(
-          height: 60,
-          decoration: BoxDecoration(
-            border: Border.all(color: const Color(0xFF4A4A5B), width: 1),
-            borderRadius: const BorderRadius.all(Radius.circular(30)),
-            color: const Color(0xFF171425),
-          ),
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: 50),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children:
-                  viewController.items.asMap().entries.map((e) {
-                    return _buildIconButton(e.value.name, e.key);
-                  }).toList(),
-            ),
+          margin: const EdgeInsets.symmetric(horizontal: 50),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children:
+            viewController.items.asMap().entries.map((e) {
+              return _buildIconButton(e.value.name, e.key);
+            }).toList(),
           ),
         ),
       ),
@@ -102,6 +107,9 @@ class SkeletonViewController extends GetxController {
         return KeepAliveWrapper(child: HomePageView());
       },
     ),
+    BottomBarItem(name: 'create oc', builder: (){
+      return Container();
+    }),
     BottomBarItem(
       name: Security.security_chat,
       builder: () {

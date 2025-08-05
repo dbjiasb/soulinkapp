@@ -20,14 +20,15 @@ class CreateAccountView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: Container(
-        height: 56,
-        decoration: const BoxDecoration(color: Color(0xFF333333), borderRadius: BorderRadius.all(Radius.circular(16))),
+        height: 48,
+        decoration: const BoxDecoration(color: Color(0xFF272533), borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Row(
           children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-              child: Image.asset(ImagePath.login_mail, width: 24, height: 24),
-            ),
+            // Container(
+            //   margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+            //   child: Icon(Icons.email,size: 24,color: Colors.white,)
+            //   // Image.asset(ImagePath.login_mail, width: 24, height: 24),
+            // ),
             Expanded(
               child: TextFormField(
                 onChanged: viewController.onMailChange,
@@ -37,7 +38,7 @@ class CreateAccountView extends StatelessWidget {
                   labelStyle: TextStyle(color: Colors.white),
                   enabledBorder: OutlineInputBorder(borderSide: BorderSide(style: BorderStyle.none)),
                   focusedBorder: OutlineInputBorder(borderSide: BorderSide(style: BorderStyle.none)),
-                  hintText: 'Email Address',
+                  hintText: 'Entry your email',
                   hintStyle: TextStyle(color: Color(0x80FFFFFF), fontWeight: FontWeight.w600, fontSize: 13),
                 ),
               ),
@@ -52,14 +53,14 @@ class CreateAccountView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: Container(
-        height: 56,
-        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(16)), color: Color(0xFF333333)),
+        height: 48,
+        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: Color(0xFF272533)),
         child: Row(
           children: [
-            Container(
-              margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-              child: Image.asset(ImagePath.login_verify_code, width: 24, height: 24),
-            ),
+            // Container(
+            //   margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+            //   child: Image.asset(ImagePath.login_verify_code, width: 24, height: 24),
+            // ),
             Expanded(
               child: TextFormField(
                 onChanged: viewController.onVerifyCodeChange,
@@ -77,16 +78,18 @@ class CreateAccountView extends StatelessWidget {
               child: Obx(
                 () => Container(
                   margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                  decoration: BoxDecoration(
-                    color: viewController.canSendCode.value ? const Color(0xFFE962F6) : const Color(0xFF999999),
-                    borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  ),
+                  // decoration: BoxDecoration(
+                  //   color: viewController.canSendCode.value ? const Color(0xFFE962F6) : const Color(0xFF999999),
+                  //   borderRadius: const BorderRadius.all(Radius.circular(8)),
+                  // ),
                   width: 100,
                   height: 40,
                   child: Center(
                     child: Text(
                       viewController.countdown.value > 0 ? '${viewController.countdown.value}s' : 'Obtain code',
-                      style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w700),
+                      style: viewController.canSendCode.value
+                          ? const TextStyle(color: Color(0xFFFFEF3B), fontSize: 13, fontWeight: FontWeight.w700)
+                          : TextStyle(color: Color(0xFFFFEF3B).withValues(alpha: 0.3), fontSize: 13, fontWeight: FontWeight.w700),
                     ),
                   ),
                 ),
@@ -103,12 +106,11 @@ class CreateAccountView extends StatelessWidget {
       onTap: viewController.login,
       child: Obx(
         () => Container(
-          height: 56,
+          height: 54,
           margin: const EdgeInsets.fromLTRB(16, 24, 16, 0),
           decoration: BoxDecoration(
-            color: const Color(0xFF383642),
-            borderRadius: const BorderRadius.all(Radius.circular(16)),
-            gradient: viewController.canContinue.value ? const LinearGradient(colors: <Color>[Color(0xFF8556FE), Color(0xFFF656FF)]) : null,
+            color: viewController.canContinue.value ?const Color(0xFF8761F1):const Color(0xFF8761F1).withValues(alpha: 0.5),
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
           ),
           child: Center(
             child: Text(
@@ -227,7 +229,7 @@ class CreateAccountView extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                           alignment: Alignment.centerLeft,
-                          child: Text('Create an account', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24)),
+                          child: Text('Create an account', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
                         ),
                         SizedBox(height: 34),
                         _buildMailInputView(),

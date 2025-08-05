@@ -1,14 +1,14 @@
-import 'package:modules/base/assets/image_path.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
-import 'package:modules/business/account/edit_my_info_view.dart';
 import 'package:modules/business/chat/chat_room/chat_room_view.dart';
 import 'package:modules/business/chat/person_manager.dart';
 import 'package:modules/core/util/es_helper.dart';
@@ -17,7 +17,6 @@ import 'package:modules/shared/interactions.dart';
 
 import '../../../core/user_manager/user_manager.dart';
 
-
 class PersonViewPage extends StatelessWidget {
   PersonViewPage({Key? key}) : super(key: key);
   final PersonViewController controller = Get.put(PersonViewController());
@@ -25,10 +24,30 @@ class PersonViewPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF0A0B12),
       body: Stack(
         children: [
-          // 可滚动内容
+          // 底色
+          Container(
+            width: double.infinity,height: double.infinity,
+              color: AppColors.main),
+
+          // 背景图
+          Positioned.fill(
+            child: Obx(
+                  () => ColorFiltered(
+                colorFilter: ColorFilter.mode(
+                  Color(0xFF000000).withValues(alpha: 0.4),
+                  BlendMode.srcOver,
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: controller.background,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          ),
+
+          // 内容
           SingleChildScrollView(
             child: Column(
               children: [
@@ -36,13 +55,20 @@ class PersonViewPage extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
-                    spacing: 24,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      _buildFollowStatsRow(),
-                      _buildAboutHerSection(),
                       _buildProfileSection(),
-                      SizedBox(height: 80), // 为底部按钮留出空间
-                      SizedBox(height: 20),
+                      SizedBox(
+                        height: 20+4,
+                        width: 60,
+                        child: Stack(
+                          children: [
+                            Positioned(top:0,left:0,child: Text('Gallery',style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),)),
+                            Positioned(bottom:0,right:0,child: Image.asset(ImagePath.home_list_selected,height: 10,width: 40,))
+                          ]
+                        ),
+                      ),
+                      _buildGallerySection(),
                     ],
                   ),
                 ),
@@ -50,25 +76,28 @@ class PersonViewPage extends StatelessWidget {
             ),
           ),
 
-          // 固定在左上角的返回按钮
+          // 返回按钮
           Positioned(
             left: 16,
             top: 27,
             child: SafeArea(
               child: GestureDetector(
                 onTap: Get.back,
-                child: Container(
-                  width: 32,
-                  height: 44,
-                  alignment: Alignment.center,
-                  child: Image.asset(ImagePath.icon_back, width: 24, height: 24),
-                ),
+                child: Container(width: 32, height: 44, alignment: Alignment.center, child: Image.asset(ImagePath.icon_back, width: 24, height: 24)),
               ),
             ),
           ),
 
-          // 固定在底部的聊天按钮
-          Positioned(left: 16, right: 16, bottom: 20, child: _buildToChatBtn()),
+          // 聊天按钮
+          Positioned(left: 16, right: 16, bottom: 20, child: GestureDetector(
+            onTap: onToChatTap,
+            child: Container(
+              alignment: Alignment.center,
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Color(0xFF8761F1)),
+              height: 52,
+              child: Text(Security.security_Chat, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
+            ),
+          )),
         ],
       ),
     );
@@ -80,49 +109,54 @@ class PersonViewPage extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            top: 0,
-            right: 0,
-            left: 0,
-            child: Obx(
-              () =>
-                  controller.background == ''
-                      ? Image.asset(controller.avatarUrl, fit: BoxFit.fitWidth)
-                      : CachedNetworkImage(imageUrl: controller.background, fit: BoxFit.fitWidth),
-            ),
-          ),
-          Positioned(
             left: 0,
             right: 0,
             bottom: 0,
             child: Container(
-              padding: EdgeInsets.only(left: 16, top: 44, bottom: 16),
+              padding: EdgeInsets.only(left: 16, top: 44),
               alignment: Alignment.bottomLeft,
-              height: 120,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Colors.transparent, Color(0xFF0A0B12)]),
-              ),
               child: Obx(
                 () => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   spacing: 4,
                   children: [
                     Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 36,
+                          backgroundColor: Colors.transparent,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(width: 1, color: Colors.white.withValues(alpha: 0.8)),
+                            ),
+                            child: ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl: controller.avatarUrl,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
                       spacing: 6,
                       children: [
-                        Text(controller.name, style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
-                        controller.type != '' ? Image.asset(controller.type, width: 28, height: 16) : Container(),
+                        Text(controller.name, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                        controller.type != '' ? Image.asset(controller.type, width: 21, height: 16) : Container(),
                       ],
                     ),
                     Row(
                       spacing: 4,
                       children: [
-                        Text('ID: ${controller.id}', style: TextStyle(color: Color(0xFF9EA1A8), fontSize: 13, fontWeight: FontWeight.w500)),
-                        GestureDetector(
-                          onTap: () {
-                            Interactions.copyToClipboard(controller.id.toString());
-                          },
-                          child: Image.asset(ImagePath.string_cpy, height: 16, width: 16),
-                        ),
+                        Text('ID: ${controller.id}', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500)),
+                        // GestureDetector(
+                        //   onTap: () {
+                        //     Interactions.copyToClipboard(controller.id.toString());
+                        //   },
+                        //   child: Image.asset(ImagePath.string_cpy, height: 16, width: 16),
+                        // ),
                       ],
                     ),
                   ],
@@ -132,6 +166,24 @@ class PersonViewPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildGallerySection() {
+    return GridView.count(
+      physics: const NeverScrollableScrollPhysics(), // 1. 禁用GridView自身滚动
+      shrinkWrap: true, // 2. 适应内容高度
+      crossAxisCount: 2,
+      mainAxisSpacing: 7,
+      crossAxisSpacing: 8,
+      childAspectRatio: 168/256,
+      children: controller.gallery.map((url) => ClipRRect(
+        borderRadius: BorderRadius.circular(16),
+        child: CachedNetworkImage(
+          imageUrl: url,
+          fit: BoxFit.cover,
+        ),
+      )).toList(),
     );
   }
 
@@ -261,35 +313,15 @@ class PersonViewPage extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _buildSectionTitle(Security.security_Profile),
         Container(
           width: double.infinity,
-          padding: EdgeInsets.all(12),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Color(0xFF12151D)),
+          padding: EdgeInsets.symmetric(vertical: 8),
           child: Text(
-            controller.profile.isEmpty ? '......' : "\"${controller.profile}\"",
-            style: TextStyle(color: Color(0xFF9EA1A8), fontSize: 13, fontWeight: AppFonts.medium),
+            controller.profile.isEmpty ? '......' : controller.profile,
+            style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildToChatBtn() {
-    return GestureDetector(
-      onTap: onToChatTap,
-      child: Container(
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), gradient: LinearGradient(colors: [Color(0xFF8556FE), Color(0xFFF656FF)])),
-        height: 44,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          spacing: 5,
-          children: [
-            Image.asset(ImagePath.to_chat, width: 24, height: 24),
-            Text(Security.security_Chat, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
-          ],
-        ),
-      ),
     );
   }
 
@@ -298,7 +330,7 @@ class PersonViewPage extends StatelessWidget {
   }
 
   void onToChatTap() {
-    if(Get.isRegistered<ChatRoomViewController>()){
+    if (Get.isRegistered<ChatRoomViewController>()) {
       Get.back();
       return;
     }
@@ -321,6 +353,8 @@ class PersonViewController extends GetxController {
   final personalInfo = <String, dynamic>{}.obs;
 
   UserManager get userManager => UserManager.instance;
+
+  List get gallery => personalInfo['gallery'] ?? [];
 
   Map get userInfo => personalInfo[EncHelper.ps_usif] ?? {};
 
@@ -356,7 +390,7 @@ class PersonViewController extends GetxController {
 
   String get type {
     if (baseInfo[EncHelper.ps_act] == 1 || baseInfo[EncHelper.ps_act] == 3 || baseInfo[EncHelper.ps_act] == 4) {
-      return ImagePath.ai_tag;
+      return ImagePath.ic_tag_ai;
     }
     return '';
   }

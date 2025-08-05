@@ -90,6 +90,8 @@ class VirtualRoleItem extends RoleItem {
 
   int get accountType => info[Constants.acType] ?? 0;
 
+
+
   void _onItemClicked({bool call = false}) {
     Map<String, dynamic> params = {};
     params[Security.security_id] = info[Security.security_uid].toString();
@@ -136,11 +138,18 @@ class VirtualRoleItem extends RoleItem {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             //限制文本宽度
-                            Text(
-                              nickname,
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 14),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
+                            Row(
+                              spacing: 4,
+                              children: [
+                                Text(
+                                  nickname,
+                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 14),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                if([1, 3, 4].contains(info[Constants.acType]))
+                                  Image.asset(ImagePath.ic_tag_ai,height: 16,width: 21,),
+                              ],
                             ),
                             Text(
                               bio,

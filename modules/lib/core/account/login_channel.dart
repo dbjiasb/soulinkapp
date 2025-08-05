@@ -1,20 +1,21 @@
-import 'package:modules/base/assets/image_path.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'dart:core';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_response.dart';
+import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/core/account/account_service.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 class LoginChannel {
   LoginChannel(this.channel, this.channelName, this.channelIcon, this.channelColor, this.channelTextColor, this.onTap);
 
   final String channel;
   final String channelName;
-  final String channelIcon;
+  Widget channelIcon;
   final Color channelColor;
   final Color channelTextColor;
   final Function onTap;
@@ -30,11 +31,17 @@ class LoginChannelView extends StatelessWidget {
   }
 
   _onPrivacyPolicyClicked() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Privacy policy', Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'});
+    Get.toNamed(
+      Routers.webView.name,
+      arguments: {Security.security_title: 'Privacy policy', Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'},
+    );
   }
 
   _onTermsOfServiceClicked() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
+    Get.toNamed(
+      Routers.webView.name,
+      arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'},
+    );
   }
 
   Widget _buildCheckButton() {
@@ -55,10 +62,12 @@ class LoginChannelView extends StatelessWidget {
   }
 
   Widget _buildBottomTips() {
-    const TextStyle linkStyle = TextStyle(color: Color(0xFFE962F6), decoration: TextDecoration.underline);
+    const TextStyle linkStyle = TextStyle(color: Colors.white,fontSize: 12, decoration: TextDecoration.underline);
+    const TextStyle normalStyle = TextStyle(color: Color(0xFFABABAD), fontSize: 12, fontWeight: FontWeight.w500);
+
     return RichText(
       text: TextSpan(
-        style: const TextStyle(color: Color(0xFF90929D), fontSize: 12, fontWeight: FontWeight.w500),
+        style: normalStyle,
         children: [
           const TextSpan(text: 'if you sign in, you agree to '),
           TextSpan(
@@ -103,22 +112,29 @@ class LoginChannelView extends StatelessWidget {
     LoginChannel email = LoginChannel(
       Security.security_email,
       'Sign in with E-mail',
-      ImagePath.login_mail,
-      Color(0xFF333333),
+      Icon(Icons.email, size: 24, color: Colors.white),
+      Color(0xFF070512),
       Colors.white,
       () {
         Get.toNamed(Routers.login.name);
       },
     );
-    LoginChannel apple = LoginChannel(Security.security_apple, 'Sign in with Apple', ImagePath.login_apple, Colors.white, Colors.black, () async {
-      ApiResponse response = await AccountService.instance.loginWithApple();
-      if (response.isSuccess) {
-        //弹出所有页面并进入主页
-        Get.offAllNamed(Routers.root.name);
-      } else {
-        EasyLoading.showError(response.description);
-      }
-    });
+    LoginChannel apple = LoginChannel(
+      Security.security_apple,
+      'Sign in with Apple',
+      Image.asset(ImagePath.login_apple, height: 24, width: 24),
+      Colors.white,
+      Color(0xFF070512),
+      () async {
+        ApiResponse response = await AccountService.instance.loginWithApple();
+        if (response.isSuccess) {
+          //弹出所有页面并进入主页
+          Get.offAllNamed(Routers.root.name);
+        } else {
+          EasyLoading.showError(response.description);
+        }
+      },
+    );
 
     List<LoginChannel> channels = [apple, email];
 
@@ -131,14 +147,18 @@ class LoginChannelView extends StatelessWidget {
         channel.onTap();
       },
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 44),
+        padding: EdgeInsets.symmetric(horizontal: 48),
         child: Container(
-          height: 56,
-          decoration: BoxDecoration(color: channel.channelColor, borderRadius: BorderRadius.all(Radius.circular(16))),
+          height: 54,
+          decoration: BoxDecoration(
+            color: channel.channelColor,
+            borderRadius: BorderRadius.all(Radius.circular(12)),
+            border: Border.all(color: Color(0xFFEEEEEE), width: 1),
+          ),
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Positioned(left: 16, top: 16, child: Image.asset(channel.channelIcon, width: 24, height: 24)),
+              Positioned(left: 16, top: 15, child: channel.channelIcon),
               Container(
                 alignment: Alignment.center,
                 child: Text(

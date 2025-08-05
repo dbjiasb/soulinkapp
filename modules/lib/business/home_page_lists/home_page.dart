@@ -1,6 +1,7 @@
-import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/security.dart';
 
 import '../../shared/widget/keep_alive_wrapper.dart';
 import './role_list_view.dart';
@@ -23,17 +24,17 @@ class HomePageView extends StatelessWidget {
       child: Obx(
         () =>
             index == viewController.selectedIndex.value
-                ? ShaderMask(
-                  shaderCallback: (Rect bounds) {
-                    return const LinearGradient(
-                      colors: <Color>[Color(0xFF8556FE), Color(0xFFF656FF)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ).createShader(bounds);
-                  },
-                  child: Text(viewController.items[index].title, style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w900)),
+                ? Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Text(viewController.items[index].title, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900), softWrap: true),
+                    Positioned(bottom: -3, right: 0, child: Image.asset(ImagePath.home_list_selected, height: 10, width: 40)),
+                  ],
                 )
-                : Text(viewController.items[index].title, style: const TextStyle(color: Color(0x80FFFFFF), fontSize: 14, fontWeight: FontWeight.bold)),
+                : Text(
+                  viewController.items[index].title,
+                  style: TextStyle(color: Colors.white.withValues(alpha: 0.4), fontSize: 16, fontWeight: FontWeight.bold),
+                ),
       ),
     );
   }

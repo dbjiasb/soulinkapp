@@ -7,6 +7,7 @@ import 'package:modules/shared/formatters/date_formatter.dart';
 import 'package:modules/shared/widget/app_widgets.dart';
 import 'package:modules/shared/widget/list_status_view.dart';
 
+import '../../base/assets/image_path.dart';
 import './chat_manager.dart';
 import 'chat_session.dart';
 
@@ -99,15 +100,12 @@ class ChatSessionsView extends StatelessWidget {
   ChatSessionsViewController viewController = Get.put(ChatSessionsViewController());
 
   Widget appBarTitle() {
-    return ShaderMask(
-      shaderCallback: (Rect bounds) {
-        return const LinearGradient(
-          colors: <Color>[Color(0xFF8556FE), Color(0xFFF656FF)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ).createShader(bounds);
-      },
-      child: Text(Security.security_Message, style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w900)),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Text(Security.security_Message, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900), softWrap: true),
+        Positioned(bottom: -3, right: 0, child: Image.asset(ImagePath.home_list_selected, height: 10, width: 40)),
+      ],
     );
   }
 

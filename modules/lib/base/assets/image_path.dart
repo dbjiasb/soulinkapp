@@ -20,6 +20,8 @@ abstract final class ImagePath {
   static const String add = 'packages/modules/assets/soulink/add.png';
   static const String ic_tag_real = 'packages/modules/assets/soulink/ic_tag_real.png';
   static const String ic_tag_ai = 'packages/modules/assets/soulink/ic_tag_ai.png';
+  static const String ic_tag_official = 'packages/modules/assets/soulink/ic_tag_official.png';
+
   static const String icon_add = 'packages/modules/assets/soulink/icon_add.png';
 
   // login
@@ -38,6 +40,8 @@ abstract final class ImagePath {
   static const String bottom_bar_list_normal = 'packages/modules/assets/soulink/bottom_bar_list_normal.png';
   static const String bottom_bar_personal_selected = 'packages/modules/assets/soulink/bottom_bar_personal_selected.png';
   static const String bottom_bar_personal_normal = 'packages/modules/assets/soulink/bottom_bar_personal_normal.png';
+  static const String bottom_bar_create_oc_entry = 'packages/modules/assets/soulink/bottom_bar_create_oc_entry.png';
+  static const String home_list_selected = 'packages/modules/assets/soulink/home_list_selected.png';
 
   // list
   static const String list_status_empty = 'packages/modules/assets/soulink/list_status_empty.png';
