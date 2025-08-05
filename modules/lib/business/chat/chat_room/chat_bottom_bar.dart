@@ -1,4 +1,3 @@
-import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 import 'dart:typed_data';
 
@@ -11,6 +10,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/business/chat/chat_manager.dart';
 import 'package:modules/business/chat/chat_room/chat_room_view.dart';
@@ -33,93 +33,97 @@ class ChatBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(()=>SizedBox(
-      height: viewController.barState.value ==ChatRoomBottomBarState.detailed?104+166:114,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [Colors.transparent, Color(0xFF000000).withOpacity(0.3)],
-                ),
-              ),
-              child: SafeArea(bottom: true, child: Column(children: [buildInputBar(), buildFunctionBar()])),
-            ),
-          ),
-
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Obx(() {
-              if (!viewController._isShowAudioInputAnim.value) {
-                return Container();
-              }
-              return Container(
+    return Obx(
+      () => SizedBox(
+        height: viewController.barState.value == ChatRoomBottomBarState.detailed ? 104 + 166 : 114,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.black.withValues(alpha: 0), Colors.black.withValues(alpha: 0.61), Colors.black.withValues(alpha: 0.75)],
+                    colors: [Colors.transparent, Color(0xFF000000).withOpacity(0.3)],
                   ),
                 ),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 116,
-                      color: Colors.transparent,
-                      child: Column(
-                        children: [
-                          Obx(()=>Container(
-                            height: 72,
-                            padding: EdgeInsets.symmetric(horizontal: 83),
-                            decoration: BoxDecoration(
-                                image: DecorationImage(image: AssetImage(viewController._isCanceled.value?ImagePath.cancel_send:ImagePath.send),fit: BoxFit.contain)
-                            ),
-                            child: Padding(padding: EdgeInsets.only(left: 35,top: 18,right: 35,bottom: 30),child: SVGASimpleImage(assetsName: ImagePath.voice_wave),),
-                          )),
-                          Container(
-                            height: 44,
-                            child:
-                            Obx(
-                                  () =>
-                              viewController._isCanceled.value
-                                  ? Text('Release Cancel', style: TextStyle(color: Color(0xFFFF3E3E), fontSize: 13,fontWeight: AppFonts.medium))
-                                  : Text('Release Send', style: TextStyle(color: Colors.white, fontSize: 13,fontWeight: AppFonts.medium)),
-                            ),
+                child: SafeArea(bottom: true, child: Column(children: [buildInputBar(), buildFunctionBar()])),
+              ),
+            ),
 
-                          ),
-                        ],
-                      ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Obx(() {
+                if (!viewController._isShowAudioInputAnim.value) {
+                  return Container();
+                }
+                return Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [Colors.black.withValues(alpha: 0), Colors.black.withValues(alpha: 0.61), Colors.black.withValues(alpha: 0.75)],
                     ),
-                    Container(
-                      height: 108,
-                      clipBehavior: Clip.hardEdge,
-                      alignment: Alignment.topCenter,
-                      decoration: BoxDecoration(
+                  ),
+                  child: Column(
+                    children: [
+                      Container(
+                        height: 116,
                         color: Colors.transparent,
-                        image: DecorationImage(
-                          image: AssetImage(ImagePath.chat_input_voice_bg),
-                          fit: BoxFit.fitWidth,
-                          alignment: Alignment.topCenter,
+                        child: Column(
+                          children: [
+                            Obx(
+                              () => Container(
+                                height: 72,
+                                padding: EdgeInsets.symmetric(horizontal: 83),
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(viewController._isCanceled.value ? ImagePath.cancel_send : ImagePath.send),
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(left: 35, top: 18, right: 35, bottom: 30),
+                                  child: SVGASimpleImage(assetsName: ImagePath.voice_wave),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 44,
+                              child: Obx(
+                                () =>
+                                    viewController._isCanceled.value
+                                        ? Text('Release Cancel', style: TextStyle(color: Color(0xFFFF3E3E), fontSize: 13, fontWeight: AppFonts.medium))
+                                        : Text('Release Send', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              );
-            }),
-          ),
-        ],
+                      Container(
+                        height: 108,
+                        clipBehavior: Clip.hardEdge,
+                        alignment: Alignment.topCenter,
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          image: DecorationImage(image: AssetImage(ImagePath.chat_input_voice_bg), fit: BoxFit.fitWidth, alignment: Alignment.topCenter),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 
   Widget buildFunctionBar() {
@@ -157,11 +161,7 @@ class ChatBottomBar extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(left: 12, right: 8),
                 child: Obx(
-                  () => Image.asset(
-                    viewController._audioInputMode.value ? ImagePath.chat_input_voice:ImagePath.chat_input_keyboard,
-                    width: 24,
-                    height: 24,
-                  ),
+                  () => Image.asset(viewController._audioInputMode.value ? ImagePath.chat_input_voice : ImagePath.chat_input_keyboard, width: 24, height: 24),
                 ),
               ),
             ),
@@ -216,7 +216,7 @@ class ChatBottomBar extends StatelessWidget {
                                 margin: EdgeInsets.only(right: 12),
                                 child: Obx(
                                   () => Image.asset(
-                                    viewController.barState.value == ChatRoomBottomBarState.muse ? ImagePath.chat_input_tips_light:ImagePath.chat_input_tips,
+                                    viewController.barState.value == ChatRoomBottomBarState.muse ? ImagePath.chat_input_tips_light : ImagePath.chat_input_tips,
                                     width: 20,
                                     height: 20,
                                   ),
@@ -306,11 +306,19 @@ class ChatBottomBar extends StatelessWidget {
 
   Widget buildDetailedBar() {
     List<Map<String, dynamic>> items = [
-      {Security.security_title: Security.security_Custom, Security.security_icon: ImagePath.chat_bottom_custom, Security.security_action: onCreateImageButtonClicked},
+      {
+        Security.security_title: Security.security_Custom,
+        Security.security_icon: ImagePath.chat_bottom_custom,
+        Security.security_action: onCreateImageButtonClicked,
+      },
       {Security.security_title: 'Ask for Pic', Security.security_icon: ImagePath.chat_bottom_image, Security.security_action: askForImage},
-      {Security.security_title: Security.security_History, Security.security_icon: ImagePath.chat_bottom_history, Security.security_action: onChatHistoryButtonClicked},
+      {
+        Security.security_title: Security.security_History,
+        Security.security_icon: ImagePath.chat_bottom_history,
+        Security.security_action: onChatHistoryButtonClicked,
+      },
       {Security.security_title: 'Ask for Video', Security.security_icon: ImagePath.chat_bottom_video, Security.security_action: askForVideo},
-      {Security.security_title: 'Voice Call', Security.security_icon: ImagePath.chat_bottom_audio_call, Security.security_action: toCall},
+      {Security.security_title: 'Voice Call', Security.security_icon: ImagePath.chat_bottom_audio, Security.security_action: toCall},
     ];
 
     return Container(
@@ -353,7 +361,7 @@ class ChatBottomBar extends StatelessWidget {
 }
 
 class ChatBottomBarController extends GetxController {
-  int get userId =>Get.find<ChatRoomViewController>().userId;
+  int get userId => Get.find<ChatRoomViewController>().userId;
 
   var barState = ChatRoomBottomBarState.simple.obs;
 
@@ -393,7 +401,6 @@ class ChatBottomBarController extends GetxController {
     AudioManager.instance.cancel();
   }
 
-
   void _recordAudioBegin() {
     AudioManager.instance.begin();
   }
@@ -401,16 +408,15 @@ class ChatBottomBarController extends GetxController {
   void _onGesUpdate(LongPressMoveUpdateDetails details) {
     _gesDx.value = details.localPosition.dx;
     _gesDy.value = details.localPosition.dy;
-    if(_gesDy>= 0){
+    if (_gesDy >= 0) {
       _isCanceled.value = false;
-    }else{
+    } else {
       _isCanceled.value = true;
     }
   }
 
-
   void _recordAudioEnd() async {
-    if(_isCanceled.value){
+    if (_isCanceled.value) {
       AudioManager.instance.cancel();
       _isCanceled.value = false;
       return;
@@ -427,7 +433,6 @@ class ChatBottomBarController extends GetxController {
   }
 
   void sendAudio((String, int) recordInfo) async {
-
     ChatAudioMessage message = ChatAudioMessage.fromAudio(recordInfo.$1, userId, DateTime.now().millisecondsSinceEpoch.toString(), recordInfo.$2);
     ChatRoomViewController viewController = Get.find<ChatRoomViewController>();
     viewController.sendMessage(message);
