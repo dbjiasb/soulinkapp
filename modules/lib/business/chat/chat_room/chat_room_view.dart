@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_response.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/event_center/event_center.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/business/chat/chat_room_cells/chat_message.dart';
@@ -46,6 +47,8 @@ class ChatRoomView extends StatelessWidget {
     Get.back();
   }
 
+  bool get isAi => viewController.session.accountType == 1 || viewController.session.accountType == 3 || viewController.session.accountType == 4;
+
   Widget _buildChatRoomView() {
     return Expanded(
       child: Container(
@@ -55,16 +58,63 @@ class ChatRoomView extends StatelessWidget {
                 ? null
                 : ListView.builder(
                   itemBuilder: (BuildContext context, int index) {
-                    return ChatCell.create(
-                      viewController.messages[index],
-                      resend: viewController.resendMessage,
-                      unlock: viewController.unlockMessage,
-                      reload: viewController.reloadMessage,
-                      download: viewController.downloadMessage,
-                      onTap: viewController.onTapMessage,
-                    );
+                    if (!isAi) {
+                      return ChatCell.create(
+                        viewController.messages[index],
+                        resend: viewController.resendMessage,
+                        unlock: viewController.unlockMessage,
+                        reload: viewController.reloadMessage,
+                        download: viewController.downloadMessage,
+                        onTap: viewController.onTapMessage,
+                      );
+                    } else {
+                      if (index < viewController.messages.length) {
+                        return ChatCell.create(
+                          viewController.messages[index],
+                          resend: viewController.resendMessage,
+                          unlock: viewController.unlockMessage,
+                          reload: viewController.reloadMessage,
+                          download: viewController.downloadMessage,
+                          onTap: viewController.onTapMessage,
+                        );
+                      } else {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 70, vertical: 12),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(22),
+                            child: Stack(
+                              children: [
+                                BackdropFilter(
+                                  filter: ImageFilter.blur(sigmaX: 5.0, sigmaY: 5.0),
+                                  child: Container(
+                                    color: Colors.transparent,
+                                    width: double.infinity,
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(22),
+                                    color: Color(0xFF000000).withValues(alpha: 0.2)
+                                  ),
+                                  child: Text(
+                                    'Notice: Everything AI says is made up',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 11,
+                                      fontWeight: AppFonts.medium,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      }
+                    }
                   },
-                  itemCount: viewController.messages.length,
+                  itemCount: isAi ? viewController.messages.length + 1 : viewController.messages.length,
                   padding: EdgeInsets.zero,
                   reverse: true,
                 ),
@@ -108,7 +158,6 @@ class ChatRoomView extends StatelessWidget {
     );
   }
 
-
   Widget _buildBackgroundView() {
     debugPrint('viewController.session.backgroundUrl.value: ${viewController.session.backgroundUrl.value}');
     return Obx(
@@ -132,12 +181,7 @@ class ChatRoomView extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: _onBackButtonClicked,
-            child: Container(
-              width: 32,
-              height: 44,
-              alignment: Alignment.center,
-              child: Image.asset(ImagePath.icon_back, width: 24, height: 24),
-            ),
+            child: Container(width: 32, height: 44, alignment: Alignment.center, child: Image.asset(ImagePath.icon_back, width: 24, height: 24)),
           ),
           SizedBox(width: 4),
           GestureDetector(
