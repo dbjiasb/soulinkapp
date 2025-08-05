@@ -14,7 +14,6 @@ import 'package:modules/business/chat/chat_room_cells/chat_message.dart';
 import 'package:modules/core/account/account_service.dart';
 import 'package:modules/core/report/report_helper.dart';
 import 'package:modules/core/user_manager/user_manager.dart';
-import 'package:modules/shared/widget/app_widgets.dart';
 
 import '../../../shared/app_theme.dart';
 import '../chat_manager.dart';
@@ -134,52 +133,54 @@ class ChatRoomView extends StatelessWidget {
             onTap: _onBackButtonClicked,
             child: Container(width: 32, height: 44, alignment: Alignment.center, child: Image.asset(ImagePath.icon_back, width: 24, height: 24)),
           ),
-          SizedBox(width: 4),
-          GestureDetector(
-            onTap: () {
-              Get.toNamed(Routers.person.name, arguments: {Security.security_personId: viewController.userId});
-            },
-            child: Container(
-              width: 32,
-              height: 32,
-              padding: const EdgeInsets.all(1),
-              decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
-              child: ClipOval(clipBehavior: Clip.antiAlias, child: Image.network(viewController.session.avatar, width: 30, height: 30)),
-            ),
-          ),
-          const SizedBox(width: 10),
-          Expanded(
-            child: Row(
-              children: [
-                Flexible(child: Text(viewController.session.name, style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold))),
-                SizedBox(width: 5),
-                AppWidgets.userTag(viewController.session.accountType),
-              ],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 7, vertical: 4),
-            decoration: BoxDecoration(color: Color(0xFF000000).withValues(alpha: 0.30), borderRadius: BorderRadius.circular(14)),
-            child: Row(
-              spacing: 6,
-              children: [
-                Image.asset(ImagePath.gem, height: 16, width: 16),
-                Obx(() => Text(MyAccount.gems.toString(), style: TextStyle(color: Colors.white, fontSize: 12))),
-              ],
-            ),
-          ),
-          SizedBox(width: 8),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 7, vertical: 4),
-            decoration: BoxDecoration(color: Color(0xFF000000).withValues(alpha: 0.30), borderRadius: BorderRadius.circular(14)),
-            child: Row(
-              spacing: 6,
-              children: [
-                Image.asset(ImagePath.coin, height: 16, width: 16),
-                Obx(() => Text(MyAccount.coins.toString(), style: TextStyle(color: Colors.white, fontSize: 12))),
-              ],
-            ),
-          ),
+          // SizedBox(width: 4),
+          // GestureDetector(
+          //   onTap: () {
+          //     Get.toNamed(Routers.person.name, arguments: {Security.security_personId: viewController.userId});
+          //   },
+          //   child: Container(
+          //     width: 32,
+          //     height: 32,
+          //     padding: const EdgeInsets.all(1),
+          //     decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.white),
+          //     child: ClipOval(clipBehavior: Clip.antiAlias, child: Image.network(viewController.session.avatar, width: 30, height: 30)),
+          //   ),
+          // ),
+          // const SizedBox(width: 10),
+          // Expanded(
+          //   child: Row(
+          //     children: [
+          //       Flexible(child: Text(viewController.session.name, style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold))),
+          //       SizedBox(width: 5),
+          //       AppWidgets.userTag(viewController.session.accountType),
+          //     ],
+          //   ),
+          // ),
+          // Container(
+          //   padding: EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+          //   decoration: BoxDecoration(color: Color(0xFF000000).withValues(alpha: 0.30), borderRadius: BorderRadius.circular(14)),
+          //   child: Row(
+          //     spacing: 6,
+          //     children: [
+          //       Image.asset(ImagePath.gem, height: 16, width: 16),
+          //       Obx(() => Text(MyAccount.gems.toString(), style: TextStyle(color: Colors.white, fontSize: 12))),
+          //     ],
+          //   ),
+          // ),
+          // SizedBox(width: 8),
+          // Container(
+          //   padding: EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+          //   decoration: BoxDecoration(color: Color(0xFF000000).withValues(alpha: 0.30), borderRadius: BorderRadius.circular(14)),
+          //   child: Row(
+          //     spacing: 6,
+          //     children: [
+          //       Image.asset(ImagePath.coin, height: 16, width: 16),
+          //       Obx(() => Text(MyAccount.coins.toString(), style: TextStyle(color: Colors.white, fontSize: 12))),
+          //     ],
+          //   ),
+          // ),
+          Spacer(),
+          Column(children: [Text(viewController.session.name, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold))]), Spacer(),
           IconButton(
             onPressed: () {
               _scaffoldKey.currentState?.openEndDrawer();

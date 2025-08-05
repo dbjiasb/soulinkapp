@@ -124,7 +124,7 @@ class ChatTextCell extends ChatCell {
             child: Container(
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: isMine ? Color(0xE6EBEFFF) : Color(0xE640252A),
+                color: isMine ? Color(0xFFFFF9B4).withValues(alpha: 0.9) : Color(0xFF272533).withValues(alpha: 0.9),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12),
                   topRight: Radius.circular(12),
@@ -287,12 +287,14 @@ class ChatTextAudioView extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          gradient: MyAccount.isSubscribed?LinearGradient(
-            colors: [Color(0xFFF6C2D8), Color(0xFFDB80F9), Color(0xFFC07CF7), Color(0xFF6F71F6)],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ):null,
-          color: MyAccount.isSubscribed?null:Color(0xFFE962F6),
+          // gradient: MyAccount.isSubscribed?LinearGradient(
+          //   colors: [Color(0xFFF6C2D8), Color(0xFFDB80F9), Color(0xFFC07CF7), Color(0xFF6F71F6)],
+          //   begin: Alignment.centerLeft,
+          //   end: Alignment.centerRight,
+          // ):null,
+          color:
+          // MyAccount.isSubscribed ?null :
+          Color(0xFF997B2F),
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(12),
             topRight: Radius.circular(12),
