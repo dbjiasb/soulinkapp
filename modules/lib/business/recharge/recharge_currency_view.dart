@@ -18,11 +18,11 @@ class RechargeCurrencyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.secondPage,
+      backgroundColor: Color(0xff070512),
       appBar: AppBar(
-        leading: InkWell(onTap: Get.back, child: Container(padding: EdgeInsets.all(16), child: Image.asset(ImagePath.icon_back, fit: BoxFit.fill))),
+        leading: InkWell(onTap: Get.back, child: Container(padding: EdgeInsets.all(16), child: Image.asset(ImagePath.back, fit: BoxFit.fill))),
         centerTitle: true,
-        backgroundColor: AppColors.secondPage,
+        backgroundColor: Color(0xff070512),
         title: Text(controller.rcgType == 0 ? EncHelper.rcg_titlCois : EncHelper.rcg_titlGms, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
       ),
       body: GetBuilder<RechargeCurrencyViewController>(builder: (controller) {
@@ -32,35 +32,24 @@ class RechargeCurrencyView extends StatelessWidget {
   }
 
   Widget _rechargeCurrencyView() {
-    final rcgImage = controller.rcgType == 0 ? EncHelper.rcg_coiImg : EncHelper.rcg_gmImg;
+    final rcgImage = controller.rcgType == 0 ? ImagePath.coin : ImagePath.gem;
     return SafeArea(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
         child: Column(
           children: [
             Container(
-              height: 88,
-              decoration: BoxDecoration(image: DecorationImage(image: AssetImage(EncHelper.rcg_geRcgBg(controller.rcgType)), fit: BoxFit.fill)),
+              alignment: Alignment.center,
               padding: EdgeInsets.symmetric(vertical: 17, horizontal: 24),
-              child: Row(
+              child: Column(
                 spacing: 12,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Image.asset(rcgImage, height: 40, width: 40),
-                  Obx(()=>Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        EncHelper.rcg_geRcgBalns(controller.rcgType),
-                        style: TextStyle(color: Color(0xFF999999), fontSize: 12, fontWeight: AppFonts.medium),
-                      ),
-                      Text(
-                        '${controller.rcgType == 0 ? MyAccount.coins : MyAccount.gems}',
-                        style: TextStyle(color: Color(0xFF0A0B12), fontSize: 20, fontWeight: AppFonts.black),
-                      ),
-                    ],
-                  )),
+                  Image.asset(rcgImage, height: 44, width: 44),
+                  Text(
+                    '${controller.rcgType == 0 ? MyAccount.coins : MyAccount.gems}',
+                    style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: AppFonts.medium),
+                  ),
                 ],
               ),
             ),
@@ -73,7 +62,7 @@ class RechargeCurrencyView extends StatelessWidget {
               onTap: controller.startRecharge,
               child: Container(
                 height: 48,
-                decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(color: Color(0xff8761F1), borderRadius: BorderRadius.circular(12)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -92,7 +81,7 @@ class RechargeCurrencyView extends StatelessWidget {
   Widget _buildProducts(String rcgImage) {
     return Expanded(
       child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, mainAxisSpacing: 8, crossAxisSpacing: 10, childAspectRatio: 108 / 128),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3, mainAxisSpacing: 8, crossAxisSpacing: 10, childAspectRatio: 110/72),
         itemCount: controller.curPros.length,
         itemBuilder: (context, index) {
           final product = controller.curPros[index];
@@ -102,19 +91,24 @@ class RechargeCurrencyView extends StatelessWidget {
             },
             child: Obx(
               () => Container(
-                padding: EdgeInsets.only(top: 24, bottom: 16),
                 decoration: BoxDecoration(
-                  color: Color(0xFF221E32),
+                  color: Color(0xFF272533),
                   borderRadius: BorderRadius.circular(12),
-                  border: controller.selectedPro == product ? Border.all(width: 2, color: AppColors.primary) : null,
+                  border: controller.selectedPro == product ? Border.all(width: 2, color: Color(0xffFFEF3B)) : null,
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(rcgImage, height: 24, width: 24),
-                    Text('${product[EncHelper.rcg_valu]}', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: AppFonts.black)),
-                    Spacer(),
-                    Text(controller.realPrice(product), style: TextStyle(color: AppColors.primary, fontSize: 14, fontWeight: FontWeight.bold)),
+                    Row(
+                      spacing: 4,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Image.asset(rcgImage, height: 18, width: 18),
+                        Text('${product[EncHelper.rcg_valu]}', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: AppFonts.black)),
+                      ],
+                    ),
+                    Text(controller.realPrice(product), style: TextStyle(color: Color(0xffABABAD), fontSize: 14, fontWeight: FontWeight.bold)),
                   ],
                 ),
               ),

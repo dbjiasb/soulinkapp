@@ -15,6 +15,7 @@ abstract final class ImagePath {
   static const String btm_custom = 'packages/modules/assets/soulink/btm_custom.png';
   static const String btm_pic = 'packages/modules/assets/soulink/btm_pic.png';
   static const String btm_video = 'packages/modules/assets/soulink/btm_video.png';
+  static const String camera = 'packages/modules/assets/soulink/camera.png';
   static const String chat_close = 'packages/modules/assets/soulink/chat_close.png';
   static const String chat_more = 'packages/modules/assets/soulink/chat_more.png';
   static const String check = 'packages/modules/assets/soulink/check.png';
@@ -34,6 +35,7 @@ abstract final class ImagePath {
   static const String func_history = 'packages/modules/assets/soulink/func_history.png';
   static const String func_img = 'packages/modules/assets/soulink/func_img.png';
   static const String func_video = 'packages/modules/assets/soulink/func_video.png';
+  static const String gem = 'packages/modules/assets/soulink/gem.png';
   static const String go_on_talk = 'packages/modules/assets/soulink/go_on_talk.png';
   static const String hang_up = 'packages/modules/assets/soulink/hang_up.png';
   static const String home_normal = 'packages/modules/assets/soulink/home_normal.png';
@@ -79,7 +81,6 @@ abstract final class ImagePath {
   static const String send = 'packages/modules/assets/soulink/a240309b93a402df5de37930a5c81bfb.png';
   static const String unselected = 'packages/modules/assets/soulink/d41d8cd98f00b204e9800998ecf8427e.png';
   static const String login_google = 'packages/modules/assets/soulink/d0a21c3cf936cac8d2723d021d4c1349.png';
-  static const String gem = 'packages/modules/assets/soulink/24ba905911a925567edf171832027dcf.png';
   static const String oc_entry_bg = 'packages/modules/assets/soulink/1b914aaaa4f4dd5c3decbbfab1ad413b.png';
   static const String open_mic = 'packages/modules/assets/soulink/931027f76cc732cacc800829b90f472a.png';
   static const String chat_input_more = 'packages/modules/assets/soulink/4fb247a43146a81c057e94b95743c7fb.png';

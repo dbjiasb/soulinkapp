@@ -32,7 +32,6 @@ class AccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.main,
       body: Stack(
         children: [
           // 背景图
@@ -62,6 +61,7 @@ class AccountView extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Row(
                   children: [
+                    _buildCurrencyItem(0),
                     Spacer(),
                     GestureDetector(
                       onTap: () {
@@ -78,6 +78,35 @@ class AccountView extends StatelessWidget {
           // 头像
           Positioned(left: 16, top: 144, child: AvatarView(url: avatarUrl, size: 72)),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCurrencyItem(int type){
+    return GestureDetector(
+      onTap: (){
+        Get.toNamed(Routers.rechargeCurrency.name, arguments: {EncHelper.rcg_rcgTyp: type});
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        decoration: BoxDecoration(
+          color: Color(0xff1E1C2A).withValues(alpha: 0.5),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Image.asset(type == 1?ImagePath.gem:ImagePath.coin, height: 20, width: 20),
+            SizedBox(width: 4),
+            Obx(() => Text(
+              '${type == 1?MyAccount.gems:MyAccount.coins}',
+              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+            )),
+            SizedBox(
+              width: 2,
+            ),
+            Image.asset(ImagePath.chat_more, height: 16, width: 16),
+          ],
+        ),
       ),
     );
   }
@@ -163,7 +192,7 @@ class AccountView extends StatelessWidget {
                     : controller.myCompanions.isEmpty
                     ? _buildEmptyView()
                     : RefreshIndicator(
-                      onRefresh: controller.onRefresh,
+                      onRefresh: controller.initCollections,
                       child: Obx(
                         () =>
                             controller.status.value == ListStatus.success
@@ -254,58 +283,6 @@ class AccountViewController extends GetxController {
   static const ONLY_CUSTOM_AI = 4;
   static const PAGE_SIZE = 100;
 
-  //
-  // bool _hasMore = true;
-  // int _pageIndex = 0;
-  // int _version = 0;
-  // int pageSize = 20;
-  // bool loadingMore = false;
-  // late ScrollController scrollController;
-  // var status = ListStatus.idle.obs;
-  // var items = [].obs;
-  // Future<void> onRefresh() async {
-  //   _version = 0;
-  //   _pageIndex = 0;
-  //   _hasMore = true;
-  //   await getRoleList();
-  // }
-  // addObservers() {
-  //   scrollController.addListener(() {
-  //     if ((scrollController.position.pixels >= scrollController.position.maxScrollExtent - 64) && _hasMore && loadingMore == false) {
-  //       loadMoreData();
-  //     }
-  //   });
-  // }
-  // loadMoreData() async {
-  //   if (loadingMore) return;
-  //   loadingMore = true;
-  //   _pageIndex++;
-  //   await getRoleList(pageIndex: _pageIndex, version: _version);
-  //   loadingMore = false;
-  // }
-  // getRoleList({int version = 0, int pageIndex = 0, int targetUid = 0}) async {
-  //   if (items.isEmpty && status.value == ListStatus.idle) {
-  //     status.value = ListStatus.loading;
-  //   }
-  //
-  //   ApiResponse response = await RoleManager.instance.getRoleList(type: type, version: version, pageIndex: pageIndex, targetUid: targetUid);
-  //   if (response.isSuccess) {
-  //     List infos = response.data[Security.security_param] ?? [];
-  //     List<RoleItem> newItems = infos.map((e) => RoleItem.fromMap(e)).toList();
-  //
-  //     if (pageIndex == 0) {
-  //       items.clear();
-  //     }
-  //     items.addAll(newItems);
-  //     status.value = items.isEmpty ? ListStatus.empty : ListStatus.success;
-  //     _hasMore = response.data[Security.security_hasMore] ?? true;
-  //     _version = response.data[Constants.pVer] ?? 0;
-  //   } else {
-  //     if (items.isEmpty) {
-  //       status.value = ListStatus.error;
-  //     }
-  //   }
-  // }
 
   final myCompanions = [].obs;
 
@@ -319,7 +296,7 @@ class AccountViewController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchMyCompanions();
+    initCollections();
     refreshMyInfo();
     scrollController.addListener(onScrollToBottom);
   }
@@ -345,8 +322,21 @@ class AccountViewController extends GetxController {
     fetchMyCompanions();
   }
 
-  void fetchMyCompanions() async {
+  Future initCollections() async {
+    myCompanions.clear();
+    poolVer = 0;
+    pageIdx = 0;
+    hasMore = true;
+    status.value = ListStatus.idle;
+
     _loadingCompanions.value = true;
+    await fetchMyCompanions();
+    _loadingCompanions.value = false;
+    status.value = myCompanions.isEmpty ? ListStatus.empty : ListStatus.success;
+
+  }
+
+  Future fetchMyCompanions() async {
     if (!hasMore) return;
     final rsp = await RoleManager.instance.getRoleList();
     if (rsp.isSuccess) {
@@ -356,9 +346,7 @@ class AccountViewController extends GetxController {
 
       myCompanions.addAll(rsp.data[Security.security_param] ?? []);
       myCompanions.refresh();
-      status.value = myCompanions.isEmpty ? ListStatus.empty : ListStatus.success;
     }
-    _loadingCompanions.value = false;
   }
 
   void refreshMyInfo() {
