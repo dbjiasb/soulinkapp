@@ -211,8 +211,10 @@ class AccountView extends StatelessWidget {
                 image: DecorationImage(image: AssetImage(ImagePath.person_img_mask), fit: BoxFit.cover),
               ),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
+                  Wrap(
+                    alignment: WrapAlignment.start,
                     children: [
                       Text(companion['nickname'], style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900)),
                       AppWidgets.userTag(companion['accountType']),

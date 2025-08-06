@@ -13,66 +13,70 @@ import '../../shared/alert.dart';
 
 class SettingItem {
   String title;
-  String icon;
   Function() onTap;
 
-  SettingItem({required this.title, required this.icon, required this.onTap});
+  SettingItem({required this.title, required this.onTap});
 }
 
 class AccountSettings extends StatelessWidget {
   List<SettingItem> get items => <SettingItem>[
-    SettingItem(title: 'Terms of service', icon: ImagePath.terms_service, onTap: checkTermsOfService),
-    SettingItem(title: 'Privacy policy', icon: ImagePath.privacy_policy, onTap: checkPrivacyPolicy),
-    SettingItem(title: 'Log out', icon: ImagePath.log_out, onTap: logout),
-    SettingItem(title: 'Account Deletion', icon: ImagePath.account_deletion, onTap: deleteAccount),
+    SettingItem(title: 'Terms of service', onTap: checkTermsOfService),
+    SettingItem(title: 'Privacy policy', onTap: checkPrivacyPolicy),
+    SettingItem(title: 'Account Deletion', onTap: deleteAccount),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.secondPage,
+      appBar: AppBar(
+        title: Text(Security.security_Setting, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+        backgroundColor: Color(0xff070512),
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.white),
+          onPressed: () => Get.back(),
+        ),
+      ),
+      backgroundColor: Color(0xff070512),
       body: SafeArea(
         child: Column(
           children: [
-            // 顶部标题栏
             Container(
-              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                children: [
-                  GestureDetector(onTap: () => Get.back(), child: Icon(Icons.arrow_back_ios, color: Colors.white)),
-                  SizedBox(width: 16),
-                  Text(Security.security_Setting, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-                ],
-              ),
-            ),
-
-            Expanded(
-              child: ListView.separated(
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                itemCount: items.length,
-                separatorBuilder: (context, index) => Divider(color: AppColors.secondPage, height: 8),
-                itemBuilder: (context, index) {
-                  final item = items[index];
-                  return GestureDetector(
-                    onTap: item.onTap,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      height: 56,
-                      decoration: BoxDecoration(color: Color(0xFF1E1A2E), borderRadius: BorderRadius.circular(8)),
-                      child: Row(
-                        spacing: 8,
-                        children: [
-                          Image.asset(item.icon, width: 24, height: 24, color: Colors.white),
-                          Text(item.title, style: TextStyle(color: Colors.white, fontSize: 16)),
-                          Spacer(),
-                          Image.asset(ImagePath.arrow_right, height: 16, width: 16),
-                        ],
-                      ),
+              margin: EdgeInsets.symmetric(horizontal: 16,vertical: 12),
+              padding: EdgeInsets.zero,
+              decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.1),borderRadius: BorderRadius.circular(12)),
+              child: Column(
+                children: items.map((e)=> GestureDetector(
+                  onTap: e.onTap,
+                  child: Container(
+                    height: 44,
+                    padding: EdgeInsets.all(12),
+                    child: Row(
+                      children: [
+                        Text(e.title, style: TextStyle(color: Colors.white, fontSize: 14,fontWeight: FontWeight.bold)),
+                        Spacer(),
+                        Image.asset(ImagePath.right_arrow, height: 16, width: 16),
+                      ],
                     ),
-                  );
-                },
+                  ),
+                )).toList(),
               ),
             ),
+            
+            // log out 
+            GestureDetector(
+              onTap: logout,
+              child: Container(
+                margin: EdgeInsets.symmetric(horizontal: 16),
+                height: 44,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                alignment: Alignment.center,
+                child: Text('Log out',style: TextStyle(color: Color(0xffF84652),fontSize: 14,fontWeight: FontWeight.bold),),
+              ),
+            )
           ],
         ),
       ),
