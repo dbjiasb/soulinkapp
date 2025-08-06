@@ -27,7 +27,7 @@ class ListStatusView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(ImagePath.list_status_empty, width: 156, height: 156),
+          Image.asset(ImagePath.empty_list, width: 156, height: 156),
           Text(
             errorDesc ?? 'Network exception, please try again later',
             style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8)),
