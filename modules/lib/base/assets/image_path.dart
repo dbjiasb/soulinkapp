@@ -55,6 +55,7 @@ abstract final class ImagePath {
   static const String real_tag = 'packages/modules/assets/soulink/real_tag.png';
   static const String refresh = 'packages/modules/assets/soulink/refresh.png';
   static const String search = 'packages/modules/assets/soulink/search.png';
+  static const String setting = 'packages/modules/assets/soulink/setting.png';
   static const String tab_selected = 'packages/modules/assets/soulink/tab_selected.png';
   static const String tip_off = 'packages/modules/assets/soulink/tip_off.png';
   static const String translate = 'packages/modules/assets/soulink/translate.png';

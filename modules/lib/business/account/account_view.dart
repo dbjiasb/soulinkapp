@@ -13,7 +13,13 @@ import 'package:modules/core/util/es_helper.dart';
 import 'package:modules/shared/app_theme.dart';
 import 'package:modules/shared/widget/avatar_view.dart';
 
+import '../../base/api_service/api_response.dart';
+import '../../base/crypt/constants.dart';
 import '../../shared/interactions.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+
+import '../../shared/widget/list_status_view.dart';
+import '../home_page_lists/role_list_view.dart';
 
 class AccountView extends StatelessWidget {
   AccountView({super.key});
@@ -31,79 +37,213 @@ class AccountView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF0A0B12),
-      body: Column(
-        spacing: 20,
+      backgroundColor: AppColors.main,
+      body: Stack(
         children: [
-          Container(
-            height: 150,
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.account_head_bg), fit: BoxFit.cover)),
+          // 背景图
+          Positioned.fill(child: Image.asset(ImagePath.person_head_bg, fit: BoxFit.cover)),
+
+          // 主体内容
+          Positioned(
+            left: 0,
+            top: 180,
+            right: 0,
+            bottom: 0,
+            child: Container(
+              decoration: BoxDecoration(color: Color(0xFF070512), borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24))),
+              padding: EdgeInsets.only(left: 16, right: 16, top: 50),
+              child: body(),
+            ),
+          ),
+
+          // 顶栏
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
             child: SafeArea(
               bottom: false,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                child: Row(children: [Spacer(), GestureDetector(onTap: () {Get.toNamed(Routers.setting.name);}, child: Image.asset(ImagePath.setting, height: 32, width: 32))]),
+              ),
+            ),
+          ),
+
+          // 头像
+          Positioned(left: 16, top: 144, child: AvatarView(url: avatarUrl, size: 72)),
+          // Column(
+          //   spacing: 20,
+          //   children: [
+          //     Container(
+          //       height: 150,
+          //       padding: EdgeInsets.symmetric(horizontal: 16),
+          //       decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.account_head_bg), fit: BoxFit.cover)),
+          //       child: SafeArea(
+          //         bottom: false,
+          //         child: Row(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           children: [
+          //             Container(
+          //               child: Row(
+          //                 children: [
+          //                   Obx(() => avatarUrl.isEmpty ? Image.asset(ImagePath.default_avatar, height: 68, width: 68) : AvatarView(url: avatarUrl, size: 68)),
+          //                   SizedBox(width: 12),
+          //                   Column(
+          //                     spacing: 3,
+          //                     mainAxisAlignment: MainAxisAlignment.center,
+          //                     crossAxisAlignment: CrossAxisAlignment.start,
+          //                     children: [
+          //                       Row(
+          //                         spacing: 4,
+          //                         children: [
+          //                           Obx(() => Text(nickname, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900))),
+          //                           GestureDetector(
+          //                             onTap: () {
+          //                               Get.toNamed(Routers.editMe.name);
+          //                             },
+          //                             child: Image.asset(ImagePath.account_edit, height: 14, width: 14),
+          //                           ),
+          //                         ],
+          //                       ),
+          //                       Container(
+          //                         padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+          //                         decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2), borderRadius: BorderRadius.circular(6)),
+          //                         child: Row(
+          //                           spacing: 4,
+          //                           children: [
+          //                             Obx(() => Text('ID:$ID', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500))),
+          //                             GestureDetector(
+          //                               onTap: () {
+          //                                 Interactions.copyToClipboard(ID.toString());
+          //                               },
+          //                               child: Image.asset(ImagePath.string_cpy, height: 12, width: 12),
+          //                             ),
+          //                           ],
+          //                         ),
+          //                       ),
+          //                     ],
+          //                   ),
+          //                 ],
+          //               ),
+          //             ),
+          //             Spacer(),
+          //             GestureDetector(
+          //               onTap: () {
+          //                 Get.toNamed(Routers.setting.name);
+          //               },
+          //               child: Image.asset(ImagePath.account_setting, width: 24, height: 24),
+          //             ),
+          //           ],
+          //         ),
+          //       ),
+          //     ),
+          //     Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: walletArea()),
+          //     CompanionArea(),
+          //     SizedBox(height: 10),
+          //   ],
+          // )
+        ],
+      ),
+    );
+  }
+
+  Widget body() {
+    return Column(spacing:16,children: [InfoArea(), Expanded(child: CompanionsArea())]);
+  }
+
+  Widget InfoArea() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          spacing: 8,
+          children: [
+            Obx(() => Text(nickname, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900))),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+              decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(6)),
               child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 2,
                 children: [
-                  Container(
-                    child: Row(
-                      children: [
-                        Obx(() => avatarUrl.isEmpty ? Image.asset(ImagePath.default_avatar, height: 68, width: 68) : AvatarView(url: avatarUrl, size: 68)),
-                        SizedBox(width: 12),
-                        Column(
-                          spacing: 3,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              spacing: 4,
-                              children: [
-                                Obx(() => Text(nickname, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900))),
-                                GestureDetector(
-                                  onTap: () {
-                                    Get.toNamed(Routers.editMe.name);
-                                  },
-                                  child: Image.asset(ImagePath.account_edit, height: 14, width: 14),
-                                ),
-                              ],
-                            ),
-                            Container(
-                              padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
-                              decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2), borderRadius: BorderRadius.circular(6)),
-                              child: Row(
-                                spacing: 4,
-                                children: [
-                                  Obx(() => Text('ID:$ID', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500))),
-                                  GestureDetector(
-                                    onTap: () {
-                                      Interactions.copyToClipboard(ID.toString());
-                                    },
-                                    child: Image.asset(ImagePath.string_cpy, height: 12, width: 12),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Spacer(),
+                  Text('ID:$ID', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500)),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(Routers.setting.name);
+                      Interactions.copyToClipboard(ID.toString());
                     },
-                    child: Image.asset(ImagePath.account_setting, width: 24, height: 24),
+                    child: Image.asset(ImagePath.copy, height: 14, width: 14),
                   ),
                 ],
               ),
             ),
+          ],
+        ),
+        GestureDetector(
+          onTap: () {
+            Get.toNamed(Routers.editMe.name);
+          },
+          child: Container(
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Color(0xFF272533)),
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+            child: Center(
+              child: Row(
+                spacing: 4,
+                children: [
+                  Icon(Icons.edit, color: Colors.white, size: 14),
+                  Text('Edit', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+                ],
+              ),
+            ),
           ),
-          Padding(padding: EdgeInsets.symmetric(horizontal: 16), child: walletArea()),
-          CompanionArea(),
-          SizedBox(height: 10),
-        ],
-      ),
+        ),
+      ],
     );
+  }
+
+  Widget CompanionsArea() {
+    return Column(
+      children: [
+        Row(
+          children:[
+            SizedBox(
+                height: 20,
+                width: 92,
+                child:Stack(
+                  clipBehavior: Clip.none,
+                    children: [
+                      Positioned(left:0,child: Text('Companions', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900))),
+                      Positioned(right:0,bottom:-5,child: Image.asset(ImagePath.tab_selected,width: 40,height: 10,))
+                    ]
+                )
+            )
+          ]
+        ),
+        Expanded(child: CompanionsList())
+      ],
+    );
+  }
+  
+  Widget CompanionsList() {
+    return Obx(()=>controller._loadingCompanions.value==true?Center(child: CircularProgressIndicator()):RefreshIndicator(
+      onRefresh: controller.onRefresh,
+      child: Obx(
+            () =>
+        controller.status.value == ListStatus.success
+            ? MasonryGridView.count(
+          controller: controller.scrollController,
+          padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+          crossAxisCount: 2,
+          crossAxisSpacing: 8,
+          mainAxisSpacing: 8,
+          itemBuilder: (context, index) {
+            return controller.myCompanions[index].builder(context);
+          },
+          itemCount: controller.myCompanions.length,
+        )
+            : ListStatusView(status: controller.status.value,emptyDesc: 'No chat partner has been initiated yet',),
+      ),
+    ));
   }
 
   Widget walletArea() {
@@ -317,6 +457,59 @@ class AccountViewController extends GetxController {
   static const ONLY_CUSTOM_AI = 4;
   static const PAGE_SIZE = 100;
 
+  //
+  // bool _hasMore = true;
+  // int _pageIndex = 0;
+  // int _version = 0;
+  // int pageSize = 20;
+  // bool loadingMore = false;
+  // late ScrollController scrollController;
+  // var status = ListStatus.idle.obs;
+  // var items = [].obs;
+  // Future<void> onRefresh() async {
+  //   _version = 0;
+  //   _pageIndex = 0;
+  //   _hasMore = true;
+  //   await getRoleList();
+  // }
+  // addObservers() {
+  //   scrollController.addListener(() {
+  //     if ((scrollController.position.pixels >= scrollController.position.maxScrollExtent - 64) && _hasMore && loadingMore == false) {
+  //       loadMoreData();
+  //     }
+  //   });
+  // }
+  // loadMoreData() async {
+  //   if (loadingMore) return;
+  //   loadingMore = true;
+  //   _pageIndex++;
+  //   await getRoleList(pageIndex: _pageIndex, version: _version);
+  //   loadingMore = false;
+  // }
+  // getRoleList({int version = 0, int pageIndex = 0, int targetUid = 0}) async {
+  //   if (items.isEmpty && status.value == ListStatus.idle) {
+  //     status.value = ListStatus.loading;
+  //   }
+  //
+  //   ApiResponse response = await RoleManager.instance.getRoleList(type: type, version: version, pageIndex: pageIndex, targetUid: targetUid);
+  //   if (response.isSuccess) {
+  //     List infos = response.data[Security.security_param] ?? [];
+  //     List<RoleItem> newItems = infos.map((e) => RoleItem.fromMap(e)).toList();
+  //
+  //     if (pageIndex == 0) {
+  //       items.clear();
+  //     }
+  //     items.addAll(newItems);
+  //     status.value = items.isEmpty ? ListStatus.empty : ListStatus.success;
+  //     _hasMore = response.data[Security.security_hasMore] ?? true;
+  //     _version = response.data[Constants.pVer] ?? 0;
+  //   } else {
+  //     if (items.isEmpty) {
+  //       status.value = ListStatus.error;
+  //     }
+  //   }
+  // }
+  
   final myCompanions = [].obs;
 
   var poolVer = 0;
