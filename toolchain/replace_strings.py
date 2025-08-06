@@ -4,6 +4,20 @@ import shutil
 from pathlib import Path
 import json
 
+# 白名单配置（新增）
+REPLACE_CONFIG = {
+    'variables': {
+        'pattern': r"(['\"])({})\\1",
+        'replacement': 'Security.security_{}',
+        'import': 'security'
+    },
+    'apis': {
+        'pattern': r"(ApiRequest\()\s*['\"]({})['\"]\s*(?=,|\s*\))",
+        'replacement': r'\1Apis.security_{}',
+        'import': 'apis'
+    }
+}
+
 def replace_security_strings(enable_backup=False):
     script_dir = Path(__file__).parent
     
@@ -13,20 +27,30 @@ def replace_security_strings(enable_backup=False):
         data = json.load(f)
     
     # 从variables.items提取加密字符串
-    security_strings = [
-        item.strip("'\"")  # 直接处理字符串元素
-        for item in data['variables']['items']  # 原始字符串数组
-    ]
+    # security_strings = [
+    #     item.strip("'\"")  # 直接处理字符串元素
+    #     for item in data['variables']['items']  # 原始字符串数组
+    # ]
 
-    # 按长度降序排序
-    security_strings.sort(key=lambda x: -len(x))
+    # # 按长度降序排序
+    # security_strings.sort(key=lambda x: -len(x))
     
     # 构建正则表达式模式
-    patterns = [
-        (re.compile(rf'''(['"])({re.escape(s)})\1'''), 
-         f'Security.security_{s}')
-        for s in security_strings
-    ]
+    # 处理白名单键值（修改）
+    patterns = []
+    import_statements = set()
+
+    for key in ['variables', 'apis']:  # 白名单控制
+        config = REPLACE_CONFIG[key]
+        items = data[key]['items']
+
+        # 生成对应规则
+        for s in sorted(items, key=lambda x: -len(x)):
+            patterns.append((
+                re.compile(config['pattern'].format(re.escape(s))),
+                config['replacement'].format(s)
+            ))
+        import_statements.add(f"import 'package:modules/base/crypt/{config['import']}.dart';")
 
     # 配置工程目录（根据实际项目结构调整）
     project_dir = Path(__file__).parent.parent / "modules"
@@ -57,7 +81,7 @@ def replace_security_strings(enable_backup=False):
         
         # 新增：在修改过的文件中添加导入语句
         if need_import:
-            import_statement = "import 'package:modules/base/crypt/security.dart';\n"
+            import_statement = f"import 'package:modules/base/crypt/{config['import']}.dart';\n"
             # 避免重复导入
             if import_statement not in content:
                 content = import_statement + content

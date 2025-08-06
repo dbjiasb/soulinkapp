@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -140,7 +141,7 @@ class AccountService {
   }
 
   Future<ApiResponse> getVerifyCode(String account, AccountType type) async {
-    ApiRequest request = ApiRequest('fetchVerificationCode', params: {Security.security_account: account, Security.security_type: type.value});
+    ApiRequest request = ApiRequest(Apis.security_fetchVerificationCode, params: {Security.security_account: account, Security.security_type: type.value});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     return response;
   }
@@ -161,8 +162,7 @@ class AccountService {
 
   //登录
   Future<ApiResponse> login(String account, String password, AccountType accountType, {String thirdName = ''}) async {
-    ApiRequest request = ApiRequest(
-      'signIn',
+    ApiRequest request = ApiRequest(Apis.security_signIn,
       params: {
         Security.security_account: account,
         Security.security_token: password,
@@ -221,7 +221,7 @@ class AccountService {
   }
 
   Future<ApiResponse> deleteAccount() async {
-    ApiRequest request = ApiRequest('deleteAccount', params: {});
+    ApiRequest request = ApiRequest(Apis.security_deleteAccount, params: {});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
       logout();
@@ -252,8 +252,7 @@ class AccountService {
     if (birthday != null) flag |= 8;
     if (bio != null) flag |= 16;
 
-    final req = ApiRequest(
-      'updateUserInfo',
+    final req = ApiRequest(Apis.security_updateUserInfo,
       params: {
         Security.security_flag: flag,
         Security.security_nickName: name ?? '',
@@ -274,7 +273,7 @@ class AccountService {
 
   /// balance
   void refreshBalance() async {
-    final req = ApiRequest('fetchBalance', params: {Security.security_uid: account.id});
+    final req = ApiRequest(Apis.security_fetchBalance, params: {Security.security_uid: account.id});
     final rsp = await ApiService.instance.sendRequest(req);
 
     if (rsp.statusCode != 200 || rsp.bsnsCode != 0) return;
@@ -284,7 +283,7 @@ class AccountService {
   }
 
   void getMyPremInfo() async {
-    final req = ApiRequest('queryMyPremiumInfo', params: {});
+    final req = ApiRequest(Apis.security_queryMyPremiumInfo, params: {});
     final rsp = await ApiService.instance.sendRequest(req);
 
     if (rsp.statusCode != 200 || rsp.bsnsCode != 0) return;

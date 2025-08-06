@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -80,8 +81,7 @@ class PurchaseManager {
   }
 
   Future<bool> checkPurchasedToken(String pid, String receipt, String cacheKey) async {
-    final req = ApiRequest(
-      'fullConfirmPurchase',
+    final req = ApiRequest(Apis.security_fullConfirmPurchase,
       params: {
         Security.security_receipt: receipt,
         Security.security_id: pid,

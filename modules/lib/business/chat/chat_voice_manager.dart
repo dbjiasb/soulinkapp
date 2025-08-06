@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -38,7 +39,7 @@ class ChatVoiceManager {
   String get workDirectory => FileManager.instance.cacheDirectory;
 
   Future<TTSResult> textToVoice(ChatTextMessage message) async {
-    ApiRequest request = ApiRequest('convertContentToVoice',
+    ApiRequest request = ApiRequest(Apis.security_convertContentToVoice,
         params: {Security.security_userId: message.senderId, Security.security_content: message.text});
 
     ApiResponse response = await ApiService.instance.sendRequest(request);

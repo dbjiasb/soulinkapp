@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
 
@@ -29,7 +30,7 @@ class ReportManager {
     if (reportItems.isNotEmpty) {
       return reportItems;
     }
-    ApiRequest request = ApiRequest('fetchTipOffOptions');
+    ApiRequest request = ApiRequest(Apis.security_fetchTipOffOptions);
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
       List data = response.data[Security.security_reasons];
@@ -42,7 +43,7 @@ class ReportManager {
 
   //提交举报
   Future<ApiResponse> submitReport(int userId, int reasonId, {String extra = ''}) async {
-    ApiRequest request = ApiRequest('tipOffUser', params: {Security.security_userId: userId, Security.security_optionId: reasonId, Security.security_additional: extra});
+    ApiRequest request = ApiRequest(Apis.security_tipOffUser, params: {Security.security_userId: userId, Security.security_optionId: reasonId, Security.security_additional: extra});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     return response;
   }

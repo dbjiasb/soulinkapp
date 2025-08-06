@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -75,7 +76,7 @@ class AdManager {
   }
 
   static sendEvent(String eventName, Map<String, String>? event) async {
-    ApiRequest request = ApiRequest('sendData', params: {Security.security_name: eventName, Security.security_param: event});
+    ApiRequest request = ApiRequest(Apis.security_sendData, params: {Security.security_name: eventName, Security.security_param: event});
 
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {

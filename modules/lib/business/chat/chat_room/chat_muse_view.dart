@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -93,8 +94,7 @@ class ChatMuseViewController extends GetxController {
       listStatus.value = ListStatus.loading;
     }
 
-    ApiRequest request = ApiRequest(
-      'queryInspirationWords',
+    ApiRequest request = ApiRequest(Apis.security_queryInspirationWords,
       params: {Security.security_targetUid: Get.find<ChatRoomViewController>().userId, Security.security_sessionId: Get.find<ChatRoomViewController>().session.id},
     );
 
