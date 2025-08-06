@@ -2,17 +2,23 @@ import argparse
 import re
 import shutil
 from pathlib import Path
+import json
 
 def replace_security_strings(enable_backup=False):
-    script_dir = Path(__file__).parent  # 新增脚本目录定义
+    script_dir = Path(__file__).parent
     
-    # 读取所有需要替换的变量名
-    input_file = script_dir / 'scan_result_var.txt'  # 修改为绝对路径
-    # 读取所有需要替换的变量名
+    # 读取JSON文件
+    input_file = script_dir / 'scan_result.json'
     with open(input_file, 'r', encoding='utf-8') as f:
-        security_strings = [line.strip().strip("'\"") for line in f.readlines()]
+        data = json.load(f)
     
-    # 按长度降序排序，避免部分匹配
+    # 从variables.items提取加密字符串
+    security_strings = [
+        item.strip("'\"")  # 直接处理字符串元素
+        for item in data['variables']['items']  # 原始字符串数组
+    ]
+
+    # 按长度降序排序
     security_strings.sort(key=lambda x: -len(x))
     
     # 构建正则表达式模式

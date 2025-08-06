@@ -90,44 +90,22 @@ def generate_security_constants(prefix='security'):
                 print("警告：未找到闭合的右括号，可能导致生成的文件格式错误")
             
             # 解析现有变量
-            existing_vars = set(re.findall(r'static late final String (\w+) = _decrypt', '\n'.join(existing_content)))
+            existing_vars = set(re.findall(r'static late final String (\w+) = decrypt', '\n'.join(existing_content)))  # 修改正则表达式
+            
+            # 新增过滤逻辑
+            valid_vars = [(var, encrypted) for var, encrypted in valid_vars if f'{prefix}_{var}' not in existing_vars]
         else:
-            # 创建解密文件（新增）
-            decrypt_file = target_dir / 'decrypt.dart'
-            if not decrypt_file.exists():
-                decrypt_file.write_text(
-                    "import 'package:encrypt/encrypt.dart';\n\n"
-                    "final _aesKey = Key.fromUtf8('{}');\n"
-                    "final _iv = IV.fromUtf8('{}');\n\n"
-                    "String decrypt(String encrypted) {{\n"
-                    "  final cipher = AES(_aesKey, mode: AESMode.cbc);\n"
-                    "  final encrypter = Encrypter(cipher);\n"
-                    "  return encrypter.decrypt64(encrypted, iv: _iv);\n"
-                    "}}".format(KEY.decode(), IV.decode())
-                )
-            
-            # 修改类头部生成逻辑（修改）
-            header_content = [
-                'import \'decrypt.dart\';',
-                f'/// {class_name} 安全相关字符串常量（运行时解密）',
-                f'abstract final class {class_name} {{\n'
-                f'  {class_name}._();'
-            ]
-            
-            # 修改变量声明（修改）
-            new_vars = [
-                f'  static late final String {prefix}_{var} = decrypt(\'{encrypted}\');'
-                for var, encrypted in valid_vars
-                if f'{prefix}_{var}' not in existing_vars
-            ]
+            valid_vars = valid_vars  # 新文件无需过滤
 
-            # 写入文件（保持原有逻辑）
-            dart_code = header_content + new_vars + ['}']
-            output_file.write_text('\n'.join(dart_code), encoding='utf-8')
-            print(f"生成成功：{output_file.absolute()}")
-        print("请执行以下操作：")
-        print("1. 在pubspec.yaml添加依赖：encrypt: ^5.0.1")
-        print("2. 安装加密库：flutter pub get")
+        # 移除生成new_vars时的重复过滤条件
+        new_vars = [
+            f'  static late final String {prefix}_{var} = decrypt(\'{encrypted}\');'
+            for var, encrypted in valid_vars  # 直接使用已过滤的valid_vars
+        ]
+        # 写入文件（保持原有逻辑）
+        dart_code = header_content + new_vars + ['}']
+        output_file.write_text('\n'.join(dart_code), encoding='utf-8')
+        print(f"生成成功：{output_file.absolute()}")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
