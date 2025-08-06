@@ -12,6 +12,7 @@ import 'package:modules/core/util/es_helper.dart';
 import 'package:modules/shared/app_theme.dart';
 import 'package:modules/shared/widget/app_widgets.dart';
 import 'package:modules/shared/widget/avatar_view.dart';
+import 'package:modules/shared/widget/balance_view.dart';
 
 import '../../shared/interactions.dart';
 import '../../shared/widget/list_status_view.dart';
@@ -83,31 +84,42 @@ class AccountView extends StatelessWidget {
   }
 
   Widget _buildCurrencyItem(int type){
+
     return GestureDetector(
-      onTap: (){
-        Get.toNamed(Routers.rechargeCurrency.name, arguments: {EncHelper.rcg_rcgTyp: type});
-      },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
-        decoration: BoxDecoration(
-          color: Color(0xff1E1C2A).withValues(alpha: 0.5),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          children: [
-            Image.asset(type == 1?ImagePath.gem:ImagePath.coin, height: 20, width: 20),
-            SizedBox(width: 4),
-            Obx(() => Text(
-              '${type == 1?MyAccount.gems:MyAccount.coins}',
-              style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
-            )),
-            SizedBox(
-              width: 2,
-            ),
-            Image.asset(ImagePath.boarder_add, height: 16, width: 16),
-          ],
-        ),
-      ),
+        onTap: (){
+          Get.toNamed(Routers.rechargeCurrency.name, arguments: {EncHelper.rcg_rcgTyp: type});
+          },
+        child: BalanceView(
+            type: type==0?BalanceType.coin:BalanceType.gem,
+            style: BalanceViewStyle(
+          color: Colors.white,
+          bgColor: Color(0xff1E1C2A).withValues(alpha: 0.5),
+          height: 30,
+          borderRadius: 12,
+              padding: 8
+        )
+    )
+      // Container(
+      //   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+      //   decoration: BoxDecoration(
+      //     color: Color(0xff1E1C2A).withValues(alpha: 0.5),
+      //     borderRadius: BorderRadius.circular(12),
+      //   ),
+      //   child: Row(
+      //     children: [
+      //       Image.asset(type == 1?ImagePath.gem:ImagePath.coin, height: 20, width: 20),
+      //       SizedBox(width: 4),
+      //       Obx(() => Text(
+      //         '${type == 1?MyAccount.gems:MyAccount.coins}',
+      //         style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+      //       )),
+      //       SizedBox(
+      //         width: 2,
+      //       ),
+      //       Image.asset(ImagePath.boarder_add, height: 16, width: 16),
+      //     ],
+      //   ),
+      // ),
     );
   }
 

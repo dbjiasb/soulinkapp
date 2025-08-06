@@ -33,7 +33,7 @@ class EditMyInfoPage extends StatelessWidget {
             onTap: controller.saveMyInfo,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Text(Security.security_Save, style: TextStyle(color: Color(0xff8761F1), fontSize: 14, fontWeight: FontWeight.bold)),
+              child: Text(Security.security_Save, style: TextStyle(color: AppColors.ocMain, fontSize: 14, fontWeight: FontWeight.bold)),
             ),
           ),
         ],

@@ -94,7 +94,7 @@ class PersonViewPage extends StatelessWidget {
             onTap: onToChatTap,
             child: Container(
               alignment: Alignment.center,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Color(0xFF8761F1)),
+              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: AppColors.ocMain),
               height: 52,
               child: Text(Security.security_Chat, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
             ),
@@ -212,23 +212,23 @@ class PersonViewPage extends StatelessWidget {
     );
   }
 
-  Widget _buildFollowButton() {
-    return Obx(
-      () => GestureDetector(
-        onTap: () {
-          if (controller.star == 0) {
-            controller.followUser();
-          } else {
-            controller.unfollowUser();
-          }
-        },
-        child:
-            controller.star == 0
-                ? _buildButtonContent(Security.security_Follow, ImagePath.add, Color(0xFFE962F6))
-                : _buildButtonContent(Security.security_Followed, null, Colors.transparent, hasBorder: true),
-      ),
-    );
-  }
+  // Widget _buildFollowButton() {
+  //   return Obx(
+  //     () => GestureDetector(
+  //       onTap: () {
+  //         if (controller.star == 0) {
+  //           controller.followUser();
+  //         } else {
+  //           controller.unfollowUser();
+  //         }
+  //       },
+  //       child:
+  //           controller.star == 0
+  //               ? _buildButtonContent(Security.security_Follow, ImagePath.add, Color(0xFFE962F6))
+  //               : _buildButtonContent(Security.security_Followed, null, Colors.transparent, hasBorder: true),
+  //     ),
+  //   );
+  // }
 
   Widget _buildButtonContent(String text, String? iconPath, Color color, {bool hasBorder = false}) {
     return Container(

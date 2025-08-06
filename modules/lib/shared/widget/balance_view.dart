@@ -43,7 +43,7 @@ class BalanceView extends StatelessWidget {
 
   String get icon => type == BalanceType.coin ? ImagePath.coin : ImagePath.gem;
 
-  String get addIcon => ImagePath.icon_add;
+  String get addIcon => ImagePath.boarder_add;
 
   @override
   Widget build(BuildContext context) {
@@ -68,8 +68,8 @@ class BalanceView extends StatelessWidget {
             SizedBox(width: 4),
             Image.asset(
               addIcon,
-              width: 12,
-              height: 12,
+              width: 16,
+              height: 16,
               color: style.color, // 使用style中的颜色
               colorBlendMode: BlendMode.srcIn, // 确保颜色混合模式正确
             ),

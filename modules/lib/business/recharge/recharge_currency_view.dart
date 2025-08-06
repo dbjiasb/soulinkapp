@@ -62,7 +62,7 @@ class RechargeCurrencyView extends StatelessWidget {
               onTap: controller.startRecharge,
               child: Container(
                 height: 48,
-                decoration: BoxDecoration(color: Color(0xff8761F1), borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(color: AppColors.ocMain, borderRadius: BorderRadius.circular(12)),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

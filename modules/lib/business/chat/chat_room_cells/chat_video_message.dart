@@ -179,7 +179,7 @@ class ChatVideoCell extends ChatCell {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(ImagePath.chat_res_refresh, width: 12, height: 12),
+                Image.asset(ImagePath.refresh, width: 12, height: 12),
                 SizedBox(width: 4),
                 Text(text, style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: AppFonts.medium)),
               ],
@@ -218,7 +218,7 @@ class ChatVideoCell extends ChatCell {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (isInChat) Image.asset(ImagePath.chat_lock_video, width: 36, height: 36),
+              if (isInChat) Image.asset(ImagePath.btm_video, width: 36, height: 36),
               SizedBox(height: 8),
               if (!MyAccount.isSubscribed || MyAccount.isWkPrem && MyAccount.freeVdoLeftTimes <= 0 || videoMessage.currencyType == 1)
                 Row(
@@ -255,7 +255,7 @@ class ChatVideoCell extends ChatCell {
                           spacing: 7,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(ImagePath.premium_gem, width: 16, height: 16),
+                            Image.asset(ImagePath.premium, width: 16, height: 16),
                             Text('Pro Free', style: TextStyle(color: Color(0xFFFFE96F), fontSize: 14, fontWeight: AppFonts.medium)),
                           ],
                         ),
@@ -266,7 +266,7 @@ class ChatVideoCell extends ChatCell {
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.asset(ImagePath.chat_res_lock, width: 16, height: 16),
+                            Image.asset(ImagePath.unlock, width: 16, height: 16),
                             SizedBox(width: 4),
                             Text(Security.security_Unlock, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
                           ],

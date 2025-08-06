@@ -93,20 +93,20 @@ class ChatBottomBar extends StatelessWidget {
                         alignment: Alignment.topCenter,
                         decoration: BoxDecoration(
                           color: Colors.transparent,
-                          image: DecorationImage(image: AssetImage(ImagePath.chat_input_voice_bg), fit: BoxFit.fitWidth, alignment: Alignment.topCenter),
+                          image: DecorationImage(image: AssetImage(ImagePath.audio_mask), fit: BoxFit.fitWidth, alignment: Alignment.topCenter),
                         ),
                         child:Column(
                           children: [
                             SizedBox(height: 10),
-                            // Container(
-                            //   height: 72,
-                            //   padding: EdgeInsets.all(6),
-                            //   decoration: BoxDecoration(
-                            //     shape: BoxShape.circle,
-                            //     color: viewController._isCanceled.value?Color(0xFFF84652).withValues(alpha: 0.4):Color(0xFF29D97F).withValues(alpha: 0.4)
-                            //   ),
-                            //   child: Image.asset(viewController._isCanceled.value?ImagePath.chat_cancel_recording:ImagePath.chat_recording_voice),
-                            // ),
+                            Container(
+                              height: 72,
+                              padding: EdgeInsets.all(6),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: viewController._isCanceled.value?Color(0xFFF84652).withValues(alpha: 0.4):Color(0xFF29D97F).withValues(alpha: 0.4)
+                              ),
+                              child: Image.asset(viewController._isCanceled.value?ImagePath.audio_cancel:ImagePath.audio_on),
+                            ),
                             Spacer(),
                           ],
                         )
@@ -163,7 +163,7 @@ class ChatBottomBar extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.only(left: 12, right: 8),
                 child: Obx(
-                  () => Image.asset(viewController._audioInputMode.value ? ImagePath.chat_input_keyboard : ImagePath.chat_input_voice, width: 24, height: 24),
+                  () => Image.asset(viewController._audioInputMode.value ? ImagePath.keyboard : ImagePath.audio_mode, width: 24, height: 24),
                 ),
               ),
             ),
@@ -222,30 +222,30 @@ class ChatBottomBar extends StatelessWidget {
                                 margin: EdgeInsets.only(right: 6),
                                 child: Obx(
                                   () => Image.asset(
-                                    viewController.barState.value == ChatRoomBottomBarState.muse ? ImagePath.chat_input_tips_light : ImagePath.chat_input_tips,
+                                    viewController.barState.value == ChatRoomBottomBarState.muse ? ImagePath.tip_on : ImagePath.tip_off,
                                     width: 28,
                                     height: 28,
                                   ),
                                 ),
                               ),
                             ),
-                            // GestureDetector(
-                            //   onTap: () {
-                            //     if(viewController.barState.value != ChatRoomBottomBarState.detailed){
-                            //       viewController.updateBarState(ChatRoomBottomBarState.detailed);
-                            //     }else {
-                            //       viewController.updateBarState(ChatRoomBottomBarState.simple);
-                            //     }
-                            //   },
-                            //   child: Container(
-                            //     margin: EdgeInsets.only(right: 12),
-                            //     child: Image.asset(
-                            //       viewController.barState.value == ChatRoomBottomBarState.detailed?ImagePath.chat_close:ImagePath.chat_input_more,
-                            //       width: 28,
-                            //       height: 28,
-                            //     ),
-                            //   ),
-                            // ),
+                            GestureDetector(
+                              onTap: () {
+                                if(viewController.barState.value != ChatRoomBottomBarState.detailed){
+                                  viewController.updateBarState(ChatRoomBottomBarState.detailed);
+                                }else {
+                                  viewController.updateBarState(ChatRoomBottomBarState.simple);
+                                }
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 12),
+                                child: Image.asset(
+                                  viewController.barState.value == ChatRoomBottomBarState.detailed?ImagePath.chat_close:ImagePath.boarder_add,
+                                  width: 28,
+                                  height: 28,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
               ),
@@ -285,7 +285,7 @@ class ChatBottomBar extends StatelessWidget {
               child: Row(
                 spacing: 4,
                 children: [
-                  Image.asset(ImagePath.req_image, width: 13, height: 11),
+                  Image.asset(ImagePath.btm_pic, width: 13, height: 11),
                   Text('Ask', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
                 ],
               ),
@@ -302,7 +302,7 @@ class ChatBottomBar extends StatelessWidget {
               child: Row(
                 spacing: 4,
                 children: [
-                  Image.asset(ImagePath.req_video, width: 13, height: 11),
+                  Image.asset(ImagePath.btm_video, width: 13, height: 11),
                   Text('Ask', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
                 ],
               ),
@@ -317,7 +317,7 @@ class ChatBottomBar extends StatelessWidget {
               child: Row(
                 spacing: 4,
                 children: [
-                  Image.asset(ImagePath.req_video, width: 13, height: 11),
+                  Image.asset(ImagePath.btm_custom, width: 13, height: 11),
                   Text('Custom', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
                 ],
               ),
@@ -334,7 +334,7 @@ class ChatBottomBar extends StatelessWidget {
               child: Row(
                 spacing: 4,
                 children: [
-                  Image.asset(ImagePath.chat_voice_call, width: 13, height: 11)                  ,
+                  Image.asset(ImagePath.btm_call, width: 13, height: 11)                  ,
                   Text('Call', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
                 ],
               ),
@@ -376,20 +376,15 @@ class ChatBottomBar extends StatelessWidget {
 
   Widget buildDetailedBar() {
     List<Map<String, dynamic>> items = [
-      // {
-      //   Security.security_title: Security.security_Custom,
-      //   Security.security_icon: ImagePath.chat_bottom_custom,
-      //   Security.security_action: onCreateImageButtonClicked,
-      // },
-      {Security.security_title: 'Photo', Security.security_icon: ImagePath.chat_bottom_image, Security.security_action: viewController.showImageSelector},
-      // {Security.security_title: 'Voice Call', Security.security_icon: ImagePath.chat_bottom_audio_call, Security.security_action: toCall},
+      {Security.security_title: 'Photo', Security.security_icon: ImagePath.func_img, Security.security_action: viewController.showImageSelector},
+      {Security.security_title: 'Video Call', Security.security_icon: ImagePath.func_video, Security.security_action: toCall},
 
       {
         Security.security_title: Security.security_History,
-        Security.security_icon: ImagePath.chat_bottom_history,
+        Security.security_icon: ImagePath.func_history,
         Security.security_action: onChatHistoryButtonClicked,
       },
-      {Security.security_title: 'Gift', Security.security_icon: ImagePath.chat_send_gift, Security.security_action: viewController.showGiftPanel},
+      // {Security.security_title: 'Gift', Security.security_icon: ImagePath.func_gift, Security.security_action: viewController.showGiftPanel},
     ];
 
     return Container(

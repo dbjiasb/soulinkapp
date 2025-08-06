@@ -118,9 +118,9 @@ class ChatAudioCell extends ChatCell {
             onTap: play,
             child: Container(
               height: 44,
-              padding: EdgeInsets.all(12),
+              padding: EdgeInsets.all(12), 
               decoration: BoxDecoration(
-                color: isMine ? Color(0xE6EBEFFF) : Color(0xE640252A),
+                color: isMine ? Color(0xffFFF9B4).withValues(alpha:0.9) : Color(0xff272533).withValues(alpha:0.9),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12),
                   topRight: Radius.circular(12),
@@ -217,25 +217,26 @@ class ChatAudioView extends StatelessWidget {
   // 播放
 
   final imagePaths = [
-    ImagePath.voice_play1,
-    ImagePath.voice_play2,
-    ImagePath.voice_play3,
+    // ImagePath.voice_play1,
+    // ImagePath.voice_play2,
+    // ImagePath.voice_play3,
+    ImagePath.audio_msg
   ];
   final currentIndex = 2.obs;
-  final actionAnim = false.obs;
+  // final actionAnim = false.obs;
   Timer? _timer;
 
 
   void _stop() {
     // anim
     _timer?.cancel();
-    actionAnim.value = false;
+    // actionAnim.value = false;
     currentIndex.value = 2;
   }
 
   void _start() {
     // anim
-    actionAnim.value = true;
+    // actionAnim.value = true;
     _timer = Timer.periodic(Duration(milliseconds: 400), (timer) {
       currentIndex.value = (currentIndex.value + 1) % imagePaths.length;
     });
@@ -253,7 +254,8 @@ class ChatAudioView extends StatelessWidget {
     return Wrap(
       children: [
         Text('$length"', style: TextStyle(color: Colors.black, fontSize: 14, fontWeight: AppFonts.medium)),
-        Obx(() => Image.asset(imagePaths[currentIndex.value], height: 20, width: 20)),
+        // Obx(() => Image.asset(imagePaths[currentIndex.value], height: 20, width: 20)),
+        Image.asset(ImagePath.audio_msg, height: 20, width: 20),
       ],
     );
   }

@@ -159,7 +159,7 @@ class OCVoicePage extends StatelessWidget {
           Row(
             children: [
               Obx(()=>_logic.playingVoiceItem[Security.security_vid] == item[Security.security_vid]
-                  ? Container(margin: EdgeInsets.only(right: 8), width: 16, height: 16, child: CircularProgressIndicator(color: Color(0xff8761F1) ))
+                  ? Container(margin: EdgeInsets.only(right: 8), width: 16, height: 16, child: CircularProgressIndicator(color: AppColors.ocMain ))
                   : InkWell(
                 onTap: () {
                   playVoice(item);
@@ -177,7 +177,7 @@ class OCVoicePage extends StatelessWidget {
                     ? Container(
                       width: 24,
                       height: 24,
-                      decoration: BoxDecoration(color: Color(0xff8761F1), shape: BoxShape.circle),
+                      decoration: BoxDecoration(color: AppColors.ocMain, shape: BoxShape.circle),
                       child: const Padding(padding: EdgeInsets.all(2), child: Icon(Icons.check, color: Colors.black, size: 16)),
                     )
                     : Container();

@@ -47,7 +47,7 @@ class ChatGeneratingCell extends ChatCell {
           height: 44,
           alignment: Alignment.center,
           decoration: BoxDecoration(
-            color: isMine ? Color(0xE6EBEFFF) : Color(0xE640252A),
+            color: isMine ? Color(0xffFFF9B4).withValues(alpha:0.9) : Color(0xff272533).withValues(alpha:0.9),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),

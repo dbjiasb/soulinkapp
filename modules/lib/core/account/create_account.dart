@@ -10,6 +10,7 @@ import 'package:modules/base/api_service/api_service_export.dart';
 import 'package:modules/core/account/account_service.dart';
 
 import '../../base/router/router_names.dart';
+import '../../shared/app_theme.dart';
 
 class CreateAccountView extends StatelessWidget {
   CreateAccountView({super.key});
@@ -109,7 +110,7 @@ class CreateAccountView extends StatelessWidget {
           height: 54,
           margin: const EdgeInsets.fromLTRB(16, 24, 16, 0),
           decoration: BoxDecoration(
-            color: viewController.canContinue.value ?const Color(0xFF8761F1):const Color(0xFF8761F1).withValues(alpha: 0.5),
+            color: viewController.canContinue.value ?AppColors.ocMain:AppColors.ocMain.withValues(alpha: 0.5),
             borderRadius: const BorderRadius.all(Radius.circular(12)),
           ),
           child: Center(
@@ -133,7 +134,7 @@ class CreateAccountView extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [_buildCheckButton(), const SizedBox(width: 8), _buildBottomTips()],
+          // children: [_buildCheckButton(), const SizedBox(width: 8), _buildBottomTips()],
         ),
       ),
     );
@@ -150,23 +151,23 @@ class CreateAccountView extends StatelessWidget {
   _onTermsOfServiceClicked() {
     Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
   }
-
-  Widget _buildCheckButton() {
-    return Obx(
-      () => SizedBox(
-        width: 14,
-        height: 14,
-        child: IconButton(
-          padding: const EdgeInsets.all(0),
-          onPressed: null,
-          icon: Image.asset(ImagePath.login_unselect),
-          selectedIcon: Image.asset(ImagePath.login_selected),
-          iconSize: 14,
-          isSelected: viewController.checked.value,
-        ),
-      ),
-    );
-  }
+  //
+  // Widget _buildCheckButton() {
+  //   return Obx(
+  //     () => SizedBox(
+  //       width: 14,
+  //       height: 14,
+  //       child: IconButton(
+  //         padding: const EdgeInsets.all(0),
+  //         onPressed: null,
+  //         // icon: Image.asset(ImagePath.login_unselect),
+  //         // selectedIcon: Image.asset(ImagePath.login_selected),
+  //         iconSize: 14,
+  //         isSelected: viewController.checked.value,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget _buildBottomTips() {
     const TextStyle linkStyle = TextStyle(color: Color(0xFFE962F6), decoration: TextDecoration.underline);
@@ -253,7 +254,7 @@ class CreateAccountView extends StatelessWidget {
                     width: 32,
                     height: 44,
                     alignment: Alignment.center,
-                    child: Image.asset(ImagePath.icon_back, width: 24, height: 24),
+                    child: Image.asset(ImagePath.back, width: 24, height: 24),
                   ),
                 ),
               ),

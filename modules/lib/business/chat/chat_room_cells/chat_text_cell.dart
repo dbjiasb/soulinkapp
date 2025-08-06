@@ -168,18 +168,18 @@ class ChatTextAudioView extends StatelessWidget {
     ChatTextAudioStatus status = textMessage.audioStatus.value;
     switch (status) {
       case ChatTextAudioStatus.unlock:
-        return Image.asset(ImagePath.chat_tts_lock, width: 16, height: 16);
+        return Image.asset(ImagePath.unlock, width: 16, height: 16);
       case ChatTextAudioStatus.loading:
         return Container(
           padding: EdgeInsets.all(2),
           child: SizedBox(width: 12, height: 12, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)),
         );
       case ChatTextAudioStatus.ready:
-        return Image.asset(ImagePath.chat_tts_play, width: 16, height: 16);
+        return Image.asset(ImagePath.audio_to_speak, width: 16, height: 16);
       case ChatTextAudioStatus.playing:
-        return Image.asset(ImagePath.chat_tts_playing, width: 16, height: 16);
+        return Image.asset(ImagePath.audio_speaking, width: 16, height: 16);
       case ChatTextAudioStatus.pause:
-        return Image.asset(ImagePath.chat_tts_play, width: 16, height: 16);
+        return Image.asset(ImagePath.audio_to_speak, width: 16, height: 16);
     }
   }
 

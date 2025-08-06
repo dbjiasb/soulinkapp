@@ -130,7 +130,7 @@ class BasicCore extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 14)),
-          const Text('*', style: TextStyle(color: Color(0xff8761F1), fontWeight: FontWeight.w700, fontSize: 12)),
+          const Text('*', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 12)),
         ],
       ),
     );
@@ -389,7 +389,7 @@ class BasicCore extends StatelessWidget {
                     children: [
                       const SizedBox(width: 12),
                       Obx(()=>_controller.soundPlaying.value
-                          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: Color(0xff8761F1)))
+                          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: AppColors.ocMain))
                           : Image.asset(ImagePath.oc_tone)),
                       const SizedBox(width: 8),
                       const Text('Click to play', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF999999))),
@@ -452,7 +452,7 @@ class BasicCore extends StatelessWidget {
               ),
               Obx(
                 () => Slider(
-                  activeColor: Color(0xff8761F1),
+                  activeColor: AppColors.ocMain,
                   inactiveColor: const Color(0xFF171425),
                   min: 18,
                   max: 60,
@@ -488,7 +488,7 @@ class BasicCore extends StatelessWidget {
               ),
               Obx(
                 () => Slider(
-                  activeColor: Color(0xff8761F1),
+                  activeColor: AppColors.ocMain,
                   inactiveColor: const Color(0xFF171425),
                   min: 0,
                   max: 100,
@@ -523,7 +523,7 @@ class BasicCore extends StatelessWidget {
               ),
               Obx(
                 () => Slider(
-                  activeColor: Color(0xff8761F1),
+                  activeColor: AppColors.ocMain,
                   inactiveColor: const Color(0xFF171425),
                   min: 0,
                   max: 100,
@@ -569,7 +569,7 @@ class BasicCore extends StatelessWidget {
               ),
               Obx(
                 () => Slider(
-                  activeColor: Color(0xff8761F1),
+                  activeColor: AppColors.ocMain,
                   inactiveColor: const Color(0xFF171425),
                   min: 0,
                   max: 100,
@@ -604,7 +604,7 @@ class BasicCore extends StatelessWidget {
               ),
               Obx(
                 () => Slider(
-                  activeColor: Color(0xff8761F1),
+                  activeColor: AppColors.ocMain,
                   inactiveColor: const Color(0xFF171425),
                   min: 0,
                   max: 100,
@@ -791,7 +791,7 @@ class BasicPage extends StatelessWidget {
             padding: EdgeInsets.all(16),
             child: Row(
               children: [
-                const Text('1', style: TextStyle(color: Color(0xff8761F1), fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'SF Pro bold')),
+                const Text('1', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'SF Pro bold')),
                 const Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: 'SF Pro bold')),
               ],
             ),
@@ -829,7 +829,7 @@ class BasicPage extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  color: _controller.canProceed.value ? Color(0xff8761F1) : Color(0xFF474D4C),
+                  color: _controller.canProceed.value ? AppColors.ocMain : Color(0xFF474D4C),
                 ),
                 child: Text(
                   Security.security_Next,

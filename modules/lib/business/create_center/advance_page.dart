@@ -351,7 +351,7 @@ class AdvancePage extends StatelessWidget {
                 _logic.ocDependency.save();
                 Get.back();
               },
-              icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
+              icon: Image.asset(ImagePath.back, height: 24, width: 24),
             ),
             const Expanded(
               child: Text(

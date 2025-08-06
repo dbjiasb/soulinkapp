@@ -52,7 +52,7 @@ class ChatGiftCell extends ChatCell {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: giftMessage.isMine() ? Color(0xE6E86785) : Color(0xE640252A),
+              color: giftMessage.isMine() ? Color(0xE6E86785) : Color(0xff272533).withValues(alpha:0.9),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(12),
                 topRight: Radius.circular(12),

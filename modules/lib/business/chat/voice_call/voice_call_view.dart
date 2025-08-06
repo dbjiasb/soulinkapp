@@ -191,7 +191,7 @@ class VoiceCallView extends StatelessWidget {
                         children: [
                           GestureDetector(
                             onTap: viewController.onCallCancel,
-                            child: Image.asset(ImagePath.end_call, width: 64, height: 64),
+                            child: Image.asset(ImagePath.hang_up, width: 64, height: 64),
                           ),
                           SizedBox(width: 60),
                           GestureDetector(
@@ -199,14 +199,18 @@ class VoiceCallView extends StatelessWidget {
                               viewController.mute(!viewController.muted.value);
                             },
                             child: Obx(
-                              () => Image.asset(
-                                !viewController.muted.value
-                                    ? ImagePath.open_mic
-                                    : ImagePath.turn_off_mic,
-                                width: 64,
-                                height: 64,
-                              ),
-                            ),
+                              () => !viewController.muted.value
+                                  ?Image.asset(ImagePath.open_mic, width: 64, height: 64):
+                                  Container(
+                                    height: 64,
+                                    width: 64,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xff000000).withValues(alpha: 0.2)
+                                    ),
+                                    child: Icon(Icons.mic_off_rounded,size: 32,),
+                                  )
+                            )
                           ),
                         ],
                       ),

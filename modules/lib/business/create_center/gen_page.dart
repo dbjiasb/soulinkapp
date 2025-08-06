@@ -354,7 +354,7 @@ class GenOcController extends GetxController {
           arguments: {
             Security.security_session: jsonEncode({
               Security.security_id: rtn[Security.security_roleUid].toString(),
-              Security.security_name: config[Security.security_nickname] ?? '',
+              Security.security_name: config[Security.security_nickName] ?? '',
               Security.security_avatar: config[Security.security_avatarUrl] ?? '',
               Security.security_backgroundUrl: config[Security.security_coverUrl] ?? '',
             }),

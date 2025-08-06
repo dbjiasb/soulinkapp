@@ -70,7 +70,7 @@ class CreateOcDialog extends StatelessWidget {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    color: _logic.consent.value ? const Color(0xFF8761F1) : null,
+                    color: _logic.consent.value ? AppColors.ocMain : null,
                     gradient: _logic.consent.value? null : LinearGradient(begin: Alignment.centerLeft,end: Alignment.centerRight,colors: [Color(0xffBDC6C6),Color(0xffD5E1DD)])
                   ),
                   child:
@@ -149,12 +149,12 @@ class CreateOcDialog extends StatelessWidget {
     if(MyAccount.isMthPrem || MyAccount.isYrPrem){
       // 权益支付 - 无限
       btnContent = [
-        Image.asset(width: 18, height: 18, ImagePath.premium_gem),
+        Image.asset(width: 18, height: 18, ImagePath.premium),
       ];
     }else if (MyAccount.isWkPrem && MyAccount.freeOcLeftTimes>0){
       // 权益支付 - 花费一次机会
       btnContent = [
-        Image.asset(width: 18, height: 18, ImagePath.premium_gem),
+        Image.asset(width: 18, height: 18, ImagePath.premium),
         RichText(text: TextSpan(text: '(${MyAccount.freeOcUsedTimes}/${MyAccount.freeOcUsedTimes + MyAccount.freeOcLeftTimes})', style: btnTextStyle)),
       ];
     }else {
