@@ -18,21 +18,34 @@ def encrypt_string(plaintext: str) -> str:
 
 def generate_security_constants(prefix='security'):
     script_dir = Path(__file__).parent
-    input_file = script_dir / 'scan_result_var.txt'
+    input_file = script_dir / 'scan_result.json'
     
     if not input_file.exists():
         print(f"错误：未找到输入文件 {input_file.absolute()}")
         return
 
-    content = input_file.read_text(encoding='utf-8')
-    lines = [line.strip("'\" \n") for line in content.splitlines() if line.strip()]
-    
+    try:
+        import json
+        with open(input_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            variables_data = data.get('variables', {}).get('items', [])
+            
+            # 获取variables分类的字符串列表
+            lines = [item for item in variables_data]
+    except json.JSONDecodeError:
+        print(f"错误：{input_file} 不是有效的JSON文件")
+        return
+    except Exception as e:
+        print(f"读取JSON文件失败: {str(e)}")
+        return
+
+    # 保留原有的变量名校验逻辑
     var_pattern = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
     seen = set()
     valid_vars = []
     
     for var in lines:
-        cleaned = var.strip("'\" \n")
+        cleaned = var.strip()  # JSON数据已清洗，只需去除两端空格
         if var_pattern.match(cleaned) and cleaned not in seen:
             seen.add(cleaned)
             valid_vars.append((cleaned, encrypt_string(cleaned)))

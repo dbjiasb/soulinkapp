@@ -138,5 +138,3 @@ def extract_dart_strings():
 
 if __name__ == "__main__":
     extract_dart_strings()
-    print("结果已分类保存至 scan_result_*.txt 文件")
-    print("结果已保存至 scan_strings_result.txt")
