@@ -286,7 +286,7 @@ class ChatBottomBar extends StatelessWidget {
                 spacing: 4,
                 children: [
                   Image.asset(ImagePath.req_image, width: 13, height: 11),
-                  Text('Ask', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
+                  Text(Security.security_Ask, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
                 ],
               ),
             ),
@@ -303,7 +303,7 @@ class ChatBottomBar extends StatelessWidget {
                 spacing: 4,
                 children: [
                   Image.asset(ImagePath.req_video, width: 13, height: 11),
-                  Text('Ask', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
+                  Text(Security.security_Ask, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
                 ],
               ),
             ),
@@ -318,7 +318,7 @@ class ChatBottomBar extends StatelessWidget {
                 spacing: 4,
                 children: [
                   Image.asset(ImagePath.req_video, width: 13, height: 11),
-                  Text('Custom', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
+                  Text(Security.security_Custom, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
                 ],
               ),
             ),
@@ -335,7 +335,7 @@ class ChatBottomBar extends StatelessWidget {
                 spacing: 4,
                 children: [
                   Image.asset(ImagePath.chat_voice_call, width: 13, height: 11)                  ,
-                  Text('Call', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
+                  Text(Security.security_Call, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
                 ],
               ),
             ),
@@ -381,7 +381,7 @@ class ChatBottomBar extends StatelessWidget {
       //   Security.security_icon: ImagePath.chat_bottom_custom,
       //   Security.security_action: onCreateImageButtonClicked,
       // },
-      {Security.security_title: 'Photo', Security.security_icon: ImagePath.chat_bottom_image, Security.security_action: viewController.showImageSelector},
+      {Security.security_title: Security.security_Photo, Security.security_icon: ImagePath.chat_bottom_image, Security.security_action: viewController.showImageSelector},
       // {Security.security_title: 'Voice Call', Security.security_icon: ImagePath.chat_bottom_audio_call, Security.security_action: toCall},
 
       {
@@ -389,7 +389,7 @@ class ChatBottomBar extends StatelessWidget {
         Security.security_icon: ImagePath.chat_bottom_history,
         Security.security_action: onChatHistoryButtonClicked,
       },
-      {Security.security_title: 'Gift', Security.security_icon: ImagePath.chat_send_gift, Security.security_action: viewController.showGiftPanel},
+      {Security.security_title: Security.security_Gift, Security.security_icon: ImagePath.chat_send_gift, Security.security_action: viewController.showGiftPanel},
     ];
 
     return Container(

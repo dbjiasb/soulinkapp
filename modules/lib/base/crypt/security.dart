@@ -401,4 +401,10 @@ abstract final class Security {
   static late final String security_ttsConfig = _decrypt('e1Ju6h7QLlWbEyOeelgLqw==');
   static late final String security_ttsVid = _decrypt('EyRB2pbGXqHpNyU6SVYcTw==');
   static late final String security_value = _decrypt('CcD7q4tn6YjpBvZQwQcbow==');
+  static late final String security_Ask = _decrypt('kO91O+rmEjVJXeY/HguKBg==');
+  static late final String security_Call = _decrypt('nMAduTJSdx3oXamig5jMqA==');
+  static late final String security_Gallery = _decrypt('1aAvlGlug4d2tESw/Caaxg==');
+  static late final String security_Gift = _decrypt('bP2J31SuA/+rJ0OAGDIrEw==');
+  static late final String security_Photo = _decrypt('572R1O+6tk2luGK8uMmfNg==');
+  static late final String security_gallery = _decrypt('CtVMNxxKY/jcYPunJDIECw==');
 }
