@@ -360,7 +360,7 @@ class PersonViewController extends GetxController {
 
   Map get baseInfo => userInfo[EncHelper.ps_bsif] ?? {};
 
-  String get avatarUrl => userInfo[EncHelper.ps_bsif]?[EncHelper.ps_avturl] ?? ImagePath.account_default_avatar;
+  String get avatarUrl => userInfo[EncHelper.ps_bsif]?[EncHelper.ps_avturl] ?? ImagePath.default_avatar;
 
   String get background => personalInfo[EncHelper.ps_bg] ?? '';
 

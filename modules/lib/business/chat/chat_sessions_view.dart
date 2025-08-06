@@ -104,7 +104,7 @@ class ChatSessionsView extends StatelessWidget {
       clipBehavior: Clip.none,
       children: [
         Text(Security.security_Message, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900), softWrap: true),
-        Positioned(bottom: -3, right: 0, child: Image.asset(ImagePath.home_list_selected, height: 10, width: 40)),
+        Positioned(bottom: -3, right: 0, child: Image.asset(ImagePath.tab_selected, height: 10, width: 40)),
       ],
     );
   }
@@ -128,7 +128,7 @@ class ChatSessionsView extends StatelessWidget {
                   return ChatSessionCell(viewController.sessions[index]);
                 },
               )
-              : ListStatusView(status: viewController.status.value,description: 'No chat partner has been initiated yet',),
+              : ListStatusView(status: viewController.status.value,emptyDesc: 'No chat partner has been initiated yet',),
     );
   }
 

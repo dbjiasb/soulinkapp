@@ -5,17 +5,18 @@ enum ListStatus { idle, loading, success, empty, error }
 
 class ListStatusView extends StatelessWidget {
   final ListStatus status;
-  String? description;
+  String? emptyDesc;
+  String? errorDesc;
 
-  ListStatusView({super.key, required this.status,this.description});
+  ListStatusView({super.key, required this.status,this.emptyDesc,this.errorDesc});
 
   Widget buildEmptyView() {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(ImagePath.list_status_empty, width: 156, height: 156),
-          Text(description ?? 'No data', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
+          Image.asset(ImagePath.empty_list, width: 156, height: 156),
+          Text(emptyDesc ?? 'No data', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
         ],
       ),
     );
@@ -28,7 +29,7 @@ class ListStatusView extends StatelessWidget {
         children: [
           Image.asset(ImagePath.list_status_empty, width: 156, height: 156),
           Text(
-            description ?? 'Network exception, please try again later',
+            errorDesc ?? 'Network exception, please try again later',
             style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8)),
           ),
         ],

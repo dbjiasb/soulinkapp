@@ -22,32 +22,20 @@ class SkeletonView extends StatelessWidget {
 
   SkeletonViewController viewController = Get.put(SkeletonViewController());
 
-  Widget _buildIconButton(String icon, int index) {
-    String normalIconPath = '';
-    String selectedIconPath = '';
-    if (icon == Security.security_chat) {
-      normalIconPath = ImagePath.bottom_bar_chat_normal;
-      selectedIconPath = ImagePath.bottom_bar_chat_selected;
-    } else if (icon == Security.security_list) {
-      normalIconPath = ImagePath.bottom_bar_list_normal;
-      selectedIconPath = ImagePath.bottom_bar_list_selected;
-    } else if (icon == Security.security_personal) {
-      normalIconPath = ImagePath.bottom_bar_personal_normal;
-      selectedIconPath = ImagePath.bottom_bar_personal_selected;
-    } else if (icon == 'create oc') {
-      normalIconPath = ImagePath.bottom_bar_create_oc_entry;
-      selectedIconPath = ImagePath.bottom_bar_create_oc_entry;
-    } else {
-      throw Exception('Unknown icon: $icon');
-    }
+  final CREATE_OC_INDEX = 1;
+
+  Widget _buildIconButton(BottomBarItem item, int index) {
+
+    final normalIcon = item.normalBuilder();
+    final selectedIcon = item.selectedBuilder();
 
     return Obx(
       () => IconButton(
         onPressed: () {
           _onButtonClicked(index);
         },
-        icon: Image.asset(normalIconPath, width: 28, height: 28),
-        selectedIcon: Image.asset(selectedIconPath, width: 28, height: 28),
+        icon: normalIcon,
+        selectedIcon: selectedIcon,
         isSelected: viewController.selectedIndex.value == index,
         highlightColor: Colors.transparent,
       ),
@@ -55,7 +43,7 @@ class SkeletonView extends StatelessWidget {
   }
 
   void _onButtonClicked(int index) {
-    if (index == 1) {
+    if (index == CREATE_OC_INDEX) {
       // oc 入口
       CreateOcDialog.show();
       return;
@@ -91,7 +79,7 @@ class SkeletonView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children:
                     viewController.items.asMap().entries.map((e) {
-                      return _buildIconButton(e.value.name, e.key);
+                      return _buildIconButton(e.value, e.key);
                     }).toList(),
               ),
             ),
@@ -112,32 +100,32 @@ class SkeletonViewController extends GetxController {
       pageBuilder: () {
         return KeepAliveWrapper(child: HomePageView());
       },
-      selectedBuilder: () => Image.asset(ImagePath.bottom_bar_list_selected, width: 28, height: 28),
-      normalBuilder: () => Image.asset(ImagePath.bottom_bar_list_normal, width: 28, height: 28),
+      selectedBuilder: () => Image.asset(ImagePath.home_selected, width: 28, height: 28),
+      normalBuilder: () => Image.asset(ImagePath.home_normal, width: 28, height: 28),
     ),
     BottomBarItem(
       name: 'create oc',
       pageBuilder: () {
         return Container();
       },
-      selectedBuilder: () => Image.asset(ImagePath.bottom_bar_create_oc_entry, width: 28, height: 28),
-      normalBuilder: () => Image.asset(ImagePath.bottom_bar_create_oc_entry, width: 28, height: 28),
+      selectedBuilder: () => Image.asset(ImagePath.create_oc, width: 28, height: 28),
+      normalBuilder: () => Image.asset(ImagePath.create_oc, width: 28, height: 28),
     ),
     BottomBarItem(
       name: Security.security_chat,
       pageBuilder: () {
         return KeepAliveWrapper(child: ChatSessionsView());
       },
-      selectedBuilder: () => Image.asset(ImagePath.bottom_bar_chat_selected, width: 28, height: 28),
-      normalBuilder: () => Image.asset(ImagePath.bottom_bar_chat_normal, width: 28, height: 28),
+      selectedBuilder: () => Image.asset(ImagePath.message_selected, width: 28, height: 28),
+      normalBuilder: () => Image.asset(ImagePath.message_normal, width: 28, height: 28),
     ),
     BottomBarItem(
       name: Security.security_personal,
       pageBuilder: () {
         return KeepAliveWrapper(child: AccountView());
       },
-      selectedBuilder: () => Image.asset(ImagePath.bottom_bar_personal_selected, width: 28, height: 28),
-      normalBuilder: () => Image.asset(ImagePath.bottom_bar_personal_normal, width: 28, height: 28),
+      selectedBuilder: () => Image.asset(ImagePath.personal_selected, width: 28, height: 28),
+      normalBuilder: () => Image.asset(ImagePath.personal_normal, width: 28, height: 28),
     ),
   ];
 

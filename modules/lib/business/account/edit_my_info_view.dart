@@ -60,7 +60,7 @@ class EditMyInfoPage extends StatelessWidget {
                         Obx(
                           () =>
                               MyAccount.avatar.isEmpty
-                                  ? Image.asset(ImagePath.account_default_avatar, height: 68, width: 68)
+                                  ? Image.asset(ImagePath.default_avatar, height: 68, width: 68)
                                   : AvatarView(url: MyAccount.avatar, size: 68),
                         ),
                         Positioned(right: 0, bottom: 0, child: Image.asset(ImagePath.upload_img_vdo, height: 24, width: 24)),

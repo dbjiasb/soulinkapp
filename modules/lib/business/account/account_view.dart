@@ -47,7 +47,7 @@ class AccountView extends StatelessWidget {
                   Container(
                     child: Row(
                       children: [
-                        Obx(() => avatarUrl.isEmpty ? Image.asset(ImagePath.account_default_avatar, height: 68, width: 68) : AvatarView(url: avatarUrl, size: 68)),
+                        Obx(() => avatarUrl.isEmpty ? Image.asset(ImagePath.default_avatar, height: 68, width: 68) : AvatarView(url: avatarUrl, size: 68)),
                         SizedBox(width: 12),
                         Column(
                           spacing: 3,

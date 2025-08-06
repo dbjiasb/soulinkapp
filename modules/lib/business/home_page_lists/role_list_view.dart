@@ -116,10 +116,10 @@ class VirtualRoleItem extends RoleItem {
               CachedNetworkImage(
                 imageUrl: coverUrl,
                 fit: BoxFit.cover,
-                errorWidget: (context, url, error) => Image.asset(
-                  ImagePath.empty_cover,
-                  fit: BoxFit.cover,
-                ),
+                // errorWidget: (context, url, error) => Image.asset(
+                //   ImagePath.empty_cover,
+                //   fit: BoxFit.cover,
+                // ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,7 +130,9 @@ class VirtualRoleItem extends RoleItem {
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                       child: Container(
-                        color: Colors.black.withOpacity(0.3),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(image: AssetImage(ImagePath.person_img_mask), fit: BoxFit.fitWidth),
+                        ),
                         width: double.infinity,
                         padding: const EdgeInsets.all(12),
                         child: Column(
@@ -148,7 +150,7 @@ class VirtualRoleItem extends RoleItem {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 if([1, 3, 4].contains(info[Constants.acType]))
-                                  Image.asset(ImagePath.ic_tag_ai,height: 16,width: 21,),
+                                  Image.asset(ImagePath.ai_tag,height: 16,width: 21,),
                               ],
                             ),
                             Text(
@@ -203,7 +205,7 @@ class RoleListView extends StatelessWidget {
                         },
                         itemCount: viewController.items.length,
                       )
-                      : ListStatusView(status: viewController.status.value),
+                      : ListStatusView(status: viewController.status.value,emptyDesc: 'No chat partner has been initiated yet',),
             ),
           ),
         ),
@@ -272,9 +274,8 @@ class RoleListViewController extends GetxController {
       List infos = response.data[Security.security_param] ?? [];
       List<RoleItem> newItems = infos.map((e) => RoleItem.fromMap(e)).toList();
 
-      if (pageIndex == 0 && (type == RoleListType.ai || type == RoleListType.custom_ai)) {
+      if (pageIndex == 0) {
         items.clear();
-        // items.add(CreateOcEntryItem({}));
       }
       items.addAll(newItems);
       status.value = items.isEmpty ? ListStatus.empty : ListStatus.success;

@@ -52,8 +52,8 @@ class LoginChannelView extends StatelessWidget {
         child: IconButton(
           padding: const EdgeInsets.all(0),
           onPressed: null,
-          icon: Image.asset(ImagePath.login_unselect),
-          selectedIcon: Image.asset(ImagePath.login_selected),
+          icon: Image.asset(ImagePath.check_bg),
+          selectedIcon: Image.asset(ImagePath.check),
           iconSize: 14,
           isSelected: viewController.checked.value,
         ),
@@ -122,7 +122,7 @@ class LoginChannelView extends StatelessWidget {
     LoginChannel apple = LoginChannel(
       Security.security_apple,
       'Sign in with Apple',
-      Image.asset(ImagePath.login_apple, height: 24, width: 24),
+      Icon(Icons.apple, size: 24, color: Colors.black),
       Colors.white,
       Color(0xFF070512),
       () async {
