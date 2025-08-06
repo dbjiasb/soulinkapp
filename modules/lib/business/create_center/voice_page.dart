@@ -77,7 +77,7 @@ class OCVoicePage extends StatelessWidget {
               onPressed: () {
                 Get.back();
               },
-              icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
+              icon: Image.asset(ImagePath.back, height: 24, width: 24),
             ),
             const Expanded(
               child: Text(
@@ -109,7 +109,7 @@ class OCVoicePage extends StatelessWidget {
                               alignment: Alignment.center,
                               child: Wrap(
                                 children: [
-                                  RotatedBox(quarterTurns: _logic.expandStatus.value, child: Image.asset(ImagePath.icon_back, height: 16, width: 16)),
+                                  RotatedBox(quarterTurns: _logic.expandStatus.value, child: Image.asset(ImagePath.back, height: 16, width: 16)),
                                   Text(value, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600)),
                                 ],
                               ),
@@ -139,15 +139,14 @@ class OCVoicePage extends StatelessWidget {
   }
 
   final player = AudioPlayer();
-  Map playingVoiceItem = {}.obs;
 
-  void playVoice(Map item) {
-    playingVoiceItem = item;
+  void playVoice(Map item) async {
+    _logic.playingVoiceItem.value = item;
 
-    player.stop();
+    await player.stop();
     player.play(UrlSource(item[EncHelper.cr_eurl]));
     player.onPlayerComplete.listen((_) {
-      playingVoiceItem = {};
+      _logic.playingVoiceItem.value = {};
     });
   }
 
@@ -159,14 +158,14 @@ class OCVoicePage extends StatelessWidget {
         children: [
           Row(
             children: [
-              playingVoiceItem[Security.security_vid] == item[Security.security_vid]
-                  ? Container(margin: EdgeInsets.only(right: 8), width: 16, height: 16, child: CircularProgressIndicator(color: AppColors.main))
+              Obx(()=>_logic.playingVoiceItem[Security.security_vid] == item[Security.security_vid]
+                  ? Container(margin: EdgeInsets.only(right: 8), width: 16, height: 16, child: CircularProgressIndicator(color: Color(0xff8761F1) ))
                   : InkWell(
-                    onTap: () {
-                      playVoice(item);
-                    },
-                    child: Image.asset(ImagePath.oc_audio, height: 24, width: 24),
-                  ),
+                onTap: () {
+                  playVoice(item);
+                },
+                child: Image.asset(ImagePath.oc_tone, height: 24, width: 24),
+              )),
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(4),
@@ -178,8 +177,8 @@ class OCVoicePage extends StatelessWidget {
                     ? Container(
                       width: 24,
                       height: 24,
-                      decoration: BoxDecoration(color: AppColors.ocMain, shape: BoxShape.circle),
-                      child: const Padding(padding: EdgeInsets.all(2), child: Icon(Icons.check, color: Colors.white, size: 16)),
+                      decoration: BoxDecoration(color: Color(0xff8761F1), shape: BoxShape.circle),
+                      child: const Padding(padding: EdgeInsets.all(2), child: Icon(Icons.check, color: Colors.black, size: 16)),
                     )
                     : Container();
               }),
@@ -236,6 +235,9 @@ class OCVoicePage extends StatelessWidget {
 class OCVoiceLogic extends GetxController {
   var selectedItem = {}.obs;
 
+  late final RxMap playingVoiceItem;
+
+
   late final args;
 
   // 语音包配置信息
@@ -273,6 +275,7 @@ class OCVoiceLogic extends GetxController {
   void onInit() {
     super.onInit();
 
+    playingVoiceItem = {}.obs;
     final voiceLibs = Get.arguments;
     config.value =
         voiceLibs.map((item) {

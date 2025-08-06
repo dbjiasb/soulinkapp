@@ -104,7 +104,7 @@ class AccountView extends StatelessWidget {
             SizedBox(
               width: 2,
             ),
-            Image.asset(ImagePath.chat_more, height: 16, width: 16),
+            Image.asset(ImagePath.boarder_add, height: 16, width: 16),
           ],
         ),
       ),

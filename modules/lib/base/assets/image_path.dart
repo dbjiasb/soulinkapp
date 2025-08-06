@@ -11,13 +11,13 @@ abstract final class ImagePath {
   static const String audio_speaking = 'packages/modules/assets/soulink/audio_speaking.png';
   static const String audio_to_speak = 'packages/modules/assets/soulink/audio_to_speak.png';
   static const String back = 'packages/modules/assets/soulink/back.png';
+  static const String boarder_add = 'packages/modules/assets/soulink/boarder_add.png';
   static const String btm_call = 'packages/modules/assets/soulink/btm_call.png';
   static const String btm_custom = 'packages/modules/assets/soulink/btm_custom.png';
   static const String btm_pic = 'packages/modules/assets/soulink/btm_pic.png';
   static const String btm_video = 'packages/modules/assets/soulink/btm_video.png';
   static const String camera = 'packages/modules/assets/soulink/camera.png';
   static const String chat_close = 'packages/modules/assets/soulink/chat_close.png';
-  static const String chat_more = 'packages/modules/assets/soulink/chat_more.png';
   static const String check = 'packages/modules/assets/soulink/check.png';
   static const String check_bg = 'packages/modules/assets/soulink/check_bg.png';
   static const String coin = 'packages/modules/assets/soulink/coin.png';
@@ -30,12 +30,14 @@ abstract final class ImagePath {
   static const String empty_list = 'packages/modules/assets/soulink/empty_list.png';
   static const String exchange = 'packages/modules/assets/soulink/exchange.png';
   static const String expand = 'packages/modules/assets/soulink/expand.png';
+  static const String female = 'packages/modules/assets/soulink/female.png';
   static const String follow_add = 'packages/modules/assets/soulink/follow_add.png';
   static const String func_gift = 'packages/modules/assets/soulink/func_gift.png';
   static const String func_history = 'packages/modules/assets/soulink/func_history.png';
   static const String func_img = 'packages/modules/assets/soulink/func_img.png';
   static const String func_video = 'packages/modules/assets/soulink/func_video.png';
   static const String gem = 'packages/modules/assets/soulink/gem.png';
+  static const String gen_ing = 'packages/modules/assets/soulink/gen_ing.svga';
   static const String go_on_talk = 'packages/modules/assets/soulink/go_on_talk.png';
   static const String hang_up = 'packages/modules/assets/soulink/hang_up.png';
   static const String home_normal = 'packages/modules/assets/soulink/home_normal.png';
@@ -44,9 +46,15 @@ abstract final class ImagePath {
   static const String like_off = 'packages/modules/assets/soulink/like_off.png';
   static const String like_on = 'packages/modules/assets/soulink/like_on.png';
   static const String loading = 'packages/modules/assets/soulink/loading.png';
+  static const String male = 'packages/modules/assets/soulink/male.png';
   static const String message_normal = 'packages/modules/assets/soulink/message_normal.png';
   static const String message_selected = 'packages/modules/assets/soulink/message_selected.png';
   static const String more = 'packages/modules/assets/soulink/more.png';
+  static const String oc_dialog_bg = 'packages/modules/assets/soulink/oc_dialog_bg.png';
+  static const String oc_dialog_close = 'packages/modules/assets/soulink/oc_dialog_close.png';
+  static const String oc_dialog_ask = 'packages/modules/assets/soulink/oc_dialog_ask.png';
+  static const String oc_gen_bg = 'packages/modules/assets/soulink/oc_gen_bg.png';
+  static const String oc_tone = 'packages/modules/assets/soulink/oc_tone.png';
   static const String official_tag = 'packages/modules/assets/soulink/official_tag.png';
   static const String person_head_bg = 'packages/modules/assets/soulink/person_head_bg.png';
   static const String person_img_mask = 'packages/modules/assets/soulink/person_img_mask.png';
@@ -110,7 +118,6 @@ abstract final class ImagePath {
   static const String chat_input_keyboard = 'packages/modules/assets/soulink/aa6249af52da6ce561a64cc0e3d5afb1.png';
   static const String go = 'packages/modules/assets/soulink/1f3754199b4f3e37dc0b4ff03575446b.png';
   static const String login_mail = 'packages/modules/assets/soulink/104dcb536db1ec754545ff73d262d39c.png';
-  static const String female = 'packages/modules/assets/soulink/b513e6f79697ad161f65754a6a836d4f.png';
   static const String bottom_bar_chat_normal = 'packages/modules/assets/soulink/4dd9521c850bf338c3fac77c7fdc4294.png';
   static const String req_image = 'packages/modules/assets/soulink/5e2361ef683f4384132c9c88fd3dc6b6.png';
   static const String chat_res_lock = 'packages/modules/assets/soulink/c7ca81185d5581c16eab91af11a937f6.png';
@@ -127,7 +134,6 @@ abstract final class ImagePath {
   static const String empty_cover = 'packages/modules/assets/soulink/8d98eb10fed5b648a6181351aca2f2ce.png';
   static const String voice_play1 = 'packages/modules/assets/soulink/d8dafe54680928db9a410db70209e343.png';
   static const String account_wallet = 'packages/modules/assets/soulink/9891959af71f521ac897efac0c24124f.png';
-  static const String oc_dialog_bg = 'packages/modules/assets/soulink/91fb4607c309216b9454ffb6925addd2.png';
   static const String chat_input_voice = 'packages/modules/assets/soulink/819c3a7996768a7d61d5cfabffd47bd8.png';
   static const String triangle_arrow = 'packages/modules/assets/soulink/8aa8e8ac87ef2ea98913042c342f53a8.png';
   static const String home_list_selected = 'packages/modules/assets/soulink/4f86895339ffbd1ae7a6db1d489fedbd.png';
@@ -139,7 +145,6 @@ abstract final class ImagePath {
   static const String log_out = 'packages/modules/assets/soulink/d5aabe4645850e1c3c7f1c53ec98d122.png';
   static const String cancel_send = 'packages/modules/assets/soulink/1fd67d966d01c42b61254e6739272214.png';
   static const String account_head_bg = 'packages/modules/assets/soulink/4429f63466e197b47e98178303bb4d6d.png';
-  static const String male = 'packages/modules/assets/soulink/2e3a52b0c706d892385cca7f20159d92.png';
   static const String premium_rcg_avatarbg = 'packages/modules/assets/soulink/8414c2d1bb017057f03477b1fa6754b4.png';
   static const String premium_gem = 'packages/modules/assets/soulink/e30d4c261e7819bc3b1a89a5c713e25f.png';
   static const String gem_bg = 'packages/modules/assets/soulink/f97055fd6ddeae5aa889445258d4f7e6.png';
@@ -157,7 +162,6 @@ abstract final class ImagePath {
   static const String ic_tag_ai = 'packages/modules/assets/soulink/84ba066b844eb90d63a32ddd4d7ff0aa.png';
   static const String premium_rcg_bnfheader = 'packages/modules/assets/soulink/a800048adc83a89410dfce74562314a0.png';
   static const String icon_back = 'packages/modules/assets/soulink/bd0006b6a8d357acfe03c6a536743def.png';
-  static const String gen_ing = 'packages/modules/assets/soulink/3cf7ac3dd7e4d68ac1c3eb6cb6b4544c.svga';
   static const String login_bg = 'packages/modules/assets/soulink/b2a562deb77996fbe00b6bb82878af69.png';
   static const String chat_tts_play = 'packages/modules/assets/soulink/91fd946d1246bcecd488685dae30a077.png';
   static const String bottom_bar_personal_normal = 'packages/modules/assets/soulink/1964569b3465a66672a2f16fc790ac01.png';
@@ -168,7 +172,6 @@ abstract final class ImagePath {
   static const String ic_tag_real = 'packages/modules/assets/soulink/1f4db07e74312f2e27947399ec10f1ca.png';
   static const String turn_off_mic = 'packages/modules/assets/soulink/30b08abb796326dc6284af60e2659f75.png';
   static const String account_edit = 'packages/modules/assets/soulink/990eefc437f30712bff9f4bd94afb32b.png';
-  static const String oc_gen_bg = 'packages/modules/assets/soulink/86ec7256e356ef21bdb440e49309c39d.png';
   static const String login_verify_code = 'packages/modules/assets/soulink/fa6588e40102f98e6de527ca1dab95af.png';
   static const String add = 'packages/modules/assets/soulink/941a2e5059932165444ad9887cc5d560.png';
   static const String arrow_right_highlight = 'packages/modules/assets/soulink/667255022e462dfb06138ecd6ec0e8b8.png';

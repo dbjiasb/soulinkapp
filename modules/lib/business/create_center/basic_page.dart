@@ -60,7 +60,7 @@ class BasicCore extends StatelessWidget {
                 _createPhysiqueDetailsSection(),
                 const SizedBox(height: 20),
                 _createPhysiqueToggleButton(),
-                Obx(() => _controller.expandPhysiqueRotate.value == 3 ? _createCollapsedPhysiqueDetails() : Container()),
+                Obx(() => _controller.expandPhysiqueRotate.value == 2 ? _createCollapsedPhysiqueDetails() : Container()),
                 SafeArea(top: false, child: SizedBox()),
               ],
             ),
@@ -86,7 +86,7 @@ class BasicCore extends StatelessWidget {
                 },
                 child: Container(
                   height: 50,
-                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: AppColors.ocBox),
+                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: Color(0xff272533)),
                   child: GestureDetector(
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -105,7 +105,7 @@ class BasicCore extends StatelessWidget {
                 },
                 child: Container(
                   height: 50,
-                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: AppColors.ocBox),
+                  decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: Color(0xff272533)),
                   child: GestureDetector(
                     child: const Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -130,7 +130,7 @@ class BasicCore extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Text(label, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 14)),
-          const Text('*', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 12)),
+          const Text('*', style: TextStyle(color: Color(0xff8761F1), fontWeight: FontWeight.w700, fontSize: 12)),
         ],
       ),
     );
@@ -141,7 +141,7 @@ class BasicCore extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
         padding: const EdgeInsets.all(12),
-        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: AppColors.ocBox),
+        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: Color(0xff272533)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -161,7 +161,7 @@ class BasicCore extends StatelessWidget {
                         Container(
                           height: 100,
                           width: 100,
-                          decoration: BoxDecoration(color: const Color(0xFF181620), borderRadius: BorderRadius.circular(8)),
+                          decoration: BoxDecoration(color: const Color(0xff16161B), borderRadius: BorderRadius.circular(8)),
                           child: Obx(() {
                             if (_controller.processingImage.value) {
                               return Center(child: CircularProgressIndicator(color: AppColors.ocMain));
@@ -191,7 +191,7 @@ class BasicCore extends StatelessWidget {
                               );
                             }
 
-                            return Center(child: Image.asset(ImagePath.oc_add_pic, height: 24, width: 24));
+                            return Center(child: Image.asset(ImagePath.boarder_add, height: 24, width: 24));
                           }),
                         ),
                       ],
@@ -204,7 +204,7 @@ class BasicCore extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        style: TextStyle(fontSize: 11, color: AppColors.undo, fontWeight: FontWeight.w500),
+                        style: TextStyle(fontSize: 11, color: Color(0xffABABAD), fontWeight: FontWeight.w500),
                         maxLines: 2,
                         'The uploaded image serves as a reference for facial features and style elements',
                       ),
@@ -225,7 +225,7 @@ class BasicCore extends StatelessWidget {
       child: Container(
         height: 90,
         padding: const EdgeInsets.all(12),
-        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: AppColors.ocBox),
+        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: Color(0xff272533)),
         child: Column(
           children: [
             Obx(
@@ -247,7 +247,7 @@ class BasicCore extends StatelessWidget {
               alignment: Alignment.center,
               height: 40,
               padding: const EdgeInsets.symmetric(horizontal: 12),
-              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: Color(0xFF181620)),
+              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: Color(0xff16161B)),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -261,7 +261,7 @@ class BasicCore extends StatelessWidget {
                         isDense: true,
                         border: InputBorder.none,
                         hintText: 'Name your character',
-                        hintStyle: TextStyle(color: Colors.white, fontSize: 11, height: 1.2, fontWeight: FontWeight.w500),
+                        hintStyle: TextStyle(color: Color(0xff636268), fontSize: 11, height: 1.2, fontWeight: FontWeight.w500),
                       ),
                       style: const TextStyle(color: Colors.white, fontSize: 11, height: 1.2, fontWeight: FontWeight.w500),
                     ),
@@ -290,7 +290,7 @@ class BasicCore extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.all(12),
           height: 90,
-          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: AppColors.ocBox),
+          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: Color(0xff272533)),
           child: Column(
             children: [
               Row(children: [Text(Security.security_Gender, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12))]),
@@ -317,7 +317,7 @@ class BasicCore extends StatelessWidget {
                             children: [
                               Image.asset(width: 24, height: 24, ImagePath.female),
                               const SizedBox(width: 4),
-                              Text(Security.security_Female, style: TextStyle(color: Color(0xFFF832B2), fontSize: 11, fontWeight: FontWeight.w600)),
+                              Text(Security.security_Female, style: TextStyle(color: _controller.selectedGender.value == 2?Color(0xFFF832B2):Color(0xff636268), fontSize: 11, fontWeight: FontWeight.w600)),
                             ],
                           ),
                         ),
@@ -345,7 +345,7 @@ class BasicCore extends StatelessWidget {
                             children: [
                               Image.asset(width: 24, height: 24, ImagePath.male),
                               const SizedBox(width: 4),
-                              Text(Security.security_Female, style: TextStyle(color: Color(0xFF339FF0), fontSize: 11, fontWeight: FontWeight.w600)),
+                              Text(Security.security_Female, style: TextStyle(color: _controller.selectedGender.value==1?Color(0xFF339FF0):Color(0xff636268), fontSize: 11, fontWeight: FontWeight.w600)),
                             ],
                           ),
                         ),
@@ -376,7 +376,7 @@ class BasicCore extends StatelessWidget {
       () => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Container(
-          decoration: BoxDecoration(color: AppColors.ocBox, borderRadius: BorderRadius.all(Radius.circular(12))),
+          decoration: BoxDecoration(color: Color(0xff272533), borderRadius: BorderRadius.all(Radius.circular(12))),
           height: 48,
           child: Row(
             children: [
@@ -388,9 +388,9 @@ class BasicCore extends StatelessWidget {
                   child: Row(
                     children: [
                       const SizedBox(width: 12),
-                      _controller.soundPlaying.value
-                          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: AppColors.main))
-                          : Image.asset(height: 24, width: 24, ImagePath.oc_audio),
+                      Obx(()=>_controller.soundPlaying.value
+                          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: Color(0xff8761F1)))
+                          : Image.asset(ImagePath.oc_tone)),
                       const SizedBox(width: 8),
                       const Text('Click to play', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF999999))),
                     ],
@@ -415,10 +415,11 @@ class BasicCore extends StatelessWidget {
                         _controller.selectedSound[Security.security_name] != null
                             ? Text(
                               _controller.selectedSound[Security.security_name],
-                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: AppColors.undo),
+                              style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xffababad)
+),
                             )
                             : Container(),
-                        Image.asset(height: 16, width: 16, ImagePath.arrow_right),
+                        Image.asset(height: 16, width: 16, ImagePath.right_arrow),
                         const SizedBox(width: 12),
                       ],
                     ),
@@ -436,7 +437,7 @@ class BasicCore extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Container(
-        decoration: BoxDecoration(color: AppColors.ocBox, borderRadius: BorderRadius.all(Radius.circular(12))),
+        decoration: BoxDecoration(color: Color(0xff272533), borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(
@@ -444,13 +445,14 @@ class BasicCore extends StatelessWidget {
               const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('18', style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
-                  Text('60', style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text('18', style: TextStyle(color: Color(0xffababad), fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text('60', style: TextStyle(color: Color(0xffababad)
+, fontWeight: FontWeight.w500, fontSize: 11)),
                 ],
               ),
               Obx(
                 () => Slider(
-                  activeColor: AppColors.ocMain,
+                  activeColor: Color(0xff8761F1),
                   inactiveColor: const Color(0xFF171425),
                   min: 18,
                   max: 60,
@@ -470,7 +472,7 @@ class BasicCore extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Container(
-        decoration: const BoxDecoration(color: AppColors.ocBox, borderRadius: BorderRadius.all(Radius.circular(12))),
+        decoration: const BoxDecoration(color: Color(0xff272533), borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(
@@ -478,13 +480,15 @@ class BasicCore extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(Security.security_Shy, style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
-                  Text(Security.security_Flirty, style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text(Security.security_Shy, style: TextStyle(color: Color(0xffababad)
+, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text(Security.security_Flirty, style: TextStyle(color: Color(0xffababad)
+, fontWeight: FontWeight.w500, fontSize: 11)),
                 ],
               ),
               Obx(
                 () => Slider(
-                  activeColor: AppColors.ocMain,
+                  activeColor: Color(0xff8761F1),
                   inactiveColor: const Color(0xFF171425),
                   min: 0,
                   max: 100,
@@ -503,7 +507,7 @@ class BasicCore extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Container(
-        decoration: const BoxDecoration(color: AppColors.ocBox, borderRadius: BorderRadius.all(Radius.circular(12))),
+        decoration: const BoxDecoration(color: Color(0xff272533), borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(
@@ -511,13 +515,15 @@ class BasicCore extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(EncHelper.cr_pesi, style: const TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
-                  Text(Security.security_Optimistic, style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text(EncHelper.cr_pesi, style: const TextStyle(color: Color(0xffababad)
+, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text(Security.security_Optimistic, style: TextStyle(color: Color(0xffababad)
+, fontWeight: FontWeight.w500, fontSize: 11)),
                 ],
               ),
               Obx(
                 () => Slider(
-                  activeColor: AppColors.ocMain,
+                  activeColor: Color(0xff8761F1),
                   inactiveColor: const Color(0xFF171425),
                   min: 0,
                   max: 100,
@@ -536,7 +542,7 @@ class BasicCore extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Container(
-        decoration: const BoxDecoration(color: AppColors.ocBox, borderRadius: BorderRadius.all(Radius.circular(12))),
+        decoration: const BoxDecoration(color: Color(0xff272533), borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(
@@ -547,21 +553,23 @@ class BasicCore extends StatelessWidget {
                     child: Text(
                       textAlign: TextAlign.left,
                       Security.security_Ordinary,
-                      style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11),
+                      style: TextStyle(color: Color(0xffababad)
+, fontWeight: FontWeight.w500, fontSize: 11),
                     ),
                   ),
                   Expanded(
                     child: Text(
                       textAlign: TextAlign.right,
                       Security.security_Mysterious,
-                      style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11),
+                      style: TextStyle(color: Color(0xffababad)
+, fontWeight: FontWeight.w500, fontSize: 11),
                     ),
                   ),
                 ],
               ),
               Obx(
                 () => Slider(
-                  activeColor: AppColors.ocMain,
+                  activeColor: Color(0xff8761F1),
                   inactiveColor: const Color(0xFF171425),
                   min: 0,
                   max: 100,
@@ -580,7 +588,7 @@ class BasicCore extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Container(
-        decoration: const BoxDecoration(color: AppColors.ocBox, borderRadius: BorderRadius.all(Radius.circular(12))),
+        decoration: const BoxDecoration(color: Color(0xff272533), borderRadius: BorderRadius.all(Radius.circular(12))),
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Column(
@@ -588,13 +596,15 @@ class BasicCore extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(Security.security_Slim, style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
-                  Text(Security.security_Curvy, style: TextStyle(color: AppColors.undo, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text(Security.security_Slim, style: TextStyle(color: Color(0xffababad)
+, fontWeight: FontWeight.w500, fontSize: 11)),
+                  Text(Security.security_Curvy, style: TextStyle(color: Color(0xffababad)
+, fontWeight: FontWeight.w500, fontSize: 11)),
                 ],
               ),
               Obx(
                 () => Slider(
-                  activeColor: AppColors.ocMain,
+                  activeColor: Color(0xff8761F1),
                   inactiveColor: const Color(0xFF171425),
                   min: 0,
                   max: 100,
@@ -620,9 +630,10 @@ class BasicCore extends StatelessWidget {
           () => Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(Security.security_Physique, style: TextStyle(color: AppColors.undo, fontSize: 11, fontWeight: FontWeight.w500)),
+              Text(Security.security_Physique, style: TextStyle(color: Color(0xffababad)
+, fontSize: 11, fontWeight: FontWeight.w500)),
               SizedBox(width: 4),
-              RotatedBox(quarterTurns: _controller.expandPhysiqueRotate.value, child: Image.asset(ImagePath.arrow_right, width: 16, height: 16)),
+              RotatedBox(quarterTurns: _controller.expandPhysiqueRotate.value, child: Image.asset(ImagePath.expand, width: 16, height: 16)),
             ],
           ),
         ),
@@ -661,12 +672,14 @@ class BasicCore extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(color: _controller.physiqueAttributes[itemKey] == tag ? AppColors.ocMain : AppColors.undo, width: 2),
+                                        border: Border.all(color: _controller.physiqueAttributes[itemKey] == tag ? AppColors.ocMain : Color(0xffababad)
+, width: 2),
                                       ),
                                       child: Text(
                                         tag,
                                         style: TextStyle(
-                                          color: _controller.physiqueAttributes[itemKey] == tag ? AppColors.ocMain : AppColors.undo,
+                                          color: _controller.physiqueAttributes[itemKey] == tag ? AppColors.ocMain : Color(0xffababad)
+,
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -717,12 +730,14 @@ class BasicCore extends StatelessWidget {
                                       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8),
-                                        border: Border.all(color: _controller.physiqueAttributes[itemKey] == tag ? AppColors.ocMain : AppColors.undo, width: 2),
+                                        border: Border.all(color: _controller.physiqueAttributes[itemKey] == tag ? AppColors.ocMain : Color(0xffababad)
+, width: 2),
                                       ),
                                       child: Text(
                                         tag,
                                         style: TextStyle(
-                                          color: _controller.physiqueAttributes[itemKey] == tag ? AppColors.ocMain : AppColors.undo,
+                                          color: _controller.physiqueAttributes[itemKey] == tag ? AppColors.ocMain : Color(0xffababad)
+,
                                           fontSize: 13,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -758,13 +773,13 @@ class BasicPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: AppColors.main,
+        backgroundColor:Color(0xff070512),
         leading: IconButton(
           onPressed: () {
             _controller.ocDependency.save();
             Get.back();
           },
-          icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
+          icon: Image.asset(ImagePath.back, height: 24, width: 24),
         ),
         title: Text(
           textAlign: TextAlign.center,
@@ -776,14 +791,14 @@ class BasicPage extends StatelessWidget {
             padding: EdgeInsets.all(16),
             child: Row(
               children: [
-                const Text('1', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'SF Pro bold')),
+                const Text('1', style: TextStyle(color: Color(0xff8761F1), fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'SF Pro bold')),
                 const Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: 'SF Pro bold')),
               ],
             ),
           ),
         ],
       ),
-      backgroundColor: AppColors.main,
+      backgroundColor:Color(0xff070512),
       body: SafeArea(
         child: Column(
           children: [
@@ -814,11 +829,11 @@ class BasicPage extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  color: _controller.canProceed.value ? AppColors.ocMain : Color(0xFF42364A),
+                  color: _controller.canProceed.value ? Color(0xff8761F1) : Color(0xFF474D4C),
                 ),
                 child: Text(
                   Security.security_Next,
-                  style: TextStyle(color: _controller.canProceed.value ? Colors.white : Color(0xFF86649F), fontSize: 14, fontWeight: FontWeight.w900),
+                  style: TextStyle(color: _controller.canProceed.value ? Colors.white : Colors.white.withValues(alpha: 0.6), fontSize: 14, fontWeight: FontWeight.w900),
                 ),
               ),
             ),
@@ -877,7 +892,7 @@ class BasicController extends GetxController {
   final femalePhysiqueLabels = <Map>[].obs;
   late List<Map> maleCollapsedPhysiqueLabels = [];
   late List<Map> femaleCollapsedPhysiqueLabels = [];
-  final expandPhysiqueRotate = 1.obs;
+  final expandPhysiqueRotate = 0.obs;
 
   @override
   void onInit() {
@@ -1109,7 +1124,7 @@ class BasicController extends GetxController {
   }
 
   void togglePhysiqueExpansion() {
-    expandPhysiqueRotate.value = expandPhysiqueRotate.value == 1 ? 3 : 1;
+    expandPhysiqueRotate.value = expandPhysiqueRotate.value == 0 ? 2 : 0;
   }
 
   bool _validateForm() {

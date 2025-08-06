@@ -44,7 +44,7 @@ class GenPage extends StatelessWidget {
                 onPressed: () {
                   showStopDialog();
                 },
-                icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
+                icon: Image.asset(ImagePath.back, height: 24, width: 24),
               ),
             ],
           ),
@@ -87,7 +87,7 @@ class GenPage extends StatelessWidget {
                         onPressed: () {
                           startRegeneration();
                         },
-                        icon: Image.asset(ImagePath.oc_regen, height: 32, width: 32),
+                        icon: Image.asset(ImagePath.refresh, height: 32, width: 32),
                       ),
                     ],
                   ),

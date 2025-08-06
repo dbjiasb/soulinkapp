@@ -113,7 +113,7 @@ class AdvanceCore extends StatelessWidget {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: hintText,
-                    hintStyle: const TextStyle(color: Color(0xFF93A0A5), fontSize: 11, fontWeight: FontWeight.w500),
+                    hintStyle: const TextStyle(color: Color(0xFF636268), fontSize: 11, fontWeight: FontWeight.w500),
                   ),
                   maxLines: maxLines,
                   style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500),
@@ -122,8 +122,8 @@ class AdvanceCore extends StatelessWidget {
                   () => Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(curString.value.length.toString(), style: const TextStyle(color: Color(0xFF9EA0A5), fontSize: 11, fontWeight: FontWeight.w500)),
-                      Text('/$limited', style: const TextStyle(color: Color(0xFF9EA0A5), fontSize: 11, fontWeight: FontWeight.w500)),
+                      Text(curString.value.length.toString(), style: const TextStyle(color: Color(0xFF636268), fontSize: 11, fontWeight: FontWeight.w500)),
+                      Text('/$limited', style: const TextStyle(color: Color(0xFF636268), fontSize: 11, fontWeight: FontWeight.w500)),
                     ],
                   ),
                 ),
@@ -226,7 +226,7 @@ class AdvanceCore extends StatelessWidget {
                     onTap: _logic.addRound,
                     child: Container(
                       height: 44,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: AppColors.ocMain),
+                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: Color(0xff2F3031)),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -234,8 +234,8 @@ class AdvanceCore extends StatelessWidget {
                             runAlignment: WrapAlignment.center,
                             spacing: 4,
                             children: [
-                              Image.asset(ImagePath.oc_add_pic, height: 16, width: 16),
-                              const Text('Add rounds', style: TextStyle(color: Color(0xFF12151C), fontSize: 12, fontWeight: FontWeight.w500)),
+                              Image.asset(ImagePath.boarder_add, height: 16, width: 16),
+                              const Text('Add rounds', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500)),
                               Text(
                                 '(${_logic.dialogStyle.length ~/ 2}/5）',
                                 style: const TextStyle(color: Color(0xFF666666), fontSize: 11, fontWeight: FontWeight.w400),
@@ -265,16 +265,16 @@ class AdvancePage extends StatelessWidget {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.main,
+      backgroundColor: Color(0xff070512),
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: AppColors.main,
+        backgroundColor: Color(0xff070512),
         leading: IconButton(
           onPressed: () {
             _logic.ocDependency.save();
             Get.back();
           },
-          icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
+          icon: Image.asset(ImagePath.back, height: 24, width: 24),
         ),
         title: Text(
           textAlign: TextAlign.center,
@@ -322,12 +322,12 @@ class AdvancePage extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  color: _logic.toGen.value ? AppColors.ocMain : Color(0xFF42364A),
+                  color: _logic.toGen.value ? AppColors.ocMain : Color(0xFF2F3031),
                 ),
                 // 禁用状态颜色
                 child: Text(
                   Security.security_Generate,
-                  style: TextStyle(color: _logic.toGen.value ? Colors.white : Color(0xFF86649F), fontSize: 14, fontWeight: FontWeight.w900),
+                  style: TextStyle(color: _logic.toGen.value ? Colors.white : Colors.white.withValues(alpha: 0.6), fontSize: 14, fontWeight: FontWeight.w900),
                 ),
               ),
             ),

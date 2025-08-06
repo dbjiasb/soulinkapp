@@ -4,8 +4,8 @@ class AppColors {
   static const Color main = Color(0xFF171425);
   static const Color primary = Color(0xFFE962F6);
   static const Color secondPage = Color(0xFF171425);
-  static const Color ocBox =Color(0xFF211E2E);
-  static const Color ocMain = Color(0xFFB86AFF);
+  static const Color ocBox =Color(0xFF272533);
+  static const Color ocMain = Color(0xFF8761F1);
   static const Color undo = Color(0xFF666666);
 }
 

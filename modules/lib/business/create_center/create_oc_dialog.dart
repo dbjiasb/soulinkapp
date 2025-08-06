@@ -43,7 +43,11 @@ class CreateOcDialog extends StatelessWidget {
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         image: DecorationImage(image: AssetImage(ImagePath.oc_dialog_bg), fit: BoxFit.cover),
       ),
-      child: Row(children: [IconButton(onPressed: Get.back, icon: Image.asset(width: 32, height: 32, ImagePath.oc_dialog_back))]),
+      child: Row(children: [
+        IconButton(onPressed: Get.back, icon: Image.asset(width: 32, height: 32, ImagePath.oc_dialog_close)),
+        Spacer(),
+        IconButton(onPressed: (){}, icon: Image.asset(width: 32,height: 32,ImagePath.oc_dialog_ask,))
+      ]),
     );
   }
 
@@ -66,7 +70,8 @@ class CreateOcDialog extends StatelessWidget {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    color: _logic.consent.value ? const Color(0xFFB86AFF) : const Color(0xFFEED7FF),
+                    color: _logic.consent.value ? const Color(0xFF8761F1) : null,
+                    gradient: _logic.consent.value? null : LinearGradient(begin: Alignment.centerLeft,end: Alignment.centerRight,colors: [Color(0xffBDC6C6),Color(0xffD5E1DD)])
                   ),
                   child:
                       _logic.isLoading.value
@@ -88,7 +93,7 @@ class CreateOcDialog extends StatelessWidget {
                     onTap: () {
                       _logic.consent.value = !_logic.consent.value;
                     },
-                    child: Image.asset(_logic.consent.value == true ? ImagePath.report_selected:ImagePath.report_unselect),
+                    child: Image.asset(_logic.consent.value == true ? ImagePath.check:ImagePath.check_bg),
                   ),
                 ),
               ),
