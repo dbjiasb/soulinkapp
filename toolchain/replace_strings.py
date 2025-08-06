@@ -7,7 +7,7 @@ import json
 # 白名单配置（新增）
 REPLACE_CONFIG = {
     'variables': {
-        'pattern': r"(['\"])({})\\1",
+        'pattern': r"(['\"])({})\1",
         'replacement': 'Security.security_{}',
         'import': 'security'
     },
@@ -40,7 +40,7 @@ def replace_security_strings(enable_backup=False):
     patterns = []
     import_statements = set()
 
-    for key in ['variables', 'apis']:  # 白名单控制
+    for key in ['variables']:  # 白名单控制
         config = REPLACE_CONFIG[key]
         items = data[key]['items']
 
