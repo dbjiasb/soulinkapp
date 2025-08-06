@@ -42,6 +42,7 @@ class PersonViewPage extends StatelessWidget {
                 child: CachedNetworkImage(
                   imageUrl: controller.background,
                   fit: BoxFit.cover,
+                  errorWidget: (context, url, error) => Container(color: AppColors.main),
                 ),
               ),
             ),
@@ -64,7 +65,7 @@ class PersonViewPage extends StatelessWidget {
                         child: Stack(
                           children: [
                             Positioned(top:0,left:0,child: Text('Gallery',style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),)),
-                            Positioned(bottom:0,right:0,child: Image.asset(ImagePath.home_list_selected,height: 10,width: 40,))
+                            Positioned(bottom:0,right:0,child: Image.asset(ImagePath.tab_selected,height: 10,width: 40,))
                           ]
                         ),
                       ),
@@ -83,7 +84,7 @@ class PersonViewPage extends StatelessWidget {
             child: SafeArea(
               child: GestureDetector(
                 onTap: Get.back,
-                child: Container(width: 32, height: 44, alignment: Alignment.center, child: Image.asset(ImagePath.icon_back, width: 24, height: 24)),
+                child: Container(width: 32, height: 44, alignment: Alignment.center, child: Image.asset(ImagePath.back, width: 24, height: 24)),
               ),
             ),
           ),
@@ -134,6 +135,7 @@ class PersonViewPage extends StatelessWidget {
                               child: CachedNetworkImage(
                                 imageUrl: controller.avatarUrl,
                                 fit: BoxFit.cover,
+                                errorWidget: (context, url, error) => Image.asset(ImagePath.default_avatar, fit: BoxFit.cover, width: 72, height: 72),
                               ),
                             ),
                           ),
@@ -390,7 +392,7 @@ class PersonViewController extends GetxController {
 
   String get type {
     if (baseInfo[EncHelper.ps_act] == 1 || baseInfo[EncHelper.ps_act] == 3 || baseInfo[EncHelper.ps_act] == 4) {
-      return ImagePath.ic_tag_ai;
+      return ImagePath.ai_tag;
     }
     return '';
   }

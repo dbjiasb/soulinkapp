@@ -101,7 +101,7 @@ class ChatRoomView extends StatelessWidget {
           children: [
             Text(title, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
             Spacer(),
-            tail ?? Image.asset(ImagePath.arrow_right, height: 16, width: 16),
+            tail ?? Image.asset(ImagePath.right_arrow, height: 16, width: 16),
           ],
         ),
       ),
@@ -131,7 +131,7 @@ class ChatRoomView extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: _onBackButtonClicked,
-            child: Container(width: 32, height: 44, alignment: Alignment.center, child: Image.asset(ImagePath.icon_back, width: 24, height: 24)),
+            child: Container(width: 32, height: 44, alignment: Alignment.center, child: Image.asset(ImagePath.back, width: 24, height: 24)),
           ),
           // SizedBox(width: 4),
           // GestureDetector(
@@ -180,7 +180,20 @@ class ChatRoomView extends StatelessWidget {
           //   ),
           // ),
           Spacer(),
-          Column(children: [Text(viewController.session.name, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold))]), Spacer(),
+          Column(children: [
+            GestureDetector(
+              onTap: () {
+                Get.toNamed(Routers.person.name, arguments: {Security.security_personId: viewController.userId});
+              },
+              child: Row(
+                spacing: 4,
+                children: [
+                  Text(viewController.session.name, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                  Image.asset(ImagePath.right_arrow, height: 16, width: 16)
+                ],),
+            )
+          ]),
+          Spacer(),
           IconButton(
             onPressed: () {
               _scaffoldKey.currentState?.openEndDrawer();
