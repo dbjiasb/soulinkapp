@@ -1,15 +1,16 @@
-import 'package:modules/base/crypt/apis.dart';
-import 'package:modules/base/crypt/security.dart';
+import 'package:modules/base/crypt/copywriting.dart';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:crypto/crypto.dart';
-import 'package:modules/base/api_service/api_service_export.dart';
-import 'package:modules/base/file_manager/file_manager.dart';
-import 'package:modules/business/chat/chat_room_cells/chat_audio_message.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import './chat_room_cells/chat_text_cell.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:modules/base/api_service/api_service_export.dart';
+import 'package:modules/base/crypt/apis.dart';
+import 'package:modules/base/crypt/security.dart';
+import 'package:modules/base/file_manager/file_manager.dart';
+
+import './chat_room_cells/chat_text_cell.dart';
 
 class TTSResult {
   String ttsUrl;
@@ -39,16 +40,17 @@ class ChatVoiceManager {
   String get workDirectory => FileManager.instance.cacheDirectory;
 
   Future<TTSResult> textToVoice(ChatTextMessage message) async {
-    ApiRequest request = ApiRequest(Apis.security_convertContentToVoice,
-        params: {Security.security_userId: message.senderId, Security.security_content: message.text});
+    ApiRequest request = ApiRequest(
+      Apis.security_convertContentToVoice,
+      params: {Security.security_userId: message.senderId, Security.security_content: message.text},
+    );
 
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
       String url = response.data[Security.security_ttsUrl] ?? '';
       String path = pathForUrl(url);
       int duration = response.data[Security.security_time] ?? 0;
-      List<int> bytes = (response.data[Security.security_result] as List<dynamic>).map((
-          item) => item as int).toList();
+      List<int> bytes = (response.data[Security.security_result] as List<dynamic>).map((item) => item as int).toList();
       final file = File(path);
       file.writeAsBytesSync(bytes);
       return TTSResult(url, duration, true);
@@ -77,16 +79,14 @@ class ChatVoiceManager {
   void downloadSrc(String url) async {
     try {
       final localPath = pathForUrl(url);
-      final rsp = await dio.Dio().download(url, localPath, options:
-      dio.Options(responseType: dio.ResponseType.bytes));
+      final rsp = await dio.Dio().download(url, localPath, options: dio.Options(responseType: dio.ResponseType.bytes));
 
-      if(rsp.statusCode != 200) {
+      if (rsp.statusCode != 200) {
         // 下载失败
-        EasyLoading.showToast('cannot download source, please try again later');
+        EasyLoading.showToast(Copywriting.security_cannot_download_source__please_try_again_later);
       }
-    }catch(e){
-      EasyLoading.showToast('cannot download source, please try again later');
+    } catch (e) {
+      EasyLoading.showToast(Copywriting.security_cannot_download_source__please_try_again_later);
     }
   }
-
 }

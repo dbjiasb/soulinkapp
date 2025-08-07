@@ -541,11 +541,11 @@ class ChatBottomBarController extends GetxController {
   }
 
   void askForVideo() {
-    sendText('send me a video');
+    sendText(Copywriting.security_send_me_a_video);
   }
 
   void askForImage() {
-    sendText('send me a picture');
+    sendText(Copywriting.security_send_me_a_picture);
   }
 
   void showImageSelector() {

@@ -1,4 +1,3 @@
-import 'package:modules/base/crypt/copywriting.dart';
 import 'dart:core';
 
 import 'package:flutter/gestures.dart';
@@ -7,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_response.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/core/account/account_service.dart';
@@ -41,7 +41,10 @@ class LoginChannelView extends StatelessWidget {
   _onTermsOfServiceClicked() {
     Get.toNamed(
       Routers.webView.name,
-      arguments: {Security.security_title: Copywriting.security_terms_of_service, Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'},
+      arguments: {
+        Security.security_title: Copywriting.security_terms_of_service,
+        Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+      },
     );
   }
 
@@ -63,14 +66,14 @@ class LoginChannelView extends StatelessWidget {
   }
 
   Widget _buildBottomTips() {
-    const TextStyle linkStyle = TextStyle(color: Colors.white,fontSize: 12, decoration: TextDecoration.underline);
+    const TextStyle linkStyle = TextStyle(color: Colors.white, fontSize: 12, decoration: TextDecoration.underline);
     const TextStyle normalStyle = TextStyle(color: Color(0xFFABABAD), fontSize: 12, fontWeight: FontWeight.w500);
 
     return RichText(
       text: TextSpan(
         style: normalStyle,
         children: [
-          const TextSpan(text: 'if you sign in, you agree to '),
+          const TextSpan(text: Copywriting.security_if_you_sign_in__you_agree_to),
           TextSpan(
             text: Copywriting.security_privacy_Policy,
             style: linkStyle,
