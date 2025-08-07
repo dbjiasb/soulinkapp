@@ -15,32 +15,44 @@ import '../../shared/app_theme.dart';
 class CreateAccountView extends StatelessWidget {
   CreateAccountView({super.key});
 
-  CreateAccountViewController viewController = Get.put(CreateAccountViewController());
+  CreateAccountViewController viewController = Get.put(
+    CreateAccountViewController(),
+  );
 
   Widget _buildMailInputView() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: Container(
         height: 48,
-        decoration: const BoxDecoration(color: Color(0xFF272533), borderRadius: BorderRadius.all(Radius.circular(12))),
+        decoration: const BoxDecoration(
+          color: Color(0xFF272533),
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+        ),
         child: Row(
           children: [
-            // Container(
-            //   margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-            //   child: Icon(Icons.email,size: 24,color: Colors.white,)
-            //   // Image.asset(ImagePath.login_mail, width: 24, height: 24),
-            // ),
             Expanded(
               child: TextFormField(
                 onChanged: viewController.onMailChange,
-                style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
                 textAlignVertical: TextAlignVertical.center,
                 decoration: const InputDecoration(
                   labelStyle: TextStyle(color: Colors.white),
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide(style: BorderStyle.none)),
-                  focusedBorder: OutlineInputBorder(borderSide: BorderSide(style: BorderStyle.none)),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(style: BorderStyle.none),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(style: BorderStyle.none),
+                  ),
                   hintText: 'Entry your email',
-                  hintStyle: TextStyle(color: Color(0x80FFFFFF), fontWeight: FontWeight.w600, fontSize: 13),
+                  hintStyle: TextStyle(
+                    color: Color(0x80FFFFFF),
+                    fontWeight: FontWeight.w600,
+                    fontSize: 13,
+                  ),
                 ),
               ),
             ),
@@ -55,42 +67,63 @@ class CreateAccountView extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
       child: Container(
         height: 48,
-        decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: Color(0xFF272533)),
+        decoration: const BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(12)),
+          color: Color(0xFF272533),
+        ),
         child: Row(
           children: [
-            // Container(
-            //   margin: const EdgeInsets.fromLTRB(16, 16, 16, 16),
-            //   child: Image.asset(ImagePath.login_verify_code, width: 24, height: 24),
-            // ),
             Expanded(
               child: TextFormField(
                 onChanged: viewController.onVerifyCodeChange,
-                style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
                 decoration: const InputDecoration(
-                  focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
-                  enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide.none,
+                  ),
                   hintText: 'Enter verification code',
-                  hintStyle: TextStyle(color: Color(0x80FFFFFF), fontSize: 13, fontWeight: FontWeight.w600),
+                  hintStyle: TextStyle(
+                    color: Color(0x80FFFFFF),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
             ),
             GestureDetector(
-              onTap: viewController.canSendCode.value ? viewController.onObtainCodeButtonClicked : null,
+              onTap:
+                  viewController.canSendCode.value
+                      ? viewController.onObtainCodeButtonClicked
+                      : null,
               child: Obx(
                 () => Container(
                   margin: const EdgeInsets.fromLTRB(8, 0, 8, 0),
-                  // decoration: BoxDecoration(
-                  //   color: viewController.canSendCode.value ? const Color(0xFFE962F6) : const Color(0xFF999999),
-                  //   borderRadius: const BorderRadius.all(Radius.circular(8)),
-                  // ),
                   width: 100,
                   height: 40,
                   child: Center(
                     child: Text(
-                      viewController.countdown.value > 0 ? '${viewController.countdown.value}s' : 'Obtain code',
-                      style: viewController.canSendCode.value
-                          ? const TextStyle(color: Color(0xFFFFEF3B), fontSize: 13, fontWeight: FontWeight.w700)
-                          : TextStyle(color: Color(0xFFFFEF3B).withValues(alpha: 0.3), fontSize: 13, fontWeight: FontWeight.w700),
+                      viewController.countdown.value > 0
+                          ? '${viewController.countdown.value}s'
+                          : 'Obtain code',
+                      style:
+                          viewController.canSendCode.value
+                              ? const TextStyle(
+                                color: Color(0xFFFFEF3B),
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              )
+                              : TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                              ),
                     ),
                   ),
                 ),
@@ -110,13 +143,23 @@ class CreateAccountView extends StatelessWidget {
           height: 54,
           margin: const EdgeInsets.fromLTRB(16, 24, 16, 0),
           decoration: BoxDecoration(
-            color: viewController.canContinue.value ?AppColors.ocMain:AppColors.ocMain.withValues(alpha: 0.5),
+            color:
+                viewController.canContinue.value
+                    ? AppColors.ocMain
+                    : AppColors.ocMain.withValues(alpha: 0.5),
             borderRadius: const BorderRadius.all(Radius.circular(12)),
           ),
           child: Center(
             child: Text(
               Security.security_Continue,
-              style: TextStyle(color: viewController.canContinue.value ? Colors.white : const Color(0xFF999999), fontSize: 16, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                color:
+                    viewController.canContinue.value
+                        ? Colors.white
+                        : const Color(0xFF999999),
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
@@ -145,12 +188,26 @@ class CreateAccountView extends StatelessWidget {
   }
 
   _onPrivacyPolicyClicked() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Privacy policy', Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'});
+    Get.toNamed(
+      Routers.webView.name,
+      arguments: {
+        Security.security_title: 'Privacy policy',
+        Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html',
+      },
+    );
   }
 
   _onTermsOfServiceClicked() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
+    Get.toNamed(
+      Routers.webView.name,
+      arguments: {
+        Security.security_title: 'Terms of service',
+        Security.security_url:
+            'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+      },
+    );
   }
+
   //
   // Widget _buildCheckButton() {
   //   return Obx(
@@ -170,10 +227,17 @@ class CreateAccountView extends StatelessWidget {
   // }
 
   Widget _buildBottomTips() {
-    const TextStyle linkStyle = TextStyle(color: Color(0xFFE962F6), decoration: TextDecoration.underline);
+    const TextStyle linkStyle = TextStyle(
+      color: Color(0xFFE962F6),
+      decoration: TextDecoration.underline,
+    );
     return RichText(
       text: TextSpan(
-        style: const TextStyle(color: Color(0xFF90929D), fontSize: 12, fontWeight: FontWeight.w500),
+        style: const TextStyle(
+          color: Color(0xFF90929D),
+          fontSize: 12,
+          fontWeight: FontWeight.w500,
+        ),
         children: [
           const TextSpan(text: 'if you sign in, you agree to '),
           TextSpan(
@@ -209,28 +273,60 @@ class CreateAccountView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
+      backgroundColor: AppColors.base_background,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: Stack(
           children: [
-            Image.asset(ImagePath.login_bg, width: double.infinity, height: double.infinity, fit: BoxFit.cover),
             SafeArea(
               child: SingleChildScrollView(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Container(
+                      padding: EdgeInsets.fromLTRB(140, 140, 140, 0),
+                      child: Column(
+                        spacing: 24,
+                        children: [
+                          Container(
+                            width: 88,
+                            height: 88,
+                            decoration: BoxDecoration(
+                              color: Color(0xff727272),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(26),
+                              ),
+                              border: Border.all(color: Colors.white, width: 3),
+                            ),
+                          ),
+
+                          Text(
+                            'Soulink',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 40),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 124),
-                        Image.asset(ImagePath.login_app, width: 120, height: 120),
-                        SizedBox(height: 62),
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                           alignment: Alignment.centerLeft,
-                          child: Text('Create an account', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+                          child: Text(
+                            'Create an account',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                            ),
+                          ),
                         ),
                         SizedBox(height: 34),
                         _buildMailInputView(),
@@ -314,7 +410,10 @@ class CreateAccountViewController extends GetxController {
     }
 
     EasyLoading.show(status: 'Logging in...');
-    ApiResponse response = await AccountService.instance.loginWithEmail(account, verifyCode);
+    ApiResponse response = await AccountService.instance.loginWithEmail(
+      account,
+      verifyCode,
+    );
     if (response.isSuccess) {
       EasyLoading.dismiss();
       //弹出所有页面并进入主页
@@ -326,7 +425,10 @@ class CreateAccountViewController extends GetxController {
 
   void _getVerifyCode() async {
     EasyLoading.show(status: 'Sending...');
-    ApiResponse response = await AccountService.instance.getVerifyCode(account, AccountType.email);
+    ApiResponse response = await AccountService.instance.getVerifyCode(
+      account,
+      AccountType.email,
+    );
     if (response.isSuccess) {
       _startTimer();
       EasyLoading.dismiss();

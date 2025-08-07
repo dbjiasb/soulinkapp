@@ -21,7 +21,7 @@ class ChatMuseView extends StatelessWidget {
         child: SafeArea(
           bottom: true,
           child: Container(
-            height: 192,
+            height: 200,
             padding: EdgeInsets.all(12),
             child: Obx(
               () => Stack(

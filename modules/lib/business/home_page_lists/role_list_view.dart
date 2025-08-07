@@ -116,10 +116,10 @@ class VirtualRoleItem extends RoleItem {
               CachedNetworkImage(
                 imageUrl: coverUrl,
                 fit: BoxFit.cover,
-                // errorWidget: (context, url, error) => Image.asset(
-                //   ImagePath.empty_cover,
-                //   fit: BoxFit.cover,
-                // ),
+                errorWidget: (context, url, error) => Image.asset(
+                  ImagePath.default_avatar,
+                  fit: BoxFit.contain,
+                ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -153,12 +153,12 @@ class VirtualRoleItem extends RoleItem {
                                   Image.asset(ImagePath.ai_tag,height: 16,width: 21,),
                               ],
                             ),
-                            Text(
+                            bio.isNotEmpty?Text(
                               bio,
                               style: TextStyle(color: Colors.white.withOpacity(0.7), fontWeight: FontWeight.w500, fontSize: 11),
                               maxLines: 3,
                               overflow: TextOverflow.ellipsis,
-                            ),
+                            ):Container(),
                           ],
                         ),
                       )

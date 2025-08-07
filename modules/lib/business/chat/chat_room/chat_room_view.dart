@@ -38,6 +38,9 @@ class ChatRoomView extends StatelessWidget {
 
   ChatRoomViewController viewController = Get.put(ChatRoomViewController(Get.arguments));
 
+  // used in audio input
+
+
   void _onBackgroundClicked() {
     viewController.unfocus();
   }
@@ -74,7 +77,7 @@ class ChatRoomView extends StatelessWidget {
 
   Widget _buildChatDrawer() {
     return Drawer(
-      backgroundColor: AppColors.main,
+      backgroundColor: AppColors.base_background,
       child: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -88,6 +91,80 @@ class ChatRoomView extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  // used in audio input
+  final isAudioMaskShow = false.obs;
+  final isAudioCanceled = false.obs;
+
+  void showAudioMask(bool show) {
+    isAudioMaskShow.value = show;
+  }
+
+  void cancelAudio(bool cancel) {
+    isAudioCanceled.value = cancel;
+  }
+
+  Widget _buildAudioInputMask(){
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Obx(() {
+        if (!isAudioMaskShow.value) {
+          return Container();
+        }
+        return Container(
+          height: 210,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.black.withValues(alpha: 0), Colors.black.withValues(alpha: 0.61), Colors.black.withValues(alpha: 0.75)],
+            ),
+          ),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(bottom: 12,top: 30),
+                child: Center(
+                  child: Obx(
+                        () =>
+                    isAudioCanceled.value
+                        ? Text('Release Cancel', style: TextStyle(color: Color(0xFFFF3E3E), fontSize: 13, fontWeight: AppFonts.medium))
+                        : Text('Release Send', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
+                  ),
+                ),
+              ),
+              Container(
+                  height: 148,
+                  clipBehavior: Clip.hardEdge,
+                  alignment: Alignment.topCenter,
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                    image: DecorationImage(image: AssetImage(ImagePath.audio_mask), fit: BoxFit.fitWidth, alignment: Alignment.topCenter),
+                  ),
+                  child:Column(
+                    children: [
+                      SizedBox(height: 10),
+                      Container(
+                        height: 72,
+                        padding: EdgeInsets.all(6),
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: isAudioCanceled.value?Color(0xFFF84652).withValues(alpha: 0.4):Color(0xFF29D97F).withValues(alpha: 0.4)
+                        ),
+                        child: Image.asset(isAudioCanceled.value?ImagePath.audio_cancel:ImagePath.audio_on),
+                      ),
+                      Spacer(),
+                    ],
+                  )
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 
@@ -180,7 +257,9 @@ class ChatRoomView extends StatelessWidget {
           //   ),
           // ),
           Spacer(),
-          Column(children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+              children: [
             GestureDetector(
               onTap: () {
                 Get.toNamed(Routers.person.name, arguments: {Security.security_personId: viewController.userId});
@@ -220,7 +299,8 @@ class ChatRoomView extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             _buildBackgroundView(),
-            SafeArea(bottom: false, child: Column(children: [_buildNavigationBar(), Obx(() => _buildChatRoomView()), ChatBottomBar()])),
+            SafeArea(bottom: false, child: Column(children: [_buildNavigationBar(), Obx(() => _buildChatRoomView()), ChatBottomBar(showAudioInputMask: showAudioMask,cancelAudio: cancelAudio,)])),
+            _buildAudioInputMask()
           ],
         ),
       ),

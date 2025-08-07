@@ -10,8 +10,17 @@ import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/core/account/account_service.dart';
 
+import '../../shared/app_theme.dart';
+
 class LoginChannel {
-  LoginChannel(this.channel, this.channelName, this.channelIcon, this.channelColor, this.channelTextColor, this.onTap);
+  LoginChannel(
+    this.channel,
+    this.channelName,
+    this.channelIcon,
+    this.channelColor,
+    this.channelTextColor,
+    this.onTap,
+  );
 
   final String channel;
   final String channelName;
@@ -24,7 +33,9 @@ class LoginChannel {
 class LoginChannelView extends StatelessWidget {
   LoginChannelView({super.key});
 
-  LoginChannelViewController viewController = Get.put(LoginChannelViewController());
+  LoginChannelViewController viewController = Get.put(
+    LoginChannelViewController(),
+  );
 
   _onCheckButtonClicked() async {
     viewController.checked.value = !viewController.checked.value;
@@ -33,14 +44,21 @@ class LoginChannelView extends StatelessWidget {
   _onPrivacyPolicyClicked() {
     Get.toNamed(
       Routers.webView.name,
-      arguments: {Security.security_title: 'Privacy policy', Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'},
+      arguments: {
+        Security.security_title: 'Privacy policy',
+        Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html',
+      },
     );
   }
 
   _onTermsOfServiceClicked() {
     Get.toNamed(
       Routers.webView.name,
-      arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'},
+      arguments: {
+        Security.security_title: 'Terms of service',
+        Security.security_url:
+            'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+      },
     );
   }
 
@@ -62,8 +80,16 @@ class LoginChannelView extends StatelessWidget {
   }
 
   Widget _buildBottomTips() {
-    const TextStyle linkStyle = TextStyle(color: Colors.white,fontSize: 12, decoration: TextDecoration.underline);
-    const TextStyle normalStyle = TextStyle(color: Color(0xFFABABAD), fontSize: 12, fontWeight: FontWeight.w500);
+    const TextStyle linkStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 12,
+      decoration: TextDecoration.underline,
+    );
+    const TextStyle normalStyle = TextStyle(
+      color: Color(0xFFABABAD),
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+    );
 
     return RichText(
       text: TextSpan(
@@ -103,7 +129,11 @@ class LoginChannelView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_buildCheckButton(), const SizedBox(width: 8), _buildBottomTips()],
+        children: [
+          _buildCheckButton(),
+          const SizedBox(width: 8),
+          _buildBottomTips(),
+        ],
       ),
     );
   }
@@ -113,7 +143,7 @@ class LoginChannelView extends StatelessWidget {
       Security.security_email,
       'Sign in with E-mail',
       Icon(Icons.email, size: 24, color: Colors.white),
-      Color(0xFF070512),
+      AppColors.base_background,
       Colors.white,
       () {
         Get.toNamed(Routers.login.name);
@@ -124,7 +154,7 @@ class LoginChannelView extends StatelessWidget {
       'Sign in with Apple',
       Icon(Icons.apple, size: 24, color: Colors.black),
       Colors.white,
-      Color(0xFF070512),
+      AppColors.base_background,
       () async {
         ApiResponse response = await AccountService.instance.loginWithApple();
         if (response.isSuccess) {
@@ -138,7 +168,15 @@ class LoginChannelView extends StatelessWidget {
 
     List<LoginChannel> channels = [apple, email];
 
-    return Column(children: [for (var channel in channels) Padding(padding: const EdgeInsets.only(bottom: 12), child: _buildLoginChannel(channel))]);
+    return Column(
+      children: [
+        for (var channel in channels)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: _buildLoginChannel(channel),
+          ),
+      ],
+    );
   }
 
   Widget _buildLoginChannel(LoginChannel channel) {
@@ -163,7 +201,11 @@ class LoginChannelView extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   channel.channelName,
-                  style: TextStyle(color: channel.channelTextColor, fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: channel.channelTextColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -177,22 +219,60 @@ class LoginChannelView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.base_background,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: Stack(
           children: [
-            Image.asset(ImagePath.login_bg, width: double.infinity, height: double.infinity, fit: BoxFit.cover),
             SafeArea(
               child: Container(
-                margin: EdgeInsets.only(top: 124, bottom: 24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(ImagePath.login_app, width: 120, height: 120),
-                    Column(mainAxisAlignment: MainAxisAlignment.center, children: [_buildLoginChannels(), SizedBox(height: 65), _buildAgreeText()]),
-                  ],
+                child: Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        padding: EdgeInsets.fromLTRB(140, 140, 140, 0),
+                        child: Column(
+                          spacing: 24,
+                          children: [
+                            Container(
+                              width: 88,
+                              height: 88,
+                              decoration: BoxDecoration(
+                                color: Color(0xff727272),
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(26),
+                                ),
+                                border: Border.all(
+                                  color: Colors.white,
+                                  width: 3,
+                                ),
+                              ),
+                            ),
+
+                            Text(
+                              'Soulink',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          _buildLoginChannels(),
+                          SizedBox(height: 65),
+                          _buildAgreeText(),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

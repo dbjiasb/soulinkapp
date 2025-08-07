@@ -18,11 +18,11 @@ class RechargeCurrencyView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff070512),
+      backgroundColor: AppColors.base_background,
       appBar: AppBar(
         leading: InkWell(onTap: Get.back, child: Container(padding: EdgeInsets.all(16), child: Image.asset(ImagePath.back, fit: BoxFit.fill))),
         centerTitle: true,
-        backgroundColor: Color(0xff070512),
+        backgroundColor: AppColors.base_background,
         title: Text(controller.rcgType == 0 ? EncHelper.rcg_titlCois : EncHelper.rcg_titlGms, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
       ),
       body: GetBuilder<RechargeCurrencyViewController>(builder: (controller) {

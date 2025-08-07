@@ -30,14 +30,14 @@ class AccountSettings extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(Security.security_Setting, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
-        backgroundColor: Color(0xff070512),
+        backgroundColor: AppColors.base_background,
         elevation: 0,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Get.back(),
         ),
       ),
-      backgroundColor: Color(0xff070512),
+      backgroundColor: AppColors.base_background,
       body: SafeArea(
         child: Column(
           children: [

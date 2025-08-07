@@ -13,7 +13,8 @@ import 'package:modules/shared/app_theme.dart';
 import 'package:modules/shared/widget/app_widgets.dart';
 import 'package:modules/shared/widget/avatar_view.dart';
 import 'package:modules/shared/widget/balance_view.dart';
-
+import 'package:synchronized/synchronized.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../../shared/interactions.dart';
 import '../../shared/widget/list_status_view.dart';
 
@@ -36,7 +37,9 @@ class AccountView extends StatelessWidget {
       body: Stack(
         children: [
           // 背景图
-          Positioned.fill(child: Image.asset(ImagePath.person_head_bg, fit: BoxFit.cover)),
+          Positioned.fill(
+            child: Image.asset(ImagePath.person_head_bg, fit: BoxFit.cover),
+          ),
 
           // 主体内容
           Positioned(
@@ -45,7 +48,13 @@ class AccountView extends StatelessWidget {
             right: 0,
             bottom: 0,
             child: Container(
-              decoration: BoxDecoration(color: Color(0xFF070512), borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24))),
+              decoration: BoxDecoration(
+                color: AppColors.base_background,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(24),
+                  topRight: Radius.circular(24),
+                ),
+              ),
               padding: EdgeInsets.only(left: 16, right: 16, top: 50),
               child: body(),
             ),
@@ -68,7 +77,11 @@ class AccountView extends StatelessWidget {
                       onTap: () {
                         Get.toNamed(Routers.setting.name);
                       },
-                      child: Image.asset(ImagePath.setting, height: 32, width: 32),
+                      child: Image.asset(
+                        ImagePath.setting,
+                        height: 32,
+                        width: 32,
+                      ),
                     ),
                   ],
                 ),
@@ -77,28 +90,34 @@ class AccountView extends StatelessWidget {
           ),
 
           // 头像
-          Positioned(left: 16, top: 144, child: AvatarView(url: avatarUrl, size: 72)),
+          Positioned(
+            left: 16,
+            top: 144,
+            child: AvatarView(url: avatarUrl, size: 72),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildCurrencyItem(int type){
-
+  Widget _buildCurrencyItem(int type) {
     return GestureDetector(
-        onTap: (){
-          Get.toNamed(Routers.rechargeCurrency.name, arguments: {EncHelper.rcg_rcgTyp: type});
-          },
-        child: BalanceView(
-            type: type==0?BalanceType.coin:BalanceType.gem,
-            style: BalanceViewStyle(
+      onTap: () {
+        Get.toNamed(
+          Routers.rechargeCurrency.name,
+          arguments: {EncHelper.rcg_rcgTyp: type},
+        );
+      },
+      child: BalanceView(
+        type: type == 0 ? BalanceType.coin : BalanceType.gem,
+        style: BalanceViewStyle(
           color: Colors.white,
           bgColor: Color(0xff1E1C2A).withValues(alpha: 0.5),
           height: 30,
           borderRadius: 12,
-              padding: 8
-        )
-    )
+          padding: 8,
+        ),
+      ),
       // Container(
       //   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       //   decoration: BoxDecoration(
@@ -124,7 +143,10 @@ class AccountView extends StatelessWidget {
   }
 
   Widget body() {
-    return Column(spacing: 16, children: [InfoArea(), Expanded(child: CompanionsArea())]);
+    return Column(
+      spacing: 16,
+      children: [InfoArea(), Expanded(child: CompanionsArea())],
+    );
   }
 
   Widget InfoArea() {
@@ -135,14 +157,33 @@ class AccountView extends StatelessWidget {
         Column(
           spacing: 8,
           children: [
-            Obx(() => Text(nickname, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900))),
+            Obx(
+              () => Text(
+                nickname.isNotEmpty ? nickname : 'user',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(6)),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.2),
+                borderRadius: BorderRadius.circular(6),
+              ),
               child: Row(
                 spacing: 2,
                 children: [
-                  Text('ID:$ID', style: TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w500)),
+                  Text(
+                    'ID:$ID',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () {
                       Interactions.copyToClipboard(ID.toString());
@@ -159,14 +200,24 @@ class AccountView extends StatelessWidget {
             Get.toNamed(Routers.editMe.name);
           },
           child: Container(
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(12), color: Color(0xFF272533)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12),
+              color: Color(0xFF272533),
+            ),
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
             child: Center(
               child: Row(
                 spacing: 4,
                 children: [
                   Icon(Icons.edit, color: Colors.white, size: 14),
-                  Text('Edit', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+                  Text(
+                    'Edit',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -188,8 +239,26 @@ class AccountView extends StatelessWidget {
               child: Stack(
                 clipBehavior: Clip.none,
                 children: [
-                  Positioned(left: 0, child: Text('Companions', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900))),
-                  Positioned(right: 0, bottom: -5, child: Image.asset(ImagePath.tab_selected, width: 40, height: 10)),
+                  Positioned(
+                    left: 0,
+                    child: Text(
+                      'Companions',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w900,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    right: 0,
+                    bottom: -5,
+                    child: Image.asset(
+                      ImagePath.tab_selected,
+                      width: 40,
+                      height: 10,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -209,20 +278,27 @@ class AccountView extends StatelessWidget {
                         () =>
                             controller.status.value == ListStatus.success
                                 ? GridView.builder(
-                              controller: controller.scrollController,
+                                  controller: controller.scrollController,
                                   padding: EdgeInsets.symmetric(vertical: 0),
-                                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 8,
-                                    mainAxisSpacing: 8,
-                                    childAspectRatio: 168 / 274,
-                                  ),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 8,
+                                        mainAxisSpacing: 8,
+                                        childAspectRatio: 168 / 274,
+                                      ),
                                   itemBuilder: (context, index) {
-                                    return _buildCompanionItem(controller.myCompanions[index]);
+                                    return _buildCompanionItem(
+                                      controller.myCompanions[index],
+                                    );
                                   },
                                   itemCount: controller.myCompanions.length,
                                 )
-                                : ListStatusView(status: controller.status.value, emptyDesc: 'No chat partner has been initiated yet'),
+                                : ListStatusView(
+                                  status: controller.status.value,
+                                  emptyDesc:
+                                      'No chat partner has been initiated yet',
+                                ),
                       ),
                     ),
           ),
@@ -235,12 +311,20 @@ class AccountView extends StatelessWidget {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
-        onToChatTap(companion[EncHelper.ac_uid].toString(), companion[EncHelper.ac_nn], companion[EncHelper.ac_avt], companion[EncHelper.ac_cvu]);
+        onToChatTap(
+          companion[EncHelper.ac_uid].toString(),
+          companion[EncHelper.ac_nn],
+          companion[EncHelper.ac_avt],
+          companion[EncHelper.ac_cvu],
+        );
       },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          image: DecorationImage(image: CachedNetworkImageProvider(companion['coverUrl']), fit: BoxFit.cover),
+          image: DecorationImage(
+            image: CachedNetworkImageProvider(companion['coverUrl']),
+            fit: BoxFit.cover,
+          ),
         ),
         child: Column(
           children: [
@@ -249,7 +333,10 @@ class AccountView extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                image: DecorationImage(image: AssetImage(ImagePath.person_img_mask), fit: BoxFit.cover),
+                image: DecorationImage(
+                  image: AssetImage(ImagePath.person_img_mask),
+                  fit: BoxFit.cover,
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,11 +344,26 @@ class AccountView extends StatelessWidget {
                   Wrap(
                     alignment: WrapAlignment.start,
                     children: [
-                      Text(companion['nickname'], style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900)),
+                      Text(
+                        companion['nickname'],
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
                       AppWidgets.userTag(companion['accountType']),
                     ],
                   ),
-                  Text(companion['bio'], style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500), maxLines: 3),
+                  Text(
+                    companion['bio'],
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                    maxLines: 3,
+                  ),
                 ],
               ),
             ),
@@ -287,21 +389,24 @@ class AccountView extends StatelessWidget {
   }
 
   Widget _buildEmptyView() {
-    return Center(child: Text('No companions yet', style: TextStyle(color: Color(0xFFA0A0A0), fontSize: 12)));
+    return Center(
+      child: Text(
+        'No companions yet',
+        style: TextStyle(color: Color(0xFFA0A0A0), fontSize: 12),
+      ),
+    );
   }
 }
 
 class AccountViewController extends GetxController {
-  static const ONLY_CUSTOM_AI = 4;
-  static const PAGE_SIZE = 100;
-
-
   final myCompanions = [].obs;
 
   var poolVer = 0;
   var pageIdx = 0;
+  final pageSize = 20;
   var hasMore = true;
   var status = ListStatus.idle.obs;
+  final _loadingComsLock = Lock();
 
   ScrollController scrollController = ScrollController();
 
@@ -320,7 +425,8 @@ class AccountViewController extends GetxController {
   }
 
   void onScrollToBottom() {
-    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+    if (scrollController.position.pixels ==
+        scrollController.position.maxScrollExtent) {
       fetchMyCompanions();
     }
   }
@@ -345,20 +451,28 @@ class AccountViewController extends GetxController {
     await fetchMyCompanions();
     _loadingCompanions.value = false;
     status.value = myCompanions.isEmpty ? ListStatus.empty : ListStatus.success;
-
   }
 
   Future fetchMyCompanions() async {
-    if (!hasMore) return;
-    final rsp = await RoleManager.instance.getRoleList();
-    if (rsp.isSuccess) {
-      poolVer = rsp.data[Security.security_poolVersion];
-      hasMore = rsp.data[Security.security_hasMore];
-      pageIdx++;
+    await _loadingComsLock.synchronized(() async {
+      if (!hasMore) {
+        EasyLoading.showToast('No more companions to load.');
+        return;
+      }
+      final rsp = await RoleManager.instance.getRoleList(
+        pageIndex: pageIdx,
+        pageSize: pageSize,
+        version: poolVer,
+      );
+      if (rsp.isSuccess) {
+        poolVer = rsp.data[Security.security_poolVersion];
+        hasMore = rsp.data[Security.security_hasMore];
+        pageIdx++;
 
-      myCompanions.addAll(rsp.data[Security.security_param] ?? []);
-      myCompanions.refresh();
-    }
+        myCompanions.addAll(rsp.data[Security.security_param] ?? []);
+        myCompanions.refresh();
+      }
+    });
   }
 
   void refreshMyInfo() {

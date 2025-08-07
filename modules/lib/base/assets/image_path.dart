@@ -84,12 +84,9 @@ abstract final class ImagePath {
 
 
   // common
-  static const String call = 'packages/modules/assets/soulink/4c8705995cac1534f6ab047aaab763bb.png';
   static const String premium_rcg_bg = 'packages/modules/assets/soulink/42ecd67c647771c246871220caa37e45.png';
   static const String premium_rcg_avatarbg = 'packages/modules/assets/soulink/8414c2d1bb017057f03477b1fa6754b4.png';
-  static const String login_app = 'packages/modules/assets/soulink/69611518d44d361dbcad5b33902c7835.png';
   static const String premium_rcg_bnfheader = 'packages/modules/assets/soulink/a800048adc83a89410dfce74562314a0.png';
-  static const String login_bg = 'packages/modules/assets/soulink/b2a562deb77996fbe00b6bb82878af69.png';
   static const String voice_play1 = 'packages/modules/assets/soulink/d8dafe54680928db9a410db70209e343.png';
   static const String voice_play2 = 'packages/modules/assets/soulink/e2f254e639f14559bccc6e9206858018.png';
   static const String voice_play3 = 'packages/modules/assets/soulink/f39e280e34e55bdde5ac890b7d8db4b6.png';

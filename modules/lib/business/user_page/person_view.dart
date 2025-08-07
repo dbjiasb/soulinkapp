@@ -172,7 +172,7 @@ class PersonViewPage extends StatelessWidget {
   }
 
   Widget _buildGallerySection() {
-    return GridView.count(
+    return Obx(()=>controller.gallery.isNotEmpty?GridView.count(
       physics: const NeverScrollableScrollPhysics(), // 1. 禁用GridView自身滚动
       shrinkWrap: true, // 2. 适应内容高度
       crossAxisCount: 2,
@@ -186,7 +186,9 @@ class PersonViewPage extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       )).toList(),
-    );
+    ):Container(
+
+    ));
   }
 
   Widget _buildFollowStatsRow() {

@@ -23,19 +23,33 @@ enum CallStatus { connecting, userSpeaking, aiThinking, aiSpeaking }
 
 class CallInfo {
   Map<String, dynamic> data;
+
   CallInfo(this.data);
+
   int get callId => data[Constants.dialId] ?? 0;
+
   String get token => data[Security.security_token] ?? '';
+
   int get remainFreeTime => data[Constants.remaining] ?? 0;
+
   int get rtcType => data[Constants.dialType] ?? 0;
+
   String get appId => data[Security.security_appId] ?? '';
+
   String get rtcSelfUid => data[Constants.initiator] ?? '';
+
   String get rtcTargetUid => data[Constants.recipient] ?? '';
+
   String get roomId => data[Security.security_roomId] ?? '';
+
   int get ai => data[Security.security_ai] ?? 0;
+
   int get costEveryMinute => data[Constants.costPerMinute] ?? 0;
+
   int get currencyType => data[Constants.propType] ?? 0;
+
   double get earnEveryMinute => data[Constants.profitPerMinute] ?? 0;
+
   int get anchor => data[Security.security_anchor] ?? 0;
 }
 
@@ -58,11 +72,31 @@ class VoiceCallView extends StatelessWidget {
     switch (viewController.callStatus.value) {
       case CallStatus.connecting:
         return Column(
-          children: [SizedBox(height: 184), Text('Connecting...', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFFABABAD)))],
+          children: [
+            SizedBox(height: 184),
+            Text(
+              'Connecting...',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFFABABAD),
+              ),
+            ),
+          ],
         );
       case CallStatus.aiThinking:
         return Column(
-          children: [SizedBox(height: 184), Text('I\'m thinking...', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFFABABAD)))],
+          children: [
+            SizedBox(height: 184),
+            Text(
+              'I\'m thinking...',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFFABABAD),
+              ),
+            ),
+          ],
         );
       case CallStatus.aiSpeaking:
         return Column(
@@ -75,31 +109,66 @@ class VoiceCallView extends StatelessWidget {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   //左上角和右上角圆角12
-                  borderRadius: BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
-                  gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [Color(0x40000000), Color(0x00000000)]),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(12),
+                    topRight: Radius.circular(12),
+                  ),
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Color(0x40000000), Color(0x00000000)],
+                  ),
                 ),
                 child: SingleChildScrollView(
                   padding: EdgeInsets.all(8),
-                  child: Text(viewController.speechContent.value, style: TextStyle(color: Color(0xB3FFFFFF), fontSize: 13, fontWeight: FontWeight.normal)),
+                  child: Text(
+                    viewController.speechContent.value,
+                    style: TextStyle(
+                      color: Color(0xB3FFFFFF),
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                 ),
               ),
             ),
             SizedBox(height: 40),
             GestureDetector(
               onTap: viewController.interruptAI,
-              child: Image.asset(ImagePath.interrupt_talk, width: 32, height: 32),
+              child: Image.asset(
+                ImagePath.interrupt_talk,
+                width: 32,
+                height: 32,
+              ),
             ),
             SizedBox(height: 4),
-            Text('Interrupt AI', style: TextStyle(fontSize: 14, color: Color(0xFFABABAD), fontWeight: FontWeight.w500)),
+            Text(
+              'Interrupt AI',
+              style: TextStyle(
+                fontSize: 14,
+                color: Color(0xFFABABAD),
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ],
         );
       case CallStatus.userSpeaking:
         return Column(
           children: [
             SizedBox(height: 144),
-            SizedBox(height: 24, child: SVGASimpleImage(assetsName: ImagePath.speaking)),
+            SizedBox(
+              height: 24,
+              child: SVGASimpleImage(assetsName: ImagePath.speaking),
+            ),
             SizedBox(height: 16),
-            Text('I\'am listening...', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFFABABAD))),
+            Text(
+              'I\'am listening...',
+              style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFFABABAD),
+              ),
+            ),
           ],
         );
     }
@@ -107,7 +176,10 @@ class VoiceCallView extends StatelessWidget {
 
   Widget _buildBackgroundView() {
     if (viewController.session.backgroundUrl.value.isNotEmpty) {
-      return CachedNetworkImage(imageUrl: viewController.session.backgroundUrl.value, fit: BoxFit.cover);
+      return CachedNetworkImage(
+        imageUrl: viewController.session.backgroundUrl.value,
+        fit: BoxFit.cover,
+      );
     } else {
       return SizedBox.shrink();
     }
@@ -116,14 +188,23 @@ class VoiceCallView extends StatelessWidget {
   Widget buildCostWidget(bool hidden) {
     return Container(
       margin: EdgeInsets.only(right: hidden ? 16 : 0, left: hidden ? 0 : 16),
-      child: Text(
-        '${viewController.callInfo?.costEveryMinute ?? 30} ${viewController.callInfo?.currencyType == 1 ? 'Gems' : 'Coins'} / Min',
-        style: TextStyle(
-          fontSize: 11,
-          fontWeight: FontWeight.bold,
-          color: hidden ? Colors.transparent : Colors.white,
+      child:RichText(
+        text: TextSpan(
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.bold,
+            color: hidden ? Colors.transparent : Colors.white,
+          ),
+          children: [
+            TextSpan(text: '${viewController.callInfo?.costEveryMinute ?? 30} '),
+            WidgetSpan(
+              child: Image.asset(viewController.callInfo?.currencyType == 1 ?ImagePath.gem:ImagePath.coin,height: 16,width: 16,),
+              alignment: PlaceholderAlignment.middle, // 图片对齐方式
+            ),
+            TextSpan(text: " per minute"),
+          ],
         ),
-      ),
+      )
     );
   }
 
@@ -150,48 +231,79 @@ class VoiceCallView extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                  Column(
                     children: [
+                      Text(
+                        'Consuming props during call',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
                       buildCostWidget(false),
+                      SizedBox(height: 66,),
+
+                      Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                            image: NetworkImage(viewController.session.avatar),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        viewController.session.name,
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Obx(() => callStatusView()),
+                  Column(
+                    // mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
                       Column(
                         children: [
-                          Text('Call Duration', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
+                          Text(
+                            'Call Duration',
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
                           Obx(
                             () => Text(
-                              DateFormatter.formatSeconds(viewController.duration.value),
-                              style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold, color: Colors.white),
+                              DateFormatter.formatSeconds(
+                                viewController.duration.value,
+                              ),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      buildCostWidget(true),
-                    ],
-                  ),
-                  Column(
-                    //设置主轴从下往上
-                    // mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        width: 124,
-                        height: 124,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(image: NetworkImage(viewController.session.avatar), fit: BoxFit.cover),
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Text(viewController.session.name, style: TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 12),
-                      Obx(() => callStatusView()),
-                      SizedBox(height: 32),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           GestureDetector(
                             onTap: viewController.onCallCancel,
-                            child: Image.asset(ImagePath.hang_up, width: 64, height: 64),
+                            child: Image.asset(
+                              ImagePath.hang_up,
+                              width: 64,
+                              height: 64,
+                            ),
                           ),
                           SizedBox(width: 60),
                           GestureDetector(
@@ -199,18 +311,28 @@ class VoiceCallView extends StatelessWidget {
                               viewController.mute(!viewController.muted.value);
                             },
                             child: Obx(
-                              () => !viewController.muted.value
-                                  ?Image.asset(ImagePath.open_mic, width: 64, height: 64):
-                                  Container(
-                                    height: 64,
-                                    width: 64,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xff000000).withValues(alpha: 0.2)
-                                    ),
-                                    child: Icon(Icons.mic_off_rounded,size: 32,),
-                                  )
-                            )
+                              () =>
+                                  !viewController.muted.value
+                                      ? Image.asset(
+                                        ImagePath.open_mic,
+                                        width: 64,
+                                        height: 64,
+                                      )
+                                      : Container(
+                                        height: 64,
+                                        width: 64,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          color: Color(
+                                            0xff000000,
+                                          ).withValues(alpha: 0.2),
+                                        ),
+                                        child: Icon(
+                                          Icons.mic_off_rounded,
+                                          size: 32,
+                                        ),
+                                      ),
+                            ),
                           ),
                         ],
                       ),
@@ -227,7 +349,9 @@ class VoiceCallView extends StatelessWidget {
 }
 
 class VoiceCallViewController extends GetxController {
-  final ChatSession session = ChatSession.fromRouter(jsonDecode(Get.arguments[Security.security_session]));
+  final ChatSession session = ChatSession.fromRouter(
+    jsonDecode(Get.arguments[Security.security_session]),
+  );
   CallInfo? callInfo;
   bool isEnd = false;
   bool isEngineCreated = false;
@@ -239,7 +363,9 @@ class VoiceCallViewController extends GetxController {
   var speechContent = ''.obs;
 
   int get accountId => AccountService.instance.account.userId;
+
   String get streamId => '${callInfo?.callId ?? ''}-$accountId';
+
   @override
   void onInit() {
     super.onInit();
@@ -268,7 +394,9 @@ class VoiceCallViewController extends GetxController {
   }
 
   void dial() async {
-    ApiResponse response = await CallManager.instance.dial(userId: int.parse(session.id));
+    ApiResponse response = await CallManager.instance.dial(
+      userId: int.parse(session.id),
+    );
 
     int callId = response.data[Constants.dialId] ?? 0;
     String appId = response.data[Security.security_appId] ?? '';
@@ -312,7 +440,10 @@ class VoiceCallViewController extends GetxController {
   Future<void> createEngine() async {
     if (isEngineCreated) return;
     //初始化
-    await AVService.instance.init(appId: callInfo!.appId, token: callInfo!.token);
+    await AVService.instance.init(
+      appId: callInfo!.appId,
+      token: callInfo!.token,
+    );
     AVService.instance.engine.onReceiveCustomEvent = (data) {
       onReceiveCustomEvent(data);
     };
@@ -343,7 +474,8 @@ class VoiceCallViewController extends GetxController {
         {
           String sender = event[Security.security_sender];
           String text = event[Constants.carrier]?[Security.security_text] ?? '';
-          bool isEnd = event[Constants.carrier]?[Security.security_end] ?? false;
+          bool isEnd =
+              event[Constants.carrier]?[Security.security_end] ?? false;
           // String round = event[Constants.carrier]?['roundid'] ?? '';
           // int? startMs = event[Constants.carrier]?['start_time_ms'] ?? -1;
           // String target = '';
@@ -436,7 +568,9 @@ class VoiceCallViewController extends GetxController {
   }
 
   void interruptAI() async {
-    AVService.instance.engine.interruptAI(int.parse(callInfo?.rtcTargetUid ?? '0'));
+    AVService.instance.engine.interruptAI(
+      int.parse(callInfo?.rtcTargetUid ?? '0'),
+    );
   }
 
   void enableMic(bool enable) {

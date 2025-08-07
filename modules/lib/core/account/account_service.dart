@@ -22,27 +22,34 @@ enum AccountType {
   google(7);
 
   final int value;
+
   const AccountType(this.value);
 }
 
 class Account {
   // 账户信息
   String get id => userId.toString();
+
   int get userId => userBase[Security.security_uid] ?? 0;
+
   bool get isLoggedIn => userId > 0;
 
   String token;
   RxMap _userInfo = {}.obs;
 
   Map get userInfo => _userInfo;
+
   Map get userBase => userInfo[Security.security_baseInfo] ?? {};
+
   String get name => userBase[Security.security_nickName] ?? '';
+
   String get avatar => userBase[Security.security_avatarUrl] ?? '';
 
   String get bio => userInfo[Security.security_bio] ?? '';
 
   String get gender {
-    switch (userInfo[Security.security_baseInfo]?[Security.security_gender] ?? 0) {
+    switch (userInfo[Security.security_baseInfo]?[Security.security_gender] ??
+        0) {
       case 1:
         return Security.security_Male;
       case 2:
@@ -57,12 +64,17 @@ class Account {
   Account(this.token, Map user) {
     _userInfo.value = user;
   }
-  Account.fromJson(Map<String, dynamic> json) : token = json[Security.security_token] ?? '' {
+
+  Account.fromJson(Map<String, dynamic> json)
+    : token = json[Security.security_token] ?? '' {
     _userInfo.value = (json[Security.security_userInfo] ?? {});
   }
 
   String toJson() {
-    return JsonEncoder().convert({Security.security_token: token, Security.security_userInfo: userInfo});
+    return JsonEncoder().convert({
+      Security.security_token: token,
+      Security.security_userInfo: userInfo,
+    });
   }
 
   void _updateUserInfo(Map userInfo) {
@@ -73,32 +85,55 @@ class Account {
 
   // 钱包信息
   RxMap wealthInfo = {}.obs;
+
   int get coins => wealthInfo['0'] ?? 0;
+
   int get gems => wealthInfo['1'] ?? 0;
 
   // 会员权限
   RxMap premInfo = {}.obs;
+
   int get premStatus => premInfo[Security.security_status] ?? 0;
+
   int get premEdTm => premInfo[Security.security_endTime] ?? 0;
+
   int get premCdType => premInfo[Security.security_premiumCardType] ?? 0;
+
   List get premBenfs => premInfo[Security.security_premiums] ?? [];
 
   Map get premUsedInfo => premInfo[Security.security_usedInfo] ?? {};
 
   bool get isSubscribed => premStatus == 1;
+
   bool get isWkPrem => isSubscribed && premCdType == 1;
+
   bool get isMthPrem => isSubscribed && premCdType == 2;
+
   bool get isYrPrem => isSubscribed && premCdType == 4;
 
-  int get freeImgUsedTimes => isSubscribed ? premUsedInfo['1'][Security.security_useTimes] : 0;
-  int get freeVdoUsedTimes => isSubscribed ? premUsedInfo['3'][Security.security_useTimes] : 0;
-  int get freeAdoUsedTimes => isSubscribed ? premUsedInfo['2'][Security.security_useTimes] : 0;
-  int get freeOcUsedTimes => isSubscribed ? premUsedInfo['10'][Security.security_useTimes] : 0;
+  int get freeImgUsedTimes =>
+      isSubscribed ? premUsedInfo['1'][Security.security_useTimes] : 0;
 
-  int get freeImgLeftTimes => isSubscribed ? premUsedInfo['1'][Security.security_leftTimes] : 0;
-  int get freeVdoLeftTimes => isSubscribed ? premUsedInfo['3'][Security.security_leftTimes] : 0;
-  int get freeAdoLeftTimes => isSubscribed ? premUsedInfo['2'][Security.security_leftTimes] : 0;
-  int get freeOcLeftTimes => isSubscribed ? premUsedInfo['10'][Security.security_leftTimes] : 0;
+  int get freeVdoUsedTimes =>
+      isSubscribed ? premUsedInfo['3'][Security.security_useTimes] : 0;
+
+  int get freeAdoUsedTimes =>
+      isSubscribed ? premUsedInfo['2'][Security.security_useTimes] : 0;
+
+  int get freeOcUsedTimes =>
+      isSubscribed ? premUsedInfo['10'][Security.security_useTimes] : 0;
+
+  int get freeImgLeftTimes =>
+      isSubscribed ? premUsedInfo['1'][Security.security_leftTimes] : 0;
+
+  int get freeVdoLeftTimes =>
+      isSubscribed ? premUsedInfo['3'][Security.security_leftTimes] : 0;
+
+  int get freeAdoLeftTimes =>
+      isSubscribed ? premUsedInfo['2'][Security.security_leftTimes] : 0;
+
+  int get freeOcLeftTimes =>
+      isSubscribed ? premUsedInfo['10'][Security.security_leftTimes] : 0;
 
   void setPremInfo(data) {
     if (data == null) return;
@@ -114,10 +149,13 @@ class AccountService {
 
   //生成单利
   AccountService._internal();
+
   static final AccountService _instance = AccountService._internal();
+
   factory AccountService() {
     return _instance;
   }
+
   static AccountService get instance => _instance;
 
   bool get loggedIn => account.isLoggedIn;
@@ -140,19 +178,35 @@ class AccountService {
   }
 
   Future<ApiResponse> getVerifyCode(String account, AccountType type) async {
-    ApiRequest request = ApiRequest('fetchVerificationCode', params: {Security.security_account: account, Security.security_type: type.value});
+    ApiRequest request = ApiRequest(
+      'fetchVerificationCode',
+      params: {
+        Security.security_account: account,
+        Security.security_type: type.value,
+      },
+    );
     ApiResponse response = await ApiService.instance.sendRequest(request);
     return response;
   }
 
   Future<ApiResponse> loginWithApple() async {
-    final appleCredential = await SignInWithApple.getAppleIDCredential(scopes: [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName]);
+    final appleCredential = await SignInWithApple.getAppleIDCredential(
+      scopes: [
+        AppleIDAuthorizationScopes.email,
+        AppleIDAuthorizationScopes.fullName,
+      ],
+    );
     String? name = appleCredential.givenName;
     if (appleCredential.familyName != null) {
       name = '$name ${appleCredential.familyName}';
     }
 
-    return await login(appleCredential.email ?? '', appleCredential.identityToken ?? '', AccountType.apple, thirdName: name ?? '');
+    return await login(
+      appleCredential.email ?? '',
+      appleCredential.identityToken ?? '',
+      AccountType.apple,
+      thirdName: name ?? '',
+    );
   }
 
   Future<ApiResponse> loginWithEmail(String email, String password) async {
@@ -160,7 +214,12 @@ class AccountService {
   }
 
   //登录
-  Future<ApiResponse> login(String account, String password, AccountType accountType, {String thirdName = ''}) async {
+  Future<ApiResponse> login(
+    String account,
+    String password,
+    AccountType accountType, {
+    String thirdName = '',
+  }) async {
     ApiRequest request = ApiRequest(
       'signIn',
       params: {
@@ -183,7 +242,8 @@ class AccountService {
   }
 
   void analyseResponse(ApiResponse response) {
-    Map<String, dynamic> userInfo = response.data[Security.security_userInfo] ?? {};
+    Map<String, dynamic> userInfo =
+        response.data[Security.security_userInfo] ?? {};
     String token = response.data[Security.security_token] ?? '';
 
     account = Account(token, userInfo);
@@ -207,7 +267,10 @@ class AccountService {
   }
 
   void handleLoggedIn() {
-    ApiService.instance.addTokens({Security.security_token: account.token, Security.security_uid: account.id});
+    ApiService.instance.addTokens({
+      Security.security_token: account.token,
+      Security.security_uid: account.id,
+    });
     EventCenter.instance.sendEvent(kEventCenterUserDidLogin, null);
     PushService.instance.secretKey = account.id;
   }
@@ -215,7 +278,10 @@ class AccountService {
   void logout() {
     account = Account.none();
     Preferences.instance.remove(kAccountKey);
-    ApiService.instance.addTokens({Security.security_token: account.token, Security.security_uid: account.id});
+    ApiService.instance.addTokens({
+      Security.security_token: account.token,
+      Security.security_uid: account.id,
+    });
     EventCenter.instance.sendEvent(kEventCenterUserDidLogout, null);
     PushService.instance.secretKey = '0';
   }
@@ -244,7 +310,13 @@ class AccountService {
   //     };
   // 按位标识，同时更新多个用户信息可做或运算0
 
-  Future<bool> updateMyInfo({String? name, String? birthday, int? gender, String? bio, String? avatar}) async {
+  Future<bool> updateMyInfo({
+    String? name,
+    String? birthday,
+    int? gender,
+    String? bio,
+    String? avatar,
+  }) async {
     int flag = 0;
     if (name != null) flag |= 1;
     if (avatar != null) flag |= 2;
@@ -274,7 +346,10 @@ class AccountService {
 
   /// balance
   void refreshBalance() async {
-    final req = ApiRequest('fetchBalance', params: {Security.security_uid: account.id});
+    final req = ApiRequest(
+      'fetchBalance',
+      params: {Security.security_uid: account.id},
+    );
     final rsp = await ApiService.instance.sendRequest(req);
 
     if (rsp.statusCode != 200 || rsp.bsnsCode != 0) return;
