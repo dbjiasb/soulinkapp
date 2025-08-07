@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/business/create_center/create_oc_dialog.dart';
@@ -47,7 +48,9 @@ class AccountView extends StatelessWidget {
                   Container(
                     child: Row(
                       children: [
-                        Obx(() => avatarUrl.isEmpty ? Image.asset(ImagePath.account_default_avatar, height: 68, width: 68) : AvatarView(url: avatarUrl, size: 68)),
+                        Obx(
+                          () => avatarUrl.isEmpty ? Image.asset(ImagePath.account_default_avatar, height: 68, width: 68) : AvatarView(url: avatarUrl, size: 68),
+                        ),
                         SizedBox(width: 12),
                         Column(
                           spacing: 3,
@@ -126,7 +129,7 @@ class AccountView extends StatelessWidget {
               spacing: 8,
               children: [
                 Image.asset(ImagePath.premium_gem, height: 24, width: 24),
-                const Text('Feelie Pro', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+                Text(Copywriting.security_feelie_Pro, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
                 Spacer(),
                 // myPremium.isPremium
                 true == true
@@ -233,7 +236,7 @@ class AccountView extends StatelessWidget {
                   spacing: 8,
                   children: [
                     Image.asset(ImagePath.account_my_oc, height: 24, width: 24),
-                    Text('My Companion', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
+                    Text(Copywriting.security_my_Companion, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
                     Spacer(),
                     GestureDetector(child: Image.asset(ImagePath.account_add_oc, height: 28, width: 28), onTap: CreateOcDialog.show),
                   ],
@@ -309,7 +312,7 @@ class AccountView extends StatelessWidget {
   }
 
   Widget _buildEmptyView() {
-    return Center(child: Text('No companions yet', style: TextStyle(color: Color(0xFFA0A0A0), fontSize: 12)));
+    return Center(child: Text(Copywriting.security_no_companions_yet, style: TextStyle(color: Color(0xFFA0A0A0), fontSize: 12)));
   }
 }
 

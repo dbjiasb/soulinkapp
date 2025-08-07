@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:modules/base/app_info/app_manager.dart';
@@ -122,7 +123,7 @@ class ApiService {
       return apiResponse;
     } catch (e) {
       debugPrint('[apiService] end error ${e.toString()}');
-      return ApiResponse.withError({Security.security_code: -1, Security.security_description: 'Network error, please try again later'});
+      return ApiResponse.withError({Security.security_code: -1, Security.security_description: Copywriting.security_network_error__please_try_again_later});
     }
   }
 }

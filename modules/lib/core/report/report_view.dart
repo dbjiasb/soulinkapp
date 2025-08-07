@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:flutter/material.dart';
 import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/core/report/report_manager.dart';
@@ -63,7 +64,7 @@ class _ReportContentViewState extends State<ReportContentView> {
                         },
                         controller: textEditingController,
                         decoration: InputDecoration(
-                          hintText: 'Describe the issue',
+                          hintText: Copywriting.security_describe_the_issue,
                           hintStyle: TextStyle(color: Color(0xFFAFAFAF), fontSize: 11, fontWeight: FontWeight.w500),
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.all(12),

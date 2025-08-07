@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -161,7 +162,7 @@ class CreateImagePanel extends GetView<CreateImagePanelController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Create images that you like', style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black)),
+                      Text(Copywriting.security_create_images_that_you_like, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black)),
                       BalanceView(
                         type: BalanceType.coin,
                         style: BalanceViewStyle(color: Color(0xFF7D2DFF), bgColor: Color(0xFFF1F0F4), borderRadius: 8, height: 24, padding: 8),
@@ -249,7 +250,7 @@ class CreateImagePanelController extends GetxController {
 
     if (options.isEmpty) return;
 
-    EasyLoading.show(status: 'Generating in progress');
+    EasyLoading.show(status: Copywriting.security_generating_in_progress);
     ApiResponse response = await CreateImageManager.instance.createImage(Get.find<ChatRoomViewController>().userId, options);
     if (response.isSuccess) {
       EasyLoading.dismiss();

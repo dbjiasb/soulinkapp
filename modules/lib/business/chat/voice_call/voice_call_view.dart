@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -45,12 +46,12 @@ class VoiceCallView extends StatelessWidget {
   VoiceCallViewController viewController = Get.put(VoiceCallViewController());
 
   String get statusText {
-    if (viewController.muted.value) return 'You have muted';
+    if (viewController.muted.value) return Copywriting.security_you_have_muted;
     CallStatus status = viewController.callStatus.value;
-    if (status == CallStatus.connecting) return 'Connecting...';
-    if (status == CallStatus.aiThinking) return 'I\'m thinking...';
-    if (status == CallStatus.aiSpeaking) return 'Interrupt AI';
-    if (status == CallStatus.userSpeaking) return 'I\'am listening...';
+    if (status == CallStatus.connecting) return Copywriting.security_connecting___;
+    if (status == CallStatus.aiThinking) return Copywriting.security_i__m_thinking___;
+    if (status == CallStatus.aiSpeaking) return Copywriting.security_interrupt_AI;
+    if (status == CallStatus.userSpeaking) return Copywriting.security_i__am_listening___;
     return Security.security_nothing;
   }
 
@@ -58,11 +59,11 @@ class VoiceCallView extends StatelessWidget {
     switch (viewController.callStatus.value) {
       case CallStatus.connecting:
         return Column(
-          children: [SizedBox(height: 184), Text('Connecting...', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFFABABAD)))],
+          children: [SizedBox(height: 184), Text(Copywriting.security_connecting___, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFFABABAD)))],
         );
       case CallStatus.aiThinking:
         return Column(
-          children: [SizedBox(height: 184), Text('I\'m thinking...', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFFABABAD)))],
+          children: [SizedBox(height: 184), Text(Copywriting.security_i__m_thinking___, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFFABABAD)))],
         );
       case CallStatus.aiSpeaking:
         return Column(
@@ -90,7 +91,7 @@ class VoiceCallView extends StatelessWidget {
               child: Image.asset(ImagePath.interrupt_talk, width: 32, height: 32),
             ),
             SizedBox(height: 4),
-            Text('Interrupt AI', style: TextStyle(fontSize: 14, color: Color(0xFFABABAD), fontWeight: FontWeight.w500)),
+            Text(Copywriting.security_interrupt_AI, style: TextStyle(fontSize: 14, color: Color(0xFFABABAD), fontWeight: FontWeight.w500)),
           ],
         );
       case CallStatus.userSpeaking:
@@ -99,7 +100,7 @@ class VoiceCallView extends StatelessWidget {
             SizedBox(height: 144),
             SizedBox(height: 24, child: SVGASimpleImage(assetsName: ImagePath.speaking)),
             SizedBox(height: 16),
-            Text('I\'am listening...', style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFFABABAD))),
+            Text(Copywriting.security_i__am_listening___, style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, color: Color(0xFFABABAD))),
           ],
         );
     }
@@ -157,7 +158,7 @@ class VoiceCallView extends StatelessWidget {
                       buildCostWidget(false),
                       Column(
                         children: [
-                          Text('Call Duration', style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
+                          Text(Copywriting.security_call_Duration, style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold, color: Colors.white)),
                           Obx(
                             () => Text(
                               DateFormatter.formatSeconds(viewController.duration.value),

@@ -8,6 +8,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 
@@ -88,9 +89,11 @@ class BasicCore extends StatelessWidget {
                   height: 50,
                   decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: AppColors.ocBox),
                   child: GestureDetector(
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text('Select from gallery', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500))],
+                      children: [
+                        Text(Copywriting.security_select_from_gallery, style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500)),
+                      ],
                     ),
                   ),
                 ),
@@ -107,9 +110,11 @@ class BasicCore extends StatelessWidget {
                   height: 50,
                   decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(15)), color: AppColors.ocBox),
                   child: GestureDetector(
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Text('Take it with camera', style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500))],
+                      children: [
+                        Text(Copywriting.security_take_it_with_camera, style: TextStyle(fontSize: 20, color: Colors.white, fontWeight: FontWeight.w500)),
+                      ],
                     ),
                   ),
                 ),
@@ -145,7 +150,7 @@ class BasicCore extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Row(children: [Text('Role image', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12))]),
+            Row(children: [Text(Copywriting.security_role_image, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 12))]),
             const SizedBox(height: 8),
             Row(
               children: [
@@ -199,14 +204,14 @@ class BasicCore extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                const Flexible(
+                Flexible(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         style: TextStyle(fontSize: 11, color: AppColors.undo, fontWeight: FontWeight.w500),
                         maxLines: 2,
-                        'The uploaded image serves as a reference for facial features and style elements',
+                        Copywriting.security_the_uploaded_image_serves_as_a_reference_for_facial_features_and_style_elements,
                       ),
                     ],
                   ),
@@ -256,11 +261,11 @@ class BasicCore extends StatelessWidget {
                       controller: _controller.nameInputController,
                       onChanged: _controller.updateCharacterName,
                       inputFormatters: _controller.nameInputRestrictions,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         contentPadding: EdgeInsets.zero,
                         isDense: true,
                         border: InputBorder.none,
-                        hintText: 'Name your character',
+                        hintText: Copywriting.security_name_your_character,
                         hintStyle: TextStyle(color: Colors.white, fontSize: 11, height: 1.2, fontWeight: FontWeight.w500),
                       ),
                       style: const TextStyle(color: Colors.white, fontSize: 11, height: 1.2, fontWeight: FontWeight.w500),
@@ -392,7 +397,7 @@ class BasicCore extends StatelessWidget {
                           ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(color: AppColors.main))
                           : Image.asset(height: 24, width: 24, ImagePath.oc_audio),
                       const SizedBox(width: 8),
-                      const Text('Click to play', style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF999999))),
+                      Text(Copywriting.security_click_to_play, style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF999999))),
                     ],
                   ),
                 ),
@@ -768,16 +773,16 @@ class BasicPage extends StatelessWidget {
         ),
         title: Text(
           textAlign: TextAlign.center,
-          'Create My Character',
-          style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'SF Pro bold', fontWeight: FontWeight.bold),
+          Copywriting.security_create_My_Character,
+          style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: Copywriting.security_sF_Pro_bold, fontWeight: FontWeight.bold),
         ),
         actions: [
           Container(
             padding: EdgeInsets.all(16),
             child: Row(
               children: [
-                const Text('1', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'SF Pro bold')),
-                const Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: 'SF Pro bold')),
+                Text('1', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: Copywriting.security_sF_Pro_bold)),
+                Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: Copywriting.security_sF_Pro_bold)),
               ],
             ),
           ),
@@ -927,7 +932,7 @@ class BasicController extends GetxController {
   Future<void> _fetchCharacterConfiguration() async {
     OcManager.instance.getPhysiques().then((configMap) {
       if (configMap == null) {
-        EasyLoading.showToast('Cannot get physique details, please retry later');
+        EasyLoading.showToast(Copywriting.security_cannot_get_physique_details__please_retry_later);
         return;
       }
 
@@ -1040,7 +1045,7 @@ class BasicController extends GetxController {
       characterConfig[EncHelper.cr_piurl] = uploadedImageUrl;
       ocDependency.traceId = validationResult?[Security.security_statusInfo]?[Security.security_traceId] ?? '';
     } else {
-      EasyLoading.showToast('Unknown error, please upload again.');
+      EasyLoading.showToast(Copywriting.security_unknown_error__please_upload_again_);
     }
     processingImage.value = false;
   }

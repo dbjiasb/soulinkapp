@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'dart:convert';
 import 'dart:math';
 
@@ -253,12 +254,12 @@ class PersonViewPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 7,
       children: [
-        _buildSectionTitle('About her'),
+        _buildSectionTitle(Copywriting.security_about_her),
         _buildInfoRow([
           Obx(() => _buildInfoTile(Security.security_Gender, _getGenderText(controller.gender), outlineStyle, normalStyle)),
           Obx(
             () => _buildInfoTile(
-              'Birth date',
+              Copywriting.security_birth_date,
               DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(controller.birthday)),
               outlineStyle,
               normalStyle,
@@ -406,16 +407,16 @@ class PersonViewController extends GetxController {
     }
     personalInfo.value = arguments[EncHelper.ps_if];
     if (personalInfo.isEmpty) {
-      EasyLoading.showToast('No user information, getting back...');
+      EasyLoading.showToast(Copywriting.security_no_user_information__getting_back___);
       Get.back();
     }
   }
 
   void getPersonInfo(int uid) async {
-    EasyLoading.show(status: 'Loading...');
+    EasyLoading.show(status: Copywriting.security_loading___);
     final rtn = await PersonManager.instance.getUserInfo(uid);
     if (rtn.data == {}) {
-      EasyLoading.show(status: 'Cannot get information, please retry later');
+      EasyLoading.show(status: Copywriting.security_cannot_get_information__please_retry_later);
       EasyLoading.dismiss();
       return;
     }
@@ -425,10 +426,10 @@ class PersonViewController extends GetxController {
   }
 
   Future<void> followUser() async {
-    EasyLoading.show(status: 'Loading...');
+    EasyLoading.show(status: Copywriting.security_loading___);
     final rtn = await PersonManager.instance.followUser(id, 1);
     if (rtn == false) {
-      EasyLoading.showError('Failed to follow');
+      EasyLoading.showError(Copywriting.security_failed_to_follow);
       return;
     }
     getPersonInfo(id);
@@ -436,10 +437,10 @@ class PersonViewController extends GetxController {
   }
 
   Future<void> unfollowUser() async {
-    EasyLoading.show(status: 'Loading...');
+    EasyLoading.show(status: Copywriting.security_loading___);
     final rtn = await PersonManager.instance.followUser(id, 0);
     if (rtn == false) {
-      EasyLoading.showError('Failed to unfollow');
+      EasyLoading.showError(Copywriting.security_failed_to_unfollow);
       return;
     }
     getPersonInfo(id);

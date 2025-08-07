@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -191,7 +192,7 @@ class ChatAudioView extends StatelessWidget {
   //
   // void showUnlockAlert() {
   //   showConfirmAlert(
-  //     'Unlock Audio',
+  //     Copywriting.security_unlock_Audio,
   //     'Unlocking will cost ${audioMessage.unlockPrice} ${audioMessage.unlockCurrency == 1 ? 'Gems' : 'Coins'}',
   //     onConfirm: () {
   //       //解锁资源

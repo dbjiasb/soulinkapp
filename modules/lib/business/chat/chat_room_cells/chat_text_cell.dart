@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
@@ -212,7 +213,7 @@ class ChatTextAudioView extends StatelessWidget {
 
   void showUnlockAlert() {
     showConfirmAlert(
-      'Unlock Audio',
+      Copywriting.security_unlock_Audio,
       'Unlocking will cost ${textMessage.unlockPrice} ${textMessage.unlockCurrency == 1 ? 'Gems' : 'Coins'}',
       onConfirm: () {
         //解锁资源
@@ -234,7 +235,7 @@ class ChatTextAudioView extends StatelessWidget {
       if (MyAccount.isWkPrem) {
         EasyLoading.showToast('Premium Benefits for Audio, used: ${MyAccount.freeAdoUsedTimes},total: ${MyAccount.freeAdoLeftTimes + MyAccount.freeAdoUsedTimes}');
       } else {
-        EasyLoading.showToast('Premium Benefits for Audio, unlimited');
+        EasyLoading.showToast(Copywriting.security_premium_Benefits_for_Audio__unlimited);
       }
     }
   }

@@ -1,9 +1,10 @@
-import 'package:modules/base/assets/image_path.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 
 import '../../base/router/router_names.dart';
@@ -27,8 +28,8 @@ class AdvanceCore extends StatelessWidget {
             child: Column(
               children: [
                 _buildTextFieldTemplate(
-                  'How would you like OC to address you?',
-                  'The OC will address you by the name you enter.',
+                  Copywriting.security_how_would_you_like_OC_to_address_you_,
+                  Copywriting.security_the_OC_will_address_you_by_the_name_you_enter_,
                   //'Al will call you by the name you enter',
                   24,
                   masterNameFormatter,
@@ -40,9 +41,9 @@ class AdvanceCore extends StatelessWidget {
                 _buildTextFieldTemplate(
                   EncHelper.cr_img_prp,
                   'Supply detailed information about the image, such as the clothing worn, facial features, and actions. '
-                      'For example, "On the moonlit balcony of a neo - Victorian mansion, an ethereal woman with bright blue hime - cut hair '
-                      'leans against the railing. Her khaki backless sweater flutters gently in the breeze as she turns to look at the viewer '
-                      'with an otherworldly serenity."',
+                  'For example, "On the moonlit balcony of a neo - Victorian mansion, an ethereal woman with bright blue hime - cut hair '
+                  'leans against the railing. Her khaki backless sweater flutters gently in the breeze as she turns to look at the viewer '
+                  'with an otherworldly serenity."',
                   300,
                   imagePromptsFormatter,
                   _logic.onInputImagePrompts,
@@ -52,7 +53,7 @@ class AdvanceCore extends StatelessWidget {
                 ),
                 _buildTextFieldTemplate(
                   EncHelper.cr_synopsis,
-                  'Describe the conversation scenario and involved characters.',
+                  Copywriting.security_describe_the_conversation_scenario_and_involved_characters_,
                   //'The current circumstances and context of the conversation and the characters.',
                   500,
                   scenarioFormatter,
@@ -63,7 +64,8 @@ class AdvanceCore extends StatelessWidget {
                 ),
                 _buildTextFieldTemplate(
                   EncHelper.cr_bio,
-                  'Appears exclusively in your character\'s public profile.This biographical information will not be utilized in generation prompts or influence behavioral patterns.',
+                  Copywriting
+                      .security_appears_exclusively_in_your_character__s_public_profile_This_biographical_information_will_not_be_utilized_in_generation_prompts_or_influence_behavioral_patterns_,
                   500,
                   introductionFormatter,
                   _logic.onInputIntroduction,
@@ -71,7 +73,7 @@ class AdvanceCore extends StatelessWidget {
                   _logic.bioController,
                   _logic.bio,
                 ),
-                _buildStyleBox('Dialogue Style'),
+                _buildStyleBox(Copywriting.security_dialogue_Style),
               ],
             ),
           ),
@@ -152,8 +154,9 @@ class AdvanceCore extends StatelessWidget {
               () => Column(
                 spacing: 8,
                 children: [
-                  const Text(
-              'Defines the conversational patterns between you and your character. This crucial setting determines how your character formulates responses and maintains personality consistency.',
+                  Text(
+                    Copywriting
+                        .security_defines_the_conversational_patterns_between_you_and_your_character__This_crucial_setting_determines_how_your_character_formulates_responses_and_maintains_personality_consistency_,
                     style: TextStyle(color: Color(0xFF666666), fontWeight: FontWeight.w500, fontSize: 11),
                   ),
                   Expanded(
@@ -195,7 +198,9 @@ class AdvanceCore extends StatelessWidget {
                                         style: TextStyle(color: i % 2 == 0 ? Colors.black : Colors.white, fontSize: 12, fontWeight: FontWeight.w500, height: 2),
                                         controller: _logic.controllers[i],
                                         onChanged: (value) {
-                                          i % 2 == 0 ? _logic.onInputDialog(Security.security_user, value, i) : _logic.onInputDialog(Security.security_bot, value, i);
+                                          i % 2 == 0
+                                              ? _logic.onInputDialog(Security.security_user, value, i)
+                                              : _logic.onInputDialog(Security.security_bot, value, i);
                                         },
                                         maxLines: null,
                                         minLines: 1,
@@ -235,7 +240,7 @@ class AdvanceCore extends StatelessWidget {
                             spacing: 4,
                             children: [
                               Image.asset(ImagePath.oc_add_pic, height: 16, width: 16),
-                              const Text('Add rounds', style: TextStyle(color: Color(0xFF12151C), fontSize: 12, fontWeight: FontWeight.w500)),
+                              Text(Copywriting.security_add_rounds, style: TextStyle(color: Color(0xFF12151C), fontSize: 12, fontWeight: FontWeight.w500)),
                               Text(
                                 '(${_logic.dialogStyle.length ~/ 2}/5）',
                                 style: const TextStyle(color: Color(0xFF666666), fontSize: 11, fontWeight: FontWeight.w400),
@@ -278,23 +283,24 @@ class AdvancePage extends StatelessWidget {
         ),
         title: Text(
           textAlign: TextAlign.center,
-          'Create My Character',
-          style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'SF Pro bold', fontWeight: FontWeight.bold),
+          Copywriting.security_create_My_Character,
+          style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: Copywriting.security_sF_Pro_bold, fontWeight: FontWeight.bold),
         ),
         actions: [
           Container(
             padding: EdgeInsets.all(16),
             child: Row(
-                children: [const Text('2', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'SF Pro bold')),
-                  const Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: 'SF Pro bold')),]
+              children: [
+                Text('2', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: Copywriting.security_sF_Pro_bold)),
+                Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: Copywriting.security_sF_Pro_bold)),
+              ],
             ),
-          )
+          ),
         ],
       ),
       body: SafeArea(
         child: Column(
           children: [
-
             // 可滑动中间部分
             Expanded(child: CustomScrollView(slivers: [SliverFillRemaining(hasScrollBody: true, child: AdvanceCore())])),
 
@@ -311,10 +317,7 @@ class AdvancePage extends StatelessWidget {
       children: [
         Obx(
           () => GestureDetector(
-            onTap:
-                _logic.toGen.value
-                    ? _logic.toGeneratePage
-                    : null,
+            onTap: _logic.toGen.value ? _logic.toGeneratePage : null,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Container(
@@ -353,15 +356,15 @@ class AdvancePage extends StatelessWidget {
               },
               icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
             ),
-            const Expanded(
+            Expanded(
               child: Text(
                 textAlign: TextAlign.center,
-                'Create My Character',
-                style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'SF Pro bold', fontWeight: FontWeight.bold),
+                Copywriting.security_create_My_Character,
+                style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: Copywriting.security_sF_Pro_bold, fontWeight: FontWeight.bold),
               ),
             ),
-            const Text('2', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'SF Pro bold')),
-            const Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: 'SF Pro bold')),
+            Text('2', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: Copywriting.security_sF_Pro_bold)),
+            Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: Copywriting.security_sF_Pro_bold)),
           ],
         ),
       ),
@@ -480,7 +483,7 @@ class AdvanceController extends GetxController {
 
   void toGeneratePage() async {
     if (masterName.value.isNotEmpty && (masterName.value.length < 3 || masterName.value.length > 24)) {
-      EasyLoading.showToast('Master name must be 2-24 characters in length');
+      EasyLoading.showToast(Copywriting.security_master_name_must_be_2_24_characters_in_length);
       return;
     }
     ocDependency.save();

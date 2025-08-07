@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'dart:convert';
 import 'dart:ui';
 
@@ -148,7 +149,7 @@ class ChatVideoCell extends ChatCell {
 
   void showUnlockDialog() {
     showConfirmAlert(
-      'Unlock Video',
+      Copywriting.security_unlock_Video,
       'Unlocking will cost ${videoMessage.unlockPrice} ${videoMessage.currencyType == 1 ? 'Gems' : 'Coins'}',
       onConfirm: () {
         prompted = true;
@@ -256,7 +257,7 @@ class ChatVideoCell extends ChatCell {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(ImagePath.premium_gem, width: 16, height: 16),
-                            Text('Pro Free', style: TextStyle(color: Color(0xFFFFE96F), fontSize: 14, fontWeight: AppFonts.medium)),
+                            Text(Copywriting.security_pro_Free, style: TextStyle(color: Color(0xFFFFE96F), fontSize: 14, fontWeight: AppFonts.medium)),
                           ],
                         ),
                       )

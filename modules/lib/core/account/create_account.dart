@@ -1,5 +1,3 @@
-import 'package:modules/base/assets/image_path.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
@@ -7,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
+import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/core/account/account_service.dart';
 
 import '../../base/router/router_names.dart';
@@ -34,11 +35,11 @@ class CreateAccountView extends StatelessWidget {
                 onChanged: viewController.onMailChange,
                 style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
                 textAlignVertical: TextAlignVertical.center,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelStyle: TextStyle(color: Colors.white),
                   enabledBorder: OutlineInputBorder(borderSide: BorderSide(style: BorderStyle.none)),
                   focusedBorder: OutlineInputBorder(borderSide: BorderSide(style: BorderStyle.none)),
-                  hintText: 'Entry your email',
+                  hintText: Copywriting.security_entry_your_email,
                   hintStyle: TextStyle(color: Color(0x80FFFFFF), fontWeight: FontWeight.w600, fontSize: 13),
                 ),
               ),
@@ -65,10 +66,10 @@ class CreateAccountView extends StatelessWidget {
               child: TextFormField(
                 onChanged: viewController.onVerifyCodeChange,
                 style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
                   enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
-                  hintText: 'Enter verification code',
+                  hintText: Copywriting.security_enter_verification_code,
                   hintStyle: TextStyle(color: Color(0x80FFFFFF), fontSize: 13, fontWeight: FontWeight.w600),
                 ),
               ),
@@ -86,10 +87,11 @@ class CreateAccountView extends StatelessWidget {
                   height: 40,
                   child: Center(
                     child: Text(
-                      viewController.countdown.value > 0 ? '${viewController.countdown.value}s' : 'Obtain code',
-                      style: viewController.canSendCode.value
-                          ? const TextStyle(color: Color(0xFFFFEF3B), fontSize: 13, fontWeight: FontWeight.w700)
-                          : TextStyle(color: Color(0xFFFFEF3B).withValues(alpha: 0.3), fontSize: 13, fontWeight: FontWeight.w700),
+                      viewController.countdown.value > 0 ? '${viewController.countdown.value}s' : Copywriting.security_obtain_code,
+                      style:
+                          viewController.canSendCode.value
+                              ? const TextStyle(color: Color(0xFFFFEF3B), fontSize: 13, fontWeight: FontWeight.w700)
+                              : TextStyle(color: Color(0xFFFFEF3B).withValues(alpha: 0.3), fontSize: 13, fontWeight: FontWeight.w700),
                     ),
                   ),
                 ),
@@ -109,7 +111,7 @@ class CreateAccountView extends StatelessWidget {
           height: 54,
           margin: const EdgeInsets.fromLTRB(16, 24, 16, 0),
           decoration: BoxDecoration(
-            color: viewController.canContinue.value ?const Color(0xFF8761F1):const Color(0xFF8761F1).withValues(alpha: 0.5),
+            color: viewController.canContinue.value ? const Color(0xFF8761F1) : const Color(0xFF8761F1).withValues(alpha: 0.5),
             borderRadius: const BorderRadius.all(Radius.circular(12)),
           ),
           child: Center(
@@ -144,11 +146,20 @@ class CreateAccountView extends StatelessWidget {
   }
 
   _onPrivacyPolicyClicked() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Privacy policy', Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'});
+    Get.toNamed(
+      Routers.webView.name,
+      arguments: {Security.security_title: Copywriting.security_privacy_policy, Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'},
+    );
   }
 
   _onTermsOfServiceClicked() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
+    Get.toNamed(
+      Routers.webView.name,
+      arguments: {
+        Security.security_title: Copywriting.security_terms_of_service,
+        Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+      },
+    );
   }
 
   Widget _buildCheckButton() {
@@ -176,7 +187,7 @@ class CreateAccountView extends StatelessWidget {
         children: [
           const TextSpan(text: 'if you sign in, you agree to '),
           TextSpan(
-            text: 'Privacy Policy',
+            text: Copywriting.security_privacy_Policy,
             style: linkStyle,
             recognizer:
                 TapGestureRecognizer()
@@ -187,7 +198,7 @@ class CreateAccountView extends StatelessWidget {
           const TextSpan(text: ' \n'),
           const TextSpan(text: 'and '),
           TextSpan(
-            text: 'Terms of Service',
+            text: Copywriting.security_terms_of_Service,
             style: linkStyle,
             recognizer:
                 TapGestureRecognizer()
@@ -229,7 +240,7 @@ class CreateAccountView extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                           alignment: Alignment.centerLeft,
-                          child: Text('Create an account', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
+                          child: Text(Copywriting.security_create_an_account, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20)),
                         ),
                         SizedBox(height: 34),
                         _buildMailInputView(),
@@ -249,12 +260,7 @@ class CreateAccountView extends StatelessWidget {
                 height: 44,
                 child: GestureDetector(
                   onTap: _onBackButtonClicked,
-                  child: Container(
-                    width: 32,
-                    height: 44,
-                    alignment: Alignment.center,
-                    child: Image.asset(ImagePath.icon_back, width: 24, height: 24),
-                  ),
+                  child: Container(width: 32, height: 44, alignment: Alignment.center, child: Image.asset(ImagePath.icon_back, width: 24, height: 24)),
                 ),
               ),
             ),
@@ -308,11 +314,11 @@ class CreateAccountViewController extends GetxController {
 
   void login() async {
     if (checked.value == false) {
-      EasyLoading.showError('Please agree to the terms and conditions');
+      EasyLoading.showError(Copywriting.security_please_agree_to_the_terms_and_conditions);
       return;
     }
 
-    EasyLoading.show(status: 'Logging in...');
+    EasyLoading.show(status: Copywriting.security_logging_in___);
     ApiResponse response = await AccountService.instance.loginWithEmail(account, verifyCode);
     if (response.isSuccess) {
       EasyLoading.dismiss();
@@ -324,7 +330,7 @@ class CreateAccountViewController extends GetxController {
   }
 
   void _getVerifyCode() async {
-    EasyLoading.show(status: 'Sending...');
+    EasyLoading.show(status: Copywriting.security_sending___);
     ApiResponse response = await AccountService.instance.getVerifyCode(account, AccountType.email);
     if (response.isSuccess) {
       _startTimer();

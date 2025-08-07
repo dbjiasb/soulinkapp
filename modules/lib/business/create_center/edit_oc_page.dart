@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 // import 'package:app_biz/common/app_theme.dart';
 // import 'package:app_biz/services/route_service.dart';
@@ -105,7 +106,7 @@ import 'package:modules/base/crypt/security.dart';
 //                 child: Text(
 //               textAlign: TextAlign.center,
 //               'Edit My Character',
-//               style: TextStyle(fontSize: 20, fontFamily: 'SF Pro bold', fontWeight: FontWeight.w700),
+//               style: TextStyle(fontSize: 20, fontFamily: Copywriting.security_sF_Pro_bold, fontWeight: FontWeight.w700),
 //             )),
 //             AnimatedBuilder(
 //               animation: _tabController,
@@ -116,7 +117,7 @@ import 'package:modules/base/crypt/security.dart';
 //                     color: Color(0xFFFF590F),
 //                     fontWeight: FontWeight.w700,
 //                     fontSize: 14,
-//                     fontFamily: 'SF Pro bold',
+//                     fontFamily: Copywriting.security_sF_Pro_bold,
 //                   ),
 //                 );
 //               },
@@ -126,7 +127,7 @@ import 'package:modules/base/crypt/security.dart';
 //                   color: Color(0xFF12151C),
 //                   fontWeight: FontWeight.w700,
 //                   fontSize: 9,
-//                   fontFamily: 'SF Pro bold',
+//                   fontFamily: Copywriting.security_sF_Pro_bold,
 //                 ))
 //           ],
 //         ),

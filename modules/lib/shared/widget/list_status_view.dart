@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:flutter/material.dart';
 import 'package:modules/base/assets/image_path.dart';
 
@@ -15,7 +16,7 @@ class ListStatusView extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           Image.asset(ImagePath.list_status_empty, width: 156, height: 156),
-          Text(description ?? 'No data', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
+          Text(description ?? Copywriting.security_no_data, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
         ],
       ),
     );
@@ -28,7 +29,7 @@ class ListStatusView extends StatelessWidget {
         children: [
           Image.asset(ImagePath.list_status_empty, width: 156, height: 156),
           Text(
-            description ?? 'Network exception, please try again later',
+            description ?? Copywriting.security_network_exception__please_try_again_later,
             style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8)),
           ),
         ],

@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -21,10 +22,10 @@ class SettingItem {
 
 class AccountSettings extends StatelessWidget {
   List<SettingItem> get items => <SettingItem>[
-    SettingItem(title: 'Terms of service', icon: ImagePath.terms_service, onTap: checkTermsOfService),
-    SettingItem(title: 'Privacy policy', icon: ImagePath.privacy_policy, onTap: checkPrivacyPolicy),
-    SettingItem(title: 'Log out', icon: ImagePath.log_out, onTap: logout),
-    SettingItem(title: 'Account Deletion', icon: ImagePath.account_deletion, onTap: deleteAccount),
+    SettingItem(title: Copywriting.security_terms_of_service, icon: ImagePath.terms_service, onTap: checkTermsOfService),
+    SettingItem(title: Copywriting.security_privacy_policy, icon: ImagePath.privacy_policy, onTap: checkPrivacyPolicy),
+    SettingItem(title: Copywriting.security_log_out, icon: ImagePath.log_out, onTap: logout),
+    SettingItem(title: Copywriting.security_account_Deletion, icon: ImagePath.account_deletion, onTap: deleteAccount),
   ];
 
   @override
@@ -80,17 +81,17 @@ class AccountSettings extends StatelessWidget {
   }
 
   void checkTermsOfService() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
+    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: Copywriting.security_terms_of_service, Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
   }
 
   void checkPrivacyPolicy() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Privacy policy', Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'});
+    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: Copywriting.security_privacy_policy, Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'});
   }
 
   void logout() {
     showConfirmAlert(
-      'Log out',
-      'Are you sure you want to log out?',
+      Copywriting.security_log_out,
+      Copywriting.security_are_you_sure_you_want_to_log_out_,
       onConfirm: () {
         AccountService.instance.logout();
         Get.offAllNamed(Routers.loginChannel.name);
@@ -101,10 +102,10 @@ class AccountSettings extends StatelessWidget {
 
   void deleteAccount() async {
     showConfirmAlert(
-      'Delete account?',
-      'Are you sure you want to delete your account?',
+      Copywriting.security_delete_account_,
+      Copywriting.security_are_you_sure_you_want_to_delete_your_account_,
       onConfirm: () async {
-        EasyLoading.show(status: 'Deleting...');
+        EasyLoading.show(status: Copywriting.security_deleting___);
         ApiResponse response = await AccountService.instance.deleteAccount();
         EasyLoading.dismiss();
         if (response.isSuccess) {

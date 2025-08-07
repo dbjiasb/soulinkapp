@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:external_modules/player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/business/chat/chat_manager.dart';
@@ -31,7 +31,7 @@ class ChatBottomBar extends StatelessWidget {
 
   ChatBottomBarController viewController = Get.put(ChatBottomBarController());
 
-  bool get expandBottom => viewController.barState.value == ChatRoomBottomBarState.detailed ||viewController.barState.value == ChatRoomBottomBarState.muse;
+  bool get expandBottom => viewController.barState.value == ChatRoomBottomBarState.detailed || viewController.barState.value == ChatRoomBottomBarState.muse;
 
   @override
   Widget build(BuildContext context) {
@@ -77,13 +77,16 @@ class ChatBottomBar extends StatelessWidget {
                   child: Column(
                     children: [
                       Container(
-                        padding: EdgeInsets.only(bottom: 12,top: 30),
+                        padding: EdgeInsets.only(bottom: 12, top: 30),
                         child: Center(
                           child: Obx(
-                                () =>
-                            viewController._isCanceled.value
-                                ? Text('Release Cancel', style: TextStyle(color: Color(0xFFFF3E3E), fontSize: 13, fontWeight: AppFonts.medium))
-                                : Text('Release Send', style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
+                            () =>
+                                viewController._isCanceled.value
+                                    ? Text(
+                                      Copywriting.security_release_Cancel,
+                                      style: TextStyle(color: Color(0xFFFF3E3E), fontSize: 13, fontWeight: AppFonts.medium),
+                                    )
+                                    : Text(Copywriting.security_release_Send, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
                           ),
                         ),
                       ),
@@ -95,7 +98,7 @@ class ChatBottomBar extends StatelessWidget {
                           color: Colors.transparent,
                           image: DecorationImage(image: AssetImage(ImagePath.chat_input_voice_bg), fit: BoxFit.fitWidth, alignment: Alignment.topCenter),
                         ),
-                        child:Column(
+                        child: Column(
                           children: [
                             SizedBox(height: 10),
                             // Container(
@@ -109,7 +112,7 @@ class ChatBottomBar extends StatelessWidget {
                             // ),
                             Spacer(),
                           ],
-                        )
+                        ),
                       ),
                     ],
                   ),
@@ -156,7 +159,7 @@ class ChatBottomBar extends StatelessWidget {
             GestureDetector(
               onTap: () {
                 viewController._audioInputMode.value = !viewController._audioInputMode.value;
-                if(viewController.barState.value != ChatRoomBottomBarState.simple){
+                if (viewController.barState.value != ChatRoomBottomBarState.simple) {
                   viewController.updateBarState(ChatRoomBottomBarState.simple);
                 }
               },
@@ -174,7 +177,7 @@ class ChatBottomBar extends StatelessWidget {
                         ? GestureDetector(
                           behavior: HitTestBehavior.opaque,
                           onTap: () {
-                            EasyLoading.showToast('Audio input is too short to send.');
+                            EasyLoading.showToast(Copywriting.security_audio_input_is_too_short_to_send_);
                             endAudioRecord();
                           },
                           onLongPressStart: (_) {
@@ -186,7 +189,9 @@ class ChatBottomBar extends StatelessWidget {
                           onLongPressMoveUpdate: viewController._onGesUpdate,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: [Text('Hold to talk', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14))],
+                            children: [
+                              Text(Copywriting.security_hold_to_talk, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14)),
+                            ],
                           ),
                         )
                         : Row(
@@ -199,22 +204,22 @@ class ChatBottomBar extends StatelessWidget {
                                 style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600),
                                 controller: viewController.textController,
                                 focusNode: viewController.focusNode,
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
                                   focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
                                   fillColor: Colors.transparent,
                                   filled: true,
-                                  hintText: 'Send message, reply by AI',
+                                  hintText: Copywriting.security_send_message__reply_by_AI,
                                   hintStyle: TextStyle(color: Color(0x80FFFFFF), fontWeight: FontWeight.w600, fontSize: 11),
                                   contentPadding: EdgeInsets.zero,
                                 ),
-                               ),
+                              ),
                             ),
                             GestureDetector(
                               onTap: () {
-                                if(viewController.barState.value != ChatRoomBottomBarState.muse){
+                                if (viewController.barState.value != ChatRoomBottomBarState.muse) {
                                   viewController.updateBarState(ChatRoomBottomBarState.muse);
-                                }else {
+                                } else {
                                   viewController.updateBarState(ChatRoomBottomBarState.simple);
                                 }
                               },
@@ -334,7 +339,7 @@ class ChatBottomBar extends StatelessWidget {
               child: Row(
                 spacing: 4,
                 children: [
-                  Image.asset(ImagePath.chat_voice_call, width: 13, height: 11)                  ,
+                  Image.asset(ImagePath.chat_voice_call, width: 13, height: 11),
                   Text(Security.security_Call, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
                 ],
               ),
@@ -381,15 +386,23 @@ class ChatBottomBar extends StatelessWidget {
       //   Security.security_icon: ImagePath.chat_bottom_custom,
       //   Security.security_action: onCreateImageButtonClicked,
       // },
-      {Security.security_title: Security.security_Photo, Security.security_icon: ImagePath.chat_bottom_image, Security.security_action: viewController.showImageSelector},
-      // {Security.security_title: 'Voice Call', Security.security_icon: ImagePath.chat_bottom_audio_call, Security.security_action: toCall},
+      {
+        Security.security_title: Security.security_Photo,
+        Security.security_icon: ImagePath.chat_bottom_image,
+        Security.security_action: viewController.showImageSelector,
+      },
 
+      // {Security.security_title: 'Voice Call', Security.security_icon: ImagePath.chat_bottom_audio_call, Security.security_action: toCall},
       {
         Security.security_title: Security.security_History,
         Security.security_icon: ImagePath.chat_bottom_history,
         Security.security_action: onChatHistoryButtonClicked,
       },
-      {Security.security_title: Security.security_Gift, Security.security_icon: ImagePath.chat_send_gift, Security.security_action: viewController.showGiftPanel},
+      {
+        Security.security_title: Security.security_Gift,
+        Security.security_icon: ImagePath.chat_send_gift,
+        Security.security_action: viewController.showGiftPanel,
+      },
     ];
 
     return Container(
@@ -547,7 +560,7 @@ class ChatBottomBarController extends GetxController {
               children: [
                 ListTile(
                   leading: Icon(Icons.photo_library),
-                  title: Text('Select from the album'),
+                  title: Text(Copywriting.security_select_from_the_album),
                   onTap: () async {
                     Get.back();
                     pickImage(ImageSource.gallery);
@@ -555,7 +568,7 @@ class ChatBottomBarController extends GetxController {
                 ),
                 ListTile(
                   leading: Icon(Icons.photo_camera),
-                  title: Text('Turn on the camera'),
+                  title: Text(Copywriting.security_turn_on_the_camera),
                   onTap: () async {
                     Get.back();
                     pickImage(ImageSource.camera);
@@ -579,7 +592,7 @@ class ChatBottomBarController extends GetxController {
     EasyLoading.show();
     String? url = await FilePushService.instance.upload(compressed, FileType.im, ext: Security.security_jpg);
     if (url == null || url.isEmpty) {
-      EasyLoading.showError('Upload failed, please try again later');
+      EasyLoading.showError(Copywriting.security_upload_failed__please_try_again_later);
       return;
     }
 
@@ -598,7 +611,7 @@ class ChatBottomBarController extends GetxController {
       EasyLoading.dismiss();
       Get.find<ChatRoomViewController>().insertMessages([response.message]);
     } else {
-      EasyLoading.showError('Send failed, please try again later');
+      EasyLoading.showError(Copywriting.security_send_failed__please_try_again_later);
     }
   }
 }

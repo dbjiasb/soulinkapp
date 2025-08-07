@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/assets/image_path.dart';
@@ -107,6 +108,6 @@ class HomePageViewController extends GetxController {
     RoleListItem(Security.security_Discovery, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.ai))),
     RoleListItem(Security.security_Real, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.real))),
     RoleListItem(Security.security_OC, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.custom_ai))),
-    RoleListItem('Pro only', () => KeepAliveWrapper(child: RoleListView(type: RoleListType.pro_only))),
+    RoleListItem(Copywriting.security_pro_only, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.pro_only))),
   ];
 }

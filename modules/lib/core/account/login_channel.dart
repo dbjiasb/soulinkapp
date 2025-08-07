@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'dart:core';
 
 import 'package:flutter/gestures.dart';
@@ -33,14 +34,14 @@ class LoginChannelView extends StatelessWidget {
   _onPrivacyPolicyClicked() {
     Get.toNamed(
       Routers.webView.name,
-      arguments: {Security.security_title: 'Privacy policy', Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'},
+      arguments: {Security.security_title: Copywriting.security_privacy_policy, Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'},
     );
   }
 
   _onTermsOfServiceClicked() {
     Get.toNamed(
       Routers.webView.name,
-      arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'},
+      arguments: {Security.security_title: Copywriting.security_terms_of_service, Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'},
     );
   }
 
@@ -71,7 +72,7 @@ class LoginChannelView extends StatelessWidget {
         children: [
           const TextSpan(text: 'if you sign in, you agree to '),
           TextSpan(
-            text: 'Privacy Policy',
+            text: Copywriting.security_privacy_Policy,
             style: linkStyle,
             recognizer:
                 TapGestureRecognizer()
@@ -82,7 +83,7 @@ class LoginChannelView extends StatelessWidget {
           const TextSpan(text: ' \n'),
           const TextSpan(text: 'and '),
           TextSpan(
-            text: 'Terms of Service',
+            text: Copywriting.security_terms_of_Service,
             style: linkStyle,
             recognizer:
                 TapGestureRecognizer()
@@ -111,7 +112,7 @@ class LoginChannelView extends StatelessWidget {
   Widget _buildLoginChannels() {
     LoginChannel email = LoginChannel(
       Security.security_email,
-      'Sign in with E-mail',
+      Copywriting.security_sign_in_with_E_mail,
       Icon(Icons.email, size: 24, color: Colors.white),
       Color(0xFF070512),
       Colors.white,
@@ -121,7 +122,7 @@ class LoginChannelView extends StatelessWidget {
     );
     LoginChannel apple = LoginChannel(
       Security.security_apple,
-      'Sign in with Apple',
+      Copywriting.security_sign_in_with_Apple,
       Image.asset(ImagePath.login_apple, height: 24, width: 24),
       Colors.white,
       Color(0xFF070512),

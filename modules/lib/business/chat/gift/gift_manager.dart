@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/apis.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
@@ -64,7 +65,7 @@ class GiftManager {
     } else {
       SendGiftResponse result = SendGiftResponse();
       result.isSuccess = false;
-      result.errorMsg = response.data[Security.security_statusInfo]?[Security.security_msg] ?? 'Failed to send gift';
+      result.errorMsg = response.data[Security.security_statusInfo]?[Security.security_msg] ?? Copywriting.security_failed_to_send_gift;
       result.currencyType = data.currencyType;
       result.balance = data.balance;
       result.giftId = data.giftId;

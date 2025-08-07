@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
 import 'dart:io';
@@ -101,7 +102,7 @@ class AudioManager {
     // Verify recorded file exists
     File src = File(audioPath);
     if (!src.existsSync()) {
-      EasyLoading.showToast('Failed to record audio, please try again');
+      EasyLoading.showToast(Copywriting.security_failed_to_record_audio__please_try_again);
       return null;
     }
 

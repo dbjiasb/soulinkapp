@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -23,7 +24,7 @@ class ChatSystemCell extends ChatCell {
               alignment: Alignment.center,
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(borderRadius: BorderRadius.circular(22), color: Color(0xFF000000).withValues(alpha: 0.2)),
-              child: Text('Notice: Everything AI says is made up', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: AppFonts.medium)),
+              child: Text(Copywriting.security_notice__Everything_AI_says_is_made_up, style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: AppFonts.medium)),
             ),
           ],
         ),

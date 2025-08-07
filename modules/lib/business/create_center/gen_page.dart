@@ -10,6 +10,7 @@ import 'package:get/get.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 import 'package:modules/core/account/account_service.dart';
@@ -48,13 +49,13 @@ class GenPage extends StatelessWidget {
               ),
             ],
           ),
-          const Center(
+          Center(
             child: Wrap(
               children: [
                 Column(
                   children: [
                     SizedBox(height: 200, width: 200, child: SVGASimpleImage(assetsName: ImagePath.gen_ing)),
-                    Text('Generating...', style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: Color(0xFFFFFFFF))),
+                    Text(Copywriting.security_generating___, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: Color(0xFFFFFFFF))),
                   ],
                 ),
               ],
@@ -102,7 +103,7 @@ class GenPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            _logic.isEditPage ? 'Modify Now' : 'Create Now',
+                            _logic.isEditPage ? Copywriting.security_modify_Now : Copywriting.security_create_Now,
                             style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16),
                           ),
                         ],
@@ -121,7 +122,8 @@ class GenPage extends StatelessWidget {
   void showStopDialog() {
     showConfirmAlert(
       Security.security_Tips,
-      'The character creation is still ongoing. Leaving at this moment will forfeit the progress made so far. Are you sure you want to go back?',
+      Copywriting
+          .security_the_character_creation_is_still_ongoing__Leaving_at_this_moment_will_forfeit_the_progress_made_so_far__Are_you_sure_you_want_to_go_back_,
       confirmText: Security.security_Confirm,
       cancelText: Security.security_Cancel,
       onConfirm: () {
@@ -133,8 +135,9 @@ class GenPage extends StatelessWidget {
 
   void startRegeneration() {
     showConfirmAlert(
-      'Regeneration Tips',
-      'Following the regeneration process, you’ll receive a brand-new image. You are also welcome to revisit the images you created earlier. Are you ready to move forward?',
+      Copywriting.security_regeneration_Tips,
+      Copywriting
+          .security_following_the_regeneration_process__you_ll_receive_a_brand_new_image__You_are_also_welcome_to_revisit_the_images_you_created_earlier__Are_you_ready_to_move_forward_,
       confirmText: Security.security_Yes,
       cancelText: Security.security_Cancel,
       onConfirm: () {
@@ -363,7 +366,7 @@ class GenOcController extends GetxController {
         );
       }
     } else {
-      EasyLoading.showToast('Avatar upload failed, please try again later.');
+      EasyLoading.showToast(Copywriting.security_avatar_upload_failed__please_try_again_later_);
     }
     EasyLoading.dismiss();
   }

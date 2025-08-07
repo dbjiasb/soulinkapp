@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -128,7 +129,7 @@ class ChatSessionsView extends StatelessWidget {
                   return ChatSessionCell(viewController.sessions[index]);
                 },
               )
-              : ListStatusView(status: viewController.status.value,description: 'No chat partner has been initiated yet',),
+              : ListStatusView(status: viewController.status.value,description: Copywriting.security_no_chat_partner_has_been_initiated_yet,),
     );
   }
 
