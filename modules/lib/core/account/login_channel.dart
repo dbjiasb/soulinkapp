@@ -73,7 +73,7 @@ class LoginChannelView extends StatelessWidget {
       text: TextSpan(
         style: normalStyle,
         children: [
-          const TextSpan(text: Copywriting.security_if_you_sign_in__you_agree_to),
+          TextSpan(text: Copywriting.security_if_you_sign_in__you_agree_to),
           TextSpan(
             text: Copywriting.security_privacy_Policy,
             style: linkStyle,

@@ -185,7 +185,7 @@ class CreateAccountView extends StatelessWidget {
       text: TextSpan(
         style: const TextStyle(color: Color(0xFF90929D), fontSize: 12, fontWeight: FontWeight.w500),
         children: [
-          const TextSpan(text: Copywriting.security_if_you_sign_in__you_agree_to),
+          TextSpan(text: Copywriting.security_if_you_sign_in__you_agree_to),
           TextSpan(
             text: Copywriting.security_privacy_Policy,
             style: linkStyle,
