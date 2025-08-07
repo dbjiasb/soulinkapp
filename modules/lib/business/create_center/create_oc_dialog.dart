@@ -100,7 +100,7 @@ class CreateOcDialog extends StatelessWidget {
                   maxLines: 2,
                   text: TextSpan(
                     children: [
-                      TextSpan(text: 'Prior to the creation process, please review our ', style: hintTextStyle),
+                      TextSpan(text: Copywriting.security_prior_to_the_creation_process__please_review_our, style: hintTextStyle),
                       TextSpan(
                         text: Copywriting.security_copyright_Agreement,
                         style: TextStyle(

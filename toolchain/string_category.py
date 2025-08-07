@@ -51,7 +51,7 @@ def extract_dart_strings():
 
             if matches:
                 for _, (quote, text) in enumerate(matches, 1):  # 移除文件头打印
-                    stripped = text.strip()
+                    stripped = text.rstrip('\n')
                     if len(stripped) > 1 \
                        and not stripped.isspace() \
                        and not (text.lstrip().startswith(('package:', 'import')) or
@@ -87,7 +87,7 @@ def extract_dart_strings():
             if s.startswith("packages") or s.lower().endswith(('.png', '.webp')):
                 # 修改后直接存储原始字符串
                 category_map['assets'].add(s)
-            elif (s[0].isupper() and (' ' in s or s.endswith('...'))):
+            elif s[0].isupper() and (' ' in s or s.endswith('...')):
                 category_map['copywriting'].add(s)
             elif '://' in s:
                 category_map['links'].add(s)

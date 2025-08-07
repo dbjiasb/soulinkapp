@@ -40,10 +40,8 @@ class AdvanceCore extends StatelessWidget {
                 ),
                 _buildTextFieldTemplate(
                   EncHelper.cr_img_prp,
-                  'Supply detailed information about the image, such as the clothing worn, facial features, and actions. '
-                  'For example, "On the moonlit balcony of a neo - Victorian mansion, an ethereal woman with bright blue hime - cut hair '
-                  'leans against the railing. Her khaki backless sweater flutters gently in the breeze as she turns to look at the viewer '
-                  'with an otherworldly serenity."',
+                  Copywriting
+                      .security_supply_detailed_information_about_the_image__such_as_the_clothing_worn__facial_features__and_actions__For_example___On_the_moonlit_balcony_of_a_neo___Victorian_mansion__an_ethereal_woman_with_bright_blue_hime___cut_hair_leans_against_the_railing__Her_khaki_backless_sweater_flutters_gently_in_the_breeze_as_she_turns_to_look_at_the_viewer_with_an_otherworldly_serenity__,
                   300,
                   imagePromptsFormatter,
                   _logic.onInputImagePrompts,

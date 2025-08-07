@@ -138,7 +138,7 @@ class AccountView extends StatelessWidget {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                              text: 'Expires on ',
+                              text: Copywriting.security_expires_on,
                               style: TextStyle(color: const Color(0xFFFFFFFF).withOpacity(0.6), fontSize: 14, fontWeight: FontWeight.w600),
                             ),
                             TextSpan(

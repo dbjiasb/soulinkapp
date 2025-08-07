@@ -131,7 +131,7 @@ class Dic {
   static String get cr_ownern => Security.security_masterName; //masterName
   static String get cr_imgpm => Security.security_imagePrompts; //imagePrompts
   static String get cr_bio => Security.security_introduction; //introduction
-  static String get cr_caa => 'Click to add '; //Click to add
+  static String get cr_caa => Copywriting.security_click_to_add; //Click to add
   static String get cr_cusri => Security.security_customRoleInfo; //customRoleInfo
   static String get cr_posinf => Security.security_positionInfo; //positionInfo
   static String get cr_defval2 => Security.security_defaultValueV2; //defaultValueV2
@@ -189,7 +189,7 @@ class Dic {
   static String get rcg_btnRcg => Security.security_Recharge; // Recharge
   static String get rcg_btnSubs => Security.security_Subscribe; // Subscribe
   static String get rcg_fuAces => Copywriting.security_get_full_access_; // Get full access!
-  static String get rcg_expOn => 'Expires on '; // Expires on
+  static String get rcg_expOn => Copywriting.security_expires_on; // Expires on
   static String get rcg_err => Security.security_error; // error
   static String get rcg_prc => Security.security_price; // price
   static String get rcg_rcg => Security.security_Recharge; // Recharge
