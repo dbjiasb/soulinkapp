@@ -6,7 +6,7 @@ import json
 
 # 白名单配置（新增）
 REPLACE_CONFIG = {
-    'variables': {
+    'security': {
         'pattern': r"(['\"])({})\1",
         'replacement': 'Security.security_{}',
         'import': 'security'
@@ -15,8 +15,20 @@ REPLACE_CONFIG = {
         'pattern': r"(ApiRequest\()\s*['\"]({})['\"]\s*(?=,|\s*\))",
         'replacement': r'\1Apis.security_{}',
         'import': 'apis'
+    },
+    'copywriting': {
+        'pattern': r"(['\"])({})\1",
+        'replacement': 'Copywriting.security_{}',
+        'import': 'copywriting'
     }
 }
+
+def clean_string(s: str) -> str:
+    cleaned = re.sub(r'[^a-zA-Z0-9_]', '_', s.strip())
+    cleaned = re.sub(r'^\d+', '', cleaned)
+    if not cleaned:
+        return ''
+    return cleaned[0].lower() + cleaned[1:]
 
 def replace_security_strings(enable_backup=False):
     script_dir = Path(__file__).parent
@@ -40,15 +52,16 @@ def replace_security_strings(enable_backup=False):
     patterns = []
     import_statements = set()
 
-    for key in ['variables']:  # 白名单控制
+    for key in ['security', 'apis', 'copywriting']:  # 白名单控制
         config = REPLACE_CONFIG[key]
         items = data[key]['items']
 
+        # cleaned_items = [clean_string(s) for s in items if clean_string(s)]
         # 生成对应规则
         for s in sorted(items, key=lambda x: -len(x)):
             patterns.append((
                 re.compile(config['pattern'].format(re.escape(s))),
-                config['replacement'].format(s)
+                config['replacement'].format(clean_string(s))
             ))
         import_statements.add(f"import 'package:modules/base/crypt/{config['import']}.dart';")
 
@@ -57,7 +70,7 @@ def replace_security_strings(enable_backup=False):
     total_replacements = 0
     
     # 需要排除的文件列表
-    excluded_files = {'security.dart'}
+    excluded_files = {'security.dart', 'apis.dart', 'copywriting.dart'}
     
     # 遍历所有Dart文件
     for dart_file in project_dir.rglob('*.dart'):

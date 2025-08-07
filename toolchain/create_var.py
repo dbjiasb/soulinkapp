@@ -4,6 +4,7 @@ from pathlib import Path
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 import argparse
+import json
 
 # 修正为32字节的密钥（数下面这行字符正好32个）
 KEY = b'32bytes-long-secret-key-12345678'  # 32字符（32字节）
@@ -31,7 +32,7 @@ def generate_security_constants(prefix='security'):
         import json
         with open(input_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
-            variables_data = data.get('variables', {}).get('items', [])
+            variables_data = data.get('security', {}).get('items', [])
             
             # 获取variables分类的字符串列表
             lines = [item for item in variables_data]
@@ -43,10 +44,11 @@ def generate_security_constants(prefix='security'):
         return
 
     # 白名单配置（新增）
-    allowed_keys = ['variables', 'apis']
+    allowed_keys = ['security', 'apis', 'copywriting']
     target_classes = {
-        'variables': ('Security', 'security'),  # (类名, 文件名)
-        'apis': ('Apis', 'apis')
+        'security': ('Security', 'security'),  # (类名, 文件名)
+        'apis': ('Apis', 'apis'),
+        'copywriting': ('Copywriting', 'copywriting')
     }
 
     # 处理白名单中的每个分类（修改）
@@ -55,12 +57,18 @@ def generate_security_constants(prefix='security'):
         valid_vars = []
         seen = set()
         
-        # 保留变量名校验逻辑
-        for var in category_data:
-            cleaned = var.strip()
+        # 修改后的循环逻辑
+        for original_var in category_data:
+            # 字符替换处理
+            cleaned = re.sub(r'[^a-zA-Z0-9_]', '_', original_var.strip())
+            cleaned = re.sub(r'^\d+', '', cleaned)
+            if not cleaned:
+                continue
+            cleaned = cleaned[0].lower() + cleaned[1:]
+            
             if re.match(r'^[a-zA-Z_][a-zA-Z0-9_]*$', cleaned) and cleaned not in seen:
                 seen.add(cleaned)
-                valid_vars.append((cleaned, encrypt_string(cleaned)))
+                valid_vars.append((cleaned, encrypt_string(original_var), original_var))  # 存储原始值
 
         if not valid_vars:
             continue
@@ -68,7 +76,13 @@ def generate_security_constants(prefix='security'):
         # 动态生成文件路径（修改）
         output_file = target_dir / f'{target_classes[category][1]}.dart'
         class_name = target_classes[category][0]
-        
+        # Initialize header content for new files
+        header_content = [
+            "import 'decrypt.dart';",
+            "",
+            f"abstract final class {class_name} {{\n"
+            f"  {class_name}._();"
+        ]
         # 文件存在处理逻辑（保持原有逻辑）
         existing_vars = set()
         if output_file.exists():
@@ -86,21 +100,25 @@ def generate_security_constants(prefix='security'):
             if closing_brace_index is not None:
                 header_content = existing_content[:closing_brace_index]
             else:
-                header_content = existing_content
                 print("警告：未找到闭合的右括号，可能导致生成的文件格式错误")
             
             # 解析现有变量
             existing_vars = set(re.findall(r'static late final String (\w+) = decrypt', '\n'.join(existing_content)))  # 修改正则表达式
             
             # 新增过滤逻辑
-            valid_vars = [(var, encrypted) for var, encrypted in valid_vars if f'{prefix}_{var}' not in existing_vars]
+            # 修改后的过滤逻辑
+            valid_vars = [
+                (v, e, o) 
+                for v, e, o in valid_vars 
+                if f'{prefix}_{v}' not in existing_vars
+            ]
         else:
             valid_vars = valid_vars  # 新文件无需过滤
 
         # 移除生成new_vars时的重复过滤条件
         new_vars = [
-            f'  static late final String {prefix}_{var} = decrypt(\'{encrypted}\');'
-            for var, encrypted in valid_vars  # 直接使用已过滤的valid_vars
+            f'  static late final String {prefix}_{v} = decrypt(\'{e}\'); // {o}'
+            for v, e, o in valid_vars
         ]
         # 写入文件（保持原有逻辑）
         dart_code = header_content + new_vars + ['}']

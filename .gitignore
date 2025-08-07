@@ -14,3 +14,4 @@ toolchain/scan_result_other.txt
 toolchain/scan_result_product_text.txt
 toolchain/scan_result_route.txt
 toolchain/scan_result_var.txt
+scan_result.json

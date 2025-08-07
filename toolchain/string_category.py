@@ -4,9 +4,7 @@ from pathlib import Path
 import argparse
 
 def extract_dart_strings():
-    # 原路径（已失效）
-    # root_dir = Path("pods/modules")
-    
+
     # 新路径配置
     root_dir = Path(__file__).parent.parent / "modules"
     
@@ -14,21 +12,13 @@ def extract_dart_strings():
     if not root_dir.exists():
         raise FileNotFoundError(f"Modules目录未找到: {root_dir}")
     unique_strings = set()
-    excluded_files = {"security.dart"}
+    excluded_files = {"security.dart", "apis.dart", "copywriting.dart"}
     
     # 优化后的正则表达式（移除三引号匹配，简化匹配逻辑）
     string_pattern = re.compile(
         r'''r?(["'])((?:\\\1|.)*?)\1''',
         re.DOTALL
     )
-    
-    # 新增三个文件句柄（移动到过滤条件之后）
-    output_dir = Path(__file__).parent
-    
-    # 修改所有文件打开语句
-    # asset_file = open(output_dir/'scan_result_assets.txt', 'w', encoding='utf-8')
-    # text_file = open(output_dir/'scan_result_product_text.txt', 'w', encoding='utf-8')
-    # code_file = open(output_dir/'scan_result_other.txt', 'w', encoding='utf-8')
     
     # 新增API请求正则表达式
     api_request_pattern = re.compile(
@@ -65,7 +55,7 @@ def extract_dart_strings():
                     if len(stripped) > 1 \
                        and not stripped.isspace() \
                        and not (text.lstrip().startswith(('package:', 'import')) or
-                               stripped.startswith(('../'))) \
+                               stripped.startswith('../')) \
                        and not ('$' in stripped) \
                        and not (stripped.startswith('dart') or
                                stripped.endswith('.dart')):
@@ -74,34 +64,20 @@ def extract_dart_strings():
     # 删除原有的文件初始化操作
     category_map = {
         'assets': set(),
-        'product_text': set(),
+        'copywriting': set(),
         'links': set(),
         'routes': set(),
         'apis': set(),
-        'variables': set(),
+        'security': set(),
         'other': set()
     }
 
     # 在最终分类部分添加变量名正则匹配
     dart_var_pattern = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')  # 新增变量名匹配规则
-
-    # 在最终分类部分修改条件判断
-    # with open(output_dir/'scan_result_assets.txt', 'w', encoding='utf-8') as asset_file, \
-    #      open(output_dir/'scan_result_product_text.txt', 'w', encoding='utf-8') as text_file, \
-    #      open(output_dir/'scan_result_link.txt', 'w', encoding='utf-8') as link_file, \
-    #      open(output_dir/'scan_result_route.txt', 'w', encoding='utf-8') as route_file, \
-    #      open(output_dir/'scan_result_api.txt', 'w', encoding='utf-8') as api_file, \
-    #      open(output_dir/'scan_result_var.txt', 'w', encoding='utf-8') as var_file, \
-    #      open(output_dir/'scan_result_other.txt', 'w', encoding='utf-8') as code_file:
-
-        # 收集所有API字符串
+    # 收集所有API字符串
     api_strings = {s for quote, s in unique_strings if quote == ''}
-        
-        # 写入API文件
-        # for s in sorted(api_strings):
-        #     api_file.write(f"'{s}'\n")
-        
-        # 处理其他字符串（排除API字符串）
+
+    # 处理其他字符串（排除API字符串）
     for quote, s in sorted(unique_strings):
             if quote == '':
                 continue
@@ -111,15 +87,15 @@ def extract_dart_strings():
             if s.startswith("packages") or s.lower().endswith(('.png', '.webp')):
                 # 修改后直接存储原始字符串
                 category_map['assets'].add(s)
-            elif ' ' in s or s.endswith('...'):
-                category_map['product_text'].add(s)
+            elif (s[0].isupper() and (' ' in s or s.endswith('...'))):
+                category_map['copywriting'].add(s)
             elif '://' in s:
                 category_map['links'].add(s)
             elif s.startswith('/'):
                 category_map['routes'].add(s)
             else:
                 if dart_var_pattern.match(s):
-                    category_map['variables'].add(s)
+                    category_map['security'].add(s)
                 else:
                     category_map['other'].add(s)
 
