@@ -20,7 +20,12 @@ REPLACE_CONFIG = {
         'pattern': r"(['\"])({})\1",
         'replacement': 'Copywriting.security_{}',
         'import': 'copywriting'
-    }
+    },
+    'routes': {
+        'pattern': r"(['\"])({})\1",
+        'replacement': 'Routes.security_{}',
+        'import': 'routes'
+    },
 }
 
 def clean_string(s: str) -> str:
@@ -52,7 +57,7 @@ def replace_security_strings(enable_backup=False):
     patterns = []
     import_statements = set()
 
-    for key in ['security', 'apis', 'copywriting']:  # 白名单控制
+    for key in ['security', 'apis', 'copywriting', 'routes']:  # 白名单控制
         config = REPLACE_CONFIG[key]
         items = data[key]['items']
 
@@ -70,7 +75,7 @@ def replace_security_strings(enable_backup=False):
     total_replacements = 0
     
     # 需要排除的文件列表
-    excluded_files = {'security.dart', 'apis.dart', 'copywriting.dart'}
+    excluded_files = {'security.dart', 'apis.dart', 'copywriting.dart', 'routes.dart'}
     
     # 遍历所有Dart文件
     for dart_file in project_dir.rglob('*.dart'):
