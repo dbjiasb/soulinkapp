@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
@@ -31,7 +32,7 @@ class ApiResponse {
       apiResponse.data = decoder.convert(string);
       apiResponse.description = apiResponse.data[Constants.statusData]?[Security.security_msg] ?? '';
     } catch (e) {
-      apiResponse.description = 'Network error, please try again later';
+      apiResponse.description = Copywriting.security_network_error__please_try_again_later;
       debugPrint('ApiResponse withData error: $e');
     }
     return apiResponse;

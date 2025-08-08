@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'package:modules/base/crypt/security.dart';
 
 import 'package:modules/base/api_service/api_request.dart';
@@ -17,7 +18,7 @@ class PersonManager {
   }
 
   Future<bool> followUser(int userId,int todo) async{
-    final req = ApiRequest('star',params: {Security.security_otherUid:userId,Security.security_action:todo});
+    final req = ApiRequest(Apis.security_star,params: {Security.security_otherUid:userId,Security.security_action:todo});
     final rsp = await ApiService.instance.sendRequest(req);
     if(rsp.isSuccess){
       return true;

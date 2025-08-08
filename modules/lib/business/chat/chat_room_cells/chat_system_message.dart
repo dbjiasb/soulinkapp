@@ -1,7 +1,8 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import './chat_message.dart';
 
 class ChatSystemMessage extends ChatMessage {
-  String content = 'Notice: Everything AI says is made up';
+  String content = Copywriting.security_notice__Everything_AI_says_is_made_up;
   // ChatSystemMessage({
   //   required super.id,
   //   required super.senderId,

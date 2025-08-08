@@ -1,3 +1,5 @@
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/apis.dart';
 import 'dart:async';
 import 'dart:io';
 
@@ -31,7 +33,7 @@ class PurchaseManager {
     _initialized = true;
 
     if (!(await iap.isAvailable())) {
-      EasyLoading.showToast('Current device not support, try restart app.');
+      EasyLoading.showToast(Copywriting.security_current_device_not_support__try_restart_app_);
       return;
     }
 
@@ -80,8 +82,7 @@ class PurchaseManager {
   }
 
   Future<bool> checkPurchasedToken(String pid, String receipt, String cacheKey) async {
-    final req = ApiRequest(
-      'fullConfirmPurchase',
+    final req = ApiRequest(Apis.security_fullConfirmPurchase,
       params: {
         Security.security_receipt: receipt,
         Security.security_id: pid,
@@ -95,7 +96,7 @@ class PurchaseManager {
 
     if (rsp.statusCode == 200 && (rsp.bsnsCode == 0 || rsp.bsnsCode == 2010)) {
       AccountService.instance.refreshBalance();
-      EasyLoading.showToast('Purchased Success');
+      EasyLoading.showToast(Copywriting.security_purchased_Success);
       if (cachedReceipts.containsKey(cacheKey)) {
         cachedReceipts.remove(cacheKey);
         Preferences.instance.setMap(kCachedExceptionOrderKey, cachedReceipts);
@@ -151,7 +152,7 @@ class PurchaseManager {
       return;
     }
 
-    EasyLoading.show(status: 'Purchasing...');
+    EasyLoading.show(status: Copywriting.security_purchasing___);
 
     final PurchaseParam purchaseParam = PurchaseParam(productDetails: product, applicationUserName: MyAccount.id);
     iap.buyConsumable(purchaseParam: purchaseParam);

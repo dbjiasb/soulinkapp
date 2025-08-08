@@ -4,6 +4,7 @@ from pathlib import Path
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad
 import argparse
+import json
 
 # 修正为32字节的密钥（数下面这行字符正好32个）
 KEY = b'32bytes-long-secret-key-12345678'  # 32字符（32字节）
@@ -18,85 +19,111 @@ def encrypt_string(plaintext: str) -> str:
 
 def generate_security_constants(prefix='security'):
     script_dir = Path(__file__).parent
-    input_file = script_dir / 'scan_result_var.txt'
+    # 新增目标目录定义
+    target_dir = script_dir.parent / 'modules/lib/base/crypt'
+    target_dir.mkdir(parents=True, exist_ok=True)
+    input_file = script_dir / 'scan_result.json'
     
     if not input_file.exists():
         print(f"错误：未找到输入文件 {input_file.absolute()}")
         return
 
-    content = input_file.read_text(encoding='utf-8')
-    lines = [line.strip("'\" \n") for line in content.splitlines() if line.strip()]
-    
-    var_pattern = re.compile(r'^[a-zA-Z_][a-zA-Z0-9_]*$')
-    seen = set()
-    valid_vars = []
-    
-    for var in lines:
-        cleaned = var.strip("'\" \n")
-        if var_pattern.match(cleaned) and cleaned not in seen:
-            seen.add(cleaned)
-            valid_vars.append((cleaned, encrypt_string(cleaned)))
-
-    if not valid_vars:
-        print("警告：输入文件中没有有效的变量名")
+    try:
+        import json
+        with open(input_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+            variables_data = data.get('security', {}).get('items', [])
+            
+            # 获取variables分类的字符串列表
+            lines = [item for item in variables_data]
+    except json.JSONDecodeError:
+        print(f"错误：{input_file} 不是有效的JSON文件")
+        return
+    except Exception as e:
+        print(f"读取JSON文件失败: {str(e)}")
         return
 
-    # 新增文件存在检查与解析逻辑
-    target_dir = script_dir.parent / 'modules' / 'lib' / 'base' / 'crypt'
-    target_dir.mkdir(parents=True, exist_ok=True)
-    output_file = target_dir / 'security.dart'
-    
-    existing_vars = set()
-    if output_file.exists():
-        # 读取现有内容并找到最后一个右括号
-        existing_content = output_file.read_text(encoding='utf-8').splitlines()
-        # 查找最后一个右括号的行
-        closing_brace_index = None
-        for i in reversed(range(len(existing_content))):
-            line = existing_content[i]
-            stripped = line.strip()
-            if stripped == '}':
-                closing_brace_index = i
-                break
-        # 确定header_content
-        if closing_brace_index is not None:
-            header_content = existing_content[:closing_brace_index]
-        else:
-            header_content = existing_content
-            print("警告：未找到闭合的右括号，可能导致生成的文件格式错误")
+    # 白名单配置（新增）
+    allowed_keys = ['security', 'apis', 'copywriting']
+    target_classes = {
+        'security': ('Security', 'security'),  # (类名, 文件名)
+        'apis': ('Apis', 'apis'),
+        'copywriting': ('Copywriting', 'copywriting')
+    }
+
+    # 处理白名单中的每个分类（修改）
+    for category in allowed_keys:
+        category_data = data.get(category, {}).get('items', [])
+        valid_vars = []
+        seen = set()
         
-        # 解析现有变量
-        existing_vars = set(re.findall(r'static late final String (\w+) = _decrypt', '\n'.join(existing_content)))
-    else:
-        # 创建新文件的头部内容
+        # 修改后的循环逻辑
+        for original_var in category_data:
+            # 字符替换处理
+            cleaned = re.sub(r'[^a-zA-Z0-9_]', '_', original_var.strip())
+            cleaned = re.sub(r'^\d+', '', cleaned)
+            if not cleaned:
+                continue
+            cleaned = cleaned[0].lower() + cleaned[1:]
+            
+            if re.match(r'^[a-zA-Z_][a-zA-Z0-9_]*$', cleaned) and cleaned not in seen:
+                seen.add(cleaned)
+                valid_vars.append((cleaned, encrypt_string(original_var), original_var))  # 存储原始值
+
+        if not valid_vars:
+            continue
+
+        # 动态生成文件路径（修改）
+        output_file = target_dir / f'{target_classes[category][1]}.dart'
+        class_name = target_classes[category][0]
+        # Initialize header content for new files
         header_content = [
-            'import \'package:encrypt/encrypt.dart\';',
-            '/// 安全相关字符串常量（运行时解密）',
-            'abstract final class Security {',
-            '  Security._();',
-            f'  static final _aesKey = Key.fromUtf8(\'{KEY.decode()}\');',
-            f'  static final _iv = IV.fromUtf8(\'{IV.decode()}\');',
-            '  static String _decrypt(String encrypted) {',
-            '    final cipher = AES(_aesKey, mode: AESMode.cbc);',
-            '    final encrypter = Encrypter(cipher);',
-            '    return encrypter.decrypt64(encrypted, iv: _iv);',
-            '  }'
+            "import 'decrypt.dart';",
+            "",
+            f"abstract final class {class_name} {{\n"
+            f"  {class_name}._();"
         ]
+        # 文件存在处理逻辑（保持原有逻辑）
+        existing_vars = set()
+        if output_file.exists():
+            # 读取现有内容并找到最后一个右括号
+            existing_content = output_file.read_text(encoding='utf-8').splitlines()
+            # 查找最后一个右括号的行
+            closing_brace_index = None
+            for i in reversed(range(len(existing_content))):
+                line = existing_content[i]
+                stripped = line.strip()
+                if stripped == '}':
+                    closing_brace_index = i
+                    break
+            # 确定header_content
+            if closing_brace_index is not None:
+                header_content = existing_content[:closing_brace_index]
+            else:
+                print("警告：未找到闭合的右括号，可能导致生成的文件格式错误")
+            
+            # 解析现有变量
+            existing_vars = set(re.findall(r'static late final String (\w+) = decrypt', '\n'.join(existing_content)))  # 修改正则表达式
+            
+            # 新增过滤逻辑
+            # 修改后的过滤逻辑
+            valid_vars = [
+                (v, e, o) 
+                for v, e, o in valid_vars 
+                if f'{prefix}_{v}' not in existing_vars
+            ]
+        else:
+            valid_vars = valid_vars  # 新文件无需过滤
 
-    # 生成新变量（过滤已存在的）
-    new_vars = [
-        f'  static late final String {prefix}_{var} = _decrypt(\'{encrypted}\');'
-        for var, encrypted in valid_vars
-        if f'{prefix}_{var}' not in existing_vars
-    ]
-
-    # 合并内容并添加闭合括号
-    dart_code = header_content + new_vars + ['}']
-    output_file.write_text('\n'.join(dart_code), encoding='utf-8')
-    print(f"生成成功：{output_file.absolute()}")
-    print("请执行以下操作：")
-    print("1. 在pubspec.yaml添加依赖：encrypt: ^5.0.1")
-    print("2. 安装加密库：flutter pub get")
+        # 移除生成new_vars时的重复过滤条件
+        new_vars = [
+            f'  static late final String {prefix}_{v} = decrypt(\'{e}\'); // {o}'
+            for v, e, o in valid_vars
+        ]
+        # 写入文件（保持原有逻辑）
+        dart_code = header_content + new_vars + ['}']
+        output_file.write_text('\n'.join(dart_code), encoding='utf-8')
+        print(f"生成成功：{output_file.absolute()}")
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

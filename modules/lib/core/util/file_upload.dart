@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
@@ -100,8 +101,7 @@ class FilePushService {
   }
 
   Future<Map<String, dynamic>> getConfig(int bsnsType, {String ext = ''}) async {
-    ApiRequest req = ApiRequest(
-      'obtainCosConfig',
+    ApiRequest req = ApiRequest(Apis.security_obtainCosConfig,
       params: {Security.security_scene: bsnsType, Security.security_filename: ext.isEmpty ? '' : '${bsnsType}_${DateTime.now().microsecondsSinceEpoch}.$ext'},
     );
 

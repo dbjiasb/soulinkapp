@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
@@ -210,7 +211,7 @@ class ChatManager {
 
   //发送消息
   Future<SendMessageResponse> sendMessage(ChatMessage message) async {
-    ApiRequest request = ApiRequest('sendChatMsg', params: {Security.security_msg: message.toServer()});
+    ApiRequest request = ApiRequest(Apis.security_sendChatMsg, params: {Security.security_msg: message.toServer()});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
       ChatMessage newMessage = ChatMessage.fromServer(response.data[Security.security_msg]);
@@ -251,7 +252,7 @@ class ChatManager {
 
     isQueryingMessages = true;
     debugPrint('[${DateTime.now()}] [ChatManager] [PullTag] getHistoryMessages: $lastPullTag ');
-    ApiRequest request = ApiRequest('syncChatHistory', params: {Security.security_position: lastPullTag});
+    ApiRequest request = ApiRequest(Apis.security_syncChatHistory, params: {Security.security_position: lastPullTag});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
       await handleApiResponse(response);
@@ -363,8 +364,7 @@ class ChatManager {
 
   void sayHelloIfNeeded(ChatSession session) async {
     //发送消息
-    ApiRequest request = ApiRequest(
-      'sayHello',
+    ApiRequest request = ApiRequest(Apis.security_sayHello,
       params: {
         Security.security_userId: int.tryParse(session.id),
         Security.security_toGroup: [0],
@@ -388,12 +388,12 @@ class ChatManager {
     if (MyAccount.isWkPrem && MyAccount.freeAdoLeftTimes > 0 || MyAccount.isMthPrem || MyAccount.isYrPrem) {
       usePrem = 1;
     }
-    ApiRequest request = ApiRequest('deblockingMessage', params: {Security.security_mid: message.uuid, Security.security_usePrem: usePrem});
+    ApiRequest request = ApiRequest(Apis.security_deblockingMessage, params: {Security.security_mid: message.uuid, Security.security_usePrem: usePrem});
     return await ApiService.instance.sendRequest(request);
   }
 
   Future<ApiResponse> reloadMessage(ChatMessage message) async {
-    ApiRequest request = ApiRequest('replaceMsg', params: {Security.security_uuid: message.uuid, Security.security_action: 1});
+    ApiRequest request = ApiRequest(Apis.security_replaceMsg, params: {Security.security_uuid: message.uuid, Security.security_action: 1});
     return await ApiService.instance.sendRequest(request);
   }
 }

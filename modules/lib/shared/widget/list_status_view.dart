@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:flutter/material.dart';
 import 'package:modules/base/assets/image_path.dart';
 
@@ -8,15 +9,33 @@ class ListStatusView extends StatelessWidget {
   String? emptyDesc;
   String? errorDesc;
 
-  ListStatusView({super.key, required this.status,this.emptyDesc,this.errorDesc});
+  ListStatusView({
+    super.key,
+    required this.status,
+    this.emptyDesc,
+    this.errorDesc,
+  });
 
   Widget buildEmptyView() {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+          // <<<<<<< HEAD
           Image.asset(ImagePath.empty_list, width: 156, height: 156),
-          Text(emptyDesc ?? 'No data', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
+          // Text(emptyDesc ?? 'No data', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
+          // =======
+          // Image.asset(ImagePath.list_status_empty, width: 156, height: 156),
+          Text(
+            emptyDesc ?? Copywriting.security_no_data,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF9EA1A8),
+            ),
+          ),
+          // Text(description ?? Copywriting.security_no_data, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
+          // >>>>>>> feature/feature_1.0.0
         ],
       ),
     );
@@ -29,8 +48,18 @@ class ListStatusView extends StatelessWidget {
         children: [
           Image.asset(ImagePath.empty_list, width: 156, height: 156),
           Text(
-            errorDesc ?? 'Network exception, please try again later',
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8)),
+            // <<<<<<< HEAD
+            //             errorDesc ?? 'Network exception, please try again later',
+            errorDesc ??
+                Copywriting.security_network_exception__please_try_again_later,
+            // =======
+            //             description ?? Copywriting.security_network_exception__please_try_again_later,
+            // >>>>>>> feature/feature_1.0.0
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF9EA1A8),
+            ),
           ),
         ],
       ),

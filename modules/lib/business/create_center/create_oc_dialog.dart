@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,7 @@ class CreateOcDialog extends StatelessWidget {
   }
 
   void _showCopyrightAgreement() {
-    Get.to(WebView(),arguments: {Security.security_title:'Copyright Agreement',Security.security_url:'https://cdn.luminaai.buzz/h5/protocol/oc_copyright.html'});
+    Get.to(WebView(),arguments: {Security.security_title:Copywriting.security_copyright_Agreement,Security.security_url:'https://cdn.luminaai.buzz/h5/protocol/oc_copyright.html'});
   }
 
   Widget _buildHeaderSection() {
@@ -104,14 +105,14 @@ class CreateOcDialog extends StatelessWidget {
                   maxLines: 2,
                   text: TextSpan(
                     children: [
-                      TextSpan(text: 'Prior to the creation process, please review our ', style: hintTextStyle),
+                      TextSpan(text: Copywriting.security_prior_to_the_creation_process__please_review_our, style: hintTextStyle),
                       TextSpan(
-                        text: 'Copyright Agreement',
+                        text: Copywriting.security_copyright_Agreement,
                         style: TextStyle(
                           color: Color(0xFFB86AFF),
                           fontWeight: AppFonts.medium,
                           fontSize: 11,
-                          fontFamily: 'SF Pro',
+                          fontFamily: Copywriting.security_sF_Pro,
                           decoration: TextDecoration.underline,
                         ),
                         recognizer:
@@ -168,7 +169,7 @@ class CreateOcDialog extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: 2,
       children: [
-        RichText(text: TextSpan(text: 'Start create', style: btnTextStyle)),
+        RichText(text: TextSpan(text: Copywriting.security_start_create, style: btnTextStyle)),
         ...btnContent
       ],
     );
@@ -181,7 +182,7 @@ class CreateOcDialog extends StatelessWidget {
     //     children: [
     //       RichText(
     //         text: const TextSpan(
-    //           text: 'Start create',
+    //           text: Copywriting.security_start_create,
     //           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17, fontFamily: 'SF Pro Bold', color: Color(0xFFD1F254)),
     //         ),
     //       ),
@@ -199,7 +200,7 @@ class CreateOcDialog extends StatelessWidget {
     //     children: [
     //       RichText(
     //         text: const TextSpan(
-    //           text: 'Start create',
+    //           text: Copywriting.security_start_create,
     //           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17, fontFamily: 'SF Pro Bold', color: Color(0xFFD1F254)),
     //         ),
     //       ),
@@ -220,7 +221,7 @@ class CreateOcDialog extends StatelessWidget {
     //     children: [
     //       RichText(
     //         text: const TextSpan(
-    //           text: 'Start create',
+    //           text: Copywriting.security_start_create,
     //           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17, fontFamily: 'SF Pro Bold', color: Color(0xFFD1F254)),
     //         ),
     //       ),
@@ -249,7 +250,7 @@ class CreateAiDialogLogic extends GetxController {
       // 如果需要支付，则为创建角色
       // todo 处理会员权利
       if (!await createDraft()) {
-        preLoadError.value = 'Insufficient balance.';
+        preLoadError.value = Copywriting.security_insufficient_balance_;
         return false;
       }
       Get.put(OcDependency(null));

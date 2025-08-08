@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'dart:convert';
 import 'dart:ui';
 
@@ -29,18 +30,22 @@ class ChatVideoMessage extends ChatMessage {
     required super.nativeId,
   });
 
-  ChatVideoMessage.fromDatabase(Map<String, Object?> map) : super.fromLocalData(map);
+  ChatVideoMessage.fromDatabase(Map<String, Object?> map)
+    : super.fromLocalData(map);
 
   ChatVideoMessage.fromServer(Map map) : super.fromServerData(map) {}
 
   Map<String, dynamic>? _decodedMap;
+
   Map<String, dynamic> get decodedMap {
     _decodedMap ??= jsonDecode(info);
     return _decodedMap ?? {};
   }
 
   String get coverUrl => decodedMap[Security.security_coverUrl] ?? '';
+
   String get videoUrl => decodedMap[Security.security_url] ?? '';
+
   bool get prepared => decodedMap[Security.security_prepared] == 1;
 
   String get thumbnailBase64 {
@@ -48,12 +53,15 @@ class ChatVideoMessage extends ChatMessage {
   }
 
   bool get locked => lockInfo[Security.security_unlock] == 1;
+
   int get unlockPrice => lockInfo[Security.security_cost] ?? 0;
+
   int get currencyType => lockInfo[Security.security_costType] ?? 0;
 
   bool get canReload => locked && renewInfo[Security.security_reload] == 1;
 
   int get reloadPrice => renewInfo[Security.security_cost] ?? 0;
+
   int get reloadCurrencyType => renewInfo[Security.security_costType] ?? 0;
 }
 
@@ -61,16 +69,24 @@ class ChatVideoCell extends ChatCell {
   ChatVideoCell(super.message, {super.unlock});
 
   ChatVideoMessage get videoMessage => message as ChatVideoMessage;
+
   bool get isInChat => type == ChatCellType.chat;
+
   Widget renderPlayButton() {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routers.videoPlayer.name, arguments: {Security.security_videoUrl: videoMessage.videoUrl});
+        Get.toNamed(
+          Routers.videoPlayer.name,
+          arguments: {Security.security_videoUrl: videoMessage.videoUrl},
+        );
       },
       child: Center(
         child: Container(
           padding: EdgeInsets.all(isInChat ? 16 : 8),
-          decoration: BoxDecoration(color: Colors.black45, borderRadius: BorderRadius.circular(50)),
+          decoration: BoxDecoration(
+            color: Colors.black45,
+            borderRadius: BorderRadius.circular(50),
+          ),
           child: const Icon(Icons.play_arrow, color: Colors.white, size: 32),
         ),
       ),
@@ -87,7 +103,10 @@ class ChatVideoCell extends ChatCell {
             Stack(
               fit: StackFit.expand,
               children: [
-                CachedNetworkImage(imageUrl: videoMessage.coverUrl, fit: BoxFit.cover),
+                CachedNetworkImage(
+                  imageUrl: videoMessage.coverUrl,
+                  fit: BoxFit.cover,
+                ),
                 //生成一个播放按钮
                 renderPlayButton(),
               ],
@@ -104,7 +123,11 @@ class ChatVideoCell extends ChatCell {
       margin: const EdgeInsets.only(bottom: 8),
       child: Column(
         children: [
-          Row(children: [SizedBox(width: 172, height: 256, child: buildVideoView())]),
+          Row(
+            children: [
+              SizedBox(width: 172, height: 256, child: buildVideoView()),
+            ],
+          ),
           renderReloadViewIfNeeded(),
         ],
       ),
@@ -120,12 +143,18 @@ class ChatVideoCell extends ChatCell {
     return type == ChatCellType.chat ? buildChatCell() : buildVideoCell();
   }
 
-  static String kChatVideoUnlockPromptKey = Security.security_kChatVideoUnlockPromptKey;
+  static String kChatVideoUnlockPromptKey =
+      Security.security_kChatVideoUnlockPromptKey;
 
-  bool get prompted => Preferences.instance.getString(kChatVideoUnlockPromptKey) != null;
+  bool get prompted =>
+      Preferences.instance.getString(kChatVideoUnlockPromptKey) != null;
+
   set prompted(bool value) {
     if (value) {
-      Preferences.instance.setString(kChatVideoUnlockPromptKey, '$kChatVideoUnlockPromptKey:1');
+      Preferences.instance.setString(
+        kChatVideoUnlockPromptKey,
+        '$kChatVideoUnlockPromptKey:1',
+      );
     } else {
       Preferences.instance.remove(kChatVideoUnlockPromptKey);
     }
@@ -133,7 +162,9 @@ class ChatVideoCell extends ChatCell {
 
   void showUnlockDialogIfNeeded() {
     // 会员解锁
-    if (MyAccount.isWkPrem && MyAccount.freeVdoLeftTimes > 0 || MyAccount.isMthPrem || MyAccount.isYrPrem) {
+    if (MyAccount.isWkPrem && MyAccount.freeVdoLeftTimes > 0 ||
+        MyAccount.isMthPrem ||
+        MyAccount.isYrPrem) {
       unlock?.call(videoMessage);
       return;
     }
@@ -148,7 +179,7 @@ class ChatVideoCell extends ChatCell {
 
   void showUnlockDialog() {
     showConfirmAlert(
-      'Unlock Video',
+      Copywriting.security_unlock_Video,
       'Unlocking will cost ${videoMessage.unlockPrice} ${videoMessage.currencyType == 1 ? 'Gems' : 'Coins'}',
       onConfirm: () {
         prompted = true;
@@ -161,7 +192,9 @@ class ChatVideoCell extends ChatCell {
     //使Container根据自身内容自适应宽度
     if (!videoMessage.canReload) return SizedBox.shrink();
     String text =
-        videoMessage.reloadPrice == 0 ? Security.security_Free : '${videoMessage.reloadPrice} ${videoMessage.reloadCurrencyType == 1 ? 'Gems' : 'Coins'}';
+        videoMessage.reloadPrice == 0
+            ? Security.security_Free
+            : '${videoMessage.reloadPrice} ${videoMessage.reloadCurrencyType == 1 ? 'Gems' : 'Coins'}';
 
     return Row(
       children: [
@@ -174,14 +207,24 @@ class ChatVideoCell extends ChatCell {
             margin: EdgeInsets.only(top: 8),
             padding: EdgeInsets.symmetric(horizontal: 8),
             alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Color(0x33000000)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: Color(0x33000000),
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Image.asset(ImagePath.refresh, width: 12, height: 12),
                 SizedBox(width: 4),
-                Text(text, style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: AppFonts.medium)),
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: AppFonts.medium,
+                  ),
+                ),
               ],
             ),
           ),
@@ -196,41 +239,65 @@ class ChatVideoCell extends ChatCell {
       fit: StackFit.expand,
       children: [
         videoMessage.thumbnailBase64.isNotEmpty
-            ? Image.memory(base64Decode(videoMessage.thumbnailBase64), fit: BoxFit.cover)
-            : CachedNetworkImage(imageUrl: videoMessage.coverUrl, fit: BoxFit.cover),
+            ? Image.memory(
+              base64Decode(videoMessage.thumbnailBase64),
+              fit: BoxFit.cover,
+            )
+            : CachedNetworkImage(
+              imageUrl: videoMessage.coverUrl,
+              fit: BoxFit.cover,
+            ),
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 100.0),
           //显示imageMessage的thumbnailBase64
           child: Container(color: Colors.transparent),
         ),
         //如果图片已经准备好
-        if (videoMessage.prepared) renderUnlockMaskIfNeeded() else renderLoadingMask(),
+        if (videoMessage.prepared)
+          renderUnlockMaskIfNeeded()
+        else
+          renderLoadingMask(),
       ],
     );
   }
 
   Widget renderUnlockMaskIfNeeded() {
     return Container(
-      padding: EdgeInsets.only(top: isInChat ? 56 : 40, bottom: isInChat ? 20 : 10),
+      padding: EdgeInsets.only(
+        top: isInChat ? 56 : 40,
+        bottom: isInChat ? 20 : 10,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (isInChat) Image.asset(ImagePath.btm_video, width: 36, height: 36),
+              if (isInChat)
+                Image.asset(ImagePath.btm_video, width: 36, height: 36),
               SizedBox(height: 8),
-              if (!MyAccount.isSubscribed || MyAccount.isWkPrem && MyAccount.freeVdoLeftTimes <= 0 || videoMessage.currencyType == 1)
+              if (!MyAccount.isSubscribed ||
+                  MyAccount.isWkPrem && MyAccount.freeVdoLeftTimes <= 0 ||
+                  videoMessage.currencyType == 1)
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Image.asset(
-                      videoMessage.currencyType == 1 ? ImagePath.gem : ImagePath.coin,
+                      videoMessage.currencyType == 1
+                          ? ImagePath.gem
+                          : ImagePath.coin,
                       width: 24,
                       height: 24,
                     ),
                     SizedBox(width: 4),
-                    Text('${videoMessage.unlockPrice}', style: TextStyle(color: Colors.white, fontWeight: AppFonts.black, fontSize: 16)),
+                    Text(
+                      '${videoMessage.unlockPrice}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: AppFonts.black,
+                        fontSize: 16,
+                      ),
+                    ),
                   ],
                 ),
             ],
@@ -250,25 +317,58 @@ class ChatVideoCell extends ChatCell {
                       ? Container(
                         width: double.infinity,
                         height: double.infinity,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: Color(0xFF110803).withValues(alpha: 0.4)),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          color: Color(0xFF110803).withValues(alpha: 0.4),
+                        ),
                         child: Row(
                           spacing: 7,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Image.asset(ImagePath.premium, width: 16, height: 16),
-                            Text('Pro Free', style: TextStyle(color: Color(0xFFFFE96F), fontSize: 14, fontWeight: AppFonts.medium)),
+                            // <<<<<<< HEAD
+                            Image.asset(
+                              ImagePath.premium,
+                              width: 16,
+                              height: 16,
+                            ),
+                            // Text('Pro Free', style: TextStyle(color: Color(0xFFFFE96F), fontSize: 14, fontWeight: AppFonts.medium)),
+                            // =======
+                            //                             Image.asset(ImagePath.premium_gem, width: 16, height: 16),
+                            Text(
+                              Copywriting.security_pro_Free,
+                              style: TextStyle(
+                                color: Color(0xFFFFE96F),
+                                fontSize: 14,
+                                fontWeight: AppFonts.medium,
+                              ),
+                            ),
+                            // >>>>>>> feature/feature_1.0.0
                           ],
                         ),
                       )
                       : Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: AppColors.primary),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          color: AppColors.primary,
+                        ),
                         alignment: Alignment.center,
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Image.asset(ImagePath.unlock, width: 16, height: 16),
+                            Image.asset(
+                              ImagePath.unlock,
+                              width: 16,
+                              height: 16,
+                            ),
                             SizedBox(width: 4),
-                            Text(Security.security_Unlock, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
+                            Text(
+                              Security.security_Unlock,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: AppFonts.medium,
+                                fontSize: 14,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -279,7 +379,10 @@ class ChatVideoCell extends ChatCell {
                       child: Container(
                         decoration: BoxDecoration(
                           color: Color(0xFF000000).withValues(alpha: 0.11),
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(8), bottomLeft: Radius.circular(8)),
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(8),
+                            bottomLeft: Radius.circular(8),
+                          ),
                         ),
                         padding: EdgeInsets.symmetric(horizontal: 4),
                         child: Row(
@@ -290,7 +393,11 @@ class ChatVideoCell extends ChatCell {
                               child: Obx(
                                 () => Text(
                                   '${MyAccount.freeVdoUsedTimes}/${MyAccount.freeVdoLeftTimes + MyAccount.freeVdoUsedTimes}',
-                                  style: TextStyle(color: Color(0xFFE9E7C3), fontSize: 9, fontWeight: FontWeight.w400),
+                                  style: TextStyle(
+                                    color: Color(0xFFE9E7C3),
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                             ),
@@ -302,7 +409,6 @@ class ChatVideoCell extends ChatCell {
               ),
             ),
           ),
-
         ],
       ),
     );
@@ -311,7 +417,11 @@ class ChatVideoCell extends ChatCell {
   Widget renderLoadingMask() {
     return Container(
       alignment: Alignment.center,
-      child: SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: AppColors.main, strokeWidth: 2)),
+      child: SizedBox(
+        width: 24,
+        height: 24,
+        child: CircularProgressIndicator(color: AppColors.main, strokeWidth: 2),
+      ),
     );
   }
 }

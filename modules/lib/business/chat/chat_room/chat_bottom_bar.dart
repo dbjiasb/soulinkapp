@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:external_modules/player.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -10,6 +9,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/business/chat/chat_manager.dart';
@@ -35,6 +35,7 @@ class ChatBottomBar extends StatelessWidget {
 
   ChatBottomBarController viewController = Get.put(ChatBottomBarController());
 
+  // <<<<<<< HEAD
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -52,6 +53,97 @@ class ChatBottomBar extends StatelessWidget {
         child: SafeArea(
           bottom: true,
           child: Column(children: [buildInputBar(), buildFunctionBar()]),
+          // =======
+          //   bool get expandBottom => viewController.barState.value == ChatRoomBottomBarState.detailed || viewController.barState.value == ChatRoomBottomBarState.muse;
+          //
+          //   @override
+          //   Widget build(BuildContext context) {
+          //     return Obx(
+          //       () => SizedBox(
+          //         height: expandBottom ? 98 + 166 : 98,
+          //         child: Stack(
+          //           clipBehavior: Clip.none,
+          //           children: [
+          //             Positioned(
+          //               bottom: 0,
+          //               left: 0,
+          //               right: 0,
+          //               child: Container(
+          //                 decoration: BoxDecoration(
+          //                   gradient: LinearGradient(
+          //                     begin: Alignment.topCenter,
+          //                     end: Alignment.bottomCenter,
+          //                     colors: [Color(0xFF252230).withValues(alpha: 0.5), Color(0xFF2F253B).withValues(alpha: 0.9)],
+          //                   ),
+          //                 ),
+          //                 child: SafeArea(bottom: true, child: Column(children: [buildInputBar(), buildFunctionBar()])),
+          //               ),
+          //             ),
+          //
+          //             Positioned(
+          //               bottom: 0,
+          //               left: 0,
+          //               right: 0,
+          //               child: Obx(() {
+          //                 if (!viewController._isShowAudioInputAnim.value) {
+          //                   return Container();
+          //                 }
+          //                 return Container(
+          //                   height: 210,
+          //                   decoration: BoxDecoration(
+          //                     gradient: LinearGradient(
+          //                       begin: Alignment.topCenter,
+          //                       end: Alignment.bottomCenter,
+          //                       colors: [Colors.black.withValues(alpha: 0), Colors.black.withValues(alpha: 0.61), Colors.black.withValues(alpha: 0.75)],
+          //                     ),
+          //                   ),
+          //                   child: Column(
+          //                     children: [
+          //                       Container(
+          //                         padding: EdgeInsets.only(bottom: 12, top: 30),
+          //                         child: Center(
+          //                           child: Obx(
+          //                             () =>
+          //                                 viewController._isCanceled.value
+          //                                     ? Text(
+          //                                       Copywriting.security_release_Cancel,
+          //                                       style: TextStyle(color: Color(0xFFFF3E3E), fontSize: 13, fontWeight: AppFonts.medium),
+          //                                     )
+          //                                     : Text(Copywriting.security_release_Send, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       Container(
+          //                         height: 148,
+          //                         clipBehavior: Clip.hardEdge,
+          //                         alignment: Alignment.topCenter,
+          //                         decoration: BoxDecoration(
+          //                           color: Colors.transparent,
+          //                           image: DecorationImage(image: AssetImage(ImagePath.chat_input_voice_bg), fit: BoxFit.fitWidth, alignment: Alignment.topCenter),
+          //                         ),
+          //                         child: Column(
+          //                           children: [
+          //                             SizedBox(height: 10),
+          //                             // Container(
+          //                             //   height: 72,
+          //                             //   padding: EdgeInsets.all(6),
+          //                             //   decoration: BoxDecoration(
+          //                             //     shape: BoxShape.circle,
+          //                             //     color: viewController._isCanceled.value?Color(0xFFF84652).withValues(alpha: 0.4):Color(0xFF29D97F).withValues(alpha: 0.4)
+          //                             //   ),
+          //                             //   child: Image.asset(viewController._isCanceled.value?ImagePath.chat_cancel_recording:ImagePath.chat_recording_voice),
+          //                             // ),
+          //                             Spacer(),
+          //                           ],
+          //                         ),
+          //                       ),
+          //                     ],
+          //                   ),
+          //                 );
+          //               }),
+          //             ),
+          //           ],
+          // >>>>>>> feature/feature_1.0.0
         ),
       ),
     );
@@ -83,6 +175,7 @@ class ChatBottomBar extends StatelessWidget {
   Widget buildInputBar() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      // <<<<<<< HEAD
       child: Obx(() {
         final isAudioMode = _audioInputMode.value;
         return GestureDetector(
@@ -145,11 +238,96 @@ class ChatBottomBar extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Hold to talk',
+                                  // 'Hold to talk',
+                                  Copywriting.security_hold_to_talk,
                                   style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w500,
                                     fontSize: 14,
+                                    // =======
+                                    //       child: Container(
+                                    //         height: 44,
+                                    //         decoration: BoxDecoration(
+                                    //           color: viewController._audioInputMode.value ? Colors.white.withValues(alpha: 0.7) : Color(0xFFB4ADAB).withValues(alpha: 0.6),
+                                    //           borderRadius: BorderRadius.circular(26),
+                                    //         ),
+                                    //         child: Row(
+                                    //           children: [
+                                    //             GestureDetector(
+                                    //               onTap: () {
+                                    //                 viewController._audioInputMode.value = !viewController._audioInputMode.value;
+                                    //                 if (viewController.barState.value != ChatRoomBottomBarState.simple) {
+                                    //                   viewController.updateBarState(ChatRoomBottomBarState.simple);
+                                    //                 }
+                                    //               },
+                                    //               child: Container(
+                                    //                 margin: EdgeInsets.only(left: 12, right: 8),
+                                    //                 child: Obx(
+                                    //                   () => Image.asset(viewController._audioInputMode.value ? ImagePath.chat_input_keyboard : ImagePath.chat_input_voice, width: 24, height: 24),
+                                    //                 ),
+                                    //               ),
+                                    //             ),
+                                    //             Expanded(
+                                    //               child: Obx(
+                                    //                 () =>
+                                    //                     viewController._audioInputMode.value
+                                    //                         ? GestureDetector(
+                                    //                           behavior: HitTestBehavior.opaque,
+                                    //                           onTap: () {
+                                    //                             EasyLoading.showToast(Copywriting.security_audio_input_is_too_short_to_send_);
+                                    //                             endAudioRecord();
+                                    //                           },
+                                    //                           onLongPressStart: (_) {
+                                    //                             beginAudioRecord();
+                                    //                           },
+                                    //                           onLongPressEnd: (_) {
+                                    //                             endAudioRecord();
+                                    //                           },
+                                    //                           onLongPressMoveUpdate: viewController._onGesUpdate,
+                                    //                           child: Row(
+                                    //                             mainAxisAlignment: MainAxisAlignment.center,
+                                    //                             children: [
+                                    //                               Text(Copywriting.security_hold_to_talk, style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 14)),
+                                    //                             ],
+                                    //                           ),
+                                    //                         )
+                                    //                         : Row(
+                                    //                           children: [
+                                    //                             Expanded(
+                                    //                               child: TextField(
+                                    //                                 onSubmitted: (value) {
+                                    //                                   viewController.sendText(value);
+                                    //                                 },
+                                    //                                 style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w600),
+                                    //                                 controller: viewController.textController,
+                                    //                                 focusNode: viewController.focusNode,
+                                    //                                 decoration: InputDecoration(
+                                    //                                   enabledBorder: OutlineInputBorder(borderSide: BorderSide.none),
+                                    //                                   focusedBorder: OutlineInputBorder(borderSide: BorderSide.none),
+                                    //                                   fillColor: Colors.transparent,
+                                    //                                   filled: true,
+                                    //                                   hintText: Copywriting.security_send_message__reply_by_AI,
+                                    //                                   hintStyle: TextStyle(color: Color(0x80FFFFFF), fontWeight: FontWeight.w600, fontSize: 11),
+                                    //                                   contentPadding: EdgeInsets.zero,
+                                    //                                 ),
+                                    //                               ),
+                                    //                             ),
+                                    //                             GestureDetector(
+                                    //                               onTap: () {
+                                    //                                 if (viewController.barState.value != ChatRoomBottomBarState.muse) {
+                                    //                                   viewController.updateBarState(ChatRoomBottomBarState.muse);
+                                    //                                 } else {
+                                    //                                   viewController.updateBarState(ChatRoomBottomBarState.simple);
+                                    //                                 }
+                                    //                               },
+                                    //                               child: Container(
+                                    //                                 margin: EdgeInsets.only(right: 6),
+                                    //                                 child: Obx(
+                                    //                                   () => Image.asset(
+                                    //                                     viewController.barState.value == ChatRoomBottomBarState.muse ? ImagePath.chat_input_tips_light : ImagePath.chat_input_tips,
+                                    //                                     width: 28,
+                                    //                                     height: 28,
+                                    // >>>>>>> feature/feature_1.0.0
                                   ),
                                 ),
                               ],
@@ -299,15 +477,21 @@ class ChatBottomBar extends StatelessWidget {
               child: Row(
                 spacing: 4,
                 children: [
+                  // <<<<<<< HEAD
                   Image.asset(ImagePath.btm_pic, width: 13, height: 11),
                   Text(
-                    'Ask',
+                    // 'Ask',
+                    Security.security_Ask,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  // =======
+                  //                   Image.asset(ImagePath.req_image, width: 13, height: 11),
+                  //                   Text(Security.security_Ask, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
+                  // >>>>>>> feature/feature_1.0.0
                 ],
               ),
             ),
@@ -326,15 +510,21 @@ class ChatBottomBar extends StatelessWidget {
               child: Row(
                 spacing: 4,
                 children: [
+                  // <<<<<<< HEAD
                   Image.asset(ImagePath.btm_video, width: 13, height: 11),
                   Text(
-                    'Ask',
+                    // 'Ask',
+                    Security.security_Ask,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  // =======
+                  //                   Image.asset(ImagePath.req_video, width: 13, height: 11),
+                  //                   Text(Security.security_Ask, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
+                  // >>>>>>> feature/feature_1.0.0
                 ],
               ),
             ),
@@ -351,15 +541,21 @@ class ChatBottomBar extends StatelessWidget {
               child: Row(
                 spacing: 4,
                 children: [
+                  // <<<<<<< HEAD
                   Image.asset(ImagePath.btm_custom, width: 13, height: 11),
                   Text(
-                    'Custom',
+                    // 'Custom',
+                    Security.security_Custom,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  // =======
+                  //                   Image.asset(ImagePath.req_video, width: 13, height: 11),
+                  //                   Text(Security.security_Custom, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
+                  // >>>>>>> feature/feature_1.0.0
                 ],
               ),
             ),
@@ -378,15 +574,21 @@ class ChatBottomBar extends StatelessWidget {
               child: Row(
                 spacing: 4,
                 children: [
+                  // <<<<<<< HEAD
                   Image.asset(ImagePath.btm_call, width: 13, height: 11),
                   Text(
-                    'Call',
+                    // 'Call',
+                    Security.security_Call,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 13,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
+                  // =======
+                  //                   Image.asset(ImagePath.chat_voice_call, width: 13, height: 11),
+                  //                   Text(Security.security_Call, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
+                  // >>>>>>> feature/feature_1.0.0
                 ],
               ),
             ),
@@ -431,8 +633,10 @@ class ChatBottomBar extends StatelessWidget {
 
   Widget buildDetailedBar() {
     List<Map<String, dynamic>> items = [
+      // <<<<<<< HEAD
       {
-        Security.security_title: 'Photo',
+        // Security.security_title: 'Photo',
+        Security.security_title: Security.security_Photo,
         Security.security_icon: ImagePath.func_img,
         Security.security_action: viewController.showImageSelector,
       },
@@ -441,13 +645,34 @@ class ChatBottomBar extends StatelessWidget {
         Security.security_icon: ImagePath.func_video,
         Security.security_action: toCall,
       },
+      // =======
+      //       // {
+      //       //   Security.security_title: Security.security_Custom,
+      //       //   Security.security_icon: ImagePath.chat_bottom_custom,
+      //       //   Security.security_action: onCreateImageButtonClicked,
+      //       // },
+      //       {
+      //         Security.security_title: Security.security_Photo,
+      //         Security.security_icon: ImagePath.chat_bottom_image,
+      //         Security.security_action: viewController.showImageSelector,
+      //       },
+      // >>>>>>> feature/feature_1.0.0
 
+      // {Security.security_title: 'Voice Call', Security.security_icon: ImagePath.chat_bottom_audio_call, Security.security_action: toCall},
       {
         Security.security_title: Security.security_History,
         Security.security_icon: ImagePath.func_history,
         Security.security_action: onChatHistoryButtonClicked,
       },
+      // <<<<<<< HEAD
       // {Security.security_title: 'Gift', Security.security_icon: ImagePath.func_gift, Security.security_action: viewController.showGiftPanel},
+      // =======
+      //       {
+      //         Security.security_title: Security.security_Gift,
+      //         Security.security_icon: ImagePath.chat_send_gift,
+      //         Security.security_action: viewController.showGiftPanel,
+      //       },
+      // >>>>>>> feature/feature_1.0.0
     ];
 
     return Container(
@@ -586,11 +811,11 @@ class ChatBottomBarController extends GetxController {
   }
 
   void askForVideo() {
-    sendText('send me a video');
+    sendText(Copywriting.security_send_me_a_video);
   }
 
   void askForImage() {
-    sendText('send me a picture');
+    sendText(Copywriting.security_send_me_a_picture);
   }
 
   void showImageSelector() {
@@ -605,7 +830,7 @@ class ChatBottomBarController extends GetxController {
               children: [
                 ListTile(
                   leading: Icon(Icons.photo_library),
-                  title: Text('Select from the album'),
+                  title: Text(Copywriting.security_select_from_the_album),
                   onTap: () async {
                     Get.back();
                     pickImage(ImageSource.gallery);
@@ -613,7 +838,7 @@ class ChatBottomBarController extends GetxController {
                 ),
                 ListTile(
                   leading: Icon(Icons.photo_camera),
-                  title: Text('Turn on the camera'),
+                  title: Text(Copywriting.security_turn_on_the_camera),
                   onTap: () async {
                     Get.back();
                     pickImage(ImageSource.camera);
@@ -643,7 +868,9 @@ class ChatBottomBarController extends GetxController {
       ext: Security.security_jpg,
     );
     if (url == null || url.isEmpty) {
-      EasyLoading.showError('Upload failed, please try again later');
+      EasyLoading.showError(
+        Copywriting.security_upload_failed__please_try_again_later,
+      );
       return;
     }
 
@@ -673,7 +900,9 @@ class ChatBottomBarController extends GetxController {
       EasyLoading.dismiss();
       Get.find<ChatRoomViewController>().insertMessages([response.message]);
     } else {
-      EasyLoading.showError('Send failed, please try again later');
+      EasyLoading.showError(
+        Copywriting.security_send_failed__please_try_again_later,
+      );
     }
   }
 }

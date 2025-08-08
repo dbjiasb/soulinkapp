@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 typedef EncHelper = Dic;
 
@@ -101,7 +102,7 @@ class Dic {
   static String get ps_lct => Security.security_location;
   static String get ps_educat => Security.security_educations;
   static String get ps_bo => Security.security_bio;
-  static String get ps_str => 'star';
+  static String get ps_str => Security.security_star;
   static String get ps_act => Security.security_accountType;
   static String get psid => Security.security_personId;
   static String get ps_if => Security.security_personInfo;
@@ -130,13 +131,13 @@ class Dic {
   static String get cr_ownern => Security.security_masterName; //masterName
   static String get cr_imgpm => Security.security_imagePrompts; //imagePrompts
   static String get cr_bio => Security.security_introduction; //introduction
-  static String get cr_caa => 'Click to add '; //Click to add
+  static String get cr_caa => Copywriting.security_click_to_add; //Click to add
   static String get cr_cusri => Security.security_customRoleInfo; //customRoleInfo
   static String get cr_posinf => Security.security_positionInfo; //positionInfo
   static String get cr_defval2 => Security.security_defaultValueV2; //defaultValueV2
-  static String get cr_img_prp => 'Image Prompt'; //Image Prompt
+  static String get cr_img_prp => Copywriting.security_image_Prompt; //Image Prompt
   static String get cr_synopsis => Security.security_Scenario; //Scenario
-  static String get cr_dl_sl => 'Dialogue Style'; //Dialogue Style
+  static String get cr_dl_sl => Copywriting.security_dialogue_Style; //Dialogue Style
 
   // API 接口（每个单词插入不同混淆词）
   static String get cr_fod => Security.security_queryOcDraft; // queryOcDraft
@@ -183,12 +184,12 @@ class Dic {
   // UI Texts
   static String get rcg_titlCois => Security.security_Coins; // Coins
   static String get rcg_titlGms => Security.security_Gems; // Gems
-  static String get rcg_coiBalns => 'Coin balance'; // Coin balance
-  static String get rcg_gmBalns => 'Gem balance'; // Gem balance
+  static String get rcg_coiBalns => Copywriting.security_coin_balance; // Coin balance
+  static String get rcg_gmBalns => Copywriting.security_gem_balance; // Gem balance
   static String get rcg_btnRcg => Security.security_Recharge; // Recharge
   static String get rcg_btnSubs => Security.security_Subscribe; // Subscribe
-  static String get rcg_fuAces => 'Get full access!'; // Get full access!
-  static String get rcg_expOn => 'Expires on '; // Expires on
+  static String get rcg_fuAces => Copywriting.security_get_full_access_; // Get full access!
+  static String get rcg_expOn => Copywriting.security_expires_on; // Expires on
   static String get rcg_err => Security.security_error; // error
   static String get rcg_prc => Security.security_price; // price
   static String get rcg_rcg => Security.security_Recharge; // Recharge
@@ -216,18 +217,18 @@ class Dic {
 
   // Legal Texts
   static String get rcg_trmNotic =>
-      'By clicking Security.security_Subscribe, you will be charged, and your subscription will automatically renew at the same price and duration until canceled through PlayStore settings. By proceeding, you agree to our terms.';
-  static String get rcg_trms => 'Terms of Service'; // Terms of Service
-  static String get rcg_privacy => 'Privacy Policy'; // Privacy Policy
+      Copywriting.security_by_clicking_Security_security_Subscribe__you_will_be_charged__and_your_subscription_will_automatically_renew_at_the_same_price_and_duration_until_canceled_through_PlayStore_settings__By_proceeding__you_agree_to_our_terms_;
+  static String get rcg_trms => Copywriting.security_terms_of_Service; // Terms of Service
+  static String get rcg_privacy => Copywriting.security_privacy_Policy; // Privacy Policy
 
   // Error Messages
-  static String get rcg_errLoData => 'Failed to load subscription data'; // Failed to load subscription data
-  static String get rcg_errSeleProd => 'Please select a product to recharge.'; // Please select a product to recharge.
-  static String get rcg_prchasDon => 'Purchase done'; // Purchase done
-  static String get rcg_errSrvic => 'Unable to get recharge service, please retry later.'; // Unable to get recharge service, please retry later.
-  static String get rcg_errPlafm => 'Platform not supported.'; // Platform not supported.
-  static String get rcg_errRcg => 'Recharge failed.'; // Recharge failed.
-  static String get rcg_errSubs => 'Failed to process subscription, please try again later.'; // Failed to process subscription, please try again later.
+  static String get rcg_errLoData => Copywriting.security_failed_to_load_subscription_data; // Failed to load subscription data
+  static String get rcg_errSeleProd => Copywriting.security_please_select_a_product_to_recharge_; // Please select a product to recharge.
+  static String get rcg_prchasDon => Copywriting.security_purchase_done; // Purchase done
+  static String get rcg_errSrvic => Copywriting.security_unable_to_get_recharge_service__please_retry_later_; // Unable to get recharge service, please retry later.
+  static String get rcg_errPlafm => Copywriting.security_platform_not_supported_; // Platform not supported.
+  static String get rcg_errRcg => Copywriting.security_recharge_failed_; // Recharge failed.
+  static String get rcg_errSubs => Copywriting.security_failed_to_process_subscription__please_try_again_later_; // Failed to process subscription, please try again later.
 
   // URLs
   static String get rcg_urlTrms => 'https://cdn.luminaai.buzz/lumina/termsofservice.html'; // https://cdn.luminaai.buzz/lumina/termsofservice.html

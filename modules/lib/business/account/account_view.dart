@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/business/home_page_lists/role_manager.dart';
@@ -67,6 +68,7 @@ class AccountView extends StatelessWidget {
             right: 0,
             child: SafeArea(
               bottom: false,
+              // <<<<<<< HEAD
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Row(
@@ -82,6 +84,54 @@ class AccountView extends StatelessWidget {
                         height: 32,
                         width: 32,
                       ),
+                      // =======
+                      //               child: Row(
+                      //                 crossAxisAlignment: CrossAxisAlignment.start,
+                      //                 children: [
+                      //                   Container(
+                      //                     child: Row(
+                      //                       children: [
+                      //                         Obx(
+                      //                           () => avatarUrl.isEmpty ? Image.asset(ImagePath.account_default_avatar, height: 68, width: 68) : AvatarView(url: avatarUrl, size: 68),
+                      //                         ),
+                      //                         SizedBox(width: 12),
+                      //                         Column(
+                      //                           spacing: 3,
+                      //                           mainAxisAlignment: MainAxisAlignment.center,
+                      //                           crossAxisAlignment: CrossAxisAlignment.start,
+                      //                           children: [
+                      //                             Row(
+                      //                               spacing: 4,
+                      //                               children: [
+                      //                                 Obx(() => Text(nickname, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900))),
+                      //                                 GestureDetector(
+                      //                                   onTap: () {
+                      //                                     Get.toNamed(Routers.editMe.name);
+                      //                                   },
+                      //                                   child: Image.asset(ImagePath.account_edit, height: 14, width: 14),
+                      //                                 ),
+                      //                               ],
+                      //                             ),
+                      //                             Container(
+                      //                               padding: EdgeInsets.symmetric(vertical: 3, horizontal: 6),
+                      //                               decoration: BoxDecoration(color: Colors.grey.withOpacity(0.2), borderRadius: BorderRadius.circular(6)),
+                      //                               child: Row(
+                      //                                 spacing: 4,
+                      //                                 children: [
+                      //                                   Obx(() => Text('ID:$ID', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500))),
+                      //                                   GestureDetector(
+                      //                                     onTap: () {
+                      //                                       Interactions.copyToClipboard(ID.toString());
+                      //                                     },
+                      //                                     child: Image.asset(ImagePath.string_cpy, height: 12, width: 12),
+                      //                                   ),
+                      //                                 ],
+                      //                               ),
+                      //                             ),
+                      //                           ],
+                      //                         ),
+                      //                       ],
+                      // >>>>>>> feature/feature_1.0.0
                     ),
                   ],
                 ),
@@ -204,6 +254,7 @@ class AccountView extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
               color: Color(0xFF272533),
             ),
+            // <<<<<<< HEAD
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 7),
             child: Center(
               child: Row(
@@ -220,6 +271,35 @@ class AccountView extends StatelessWidget {
                   ),
                 ],
               ),
+              // =======
+              //             child: Row(
+              //               spacing: 8,
+              //               children: [
+              //                 Image.asset(ImagePath.premium_gem, height: 24, width: 24),
+              //                 Text(Copywriting.security_feelie_Pro, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
+              //                 Spacer(),
+              //                 // myPremium.isPremium
+              //                 true == true
+              //                     ? Obx(
+              //                       () => RichText(
+              //                         text: TextSpan(
+              //                           children: [
+              //                             TextSpan(
+              //                               text: Copywriting.security_expires_on,
+              //                               style: TextStyle(color: const Color(0xFFFFFFFF).withOpacity(0.6), fontSize: 14, fontWeight: FontWeight.w600),
+              //                             ),
+              //                             TextSpan(
+              //                               text: CalendarHelper.formatDate(date: MyAccount.premEdTm),
+              //                               style: const TextStyle(color: Color(0xFFFFCB05), fontSize: 14, fontWeight: FontWeight.w600),
+              //                             ),
+              //                           ],
+              //                         ),
+              //                       ),
+              //                     )
+              //                     : Container(),
+              //                 Image.asset(ImagePath.arrow_right_highlight, height: 16, width: 16),
+              //               ],
+              // >>>>>>> feature/feature_1.0.0
             ),
           ),
         ),
@@ -242,7 +322,7 @@ class AccountView extends StatelessWidget {
                   Positioned(
                     left: 0,
                     child: Text(
-                      'Companions',
+                      Copywriting.security_my_Companion,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 16,
@@ -265,14 +345,17 @@ class AccountView extends StatelessWidget {
           ],
         ),
 
+        // <<<<<<< HEAD
         Expanded(
           child: Obx(
             () =>
                 controller._loadingCompanions.value == true
                     ? Center(child: CircularProgressIndicator())
-                    : controller.myCompanions.isEmpty
-                    ? _buildEmptyView()
-                    : RefreshIndicator(
+                    :
+                    // controller.myCompanions.isEmpty
+                    //     ? _buildEmptyView()
+                    //     :
+                    RefreshIndicator(
                       onRefresh: controller.initCollections,
                       child: Obx(
                         () =>
@@ -301,6 +384,47 @@ class AccountView extends StatelessWidget {
                                 ),
                       ),
                     ),
+            // =======
+            //   Widget CompanionArea() {
+            //     return Expanded(
+            //       child: Padding(
+            //         padding: EdgeInsets.symmetric(horizontal: 16),
+            //         child: SafeArea(
+            //           top: false,
+            //           child: Container(
+            //             padding: EdgeInsets.all(12),
+            //             decoration: BoxDecoration(color: Color(0xFF18191D), borderRadius: BorderRadius.circular(12)),
+            //             child: Column(
+            //               children: [
+            //                 Row(
+            //                   spacing: 8,
+            //                   children: [
+            //                     Image.asset(ImagePath.account_my_oc, height: 24, width: 24),
+            //                     Text(Copywriting.security_my_Companion, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: AppFonts.medium)),
+            //                     Spacer(),
+            //                     GestureDetector(child: Image.asset(ImagePath.account_add_oc, height: 28, width: 28), onTap: CreateOcDialog.show),
+            //                   ],
+            //                 ),
+            //                 Expanded(
+            //                   child: Obx(
+            //                     () =>
+            //                         controller._loadingCompanions.value == true
+            //                             ? Center(child: CircularProgressIndicator())
+            //                             : controller.myCompanions.isEmpty
+            //                             ? _buildEmptyView()
+            //                             : ListView.builder(
+            //                               physics: BouncingScrollPhysics(),
+            //                               itemCount: controller.myCompanions.length,
+            //                               itemBuilder: (context, index) {
+            //                                 final companion = controller.myCompanions[index];
+            //                                 return Padding(padding: const EdgeInsets.only(bottom: 12), child: _buildCompanionItem(companion));
+            //                               },
+            //                             ),
+            //                   ),
+            //                 ),
+            //               ],
+            //             ),
+            // >>>>>>> feature/feature_1.0.0
           ),
         ),
       ],
@@ -330,6 +454,7 @@ class AccountView extends StatelessWidget {
           children: [
             Spacer(),
             Container(
+              width: double.infinity,
               padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
@@ -389,12 +514,21 @@ class AccountView extends StatelessWidget {
   }
 
   Widget _buildEmptyView() {
+    // <<<<<<< HEAD
+    //     return Center(
+    //       child: Text(
+    //         'No companions yet',
+    //         style: TextStyle(color: Color(0xFFA0A0A0), fontSize: 12),
+    //       ),
+    //     );
+    // =======
     return Center(
       child: Text(
-        'No companions yet',
+        Copywriting.security_no_companions_yet,
         style: TextStyle(color: Color(0xFFA0A0A0), fontSize: 12),
       ),
     );
+    // >>>>>>> feature/feature_1.0.0
   }
 }
 

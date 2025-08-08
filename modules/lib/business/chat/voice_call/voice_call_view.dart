@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -59,12 +60,16 @@ class VoiceCallView extends StatelessWidget {
   VoiceCallViewController viewController = Get.put(VoiceCallViewController());
 
   String get statusText {
-    if (viewController.muted.value) return 'You have muted';
+    if (viewController.muted.value) return Copywriting.security_you_have_muted;
     CallStatus status = viewController.callStatus.value;
-    if (status == CallStatus.connecting) return 'Connecting...';
-    if (status == CallStatus.aiThinking) return 'I\'m thinking...';
-    if (status == CallStatus.aiSpeaking) return 'Interrupt AI';
-    if (status == CallStatus.userSpeaking) return 'I\'am listening...';
+    if (status == CallStatus.connecting)
+      return Copywriting.security_connecting___;
+    if (status == CallStatus.aiThinking)
+      return Copywriting.security_i__m_thinking___;
+    if (status == CallStatus.aiSpeaking)
+      return Copywriting.security_interrupt_AI;
+    if (status == CallStatus.userSpeaking)
+      return Copywriting.security_i__am_listening___;
     return Security.security_nothing;
   }
 
@@ -72,10 +77,37 @@ class VoiceCallView extends StatelessWidget {
     switch (viewController.callStatus.value) {
       case CallStatus.connecting:
         return Column(
+          // <<<<<<< HEAD
+          //           children: [
+          //             SizedBox(height: 184),
+          //             Text(
+          //               'Connecting...',
+          //               style: TextStyle(
+          //                 fontSize: 14,
+          //                 fontWeight: FontWeight.w500,
+          //                 color: Color(0xFFABABAD),
+          //               ),
+          //             ),
+          //           ],
+          //         );
+          //       case CallStatus.aiThinking:
+          //         return Column(
+          //           children: [
+          //             SizedBox(height: 184),
+          //             Text(
+          //               'I\'m thinking...',
+          //               style: TextStyle(
+          //                 fontSize: 14,
+          //                 fontWeight: FontWeight.w500,
+          //                 color: Color(0xFFABABAD),
+          //               ),
+          //             ),
+          //           ],
+          // =======
           children: [
             SizedBox(height: 184),
             Text(
-              'Connecting...',
+              Copywriting.security_connecting___,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -89,7 +121,7 @@ class VoiceCallView extends StatelessWidget {
           children: [
             SizedBox(height: 184),
             Text(
-              'I\'m thinking...',
+              Copywriting.security_i__m_thinking___,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
@@ -97,6 +129,7 @@ class VoiceCallView extends StatelessWidget {
               ),
             ),
           ],
+          // >>>>>>> feature/feature_1.0.0
         );
       case CallStatus.aiSpeaking:
         return Column(
@@ -142,14 +175,25 @@ class VoiceCallView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 4),
+            // <<<<<<< HEAD
+            //             Text(
+            //               'Interrupt AI',
+            //               style: TextStyle(
+            //                 fontSize: 14,
+            //                 color: Color(0xFFABABAD),
+            //                 fontWeight: FontWeight.w500,
+            //               ),
+            //             ),
+            // =======
             Text(
-              'Interrupt AI',
+              Copywriting.security_interrupt_AI,
               style: TextStyle(
                 fontSize: 14,
                 color: Color(0xFFABABAD),
                 fontWeight: FontWeight.w500,
               ),
             ),
+            // >>>>>>> feature/feature_1.0.0
           ],
         );
       case CallStatus.userSpeaking:
@@ -161,14 +205,25 @@ class VoiceCallView extends StatelessWidget {
               child: SVGASimpleImage(assetsName: ImagePath.speaking),
             ),
             SizedBox(height: 16),
+            // <<<<<<< HEAD
+            //             Text(
+            //               'I\'am listening...',
+            //               style: TextStyle(
+            //                 fontSize: 14,
+            //                 fontWeight: FontWeight.w500,
+            //                 color: Color(0xFFABABAD),
+            //               ),
+            //             ),
+            // =======
             Text(
-              'I\'am listening...',
+              Copywriting.security_i__am_listening___,
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: Color(0xFFABABAD),
               ),
             ),
+            // >>>>>>> feature/feature_1.0.0
           ],
         );
     }
@@ -188,7 +243,7 @@ class VoiceCallView extends StatelessWidget {
   Widget buildCostWidget(bool hidden) {
     return Container(
       margin: EdgeInsets.only(right: hidden ? 16 : 0, left: hidden ? 0 : 16),
-      child:RichText(
+      child: RichText(
         text: TextSpan(
           style: TextStyle(
             fontSize: 11,
@@ -196,15 +251,23 @@ class VoiceCallView extends StatelessWidget {
             color: hidden ? Colors.transparent : Colors.white,
           ),
           children: [
-            TextSpan(text: '${viewController.callInfo?.costEveryMinute ?? 30} '),
+            TextSpan(
+              text: '${viewController.callInfo?.costEveryMinute ?? 30} ',
+            ),
             WidgetSpan(
-              child: Image.asset(viewController.callInfo?.currencyType == 1 ?ImagePath.gem:ImagePath.coin,height: 16,width: 16,),
+              child: Image.asset(
+                viewController.callInfo?.currencyType == 1
+                    ? ImagePath.gem
+                    : ImagePath.coin,
+                height: 16,
+                width: 16,
+              ),
               alignment: PlaceholderAlignment.middle, // 图片对齐方式
             ),
             TextSpan(text: " per minute"),
           ],
         ),
-      )
+      ),
     );
   }
 
@@ -242,7 +305,7 @@ class VoiceCallView extends StatelessWidget {
                         ),
                       ),
                       buildCostWidget(false),
-                      SizedBox(height: 66,),
+                      SizedBox(height: 66),
 
                       Container(
                         width: 100,
@@ -272,14 +335,25 @@ class VoiceCallView extends StatelessWidget {
                     children: [
                       Column(
                         children: [
+                          // <<<<<<< HEAD
+                          //                           Text(
+                          //                             'Call Duration',
+                          //                             style: TextStyle(
+                          //                               fontSize: 13,
+                          //                               fontWeight: FontWeight.w500,
+                          //                               color: Colors.white,
+                          //                             ),
+                          //                           ),
+                          // =======
                           Text(
-                            'Call Duration',
+                            Copywriting.security_call_Duration,
                             style: TextStyle(
                               fontSize: 13,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.bold,
                               color: Colors.white,
                             ),
                           ),
+                          // >>>>>>> feature/feature_1.0.0
                           Obx(
                             () => Text(
                               DateFormatter.formatSeconds(

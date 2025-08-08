@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -178,13 +179,23 @@ class AccountService {
   }
 
   Future<ApiResponse> getVerifyCode(String account, AccountType type) async {
+    // <<<<<<< HEAD
+    //     ApiRequest request = ApiRequest(
+    //       'fetchVerificationCode',
+    //       params: {
+    //         Security.security_account: account,
+    //         Security.security_type: type.value,
+    //       },
+    //     );
+    // =======
     ApiRequest request = ApiRequest(
-      'fetchVerificationCode',
+      Apis.security_fetchVerificationCode,
       params: {
         Security.security_account: account,
         Security.security_type: type.value,
       },
     );
+    // >>>>>>> feature/feature_1.0.0
     ApiResponse response = await ApiService.instance.sendRequest(request);
     return response;
   }
@@ -214,6 +225,16 @@ class AccountService {
   }
 
   //登录
+  // <<<<<<< HEAD
+  //   Future<ApiResponse> login(
+  //     String account,
+  //     String password,
+  //     AccountType accountType, {
+  //     String thirdName = '',
+  //   }) async {
+  //     ApiRequest request = ApiRequest(
+  //       'signIn',
+  // =======
   Future<ApiResponse> login(
     String account,
     String password,
@@ -221,7 +242,8 @@ class AccountService {
     String thirdName = '',
   }) async {
     ApiRequest request = ApiRequest(
-      'signIn',
+      Apis.security_signIn,
+      // >>>>>>> feature/feature_1.0.0
       params: {
         Security.security_account: account,
         Security.security_token: password,
@@ -287,7 +309,7 @@ class AccountService {
   }
 
   Future<ApiResponse> deleteAccount() async {
-    ApiRequest request = ApiRequest('deleteAccount', params: {});
+    ApiRequest request = ApiRequest(Apis.security_deleteAccount, params: {});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
       logout();
@@ -325,7 +347,7 @@ class AccountService {
     if (bio != null) flag |= 16;
 
     final req = ApiRequest(
-      'updateUserInfo',
+      Apis.security_updateUserInfo,
       params: {
         Security.security_flag: flag,
         Security.security_nickName: name ?? '',
@@ -346,10 +368,17 @@ class AccountService {
 
   /// balance
   void refreshBalance() async {
+    // <<<<<<< HEAD
+    //     final req = ApiRequest(
+    //       'fetchBalance',
+    //       params: {Security.security_uid: account.id},
+    //     );
+    // =======
     final req = ApiRequest(
-      'fetchBalance',
+      Apis.security_fetchBalance,
       params: {Security.security_uid: account.id},
     );
+    // >>>>>>> feature/feature_1.0.0
     final rsp = await ApiService.instance.sendRequest(req);
 
     if (rsp.statusCode != 200 || rsp.bsnsCode != 0) return;
@@ -359,7 +388,7 @@ class AccountService {
   }
 
   void getMyPremInfo() async {
-    final req = ApiRequest('queryMyPremiumInfo', params: {});
+    final req = ApiRequest(Apis.security_queryMyPremiumInfo, params: {});
     final rsp = await ApiService.instance.sendRequest(req);
 
     if (rsp.statusCode != 200 || rsp.bsnsCode != 0) return;

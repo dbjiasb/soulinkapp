@@ -6,6 +6,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_response.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/core/account/account_service.dart';
@@ -44,10 +45,17 @@ class LoginChannelView extends StatelessWidget {
   _onPrivacyPolicyClicked() {
     Get.toNamed(
       Routers.webView.name,
+      // <<<<<<< HEAD
+      //       arguments: {
+      //         Security.security_title: 'Privacy policy',
+      //         Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html',
+      //       },
+      // =======
       arguments: {
-        Security.security_title: 'Privacy policy',
+        Security.security_title: Copywriting.security_privacy_policy,
         Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html',
       },
+      // >>>>>>> feature/feature_1.0.0
     );
   }
 
@@ -55,9 +63,15 @@ class LoginChannelView extends StatelessWidget {
     Get.toNamed(
       Routers.webView.name,
       arguments: {
-        Security.security_title: 'Terms of service',
+        // <<<<<<< HEAD
+        //         Security.security_title: 'Terms of service',
+        //         Security.security_url:
+        //             'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+        // =======
+        Security.security_title: Copywriting.security_terms_of_service,
         Security.security_url:
             'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+        // >>>>>>> feature/feature_1.0.0
       },
     );
   }
@@ -80,6 +94,7 @@ class LoginChannelView extends StatelessWidget {
   }
 
   Widget _buildBottomTips() {
+    // <<<<<<< HEAD
     const TextStyle linkStyle = TextStyle(
       color: Colors.white,
       fontSize: 12,
@@ -90,14 +105,18 @@ class LoginChannelView extends StatelessWidget {
       fontSize: 12,
       fontWeight: FontWeight.w500,
     );
+    // =======
+    //     const TextStyle linkStyle = TextStyle(color: Colors.white, fontSize: 12, decoration: TextDecoration.underline);
+    //     const TextStyle normalStyle = TextStyle(color: Color(0xFFABABAD), fontSize: 12, fontWeight: FontWeight.w500);
+    // >>>>>>> feature/feature_1.0.0
 
     return RichText(
       text: TextSpan(
         style: normalStyle,
         children: [
-          const TextSpan(text: 'if you sign in, you agree to '),
+          TextSpan(text: Copywriting.security_if_you_sign_in__you_agree_to),
           TextSpan(
-            text: 'Privacy Policy',
+            text: Copywriting.security_privacy_Policy,
             style: linkStyle,
             recognizer:
                 TapGestureRecognizer()
@@ -108,7 +127,7 @@ class LoginChannelView extends StatelessWidget {
           const TextSpan(text: ' \n'),
           const TextSpan(text: 'and '),
           TextSpan(
-            text: 'Terms of Service',
+            text: Copywriting.security_terms_of_Service,
             style: linkStyle,
             recognizer:
                 TapGestureRecognizer()
@@ -141,7 +160,7 @@ class LoginChannelView extends StatelessWidget {
   Widget _buildLoginChannels() {
     LoginChannel email = LoginChannel(
       Security.security_email,
-      'Sign in with E-mail',
+      Copywriting.security_sign_in_with_E_mail,
       Icon(Icons.email, size: 24, color: Colors.white),
       AppColors.base_background,
       Colors.white,
@@ -151,8 +170,14 @@ class LoginChannelView extends StatelessWidget {
     );
     LoginChannel apple = LoginChannel(
       Security.security_apple,
-      'Sign in with Apple',
+      // <<<<<<< HEAD
+      // 'Sign in with Apple',
+      Copywriting.security_sign_in_with_Apple,
       Icon(Icons.apple, size: 24, color: Colors.black),
+      // =======
+      //       Copywriting.security_sign_in_with_Apple,
+      //       Image.asset(ImagePath.login_apple, height: 24, width: 24),
+      // >>>>>>> feature/feature_1.0.0
       Colors.white,
       AppColors.base_background,
       () async {

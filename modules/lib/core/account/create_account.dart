@@ -1,5 +1,3 @@
-import 'package:modules/base/assets/image_path.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
 
 import 'package:flutter/gestures.dart';
@@ -7,6 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
+import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/core/account/account_service.dart';
 
 import '../../base/router/router_names.dart';
@@ -39,20 +40,35 @@ class CreateAccountView extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
                 textAlignVertical: TextAlignVertical.center,
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   labelStyle: TextStyle(color: Colors.white),
+                  // <<<<<<< HEAD
+                  //                   enabledBorder: OutlineInputBorder(
+                  //                     borderSide: BorderSide(style: BorderStyle.none),
+                  //                   ),
+                  //                   focusedBorder: OutlineInputBorder(
+                  //                     borderSide: BorderSide(style: BorderStyle.none),
+                  //                   ),
+                  //                   hintText: 'Entry your email',
+                  //                   hintStyle: TextStyle(
+                  //                     color: Color(0x80FFFFFF),
+                  //                     fontWeight: FontWeight.w600,
+                  //                     fontSize: 13,
+                  //                   ),
+                  // =======
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(style: BorderStyle.none),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide(style: BorderStyle.none),
                   ),
-                  hintText: 'Entry your email',
+                  hintText: Copywriting.security_entry_your_email,
                   hintStyle: TextStyle(
                     color: Color(0x80FFFFFF),
                     fontWeight: FontWeight.w600,
                     fontSize: 13,
                   ),
+                  // >>>>>>> feature/feature_1.0.0
                 ),
               ),
             ),
@@ -76,24 +92,45 @@ class CreateAccountView extends StatelessWidget {
             Expanded(
               child: TextFormField(
                 onChanged: viewController.onVerifyCodeChange,
+                // <<<<<<< HEAD
+                //                 style: const TextStyle(
+                //                   color: Colors.white,
+                //                   fontSize: 13,
+                //                   fontWeight: FontWeight.w600,
+                //                 ),
+                //                 decoration: const InputDecoration(
+                //                   focusedBorder: OutlineInputBorder(
+                //                     borderSide: BorderSide.none,
+                //                   ),
+                //                   enabledBorder: OutlineInputBorder(
+                //                     borderSide: BorderSide.none,
+                //                   ),
+                //                   hintText: 'Enter verification code',
+                //                   hintStyle: TextStyle(
+                //                     color: Color(0x80FFFFFF),
+                //                     fontSize: 13,
+                //                     fontWeight: FontWeight.w600,
+                //                   ),
+                // =======
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
                 ),
-                decoration: const InputDecoration(
+                decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide.none,
                   ),
-                  hintText: 'Enter verification code',
+                  hintText: Copywriting.security_enter_verification_code,
                   hintStyle: TextStyle(
                     color: Color(0x80FFFFFF),
                     fontSize: 13,
                     fontWeight: FontWeight.w600,
                   ),
+                  // >>>>>>> feature/feature_1.0.0
                 ),
               ),
             ),
@@ -109,9 +146,11 @@ class CreateAccountView extends StatelessWidget {
                   height: 40,
                   child: Center(
                     child: Text(
+                      // <<<<<<< HEAD
                       viewController.countdown.value > 0
                           ? '${viewController.countdown.value}s'
-                          : 'Obtain code',
+                          // : 'Obtain code',
+                          : Copywriting.security_obtain_code,
                       style:
                           viewController.canSendCode.value
                               ? const TextStyle(
@@ -124,6 +163,13 @@ class CreateAccountView extends StatelessWidget {
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                               ),
+                      // =======
+                      //                       viewController.countdown.value > 0 ? '${viewController.countdown.value}s' : Copywriting.security_obtain_code,
+                      //                       style:
+                      //                           viewController.canSendCode.value
+                      //                               ? const TextStyle(color: Color(0xFFFFEF3B), fontSize: 13, fontWeight: FontWeight.w700)
+                      //                               : TextStyle(color: Color(0xFFFFEF3B).withValues(alpha: 0.3), fontSize: 13, fontWeight: FontWeight.w700),
+                      // >>>>>>> feature/feature_1.0.0
                     ),
                   ),
                 ),
@@ -143,10 +189,14 @@ class CreateAccountView extends StatelessWidget {
           height: 54,
           margin: const EdgeInsets.fromLTRB(16, 24, 16, 0),
           decoration: BoxDecoration(
+            // <<<<<<< HEAD
             color:
                 viewController.canContinue.value
                     ? AppColors.ocMain
                     : AppColors.ocMain.withValues(alpha: 0.5),
+            // =======
+            //             color: viewController.canContinue.value ? const Color(0xFF8761F1) : const Color(0xFF8761F1).withValues(alpha: 0.5),
+            // >>>>>>> feature/feature_1.0.0
             borderRadius: const BorderRadius.all(Radius.circular(12)),
           ),
           child: Center(
@@ -187,26 +237,59 @@ class CreateAccountView extends StatelessWidget {
     viewController.checked.value = !viewController.checked.value;
   }
 
-  _onPrivacyPolicyClicked() {
-    Get.toNamed(
-      Routers.webView.name,
-      arguments: {
-        Security.security_title: 'Privacy policy',
-        Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html',
-      },
-    );
-  }
+  //
+  //   _onPrivacyPolicyClicked() {
+  //     Get.toNamed(
+  //       Routers.webView.name,
+  // <<<<<<< HEAD
+  //       arguments: {
+  //         Security.security_title: 'Privacy policy',
+  //         Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html',
+  //       },
+  // =======
+  //       arguments: {Security.security_title: Copywriting.security_privacy_policy, Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'},
+  //     );
+  //   }
 
   _onTermsOfServiceClicked() {
     Get.toNamed(
       Routers.webView.name,
       arguments: {
-        Security.security_title: 'Terms of service',
+        Security.security_title: Copywriting.security_terms_of_service,
         Security.security_url:
             'https://cdn.luminaai.buzz/lumina/termsofservice.html',
       },
     );
   }
+
+  //   Widget _buildCheckButton() {
+  //     return Obx(
+  //       () => SizedBox(
+  //         width: 14,
+  //         height: 14,
+  //         child: IconButton(
+  //           padding: const EdgeInsets.all(0),
+  //           onPressed: null,
+  //           icon: Image.asset(ImagePath.login_unselect),
+  //           selectedIcon: Image.asset(ImagePath.login_selected),
+  //           iconSize: 14,
+  //           isSelected: viewController.checked.value,
+  //         ),
+  //       ),
+  // >>>>>>> feature/feature_1.0.0
+  //     );
+  //   }
+
+  // _onTermsOfServiceClicked() {
+  //   Get.toNamed(
+  //     Routers.webView.name,
+  //     arguments: {
+  //       Security.security_title: 'Terms of service',
+  //       Security.security_url:
+  //           'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+  //     },
+  //   );
+  // }
 
   //
   // Widget _buildCheckButton() {
@@ -226,44 +309,44 @@ class CreateAccountView extends StatelessWidget {
   //   );
   // }
 
-  Widget _buildBottomTips() {
-    const TextStyle linkStyle = TextStyle(
-      color: Color(0xFFE962F6),
-      decoration: TextDecoration.underline,
-    );
-    return RichText(
-      text: TextSpan(
-        style: const TextStyle(
-          color: Color(0xFF90929D),
-          fontSize: 12,
-          fontWeight: FontWeight.w500,
-        ),
-        children: [
-          const TextSpan(text: 'if you sign in, you agree to '),
-          TextSpan(
-            text: 'Privacy Policy',
-            style: linkStyle,
-            recognizer:
-                TapGestureRecognizer()
-                  ..onTap = () {
-                    _onPrivacyPolicyClicked();
-                  },
-          ),
-          const TextSpan(text: ' \n'),
-          const TextSpan(text: 'and '),
-          TextSpan(
-            text: 'Terms of Service',
-            style: linkStyle,
-            recognizer:
-                TapGestureRecognizer()
-                  ..onTap = () {
-                    _onTermsOfServiceClicked();
-                  },
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildBottomTips() {
+  //   const TextStyle linkStyle = TextStyle(
+  //     color: Color(0xFFE962F6),
+  //     decoration: TextDecoration.underline,
+  //   );
+  //   return RichText(
+  //     text: TextSpan(
+  //       style: const TextStyle(
+  //         color: Color(0xFF90929D),
+  //         fontSize: 12,
+  //         fontWeight: FontWeight.w500,
+  //       ),
+  //       children: [
+  //         TextSpan(text: Copywriting.security_if_you_sign_in__you_agree_to),
+  //         TextSpan(
+  //           text: Copywriting.security_privacy_Policy,
+  //           style: linkStyle,
+  //           recognizer:
+  //               TapGestureRecognizer()
+  //                 ..onTap = () {
+  //                   _onPrivacyPolicyClicked();
+  //                 },
+  //         ),
+  //         const TextSpan(text: ' \n'),
+  //         const TextSpan(text: 'and '),
+  //         TextSpan(
+  //           text: Copywriting.security_terms_of_Service,
+  //           style: linkStyle,
+  //           recognizer:
+  //               TapGestureRecognizer()
+  //                 ..onTap = () {
+  //                   _onTermsOfServiceClicked();
+  //                 },
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   _onBackButtonClicked() {
     Get.back();
@@ -319,14 +402,25 @@ class CreateAccountView extends StatelessWidget {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 16),
                           alignment: Alignment.centerLeft,
+                          // <<<<<<< HEAD
+                          //                           child: Text(
+                          //                             'Create an account',
+                          //                             style: TextStyle(
+                          //                               color: Colors.white,
+                          //                               fontWeight: FontWeight.bold,
+                          //                               fontSize: 20,
+                          //                             ),
+                          //                           ),
+                          // =======
                           child: Text(
-                            'Create an account',
+                            Copywriting.security_create_an_account,
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                             ),
                           ),
+                          // >>>>>>> feature/feature_1.0.0
                         ),
                         SizedBox(height: 34),
                         _buildMailInputView(),
@@ -346,12 +440,16 @@ class CreateAccountView extends StatelessWidget {
                 height: 44,
                 child: GestureDetector(
                   onTap: _onBackButtonClicked,
+                  // <<<<<<< HEAD
                   child: Container(
                     width: 32,
                     height: 44,
                     alignment: Alignment.center,
                     child: Image.asset(ImagePath.back, width: 24, height: 24),
                   ),
+                  // =======
+                  //                   child: Container(width: 32, height: 44, alignment: Alignment.center, child: Image.asset(ImagePath.icon_back, width: 24, height: 24)),
+                  // >>>>>>> feature/feature_1.0.0
                 ),
               ),
             ),
@@ -405,15 +503,25 @@ class CreateAccountViewController extends GetxController {
 
   void login() async {
     if (checked.value == false) {
-      EasyLoading.showError('Please agree to the terms and conditions');
+      EasyLoading.showError(
+        Copywriting.security_please_agree_to_the_terms_and_conditions,
+      );
       return;
     }
 
-    EasyLoading.show(status: 'Logging in...');
+    // <<<<<<< HEAD
+    //     EasyLoading.show(status: 'Logging in...');
+    //     ApiResponse response = await AccountService.instance.loginWithEmail(
+    //       account,
+    //       verifyCode,
+    //     );
+    // =======
+    EasyLoading.show(status: Copywriting.security_logging_in___);
     ApiResponse response = await AccountService.instance.loginWithEmail(
       account,
       verifyCode,
     );
+    // >>>>>>> feature/feature_1.0.0
     if (response.isSuccess) {
       EasyLoading.dismiss();
       //弹出所有页面并进入主页
@@ -424,11 +532,19 @@ class CreateAccountViewController extends GetxController {
   }
 
   void _getVerifyCode() async {
-    EasyLoading.show(status: 'Sending...');
+    // <<<<<<< HEAD
+    //     EasyLoading.show(status: 'Sending...');
+    //     ApiResponse response = await AccountService.instance.getVerifyCode(
+    //       account,
+    //       AccountType.email,
+    //     );
+    // =======
+    EasyLoading.show(status: Copywriting.security_sending___);
     ApiResponse response = await AccountService.instance.getVerifyCode(
       account,
       AccountType.email,
     );
+    // >>>>>>> feature/feature_1.0.0
     if (response.isSuccess) {
       _startTimer();
       EasyLoading.dismiss();

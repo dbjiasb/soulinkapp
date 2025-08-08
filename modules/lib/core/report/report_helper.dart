@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -27,9 +28,9 @@ class ReportHelper {
   static void submitReport(int reportedUserId, ReportItem? item, String extra) async {
     ApiResponse response = await ReportManager.instance.submitReport(reportedUserId, item?.id ?? 0, extra: extra);
     if (response.isSuccess) {
-      EasyLoading.showSuccess('Submitted successfully');
+      EasyLoading.showSuccess(Copywriting.security_submitted_successfully);
     } else {
-      EasyLoading.showError(response.description ?? 'Network error');
+      EasyLoading.showError(response.description ?? Copywriting.security_network_error);
     }
   }
 }

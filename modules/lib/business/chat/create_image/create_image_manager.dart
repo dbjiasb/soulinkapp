@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_request.dart';
@@ -54,7 +55,7 @@ class CreateImageManager {
       return config;
     }
 
-    ApiRequest request = ApiRequest('queryPhotoPrompts', params: {Security.security_targetUid: userId.toString()});
+    ApiRequest request = ApiRequest(Apis.security_queryPhotoPrompts, params: {Security.security_targetUid: userId.toString()});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
       List<PromptModel> prompts = (response.data[Security.security_groups] as List).map((e) => PromptModel(e)).toList();
@@ -67,7 +68,7 @@ class CreateImageManager {
   }
 
   Future<ApiResponse> createImage(int userId, List options) async {
-    ApiRequest request = ApiRequest('generateImage', params: {Security.security_tags: options, Security.security_targetUid: userId});
+    ApiRequest request = ApiRequest(Apis.security_generateImage, params: {Security.security_tags: options, Security.security_targetUid: userId});
     ApiResponse response = await ApiService.instance.sendRequest(request);
     return response;
   }

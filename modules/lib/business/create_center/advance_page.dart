@@ -1,9 +1,10 @@
-import 'package:modules/base/assets/image_path.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 
 import '../../base/router/router_names.dart';
@@ -27,8 +28,9 @@ class AdvanceCore extends StatelessWidget {
             child: Column(
               children: [
                 _buildTextFieldTemplate(
-                  'How would you like OC to address you?',
-                  'The OC will address you by the name you enter.',
+                  Copywriting.security_how_would_you_like_OC_to_address_you_,
+                  Copywriting
+                      .security_the_OC_will_address_you_by_the_name_you_enter_,
                   //'Al will call you by the name you enter',
                   24,
                   masterNameFormatter,
@@ -39,10 +41,8 @@ class AdvanceCore extends StatelessWidget {
                 ),
                 _buildTextFieldTemplate(
                   EncHelper.cr_img_prp,
-                  'Supply detailed information about the image, such as the clothing worn, facial features, and actions. '
-                      'For example, "On the moonlit balcony of a neo - Victorian mansion, an ethereal woman with bright blue hime - cut hair '
-                      'leans against the railing. Her khaki backless sweater flutters gently in the breeze as she turns to look at the viewer '
-                      'with an otherworldly serenity."',
+                  Copywriting
+                      .security_supply_detailed_information_about_the_image__such_as_the_clothing_worn__facial_features__and_actions__For_example___On_the_moonlit_balcony_of_a_neo___Victorian_mansion__an_ethereal_woman_with_bright_blue_hime___cut_hair_leans_against_the_railing__Her_khaki_backless_sweater_flutters_gently_in_the_breeze_as_she_turns_to_look_at_the_viewer_with_an_otherworldly_serenity__,
                   300,
                   imagePromptsFormatter,
                   _logic.onInputImagePrompts,
@@ -52,7 +52,8 @@ class AdvanceCore extends StatelessWidget {
                 ),
                 _buildTextFieldTemplate(
                   EncHelper.cr_synopsis,
-                  'Describe the conversation scenario and involved characters.',
+                  Copywriting
+                      .security_describe_the_conversation_scenario_and_involved_characters_,
                   //'The current circumstances and context of the conversation and the characters.',
                   500,
                   scenarioFormatter,
@@ -63,7 +64,8 @@ class AdvanceCore extends StatelessWidget {
                 ),
                 _buildTextFieldTemplate(
                   EncHelper.cr_bio,
-                  'Appears exclusively in your character\'s public profile.This biographical information will not be utilized in generation prompts or influence behavioral patterns.',
+                  Copywriting
+                      .security_appears_exclusively_in_your_character__s_public_profile_This_biographical_information_will_not_be_utilized_in_generation_prompts_or_influence_behavioral_patterns_,
                   500,
                   introductionFormatter,
                   _logic.onInputIntroduction,
@@ -71,7 +73,7 @@ class AdvanceCore extends StatelessWidget {
                   _logic.bioController,
                   _logic.bio,
                 ),
-                _buildStyleBox('Dialogue Style'),
+                _buildStyleBox(Copywriting.security_dialogue_Style),
               ],
             ),
           ),
@@ -99,11 +101,21 @@ class AdvanceCore extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 12,
         children: [
-          Text(title, style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w700)),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Colors.white,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
           Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: AppColors.ocBox),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              color: AppColors.ocBox,
+            ),
             child: Column(
               children: [
                 TextField(
@@ -113,17 +125,39 @@ class AdvanceCore extends StatelessWidget {
                   decoration: InputDecoration(
                     border: InputBorder.none,
                     hintText: hintText,
-                    hintStyle: const TextStyle(color: Color(0xFF636268), fontSize: 11, fontWeight: FontWeight.w500),
+                    hintStyle: const TextStyle(
+                      color: Color(0xFF636268),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                   maxLines: maxLines,
-                  style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
                 Obx(
                   () => Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      Text(curString.value.length.toString(), style: const TextStyle(color: Color(0xFF636268), fontSize: 11, fontWeight: FontWeight.w500)),
-                      Text('/$limited', style: const TextStyle(color: Color(0xFF636268), fontSize: 11, fontWeight: FontWeight.w500)),
+                      Text(
+                        curString.value.length.toString(),
+                        style: const TextStyle(
+                          color: Color(0xFF636268),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      Text(
+                        '/$limited',
+                        style: const TextStyle(
+                          color: Color(0xFF636268),
+                          fontSize: 11,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -142,19 +176,34 @@ class AdvanceCore extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 12,
         children: [
-          Text(title, style: const TextStyle(fontSize: 14, color: Color(0xFF12151C), fontWeight: FontWeight.w700)),
+          Text(
+            title,
+            style: const TextStyle(
+              fontSize: 14,
+              color: Color(0xFF12151C),
+              fontWeight: FontWeight.w700,
+            ),
+          ),
           Container(
             height: 356,
             alignment: Alignment.center,
             padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: AppColors.ocBox),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(12)),
+              color: AppColors.ocBox,
+            ),
             child: Obx(
               () => Column(
                 spacing: 8,
                 children: [
-                  const Text(
-              'Defines the conversational patterns between you and your character. This crucial setting determines how your character formulates responses and maintains personality consistency.',
-                    style: TextStyle(color: Color(0xFF666666), fontWeight: FontWeight.w500, fontSize: 11),
+                  Text(
+                    Copywriting
+                        .security_defines_the_conversational_patterns_between_you_and_your_character__This_crucial_setting_determines_how_your_character_formulates_responses_and_maintains_personality_consistency_,
+                    style: TextStyle(
+                      color: Color(0xFF666666),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 11,
+                    ),
                   ),
                   Expanded(
                     child: SingleChildScrollView(
@@ -164,10 +213,15 @@ class AdvanceCore extends StatelessWidget {
                           for (int i = 0; i < _logic.dialogStyle.length; i += 1)
                             Row(
                               // i为偶数时，用户输入，i为奇数时，用户输入
-                              mainAxisAlignment: i % 2 == 0 ? MainAxisAlignment.end : MainAxisAlignment.start,
+                              mainAxisAlignment:
+                                  i % 2 == 0
+                                      ? MainAxisAlignment.end
+                                      : MainAxisAlignment.start,
                               children: [
                                 ConstrainedBox(
-                                  constraints: const BoxConstraints(maxWidth: 200),
+                                  constraints: const BoxConstraints(
+                                    maxWidth: 200,
+                                  ),
                                   child: IntrinsicHeight(
                                     child: Container(
                                       padding: const EdgeInsets.all(12),
@@ -178,8 +232,12 @@ class AdvanceCore extends StatelessWidget {
                                                 borderRadius: BorderRadius.only(
                                                   topLeft: Radius.circular(12),
                                                   topRight: Radius.circular(12),
-                                                  bottomLeft: Radius.circular(12),
-                                                  bottomRight: Radius.circular(4),
+                                                  bottomLeft: Radius.circular(
+                                                    12,
+                                                  ),
+                                                  bottomRight: Radius.circular(
+                                                    4,
+                                                  ),
                                                 ),
                                               )
                                               : const BoxDecoration(
@@ -187,15 +245,37 @@ class AdvanceCore extends StatelessWidget {
                                                 borderRadius: BorderRadius.only(
                                                   topLeft: Radius.circular(12),
                                                   topRight: Radius.circular(12),
-                                                  bottomLeft: Radius.circular(4),
-                                                  bottomRight: Radius.circular(12),
+                                                  bottomLeft: Radius.circular(
+                                                    4,
+                                                  ),
+                                                  bottomRight: Radius.circular(
+                                                    12,
+                                                  ),
                                                 ),
                                               ),
                                       child: TextField(
-                                        style: TextStyle(color: i % 2 == 0 ? Colors.black : Colors.white, fontSize: 12, fontWeight: FontWeight.w500, height: 2),
+                                        style: TextStyle(
+                                          color:
+                                              i % 2 == 0
+                                                  ? Colors.black
+                                                  : Colors.white,
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w500,
+                                          height: 2,
+                                        ),
                                         controller: _logic.controllers[i],
                                         onChanged: (value) {
-                                          i % 2 == 0 ? _logic.onInputDialog(Security.security_user, value, i) : _logic.onInputDialog(Security.security_bot, value, i);
+                                          i % 2 == 0
+                                              ? _logic.onInputDialog(
+                                                Security.security_user,
+                                                value,
+                                                i,
+                                              )
+                                              : _logic.onInputDialog(
+                                                Security.security_bot,
+                                                value,
+                                                i,
+                                              );
                                         },
                                         maxLines: null,
                                         minLines: 1,
@@ -203,9 +283,13 @@ class AdvanceCore extends StatelessWidget {
                                         decoration: InputDecoration(
                                           isDense: true,
                                           border: InputBorder.none,
-                                          hintText: '${EncHelper.cr_caa}user’s message',
+                                          hintText:
+                                              '${EncHelper.cr_caa}user’s message',
                                           hintStyle: TextStyle(
-                                            color: i % 2 == 0 ? Colors.black : Colors.white,
+                                            color:
+                                                i % 2 == 0
+                                                    ? Colors.black
+                                                    : Colors.white,
                                             fontSize: 12,
                                             fontWeight: FontWeight.w500,
                                             height: 2,
@@ -226,7 +310,10 @@ class AdvanceCore extends StatelessWidget {
                     onTap: _logic.addRound,
                     child: Container(
                       height: 44,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: Color(0xff2F3031)),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        color: Color(0xff2F3031),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -234,11 +321,31 @@ class AdvanceCore extends StatelessWidget {
                             runAlignment: WrapAlignment.center,
                             spacing: 4,
                             children: [
-                              Image.asset(ImagePath.boarder_add, height: 16, width: 16),
-                              const Text('Add rounds', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500)),
+                              // <<<<<<< HEAD
+                              Image.asset(
+                                ImagePath.boarder_add,
+                                height: 16,
+                                width: 16,
+                              ),
+                              // const Text('Add rounds', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500)),
+                              // =======
+                              //                               Image.asset(ImagePath.oc_add_pic, height: 16, width: 16),
+                              Text(
+                                Copywriting.security_add_rounds,
+                                style: TextStyle(
+                                  color: Color(0xFF12151C),
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              // >>>>>>> feature/feature_1.0.0
                               Text(
                                 '(${_logic.dialogStyle.length ~/ 2}/5）',
-                                style: const TextStyle(color: Color(0xFF666666), fontSize: 11, fontWeight: FontWeight.w400),
+                                style: const TextStyle(
+                                  color: Color(0xFF666666),
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w400,
+                                ),
                               ),
                             ],
                           ),
@@ -278,25 +385,56 @@ class AdvancePage extends StatelessWidget {
         ),
         title: Text(
           textAlign: TextAlign.center,
-          'Create My Character',
-          style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'SF Pro bold', fontWeight: FontWeight.bold),
+          Copywriting.security_create_My_Character,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontFamily: Copywriting.security_sF_Pro_bold,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: [
           Container(
             padding: EdgeInsets.all(16),
             child: Row(
-                children: [const Text('2', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'SF Pro bold')),
-                  const Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: 'SF Pro bold')),]
+              children: [
+                Text(
+                  '2',
+                  style: TextStyle(
+                    color: AppColors.ocMain,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    fontFamily: Copywriting.security_sF_Pro_bold,
+                  ),
+                ),
+                Text(
+                  '/2',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 9,
+                    fontFamily: Copywriting.security_sF_Pro_bold,
+                  ),
+                ),
+              ],
             ),
-          )
+          ),
         ],
       ),
       body: SafeArea(
         child: Column(
           children: [
-
             // 可滑动中间部分
-            Expanded(child: CustomScrollView(slivers: [SliverFillRemaining(hasScrollBody: true, child: AdvanceCore())])),
+            Expanded(
+              child: CustomScrollView(
+                slivers: [
+                  SliverFillRemaining(
+                    hasScrollBody: true,
+                    child: AdvanceCore(),
+                  ),
+                ],
+              ),
+            ),
 
             // 固定底部
             _buildGenBtn(),
@@ -311,10 +449,7 @@ class AdvancePage extends StatelessWidget {
       children: [
         Obx(
           () => GestureDetector(
-            onTap:
-                _logic.toGen.value
-                    ? _logic.toGeneratePage
-                    : null,
+            onTap: _logic.toGen.value ? _logic.toGeneratePage : null,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Container(
@@ -322,12 +457,20 @@ class AdvancePage extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
-                  color: _logic.toGen.value ? AppColors.ocMain : Color(0xFF2F3031),
+                  color:
+                      _logic.toGen.value ? AppColors.ocMain : Color(0xFF2F3031),
                 ),
                 // 禁用状态颜色
                 child: Text(
                   Security.security_Generate,
-                  style: TextStyle(color: _logic.toGen.value ? Colors.white : Colors.white.withValues(alpha: 0.6), fontSize: 14, fontWeight: FontWeight.w900),
+                  style: TextStyle(
+                    color:
+                        _logic.toGen.value
+                            ? Colors.white
+                            : Colors.white.withValues(alpha: 0.6),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w900,
+                  ),
                 ),
               ),
             ),
@@ -353,15 +496,36 @@ class AdvancePage extends StatelessWidget {
               },
               icon: Image.asset(ImagePath.back, height: 24, width: 24),
             ),
-            const Expanded(
+            Expanded(
               child: Text(
                 textAlign: TextAlign.center,
-                'Create My Character',
-                style: TextStyle(color: Colors.white, fontSize: 16, fontFamily: 'SF Pro bold', fontWeight: FontWeight.bold),
+                Copywriting.security_create_My_Character,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontFamily: Copywriting.security_sF_Pro_bold,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            const Text('2', style: TextStyle(color: AppColors.ocMain, fontWeight: FontWeight.w700, fontSize: 14, fontFamily: 'SF Pro bold')),
-            const Text('/2', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 9, fontFamily: 'SF Pro bold')),
+            Text(
+              '2',
+              style: TextStyle(
+                color: AppColors.ocMain,
+                fontWeight: FontWeight.w700,
+                fontSize: 14,
+                fontFamily: Copywriting.security_sF_Pro_bold,
+              ),
+            ),
+            Text(
+              '/2',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+                fontSize: 9,
+                fontFamily: Copywriting.security_sF_Pro_bold,
+              ),
+            ),
           ],
         ),
       ),
@@ -421,7 +585,8 @@ class AdvanceController extends GetxController {
     if (config[EncHelper.cr_alts] != null) {
       for (int i = 0; i < config[EncHelper.cr_alts].length; i++) {
         controllers.add(TextEditingController());
-        controllers[i].text = config[EncHelper.cr_alts][i][Security.security_content];
+        controllers[i].text =
+            config[EncHelper.cr_alts][i][Security.security_content];
         dialogStyle.add(config[EncHelper.cr_alts][i]);
       }
     }
@@ -470,17 +635,26 @@ class AdvanceController extends GetxController {
 
   void addRound() {
     if (dialogStyle.length < 10) {
-      dialogStyle.add({Security.security_msgFrom: Security.security_user, Security.security_content: '${EncHelper.cr_caa}user\'s message'});
+      dialogStyle.add({
+        Security.security_msgFrom: Security.security_user,
+        Security.security_content: '${EncHelper.cr_caa}user\'s message',
+      });
       controllers.add(TextEditingController());
-      dialogStyle.add({Security.security_msgFrom: Security.security_bot, Security.security_content: '${EncHelper.cr_caa}OC\'s message'});
+      dialogStyle.add({
+        Security.security_msgFrom: Security.security_bot,
+        Security.security_content: '${EncHelper.cr_caa}OC\'s message',
+      });
       controllers.add(TextEditingController());
       config[EncHelper.cr_alts] = dialogStyle;
     }
   }
 
   void toGeneratePage() async {
-    if (masterName.value.isNotEmpty && (masterName.value.length < 3 || masterName.value.length > 24)) {
-      EasyLoading.showToast('Master name must be 2-24 characters in length');
+    if (masterName.value.isNotEmpty &&
+        (masterName.value.length < 3 || masterName.value.length > 24)) {
+      EasyLoading.showToast(
+        Copywriting.security_master_name_must_be_2_24_characters_in_length,
+      );
       return;
     }
     ocDependency.save();

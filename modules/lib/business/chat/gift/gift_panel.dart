@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -189,7 +190,7 @@ class GiftPanelViewController extends GetxController {
     sendParam.currencyType = selectedItem.value!.currency;
     sendParam.balance = balance;
 
-    EasyLoading.show(status: 'Sending...');
+    EasyLoading.show(status: Copywriting.security_sending___);
     SendGiftResponse response = await GiftManager.instance.sendGift(sendParam);
     if (response.isSuccess) {
       EasyLoading.dismiss();

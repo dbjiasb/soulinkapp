@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/apis.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
 
@@ -34,7 +35,7 @@ class RoleManager {
     params[Security.security_type] = type.value;
     params[Security.security_userId] = targetUid;
 
-    ApiRequest request = ApiRequest('fetchUsers', params: params);
+    ApiRequest request = ApiRequest(Apis.security_fetchUsers, params: params);
     return await ApiService.instance.sendRequest(request);
   }
 }

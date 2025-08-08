@@ -1,3 +1,5 @@
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/apis.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
 import 'package:modules/base/buffer_queue/buffer_queue.dart';
@@ -37,7 +39,7 @@ class GiftManager {
       return value;
     }
 
-    ApiRequest request = ApiRequest('queryPropList', params: {Security.security_targetUid: recipient});
+    ApiRequest request = ApiRequest(Apis.security_queryPropList, params: {Security.security_targetUid: recipient});
 
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
@@ -48,8 +50,7 @@ class GiftManager {
   }
 
   Future<SendGiftResponse> sendGift(SendGiftData data) async {
-    ApiRequest request = ApiRequest(
-      'sendGift',
+    ApiRequest request = ApiRequest(Apis.security_sendGift,
       params: {Security.security_toUserId: data.recipient, Security.security_giftId: data.giftId, Security.security_giftCount: data.giftCount, Security.security_targetAccountStatus: data.receiverStatus},
     );
 
@@ -64,7 +65,7 @@ class GiftManager {
     } else {
       SendGiftResponse result = SendGiftResponse();
       result.isSuccess = false;
-      result.errorMsg = response.data[Security.security_statusInfo]?[Security.security_msg] ?? 'Failed to send gift';
+      result.errorMsg = response.data[Security.security_statusInfo]?[Security.security_msg] ?? Copywriting.security_failed_to_send_gift;
       result.currencyType = data.currencyType;
       result.balance = data.balance;
       result.giftId = data.giftId;

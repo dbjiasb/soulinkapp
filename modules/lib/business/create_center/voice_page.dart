@@ -3,8 +3,8 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
-import 'package:modules/business/create_center/my_oc_config.dart';
 
 import '../../core/util/es_helper.dart';
 import '../../shared/app_theme.dart';
@@ -26,7 +26,7 @@ class OCVoicePage extends StatelessWidget {
                   return Column(
                     children:
                         _logic.config.map((item) {
-                          if (_logic.selectedGender.value == 'All Gender') {
+                          if (_logic.selectedGender.value == Copywriting.security_all_Gender) {
                             return GestureDetector(
                               behavior: HitTestBehavior.opaque,
                               onTap: () {
@@ -79,11 +79,11 @@ class OCVoicePage extends StatelessWidget {
               },
               icon: Image.asset(ImagePath.back, height: 24, width: 24),
             ),
-            const Expanded(
+            Expanded(
               child: Text(
                 textAlign: TextAlign.center,
-                'Audio Library',
-                style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: 'SF Pro bold', fontWeight: FontWeight.w700),
+                Copywriting.security_audio_Library,
+                style: TextStyle(color: Colors.white, fontSize: 20, fontFamily: Copywriting.security_sF_Pro_bold, fontWeight: FontWeight.w700),
               ),
             ),
             GestureDetector(
@@ -245,8 +245,8 @@ class OCVoiceLogic extends GetxController {
 
   var expandStatus = 1.obs;
 
-  var genders = ['All Gender', Security.security_Male, Security.security_Female];
-  var selectedGender = 'All Gender'.obs;
+  var genders = [Copywriting.security_all_Gender, Security.security_Male, Security.security_Female];
+  var selectedGender = Copywriting.security_all_Gender.obs;
 
   void resetGender(String? value) {
     selectedGender.value = value!;
