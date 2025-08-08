@@ -273,33 +273,32 @@ class ChatVideoCell extends ChatCell {
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (isInChat)
-                Image.asset(ImagePath.btm_video, width: 36, height: 36),
+              Image.asset(ImagePath.btm_video, width: 36, height: 36),
               SizedBox(height: 8),
-              if (!MyAccount.isSubscribed ||
-                  MyAccount.isWkPrem && MyAccount.freeVdoLeftTimes <= 0 ||
-                  videoMessage.currencyType == 1)
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(
-                      videoMessage.currencyType == 1
-                          ? ImagePath.gem
-                          : ImagePath.coin,
-                      width: 24,
-                      height: 24,
+              // if (!MyAccount.isSubscribed ||
+              //     MyAccount.isWkPrem && MyAccount.freeVdoLeftTimes <= 0 ||
+              //     videoMessage.currencyType == 1)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    videoMessage.currencyType == 1
+                        ? ImagePath.gem
+                        : ImagePath.coin,
+                    width: 24,
+                    height: 24,
+                  ),
+                  SizedBox(width: 4),
+                  Text(
+                    '${videoMessage.unlockPrice}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: AppFonts.black,
+                      fontSize: 16,
                     ),
-                    SizedBox(width: 4),
-                    Text(
-                      '${videoMessage.unlockPrice}',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: AppFonts.black,
-                        fontSize: 16,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
+              ),
             ],
           ),
           GestureDetector(
@@ -313,65 +312,62 @@ class ChatVideoCell extends ChatCell {
               width: isInChat ? 132 : 90,
               child: Stack(
                 children: [
-                  MyAccount.isSubscribed
-                      ? Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          color: Color(0xFF110803).withValues(alpha: 0.4),
+                  // MyAccount.isSubscribed
+                  //     ? Container(
+                  //       width: double.infinity,
+                  //       height: double.infinity,
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //         color: Color(0xFF110803).withValues(alpha: 0.4),
+                  //       ),
+                  //       child: Row(
+                  //         spacing: 7,
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           // <<<<<<< HEAD
+                  //           Image.asset(
+                  //             ImagePath.premium,
+                  //             width: 16,
+                  //             height: 16,
+                  //           ),
+                  //           // Text('Pro Free', style: TextStyle(color: Color(0xFFFFE96F), fontSize: 14, fontWeight: AppFonts.medium)),
+                  //           // =======
+                  //           //                             Image.asset(ImagePath.premium_gem, width: 16, height: 16),
+                  //           Text(
+                  //             Copywriting.security_pro_Free,
+                  //             style: TextStyle(
+                  //               color: Color(0xFFFFE96F),
+                  //               fontSize: 14,
+                  //               fontWeight: AppFonts.medium,
+                  //             ),
+                  //           ),
+                  //           // >>>>>>> feature/feature_1.0.0
+                  //         ],
+                  //       ),
+                  //     )
+                  //     :
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      color: AppColors.primary,
+                    ),
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(ImagePath.unlock, width: 16, height: 16),
+                        SizedBox(width: 4),
+                        Text(
+                          Security.security_Unlock,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: AppFonts.medium,
+                            fontSize: 14,
+                          ),
                         ),
-                        child: Row(
-                          spacing: 7,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            // <<<<<<< HEAD
-                            Image.asset(
-                              ImagePath.premium,
-                              width: 16,
-                              height: 16,
-                            ),
-                            // Text('Pro Free', style: TextStyle(color: Color(0xFFFFE96F), fontSize: 14, fontWeight: AppFonts.medium)),
-                            // =======
-                            //                             Image.asset(ImagePath.premium_gem, width: 16, height: 16),
-                            Text(
-                              Copywriting.security_pro_Free,
-                              style: TextStyle(
-                                color: Color(0xFFFFE96F),
-                                fontSize: 14,
-                                fontWeight: AppFonts.medium,
-                              ),
-                            ),
-                            // >>>>>>> feature/feature_1.0.0
-                          ],
-                        ),
-                      )
-                      : Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          color: AppColors.primary,
-                        ),
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(
-                              ImagePath.unlock,
-                              width: 16,
-                              height: 16,
-                            ),
-                            SizedBox(width: 4),
-                            Text(
-                              Security.security_Unlock,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: AppFonts.medium,
-                                fontSize: 14,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                      ],
+                    ),
+                  ),
                   if (MyAccount.isWkPrem)
                     Positioned(
                       right: 0,

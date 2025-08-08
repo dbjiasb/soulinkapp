@@ -114,6 +114,7 @@ class ChatHistoryView extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
               return GestureDetector(
+                behavior: HitTestBehavior.opaque,
                 child: _buildNavigator(index),
                 onTap: () {
                   onPageChange(index);

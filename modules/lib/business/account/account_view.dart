@@ -32,8 +32,6 @@ class AccountView extends StatelessWidget {
 
   String get ID => MyAccount.id;
 
-  // final myPremium = PremiumManager.instance;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +68,6 @@ class AccountView extends StatelessWidget {
             right: 0,
             child: SafeArea(
               bottom: false,
-              // <<<<<<< HEAD
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 child: Row(
@@ -243,7 +240,7 @@ class AccountView extends StatelessWidget {
   //           Spacer(),
   //           Obx(
   //             () =>
-  //                 myPremium.isPremium
+  //                 MyAccount.isSubscribed
   //                     ? Row(
   //                       spacing: 4,
   //                       children: [
@@ -257,7 +254,7 @@ class AccountView extends StatelessWidget {
   //                         ),
   //                         Text(
   //                           CalendarHelper.formatDate(
-  //                                 date: myPremium.premiumFormattedEndTime,
+  //                                 date: MyAccount.premEdTm,
   //                               ) ??
   //                               EncHelper.rcg_err,
   //                           style: const TextStyle(
