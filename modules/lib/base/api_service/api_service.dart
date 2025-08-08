@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/other.dart';
 import 'package:modules/base/crypt/copywriting.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -31,7 +32,7 @@ class ApiService {
   static ApiService get instance => _instance;
 
   void init() {
-    _headers = {'Content-Type': 'application/json', Security.security_Accept: 'application/json'};
+    _headers = {Other.security_content_Type: Other.security_application_json, Security.security_Accept: Other.security_application_json};
     _dio = Dio(
       BaseOptions(baseUrl: ApiConfig.baseUrl, connectTimeout: const Duration(seconds: 30), receiveTimeout: const Duration(seconds: 30), headers: _headers),
     );
@@ -113,7 +114,7 @@ class ApiService {
           validateStatus: (status) => status! < 500,
           connectTimeout: const Duration(seconds: 30),
           receiveTimeout: const Duration(seconds: 30),
-          headers: {'Content-Type': 'application/json', 'Crypt-Tag': cryptTag, 'Crypt-Key': cryptKey, ..._tokens}, // 默认 Header
+          headers: {Other.security_content_Type: Other.security_application_json, Other.security_crypt_Tag: cryptTag, Other.security_crypt_Key: cryptKey, ..._tokens}, // 默认 Header
         ),
       );
 

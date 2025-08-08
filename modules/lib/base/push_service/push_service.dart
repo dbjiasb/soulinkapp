@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/other.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
@@ -98,7 +99,7 @@ class PushService {
   void init() {
     //监听app生命周期
     SystemChannels.lifecycle.setMessageHandler((message) async {
-      isForeground = (message?.endsWith('.resumed') ?? false) || (message?.endsWith('.active') ?? false);
+      isForeground = (message?.endsWith(Other.security__resumed) ?? false) || (message?.endsWith(Other.security__active) ?? false);
       if (isForeground && state == PushServiceState.disconnected) {
         //重新连接
         connect();

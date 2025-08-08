@@ -1,9 +1,10 @@
-import 'package:modules/base/crypt/apis.dart';
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show MethodChannel, rootBundle;
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:modules/base/crypt/apis.dart';
+import 'package:modules/base/crypt/other.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:qcloud_cos_client/qcloud_cos_client.dart';
 
@@ -12,8 +13,8 @@ import '../../base/api_service/api_response.dart';
 import '../../base/api_service/api_service.dart';
 import 'es_helper.dart';
 
-const kOssEndPoint = 'oss-us-east-1.aliyuncs.com';
-const kOssBucket = 'docare-oss';
+String kOssEndPoint = Other.security_oss_us_east_1_aliyuncs_com;
+String kOssBucket = Other.security_docare_oss;
 
 // const int kUploadTypeProfile = 1; //个人信息(头像、背景等)
 // const int kUploadTypeIM = 2; //IM
@@ -72,7 +73,7 @@ class FilePushService {
         bucket: bucketName,
         objectKey: fileKey,
         data: fileData,
-        contentType: 'application/octet-stream',
+        contentType: Other.security_application_octet_stream,
         onSendProgress: (count, total) {
           debugPrint("send: count = $count, and total = $total");
         },
@@ -101,7 +102,8 @@ class FilePushService {
   }
 
   Future<Map<String, dynamic>> getConfig(int bsnsType, {String ext = ''}) async {
-    ApiRequest req = ApiRequest(Apis.security_obtainCosConfig,
+    ApiRequest req = ApiRequest(
+      Apis.security_obtainCosConfig,
       params: {Security.security_scene: bsnsType, Security.security_filename: ext.isEmpty ? '' : '${bsnsType}_${DateTime.now().microsecondsSinceEpoch}.$ext'},
     );
 

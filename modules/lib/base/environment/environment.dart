@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/other.dart';
 import 'package:flutter/foundation.dart';
 import 'package:modules/base/crypt/security.dart';
 
@@ -20,7 +21,7 @@ class Environment {
     }
 
     // 其次从命令行参数读取
-    final envArg = args.firstWhere((arg) => arg.startsWith('--env='), orElse: () => '--env=prod').split('=').last;
+    final envArg = args.firstWhere((arg) => arg.startsWith(Other.security___env_), orElse: () => Other.security___env_prod).split('=').last;
 
     return envArg == Security.security_dev ? EnvironmentType.dev : EnvironmentType.prod;
   }

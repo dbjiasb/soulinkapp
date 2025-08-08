@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/other.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/core/account/account_service.dart';
 import 'package:sqflite/sqflite.dart';
@@ -48,7 +49,7 @@ class ChatSessionHandler {
       ChatSession.tableName,
       where: where,
       whereArgs: [ownerId.toString()],
-      orderBy: "lastMessageTime DESC",
+      orderBy: Other.security_lastMessageTime_DESC,
     );
 
     List<ChatSession> sessions = sqlSessions.map((element) => ChatSession.fromDatabase(element)).toList();

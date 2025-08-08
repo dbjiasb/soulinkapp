@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/other.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -16,7 +17,7 @@ class DataCenter {
   static DataCenter get instance => _instance;
 
   static int version = 3;
-  static String name = 'chat.db';
+  static String name = Other.security_chat_db;
 
   Map<String, int> upgradeInfo = {};
   Map<String, int> createInfo = {};

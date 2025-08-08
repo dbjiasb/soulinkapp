@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/other.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/database/data_center.dart';
 import 'package:modules/core/account/account_service.dart';
@@ -49,7 +50,7 @@ class ChatMessageHandler {
   }
 
   Future<int> updateLocalMessage(ChatMessage message) async {
-    return await database.update(ChatMessage.tableName, message.toDatabase(), where: "nativeId =?", whereArgs: [message.nativeId]);
+    return await database.update(ChatMessage.tableName, message.toDatabase(), where: Other.security_nativeId___, whereArgs: [message.nativeId]);
   }
 
   Future<List<ChatMessage>> queryMessages(String sessionId, {List<int>? types, int? limit, int? offset}) async {
@@ -62,7 +63,7 @@ class ChatMessageHandler {
       ChatMessage.tableName,
       where: where,
       whereArgs: [sessionId],
-      orderBy: "date DESC, id DESC",
+      orderBy: Other.security_date_DESC__id_DESC,
       limit: limit,
       offset: offset,
     );
@@ -76,7 +77,7 @@ class ChatMessageHandler {
   }
 
   Future<ChatMessage?> selectMessage(int id) async {
-    final List<Map<String, dynamic>> results = await database.query(ChatMessage.tableName, where: "id = ?", whereArgs: [id]);
+    final List<Map<String, dynamic>> results = await database.query(ChatMessage.tableName, where: Other.security_id____, whereArgs: [id]);
 
     if (results.isEmpty) return null;
     return ChatMessage.fromDatabase(results.first);

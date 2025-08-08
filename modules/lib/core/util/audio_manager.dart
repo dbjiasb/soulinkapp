@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/other.dart';
 import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:async';
@@ -40,8 +41,8 @@ class AudioManager {
   int maxDurationMs = 60000;
 
   // Temporary file configuration
-  final tmpDir = '/chat/audio/';
-  final tmpName = 'audio_record.m4a';
+  final tmpDir = Other.security__chat_audio_;
+  final tmpName = Other.security_audio_record_m4a;
 
   /// Initializes temporary directory and audio file path
   Future getTemp() async {
@@ -54,7 +55,7 @@ class AudioManager {
     await outputDir.create(recursive: true);
 
     // Set full audio file path
-    final outputPath = path.join(dirPath, 'audio_record.m4a');
+    final outputPath = path.join(dirPath, Other.security_audio_record_m4a);
     audioPath = outputPath;
 
     // Delete existing file if present
