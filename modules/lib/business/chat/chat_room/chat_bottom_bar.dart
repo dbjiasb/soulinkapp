@@ -19,6 +19,7 @@ import 'package:modules/business/chat/chat_room_cells/chat_image_message.dart';
 import 'package:modules/core/util/audio_manager.dart';
 import 'package:modules/core/util/file_upload.dart';
 import 'package:modules/shared/app_theme.dart';
+import 'package:modules/shared/sheet.dart';
 
 import '../create_image/create_image_panel.dart';
 import '../gift/gift_panel.dart';
@@ -593,37 +594,24 @@ class ChatBottomBarController extends GetxController {
   }
 
   void showImageSelector() {
-    Get.bottomSheet(
-      SafeArea(
-        bottom: false,
-        child: Container(
-          color: Colors.white,
-          child: SafeArea(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  leading: Icon(Icons.photo_library),
-                  title: Text(Copywriting.security_select_from_the_album),
-                  onTap: () async {
-                    Get.back();
-                    pickImage(ImageSource.gallery);
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.photo_camera),
-                  title: Text(Copywriting.security_turn_on_the_camera),
-                  onTap: () async {
-                    Get.back();
-                    pickImage(ImageSource.camera);
-                  },
-                ),
-              ],
-            ),
-          ),
-        ),
+    showAppBottomSheet([
+      ListTile(
+        leading: Icon(Icons.photo_library),
+        title: Text(Copywriting.security_select_from_the_album),
+        onTap: () async {
+          Get.back();
+          pickImage(ImageSource.gallery);
+        },
       ),
-    );
+      ListTile(
+        leading: Icon(Icons.photo_camera),
+        title: Text(Copywriting.security_turn_on_the_camera),
+        onTap: () async {
+          Get.back();
+          pickImage(ImageSource.camera);
+        },
+      ),
+    ]);
   }
 
   void pickImage(ImageSource source) async {

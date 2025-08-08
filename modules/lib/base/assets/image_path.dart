@@ -56,7 +56,6 @@ abstract final class ImagePath {
   static const String func_video =
       'packages/modules/assets/soulink/func_video.png';
   static const String gem = 'packages/modules/assets/soulink/gem.png';
-  static const String gen_ing = 'packages/modules/assets/soulink/gen_ing.svga';
   static const String go_on_talk =
       'packages/modules/assets/soulink/go_on_talk.png';
   static const String hang_up = 'packages/modules/assets/soulink/hang_up.png';

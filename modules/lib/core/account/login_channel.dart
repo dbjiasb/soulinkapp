@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_response.dart';
+import 'package:modules/base/app_info/app_manager.dart';
 import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
@@ -47,7 +48,7 @@ class LoginChannelView extends StatelessWidget {
       Routers.webView,
       arguments: {
         Security.security_title: Copywriting.security_privacy_policy,
-        Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html',
+        Security.security_url: AppManager.instance.privacyHtml,
       },
     );
   }
@@ -57,8 +58,7 @@ class LoginChannelView extends StatelessWidget {
       Routers.webView,
       arguments: {
         Security.security_title: Copywriting.security_terms_of_service,
-        Security.security_url:
-            'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+        Security.security_url: AppManager.instance.termsHtml,
       },
     );
   }

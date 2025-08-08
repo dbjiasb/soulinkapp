@@ -266,51 +266,24 @@ class EditMyInfoPage extends StatelessWidget {
   }
 
   void onAvatarTap() {
-    showAppBottomSheet(
-      Container(
-        height: 200,
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          spacing: 8,
-          children: [
-            GestureDetector(
-              onTap: () {
-                onSelectAvatar(ImageSource.gallery);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  Copywriting.security_select_from_gallery,
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                onSelectAvatar(ImageSource.camera);
-              },
-              child: Container(
-                alignment: Alignment.center,
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.05),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Text(
-                  Copywriting.security_take_it_with_camera,
-                  style: TextStyle(color: Colors.white, fontSize: 20),
-                ),
-              ),
-            ),
-          ],
-        ),
+    showAppBottomSheet([
+      ListTile(
+        leading: Icon(Icons.photo_library),
+        title: Text(Copywriting.security_select_from_the_album),
+        onTap: () async {
+          Get.back();
+          onSelectAvatar(ImageSource.gallery);
+        },
       ),
-    );
+      ListTile(
+        leading: Icon(Icons.photo_camera),
+        title: Text(Copywriting.security_turn_on_the_camera),
+        onTap: () async {
+          Get.back();
+          onSelectAvatar(ImageSource.camera);
+        },
+      ),
+    ]);
   }
 
   void onSelectAvatar(ImageSource source) async {

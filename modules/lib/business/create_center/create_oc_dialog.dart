@@ -8,6 +8,7 @@ import 'package:modules/base/webview/web_view.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 import 'package:modules/core/account/account_service.dart';
 
+import '../../base/app_info/app_manager.dart';
 import '../../base/assets/image_path.dart';
 import '../../base/router/router_names.dart';
 import '../../shared/app_theme.dart';
@@ -69,7 +70,15 @@ class CreateOcDialog extends StatelessWidget {
           ),
           Spacer(),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed(
+                Routers.webView,
+                arguments: {
+                  Security.security_title: 'Copyright Agreement',
+                  Security.security_url: AppManager.instance.createOcHtml,
+                },
+              );
+            },
             icon: Image.asset(width: 32, height: 32, ImagePath.oc_dialog_ask),
           ),
         ],
@@ -96,6 +105,7 @@ class CreateOcDialog extends StatelessWidget {
         children: [
           Obx(
             () => GestureDetector(
+              behavior: HitTestBehavior.opaque,
               onTap: _logic.consent.value ? (() async => toCreatePage()) : null,
               child: Container(
                 padding: const EdgeInsets.symmetric(

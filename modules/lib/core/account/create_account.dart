@@ -10,6 +10,7 @@ import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/core/account/account_service.dart';
 
+import '../../base/app_info/app_manager.dart';
 import '../../base/router/router_names.dart';
 import '../../shared/app_theme.dart';
 
@@ -193,8 +194,7 @@ class CreateAccountView extends StatelessWidget {
       Routers.webView,
       arguments: {
         Security.security_title: Copywriting.security_terms_of_service,
-        Security.security_url:
-            'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+        Security.security_url: AppManager.instance.termsHtml,
       },
     );
   }

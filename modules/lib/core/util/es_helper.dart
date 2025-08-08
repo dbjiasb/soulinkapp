@@ -1,6 +1,8 @@
 import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 
+import '../../base/app_info/app_manager.dart';
+
 typedef EncHelper = Dic;
 
 class Dic {
@@ -267,10 +269,9 @@ class Dic {
           .security_failed_to_process_subscription__please_try_again_later_; // Failed to process subscription, please try again later.
 
   // URLs
-  static String get rcg_urlTrms =>
-      'https://cdn.luminaai.buzz/lumina/termsofservice.html'; // https://cdn.luminaai.buzz/lumina/termsofservice.html
-  static String get rcg_urlPrivacy =>
-      'https://cdn.luminaai.buzz/lumina/privacy.html'; // https://cdn.luminaai.buzz/lumina/privacy.html
+  static String get rcg_urlTrms => AppManager.instance.termsHtml;
+
+  static String get rcg_urlPrivacy => AppManager.instance.privacyHtml;
 
   // IAP Products
   static String get rcg_iapWekly =>

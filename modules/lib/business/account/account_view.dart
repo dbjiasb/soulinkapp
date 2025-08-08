@@ -409,15 +409,18 @@ class AccountView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Wrap(
-                    alignment: WrapAlignment.start,
+                  Row(
                     children: [
-                      Text(
-                        companion['nickname'],
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900,
+                      Flexible(
+                        child: Text(
+                          companion['nickname'],
+                          maxLines: 1,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w900,
+                          ),
+                          overflow: TextOverflow.ellipsis,
                         ),
                       ),
                       AppWidgets.userTag(companion['accountType']),

@@ -11,6 +11,7 @@ import 'package:modules/base/crypt/constants.dart';
 import 'package:modules/base/crypt/security.dart';
 
 import '../../base/router/router_names.dart';
+import '../../shared/widget/app_widgets.dart';
 import '../../shared/widget/list_status_view.dart';
 import 'role_manager.dart';
 
@@ -115,81 +116,60 @@ class VirtualRoleItem extends RoleItem {
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
           clipBehavior: Clip.antiAlias,
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              CachedNetworkImage(
-                imageUrl: coverUrl,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16),
+              image: DecorationImage(
+                image: CachedNetworkImageProvider(coverUrl),
                 fit: BoxFit.cover,
-                errorWidget:
-                    (context, url, error) => Image.asset(
-                      ImagePath.default_avatar,
-                      fit: BoxFit.contain,
-                    ),
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Spacer(),
-                  ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(ImagePath.person_img_mask),
-                            fit: BoxFit.fitWidth,
-                          ),
-                        ),
-                        width: double.infinity,
-                        padding: const EdgeInsets.all(12),
-                        child: Column(
-                          spacing: 4,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            //限制文本宽度
-                            Row(
-                              spacing: 4,
-                              children: [
-                                Text(
-                                  nickname,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.w900,
-                                    fontSize: 14,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                if ([1, 3, 4].contains(info[Constants.acType]))
-                                  Image.asset(
-                                    ImagePath.ai_tag,
-                                    height: 16,
-                                    width: 21,
-                                  ),
-                              ],
-                            ),
-                            bio.isNotEmpty
-                                ? Text(
-                                  bio,
-                                  style: TextStyle(
-                                    color: Colors.white.withOpacity(0.7),
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 11,
-                                  ),
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                )
-                                : Container(),
-                          ],
-                        ),
-                      ),
+            ),
+            child: Column(
+              children: [
+                Spacer(),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    image: DecorationImage(
+                      image: AssetImage(ImagePath.person_img_mask),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ],
-              ),
-            ],
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Text(
+                              nickname,
+                              maxLines: 1,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w900,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          AppWidgets.userTag(accountType),
+                        ],
+                      ),
+                      Text(
+                        bio,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        maxLines: 3,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
