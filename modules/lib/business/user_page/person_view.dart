@@ -1,6 +1,4 @@
-import 'package:modules/base/crypt/copywriting.dart';
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,13 +6,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/business/chat/chat_room/chat_room_view.dart';
 import 'package:modules/business/chat/person_manager.dart';
 import 'package:modules/core/util/es_helper.dart';
 import 'package:modules/shared/app_theme.dart';
-import 'package:modules/shared/interactions.dart';
 
 import '../../../core/user_manager/user_manager.dart';
 
@@ -28,22 +26,14 @@ class PersonViewPage extends StatelessWidget {
       body: Stack(
         children: [
           // 底色
-          Container(
-            width: double.infinity,height: double.infinity,
-              color: AppColors.main),
+          Container(width: double.infinity, height: double.infinity, color: AppColors.main),
 
           // 背景图
           Positioned.fill(
             child: Obx(
-                  () => ColorFiltered(
-                colorFilter: ColorFilter.mode(
-                  Color(0xFF000000).withValues(alpha: 0.4),
-                  BlendMode.srcOver,
-                ),
-                child: CachedNetworkImage(
-                  imageUrl: controller.background,
-                  fit: BoxFit.cover,
-                ),
+              () => ColorFiltered(
+                colorFilter: ColorFilter.mode(Color(0xFF000000).withValues(alpha: 0.4), BlendMode.srcOver),
+                child: CachedNetworkImage(imageUrl: controller.background, fit: BoxFit.cover),
               ),
             ),
           ),
@@ -60,13 +50,17 @@ class PersonViewPage extends StatelessWidget {
                     children: [
                       _buildProfileSection(),
                       SizedBox(
-                        height: 20+4,
+                        height: 20 + 4,
                         width: 60,
                         child: Stack(
                           children: [
-                            Positioned(top:0,left:0,child: Text(Security.security_Gallery,style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),)),
-                            Positioned(bottom:0,right:0,child: Image.asset(ImagePath.home_list_selected,height: 10,width: 40,))
-                          ]
+                            Positioned(
+                              top: 0,
+                              left: 0,
+                              child: Text(Security.security_Gallery, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                            ),
+                            Positioned(bottom: 0, right: 0, child: Image.asset(ImagePath.home_list_selected, height: 10, width: 40)),
+                          ],
                         ),
                       ),
                       _buildGallerySection(),
@@ -90,15 +84,20 @@ class PersonViewPage extends StatelessWidget {
           ),
 
           // 聊天按钮
-          Positioned(left: 16, right: 16, bottom: 20, child: GestureDetector(
-            onTap: onToChatTap,
-            child: Container(
-              alignment: Alignment.center,
-              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Color(0xFF8761F1)),
-              height: 52,
-              child: Text(Security.security_Chat, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
+          Positioned(
+            left: 16,
+            right: 16,
+            bottom: 20,
+            child: GestureDetector(
+              onTap: onToChatTap,
+              child: Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Color(0xFF8761F1)),
+                height: 52,
+                child: Text(Security.security_Chat, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
+              ),
             ),
-          )),
+          ),
         ],
       ),
     );
@@ -127,18 +126,10 @@ class PersonViewPage extends StatelessWidget {
                           radius: 36,
                           backgroundColor: Colors.transparent,
                           child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(width: 1, color: Colors.white.withValues(alpha: 0.8)),
-                            ),
-                            child: ClipOval(
-                              child: CachedNetworkImage(
-                                imageUrl: controller.avatarUrl,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
+                            decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(width: 1, color: Colors.white.withValues(alpha: 0.8))),
+                            child: ClipOval(child: CachedNetworkImage(imageUrl: controller.avatarUrl, fit: BoxFit.cover)),
                           ),
-                        )
+                        ),
                       ],
                     ),
                     Row(
@@ -177,14 +168,11 @@ class PersonViewPage extends StatelessWidget {
       crossAxisCount: 2,
       mainAxisSpacing: 7,
       crossAxisSpacing: 8,
-      childAspectRatio: 168/256,
-      children: controller.gallery.map((url) => ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: CachedNetworkImage(
-          imageUrl: url,
-          fit: BoxFit.cover,
-        ),
-      )).toList(),
+      childAspectRatio: 168 / 256,
+      children:
+          controller.gallery
+              .map((url) => ClipRRect(borderRadius: BorderRadius.circular(16), child: CachedNetworkImage(imageUrl: url, fit: BoxFit.cover)))
+              .toList(),
     );
   }
 
@@ -336,7 +324,7 @@ class PersonViewPage extends StatelessWidget {
       return;
     }
     Get.toNamed(
-      Routers.chat.name,
+      Routers.chat,
       arguments: {
         Security.security_session: jsonEncode({
           EncHelper.id: controller.id.toString(),

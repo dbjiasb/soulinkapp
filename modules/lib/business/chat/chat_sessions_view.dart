@@ -1,7 +1,7 @@
-import 'package:modules/base/crypt/copywriting.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/event_center/event_center.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/shared/formatters/date_formatter.dart';
@@ -38,7 +38,7 @@ class ChatSessionCell extends StatelessWidget {
   Widget build(context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routers.chat.name, arguments: {Security.security_session: session.toRouter()});
+        Get.toNamed(Routers.chat, arguments: {Security.security_session: session.toRouter()});
       },
       child: Container(
         color: Colors.transparent, //不设置背景颜色，否则会影响点击事件，暂不清楚原因
@@ -61,14 +61,16 @@ class ChatSessionCell extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Flexible(child: Text(
-                        session.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500),
-                      )),
+                      Flexible(
+                        child: Text(
+                          session.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500),
+                        ),
+                      ),
                       SizedBox(width: 5),
-                      AppWidgets.userTag(session.accountType)
+                      AppWidgets.userTag(session.accountType),
                     ],
                   ),
                   Text(
@@ -116,7 +118,11 @@ class ChatSessionsView extends StatelessWidget {
 
   @override
   build(context) {
-    return Scaffold(backgroundColor: Color(0xFF0A0B12), appBar: AppBar(leading: Center(child: appBarTitle(),), leadingWidth: 108, toolbarHeight: 44, elevation: 0, backgroundColor: Colors.transparent), body: body());
+    return Scaffold(
+      backgroundColor: Color(0xFF0A0B12),
+      appBar: AppBar(leading: Center(child: appBarTitle()), leadingWidth: 108, toolbarHeight: 44, elevation: 0, backgroundColor: Colors.transparent),
+      body: body(),
+    );
   }
 
   Widget buildContentPage() {
@@ -129,7 +135,7 @@ class ChatSessionsView extends StatelessWidget {
                   return ChatSessionCell(viewController.sessions[index]);
                 },
               )
-              : ListStatusView(status: viewController.status.value,description: Copywriting.security_no_chat_partner_has_been_initiated_yet,),
+              : ListStatusView(status: viewController.status.value, description: Copywriting.security_no_chat_partner_has_been_initiated_yet),
     );
   }
 

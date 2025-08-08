@@ -1,27 +1,22 @@
-//生成一个枚举，表示页面路由名称，值为字符串
-enum Routers {
-  login('/login'),
-  root('/skeleton'),
-  chat('/chat'),
-  call('/call'),
-  webView('/webView'),
-  home('/home'),
-  setting('/setting'),
-  loginChannel('/loginChannel'),
-  rechargeCurrency('/recharge/currency'),
-  rechargePremium('/recharge/premium'),
-  editMe('/edit_me'),
-  person('/chat/person'),
-  imageBrowser('/imageBrowser'),
-  videoPlayer('/videoPlayer'),
-  create('/create'),
-  createBasic('/create/basic'),
-  createAdvance('/create/advance'),
-  createVoice('/create/basic/voice'),
-  createGen('/create/gen'),
-  chatHistory('/chatHistory');
-
-  final String name;
-
-  const Routers(this.name);
+abstract final class Routers {
+  static const String login = '/login';
+  static const String root = '/skeleton';
+  static const String chat = '/chat';
+  static const String call = '/call';
+  static const String webView = '/webView';
+  static const String home = '/home';
+  static const String setting = '/setting';
+  static const String loginChannel = '/loginChannel';
+  static const String rechargeCurrency = '/recharge/currency';
+  static const String rechargePremium = '/recharge/premium';
+  static const String editMe = '/edit_me';
+  static const String person = '/chat/person';
+  static const String imageBrowser = '/imageBrowser';
+  static const String videoPlayer = '/videoPlayer';
+  static const String create = '/create';
+  static const String createBasic = '/create/basic';
+  static const String createAdvance = '/create/advance';
+  static const String createVoice = '/create/basic/voice';
+  static const String createGen = '/create/gen';
+  static const String chatHistory = '/chatHistory';
 }

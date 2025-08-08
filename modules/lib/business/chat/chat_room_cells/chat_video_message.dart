@@ -1,12 +1,12 @@
-import 'package:modules/base/crypt/copywriting.dart';
 import 'dart:convert';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/preferences/preferences.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/core/account/account_service.dart';
@@ -66,7 +66,7 @@ class ChatVideoCell extends ChatCell {
   Widget renderPlayButton() {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routers.videoPlayer.name, arguments: {Security.security_videoUrl: videoMessage.videoUrl});
+        Get.toNamed(Routers.videoPlayer, arguments: {Security.security_videoUrl: videoMessage.videoUrl});
       },
       child: Center(
         child: Container(
@@ -225,11 +225,7 @@ class ChatVideoCell extends ChatCell {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      videoMessage.currencyType == 1 ? ImagePath.gem : ImagePath.coin,
-                      width: 24,
-                      height: 24,
-                    ),
+                    Image.asset(videoMessage.currencyType == 1 ? ImagePath.gem : ImagePath.coin, width: 24, height: 24),
                     SizedBox(width: 4),
                     Text('${videoMessage.unlockPrice}', style: TextStyle(color: Colors.white, fontWeight: AppFonts.black, fontSize: 16)),
                   ],
@@ -303,7 +299,6 @@ class ChatVideoCell extends ChatCell {
               ),
             ),
           ),
-
         ],
       ),
     );

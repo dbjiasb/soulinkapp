@@ -809,7 +809,7 @@ class BasicPage extends StatelessWidget {
                 _controller.canProceed.value
                     ? () {
                       _controller.ocDependency.save();
-                      Get.toNamed(Routers.createAdvance.name);
+                      Get.toNamed(Routers.createAdvance);
                     }
                     : null,
             child: Padding(
@@ -1065,7 +1065,7 @@ class BasicController extends GetxController {
   }
 
   void navigateToVoiceLibrary() async {
-    final selectedVoice = await Get.toNamed(Routers.createVoice.name, arguments: voiceConfigurations);
+    final selectedVoice = await Get.toNamed(Routers.createVoice, arguments: voiceConfigurations);
     if (selectedVoice != null) {
       selectedSound.value = {
         Security.security_name: selectedVoice[Security.security_name],

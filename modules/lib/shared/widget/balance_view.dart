@@ -1,7 +1,7 @@
-import 'package:modules/base/assets/image_path.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/core/account/account_service.dart';
 
@@ -49,7 +49,7 @@ class BalanceView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routers.rechargeCurrency.name, arguments: {Security.security_rcgType: type == BalanceType.coin ? 0 : 1});
+        Get.toNamed(Routers.rechargeCurrency, arguments: {Security.security_rcgType: type == BalanceType.coin ? 0 : 1});
       },
       child: Container(
         height: style.height,

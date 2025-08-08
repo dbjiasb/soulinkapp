@@ -1,5 +1,3 @@
-import 'package:modules/base/assets/image_path.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 import 'dart:ui';
 
@@ -8,12 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/api_service/api_service_export.dart';
+import 'package:modules/base/assets/image_path.dart';
 import 'package:modules/base/crypt/constants.dart';
-import 'package:modules/business/create_center/my_oc_config.dart';
+import 'package:modules/base/crypt/security.dart';
 
 import '../../base/router/router_names.dart';
 import '../../shared/widget/list_status_view.dart';
-import '../create_center/create_oc_dialog.dart';
 import 'role_manager.dart';
 
 abstract class RoleItem {
@@ -90,15 +88,13 @@ class VirtualRoleItem extends RoleItem {
 
   int get accountType => info[Constants.acType] ?? 0;
 
-
-
   void _onItemClicked({bool call = false}) {
     Map<String, dynamic> params = {};
     params[Security.security_id] = info[Security.security_uid].toString();
     params[Security.security_name] = info[Security.security_nickname] ?? '';
     params[Security.security_avatar] = info[Security.security_avatarUrl] ?? '';
     params[Security.security_backgroundUrl] = info[Security.security_coverUrl] ?? '';
-    Get.toNamed(Routers.chat.name, arguments: {Security.security_session: jsonEncode(params), Security.security_call: call});
+    Get.toNamed(Routers.chat, arguments: {Security.security_session: jsonEncode(params), Security.security_call: call});
   }
 
   @override
@@ -116,10 +112,7 @@ class VirtualRoleItem extends RoleItem {
               CachedNetworkImage(
                 imageUrl: coverUrl,
                 fit: BoxFit.cover,
-                errorWidget: (context, url, error) => Image.asset(
-                  ImagePath.empty_cover,
-                  fit: BoxFit.cover,
-                ),
+                errorWidget: (context, url, error) => Image.asset(ImagePath.empty_cover, fit: BoxFit.cover),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -147,8 +140,7 @@ class VirtualRoleItem extends RoleItem {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                if([1, 3, 4].contains(info[Constants.acType]))
-                                  Image.asset(ImagePath.ic_tag_ai,height: 16,width: 21,),
+                                if ([1, 3, 4].contains(info[Constants.acType])) Image.asset(ImagePath.ic_tag_ai, height: 16, width: 21),
                               ],
                             ),
                             Text(
@@ -159,7 +151,7 @@ class VirtualRoleItem extends RoleItem {
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ),
                   ),
                 ],
@@ -175,7 +167,7 @@ class VirtualRoleItem extends RoleItem {
 class RoleListView extends StatelessWidget {
   RoleListView({super.key, required this.type}) {
     // 在构造函数中初始化控制器并传入 type
-    viewController = Get.put(RoleListViewController(type: type),tag: '${type.name}_controller');
+    viewController = Get.put(RoleListViewController(type: type), tag: '${type.name}_controller');
   }
 
   final RoleListType type;

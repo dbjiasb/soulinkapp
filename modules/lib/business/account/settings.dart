@@ -1,10 +1,9 @@
-import 'package:modules/base/crypt/copywriting.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/assets/image_path.dart';
-import 'package:modules/business/account/edit_my_info_view.dart';
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/shared/app_theme.dart';
 
 import '../../base/api_service/api_response.dart';
@@ -81,11 +80,20 @@ class AccountSettings extends StatelessWidget {
   }
 
   void checkTermsOfService() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: Copywriting.security_terms_of_service, Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
+    Get.toNamed(
+      Routers.webView,
+      arguments: {
+        Security.security_title: Copywriting.security_terms_of_service,
+        Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+      },
+    );
   }
 
   void checkPrivacyPolicy() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: Copywriting.security_privacy_policy, Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'});
+    Get.toNamed(
+      Routers.webView,
+      arguments: {Security.security_title: Copywriting.security_privacy_policy, Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'},
+    );
   }
 
   void logout() {
@@ -94,7 +102,7 @@ class AccountSettings extends StatelessWidget {
       Copywriting.security_are_you_sure_you_want_to_log_out_,
       onConfirm: () {
         AccountService.instance.logout();
-        Get.offAllNamed(Routers.loginChannel.name);
+        Get.offAllNamed(Routers.loginChannel);
       },
       onCancel: () {},
     );
@@ -109,7 +117,7 @@ class AccountSettings extends StatelessWidget {
         ApiResponse response = await AccountService.instance.deleteAccount();
         EasyLoading.dismiss();
         if (response.isSuccess) {
-          Get.offAllNamed(Routers.login.name);
+          Get.offAllNamed(Routers.login);
         } else {
           EasyLoading.showError(response.description);
         }

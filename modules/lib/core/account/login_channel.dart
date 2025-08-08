@@ -33,14 +33,14 @@ class LoginChannelView extends StatelessWidget {
 
   _onPrivacyPolicyClicked() {
     Get.toNamed(
-      Routers.webView.name,
+      Routers.webView,
       arguments: {Security.security_title: Copywriting.security_privacy_policy, Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'},
     );
   }
 
   _onTermsOfServiceClicked() {
     Get.toNamed(
-      Routers.webView.name,
+      Routers.webView,
       arguments: {
         Security.security_title: Copywriting.security_terms_of_service,
         Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html',
@@ -120,7 +120,7 @@ class LoginChannelView extends StatelessWidget {
       Color(0xFF070512),
       Colors.white,
       () {
-        Get.toNamed(Routers.login.name);
+        Get.toNamed(Routers.login);
       },
     );
     LoginChannel apple = LoginChannel(
@@ -133,7 +133,7 @@ class LoginChannelView extends StatelessWidget {
         ApiResponse response = await AccountService.instance.loginWithApple();
         if (response.isSuccess) {
           //弹出所有页面并进入主页
-          Get.offAllNamed(Routers.root.name);
+          Get.offAllNamed(Routers.root);
         } else {
           EasyLoading.showError(response.description);
         }

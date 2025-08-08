@@ -363,7 +363,7 @@ class ChatBottomBar extends StatelessWidget {
   }
 
   void onChatHistoryButtonClicked() {
-    Get.toNamed(Routers.chatHistory.name);
+    Get.toNamed(Routers.chatHistory);
   }
 
   void askForImage() {

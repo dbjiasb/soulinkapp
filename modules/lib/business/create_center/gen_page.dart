@@ -348,12 +348,12 @@ class GenOcController extends GetxController {
         EasyLoading.dismiss();
 
         ocDependency.cleanTemps();
-        Get.until((route) => route.settings.name == Routers.root.name);
+        Get.until((route) => route.settings.name == Routers.root);
         Get.delete<OcDependency>();
 
         AccountService.instance.getMyPremInfo();
         Get.toNamed(
-          Routers.chat.name,
+          Routers.chat,
           arguments: {
             Security.security_session: jsonEncode({
               Security.security_id: rtn[Security.security_roleUid].toString(),

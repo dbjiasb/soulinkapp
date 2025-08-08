@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:modules/base/api_service/api_request.dart';
 import 'package:modules/base/api_service/api_service.dart';
 import 'package:modules/base/assets/image_path.dart';
@@ -211,7 +211,7 @@ class RechargePremiumView extends StatelessWidget {
         default:
           break;
       }
-      double result = price / days ;
+      double result = price / days;
       return double.parse(result.toStringAsFixed(2));
     } catch (e) {
       return 0.00;
@@ -259,9 +259,9 @@ class RechargePremiumView extends StatelessWidget {
 
     // 价格换算
     var chnlInfo = null;
-    if(Platform.isIOS){
+    if (Platform.isIOS) {
       chnlInfo = prodInfo[EncHelper.rcg_chnlInfo]?[EncHelper.rcg_iosChnnl];
-    }else if(Platform.isAndroid){
+    } else if (Platform.isAndroid) {
       chnlInfo = prodInfo[EncHelper.rcg_chnlInfo]?[EncHelper.rcg_adrCnnl];
     }
     // // 不支持安卓和ios以外的平台
@@ -273,7 +273,7 @@ class RechargePremiumView extends StatelessWidget {
 
     // 换算结果，包括单位
     final prodPrc = iapProdDetail?.rawPrice ?? prodInfo[EncHelper.rcg_prc] / 100.0;
-    String prodCurncyType =  iapProdDetail?.currencySymbol ?? '\$';
+    String prodCurncyType = iapProdDetail?.currencySymbol ?? '\$';
     final originValue = parseToDouble(prodInfo[EncHelper.rcg_ov]); // 没用
     final currentValue = parseToDouble(prodInfo[EncHelper.rcg_prc]); // 没用
 
@@ -314,7 +314,10 @@ class RechargePremiumView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(prodName, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
-                                Text(EncHelper.rcg_dailyPrc(dailyPay), style: TextStyle(color: const Color(0x99FFFFFF), fontSize: 11, fontWeight: FontWeight.w500)),
+                                Text(
+                                  EncHelper.rcg_dailyPrc(dailyPay),
+                                  style: TextStyle(color: const Color(0x99FFFFFF), fontSize: 11, fontWeight: FontWeight.w500),
+                                ),
                               ],
                             ),
                             const Spacer(),
@@ -357,7 +360,7 @@ class RechargePremiumView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (isSelected && dscnt !=null && dscnt > 0)
+                    if (isSelected && dscnt != null && dscnt > 0)
                       Positioned(
                         right: 16,
                         top: -8,
@@ -373,7 +376,10 @@ class RechargePremiumView extends StatelessWidget {
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Center(
-                            child: Text(EncHelper.rcg_savPct((dscnt * 100).toInt()), style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                            child: Text(
+                              EncHelper.rcg_savPct((dscnt * 100).toInt()),
+                              style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
+                            ),
                           ),
                         ),
                       ),
@@ -389,11 +395,7 @@ class RechargePremiumView extends StatelessWidget {
 
   List<Widget> _buildFooter(RechargePremiumViewController controller) {
     return [
-      Text(
-        EncHelper.rcg_trmNotic,
-        style: TextStyle(color: Color(0x66FFFFFF), fontSize: 14, fontWeight: FontWeight.w500),
-        textAlign: TextAlign.left,
-      ),
+      Text(EncHelper.rcg_trmNotic, style: TextStyle(color: Color(0x66FFFFFF), fontSize: 14, fontWeight: FontWeight.w500), textAlign: TextAlign.left),
       _buildSubscribeButton(controller),
       _buildLegalLinks(),
     ];
@@ -440,9 +442,9 @@ class RechargePremiumView extends StatelessWidget {
 
   void launchUrl(String url) {
     if (url == EncHelper.rcg_urlPrivacy) {
-      Get.toNamed(Routers.webView.name, arguments: {EncHelper.rcg_titl: EncHelper.rcg_privacy, EncHelper.rcg_url: url});
-    } else if (url== EncHelper.rcg_urlTrms) {
-      Get.toNamed(Routers.webView.name, arguments: {EncHelper.rcg_titl: EncHelper.rcg_trms, EncHelper.rcg_url: url});
+      Get.toNamed(Routers.webView, arguments: {EncHelper.rcg_titl: EncHelper.rcg_privacy, EncHelper.rcg_url: url});
+    } else if (url == EncHelper.rcg_urlTrms) {
+      Get.toNamed(Routers.webView, arguments: {EncHelper.rcg_titl: EncHelper.rcg_trms, EncHelper.rcg_url: url});
     }
   }
 }
@@ -464,14 +466,14 @@ class RechargePremiumViewController extends GetxController {
   final isError = false.obs;
 
   // 未开通时的数据
-  final selectedPlan = <dynamic,dynamic>{}.obs;
+  final selectedPlan = <dynamic, dynamic>{}.obs;
   final allPlans = [].obs;
   final premsCfg = [
     {EncHelper.rcg_id: EncHelper.rcg_iapWekly, EncHelper.rcg_prc: 799},
     {EncHelper.rcg_id: EncHelper.rcg_iapMthly, EncHelper.rcg_prc: 2799},
     {EncHelper.rcg_id: EncHelper.rcg_iapYrly, EncHelper.rcg_prc: 22999},
   ];
-  final realPrems = <String,ProductDetails>{};
+  final realPrems = <String, ProductDetails>{};
 
   List get selectedPlanFeatures {
     for (var plan in allPlans) {
@@ -511,7 +513,6 @@ class RechargePremiumViewController extends GetxController {
         EasyLoading.showToast(msg ?? EncHelper.rcg_errRcg);
       }
     };
-
   }
 
   Future<void> loadSubscriptionData() async {
@@ -530,7 +531,7 @@ class RechargePremiumViewController extends GetxController {
     final rsp = await ApiService.instance.sendRequest(req);
     if (rsp.isSuccess) {
       allPlans.value = rsp.data[EncHelper.rcg_cfg];
-      if(allPlans.isNotEmpty)selectedPlan.value = allPlans.first;
+      if (allPlans.isNotEmpty) selectedPlan.value = allPlans.first;
       allPlans.refresh();
     }
   }

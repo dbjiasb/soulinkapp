@@ -1,7 +1,7 @@
-import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/base/webview/web_view.dart';
 import 'package:modules/business/account/edit_my_info_view.dart';
@@ -33,29 +33,27 @@ class RootView extends StatelessWidget {
       title: Security.security_Lumina,
       theme: ThemeData(colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple), useMaterial3: true),
       builder: EasyLoading.init(),
-      initialRoute: AccountService.instance.loggedIn ? Routers.root.name : Routers.loginChannel.name,
+      initialRoute: AccountService.instance.loggedIn ? Routers.root : Routers.loginChannel,
       getPages: [
-        GetPage(name: Routers.login.name, page: () => CreateAccountView()),
-        GetPage(name: Routers.root.name, page: () => SkeletonView()),
-        GetPage(name: Routers.chat.name, page: () => ChatRoomView()),
-        GetPage(name: Routers.home.name, page: () => HomePageView()),
-        GetPage(name: Routers.call.name, page: () => VoiceCallView()),
-        GetPage(name: Routers.webView.name, page: () => WebView()),
-        GetPage(name: Routers.rechargeCurrency.name, page: () => RechargeCurrencyView()),
-        GetPage(name: Routers.loginChannel.name, page: () => LoginChannelView()),
-        GetPage(name: Routers.imageBrowser.name, page: () => ImageViewer()),
-        GetPage(name: Routers.editMe.name, page: () => EditMyInfoPage()),
-        GetPage(name: Routers.person.name, page: () => PersonViewPage()),
-        GetPage(name: Routers.rechargePremium.name, page:() => RechargePremiumView()),
-        GetPage(name: Routers.editMe.name, page: ()=>EditMyInfoPage()),
-        GetPage(name: Routers.person.name, page: ()=>PersonViewPage()),
-        GetPage(name: Routers.videoPlayer.name, page: () => VideoPlayerView()),
-        GetPage(name: Routers.createBasic.name, page: () => BasicPage()),
-        GetPage(name: Routers.createVoice.name, page: () => OCVoicePage()),
-        GetPage(name: Routers.createAdvance.name, page: () => AdvancePage()),
-        GetPage(name: Routers.createGen.name, page: () => GenPage()),
-        GetPage(name: Routers.setting.name, page: () => AccountSettings()),
-        GetPage(name: Routers.chatHistory.name, page: () => ChatHistoryView()),
+        GetPage(name: Routers.login, page: () => CreateAccountView()),
+        GetPage(name: Routers.root, page: () => SkeletonView()),
+        GetPage(name: Routers.chat, page: () => ChatRoomView()),
+        GetPage(name: Routers.home, page: () => HomePageView()),
+        GetPage(name: Routers.call, page: () => VoiceCallView()),
+        GetPage(name: Routers.webView, page: () => WebView()),
+        GetPage(name: Routers.rechargeCurrency, page: () => RechargeCurrencyView()),
+        GetPage(name: Routers.loginChannel, page: () => LoginChannelView()),
+        GetPage(name: Routers.imageBrowser, page: () => ImageViewer()),
+        GetPage(name: Routers.editMe, page: () => EditMyInfoPage()),
+        GetPage(name: Routers.person, page: () => PersonViewPage()),
+        GetPage(name: Routers.rechargePremium, page: () => RechargePremiumView()),
+        GetPage(name: Routers.videoPlayer, page: () => VideoPlayerView()),
+        GetPage(name: Routers.createBasic, page: () => BasicPage()),
+        GetPage(name: Routers.createVoice, page: () => OCVoicePage()),
+        GetPage(name: Routers.createAdvance, page: () => AdvancePage()),
+        GetPage(name: Routers.createGen, page: () => GenPage()),
+        GetPage(name: Routers.setting, page: () => AccountSettings()),
+        GetPage(name: Routers.chatHistory, page: () => ChatHistoryView()),
       ],
     );
   }

@@ -1,5 +1,3 @@
-import 'package:modules/base/crypt/copywriting.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 import 'dart:ui';
 
@@ -7,6 +5,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/assets/image_path.dart';
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/preferences/preferences.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/core/account/account_service.dart';
@@ -103,7 +103,7 @@ class ChatImageCell extends ChatCell {
           if (imageMessage.prepared && imageMessage.locked)
             GestureDetector(
               onTap: () {
-                Get.toNamed(Routers.imageBrowser.name, arguments: {Security.security_imageUrl: imageMessage.imageUrl});
+                Get.toNamed(Routers.imageBrowser, arguments: {Security.security_imageUrl: imageMessage.imageUrl});
               },
               child: CachedNetworkImage(imageUrl: imageMessage.imageUrl, fit: BoxFit.cover),
             )
@@ -141,7 +141,8 @@ class ChatImageCell extends ChatCell {
   Widget renderReloadViewIfNeeded() {
     //使Container根据自身内容自适应宽度
     if (!imageMessage.canReload || type == ChatCellType.category) return SizedBox.shrink();
-    String text = imageMessage.reloadPrice == 0 ? Security.security_Free : '${imageMessage.reloadPrice} ${imageMessage.reloadCurrencyType == 1 ? 'Gems' : 'Coins'}';
+    String text =
+        imageMessage.reloadPrice == 0 ? Security.security_Free : '${imageMessage.reloadPrice} ${imageMessage.reloadCurrencyType == 1 ? 'Gems' : 'Coins'}';
 
     return Row(
       children: [
@@ -242,11 +243,7 @@ class ChatImageCell extends ChatCell {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Image.asset(
-                      imageMessage.currencyType == 1 ? ImagePath.gem : ImagePath.coin,
-                      width: 24,
-                      height: 24,
-                    ),
+                    Image.asset(imageMessage.currencyType == 1 ? ImagePath.gem : ImagePath.coin, width: 24, height: 24),
                     SizedBox(width: 4),
                     Text('${imageMessage.unlockPrice}', style: TextStyle(color: Colors.white, fontWeight: AppFonts.black, fontSize: 16)),
                   ],

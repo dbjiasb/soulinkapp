@@ -1,9 +1,9 @@
-import 'package:modules/base/crypt/copywriting.dart';
-import 'package:modules/base/crypt/security.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/webview/web_view.dart';
 import 'package:modules/business/create_center/my_oc_config.dart';
 import 'package:modules/core/account/account_service.dart';
@@ -32,7 +32,13 @@ class CreateOcDialog extends StatelessWidget {
   }
 
   void _showCopyrightAgreement() {
-    Get.to(WebView(),arguments: {Security.security_title:Copywriting.security_copyright_Agreement,Security.security_url:'https://cdn.luminaai.buzz/h5/protocol/oc_copyright.html'});
+    Get.to(
+      WebView(),
+      arguments: {
+        Security.security_title: Copywriting.security_copyright_Agreement,
+        Security.security_url: 'https://cdn.luminaai.buzz/h5/protocol/oc_copyright.html',
+      },
+    );
   }
 
   Widget _buildHeaderSection() {
@@ -89,7 +95,7 @@ class CreateOcDialog extends StatelessWidget {
                     onTap: () {
                       _logic.consent.value = !_logic.consent.value;
                     },
-                    child: Image.asset(_logic.consent.value == true ? ImagePath.report_selected:ImagePath.report_unselect),
+                    child: Image.asset(_logic.consent.value == true ? ImagePath.report_selected : ImagePath.report_unselect),
                   ),
                 ),
               ),
@@ -134,7 +140,7 @@ class CreateOcDialog extends StatelessWidget {
     final rtn = await _logic.injectDepen();
     EasyLoading.dismiss();
     if (rtn) {
-      Get.toNamed(Routers.createBasic.name);
+      Get.toNamed(Routers.createBasic);
     } else {
       EasyLoading.showToast(_logic.preLoadError.value);
     }
@@ -142,31 +148,23 @@ class CreateOcDialog extends StatelessWidget {
 
   Widget _buildShouldPayWidget(TextStyle btnTextStyle) {
     var btnContent;
-    if(MyAccount.isMthPrem || MyAccount.isYrPrem){
+    if (MyAccount.isMthPrem || MyAccount.isYrPrem) {
       // 权益支付 - 无限
-      btnContent = [
-        Image.asset(width: 18, height: 18, ImagePath.premium_gem),
-      ];
-    }else if (MyAccount.isWkPrem && MyAccount.freeOcLeftTimes>0){
+      btnContent = [Image.asset(width: 18, height: 18, ImagePath.premium_gem)];
+    } else if (MyAccount.isWkPrem && MyAccount.freeOcLeftTimes > 0) {
       // 权益支付 - 花费一次机会
       btnContent = [
         Image.asset(width: 18, height: 18, ImagePath.premium_gem),
         RichText(text: TextSpan(text: '(${MyAccount.freeOcUsedTimes}/${MyAccount.freeOcUsedTimes + MyAccount.freeOcLeftTimes})', style: btnTextStyle)),
       ];
-    }else {
+    } else {
       // 金币支付
-      btnContent = [
-        Image.asset(width: 18, height: 18, ImagePath.coin),
-        RichText(text: TextSpan(text: '300', style: btnTextStyle)),
-      ];
+      btnContent = [Image.asset(width: 18, height: 18, ImagePath.coin), RichText(text: TextSpan(text: '300', style: btnTextStyle))];
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: 2,
-      children: [
-        RichText(text: TextSpan(text: Copywriting.security_start_create, style: btnTextStyle)),
-        ...btnContent
-      ],
+      children: [RichText(text: TextSpan(text: Copywriting.security_start_create, style: btnTextStyle)), ...btnContent],
     );
 
     // if (!myPremium.isPremium || myPremium.isWeakMember && myPremium.createOCUsedCount >= 5) {

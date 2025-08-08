@@ -290,7 +290,7 @@ class ChatRoomViewController extends GetxController {
   }
 
   void toCall() {
-    Get.toNamed(Routers.call.name, arguments: {Security.security_session: session.toRouter()});
+    Get.toNamed(Routers.call, arguments: {Security.security_session: session.toRouter()});
   }
 
   @override

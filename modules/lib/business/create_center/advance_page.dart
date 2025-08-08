@@ -485,7 +485,7 @@ class AdvanceController extends GetxController {
       return;
     }
     ocDependency.save();
-    Get.toNamed(Routers.createGen.name);
+    Get.toNamed(Routers.createGen);
   }
 
   bool _checkFormGenValid() {

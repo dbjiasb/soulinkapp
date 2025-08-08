@@ -63,7 +63,7 @@ class AccountView extends StatelessWidget {
                                 Obx(() => Text(nickname, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900))),
                                 GestureDetector(
                                   onTap: () {
-                                    Get.toNamed(Routers.editMe.name);
+                                    Get.toNamed(Routers.editMe);
                                   },
                                   child: Image.asset(ImagePath.account_edit, height: 14, width: 14),
                                 ),
@@ -93,7 +93,7 @@ class AccountView extends StatelessWidget {
                   Spacer(),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(Routers.setting.name);
+                      Get.toNamed(Routers.setting);
                     },
                     child: Image.asset(ImagePath.account_setting, width: 24, height: 24),
                   ),
@@ -115,7 +115,7 @@ class AccountView extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () {
-            Get.toNamed(Routers.rechargePremium.name);
+            Get.toNamed(Routers.rechargePremium);
           },
           child: Container(
             height: 56,
@@ -198,7 +198,7 @@ class AccountView extends StatelessWidget {
   Widget walletItem(int type) {
     return InkWell(
       onTap: () {
-        Get.toNamed(Routers.rechargeCurrency.name, arguments: {Security.security_rcgType: type});
+        Get.toNamed(Routers.rechargeCurrency, arguments: {Security.security_rcgType: type});
       },
       child: Container(
         padding: EdgeInsets.all(12),
@@ -298,7 +298,7 @@ class AccountView extends StatelessWidget {
 
   void onToChatTap(String id, String name, String avatarUrl, String coverUrl) {
     Get.toNamed(
-      Routers.chat.name,
+      Routers.chat,
       arguments: {
         Security.security_session: jsonEncode({
           Security.security_id: id,
