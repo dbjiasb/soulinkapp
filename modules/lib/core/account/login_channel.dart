@@ -11,8 +11,17 @@ import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/router/router_names.dart';
 import 'package:modules/core/account/account_service.dart';
 
+import '../../shared/app_theme.dart';
+
 class LoginChannel {
-  LoginChannel(this.channel, this.channelName, this.channelIcon, this.channelColor, this.channelTextColor, this.onTap);
+  LoginChannel(
+    this.channel,
+    this.channelName,
+    this.channelIcon,
+    this.channelColor,
+    this.channelTextColor,
+    this.onTap,
+  );
 
   final String channel;
   final String channelName;
@@ -25,7 +34,9 @@ class LoginChannel {
 class LoginChannelView extends StatelessWidget {
   LoginChannelView({super.key});
 
-  LoginChannelViewController viewController = Get.put(LoginChannelViewController());
+  LoginChannelViewController viewController = Get.put(
+    LoginChannelViewController(),
+  );
 
   _onCheckButtonClicked() async {
     viewController.checked.value = !viewController.checked.value;
@@ -34,7 +45,10 @@ class LoginChannelView extends StatelessWidget {
   _onPrivacyPolicyClicked() {
     Get.toNamed(
       Routers.webView,
-      arguments: {Security.security_title: Copywriting.security_privacy_policy, Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'},
+      arguments: {
+        Security.security_title: Copywriting.security_privacy_policy,
+        Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html',
+      },
     );
   }
 
@@ -43,7 +57,8 @@ class LoginChannelView extends StatelessWidget {
       Routers.webView,
       arguments: {
         Security.security_title: Copywriting.security_terms_of_service,
-        Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+        Security.security_url:
+            'https://cdn.luminaai.buzz/lumina/termsofservice.html',
       },
     );
   }
@@ -56,8 +71,8 @@ class LoginChannelView extends StatelessWidget {
         child: IconButton(
           padding: const EdgeInsets.all(0),
           onPressed: null,
-          icon: Image.asset(ImagePath.login_unselect),
-          selectedIcon: Image.asset(ImagePath.login_selected),
+          icon: Image.asset(ImagePath.check_bg),
+          selectedIcon: Image.asset(ImagePath.check),
           iconSize: 14,
           isSelected: viewController.checked.value,
         ),
@@ -66,8 +81,16 @@ class LoginChannelView extends StatelessWidget {
   }
 
   Widget _buildBottomTips() {
-    const TextStyle linkStyle = TextStyle(color: Colors.white, fontSize: 12, decoration: TextDecoration.underline);
-    const TextStyle normalStyle = TextStyle(color: Color(0xFFABABAD), fontSize: 12, fontWeight: FontWeight.w500);
+    const TextStyle linkStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 12,
+      decoration: TextDecoration.underline,
+    );
+    const TextStyle normalStyle = TextStyle(
+      color: Color(0xFFABABAD),
+      fontSize: 12,
+      fontWeight: FontWeight.w500,
+    );
 
     return RichText(
       text: TextSpan(
@@ -107,7 +130,11 @@ class LoginChannelView extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_buildCheckButton(), const SizedBox(width: 8), _buildBottomTips()],
+        children: [
+          _buildCheckButton(),
+          const SizedBox(width: 8),
+          _buildBottomTips(),
+        ],
       ),
     );
   }
@@ -117,7 +144,7 @@ class LoginChannelView extends StatelessWidget {
       Security.security_email,
       Copywriting.security_sign_in_with_E_mail,
       Icon(Icons.email, size: 24, color: Colors.white),
-      Color(0xFF070512),
+      AppColors.base_background,
       Colors.white,
       () {
         Get.toNamed(Routers.login);
@@ -126,9 +153,9 @@ class LoginChannelView extends StatelessWidget {
     LoginChannel apple = LoginChannel(
       Security.security_apple,
       Copywriting.security_sign_in_with_Apple,
-      Image.asset(ImagePath.login_apple, height: 24, width: 24),
+      Icon(Icons.apple, size: 24, color: Colors.black),
       Colors.white,
-      Color(0xFF070512),
+      AppColors.base_background,
       () async {
         ApiResponse response = await AccountService.instance.loginWithApple();
         if (response.isSuccess) {
@@ -142,7 +169,15 @@ class LoginChannelView extends StatelessWidget {
 
     List<LoginChannel> channels = [apple, email];
 
-    return Column(children: [for (var channel in channels) Padding(padding: const EdgeInsets.only(bottom: 12), child: _buildLoginChannel(channel))]);
+    return Column(
+      children: [
+        for (var channel in channels)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: _buildLoginChannel(channel),
+          ),
+      ],
+    );
   }
 
   Widget _buildLoginChannel(LoginChannel channel) {
@@ -167,7 +202,11 @@ class LoginChannelView extends StatelessWidget {
                 alignment: Alignment.center,
                 child: Text(
                   channel.channelName,
-                  style: TextStyle(color: channel.channelTextColor, fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: channel.channelTextColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -178,29 +217,50 @@ class LoginChannelView extends StatelessWidget {
     );
   }
 
+  final showSplashView = true.obs;
+
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(seconds: 5), () {
+      showSplashView.value = false;
+    });
     return Scaffold(
+      backgroundColor: AppColors.base_background,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Stack(
-          children: [
-            Image.asset(ImagePath.login_bg, width: double.infinity, height: double.infinity, fit: BoxFit.cover),
-            SafeArea(
-              child: Container(
-                margin: EdgeInsets.only(top: 124, bottom: 24),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(ImagePath.login_app, width: 120, height: 120),
-                    Column(mainAxisAlignment: MainAxisAlignment.center, children: [_buildLoginChannels(), SizedBox(height: 65), _buildAgreeText()]),
-                  ],
-                ),
-              ),
-            ),
-          ],
+        child: Obx(
+          () =>
+              showSplashView.value
+                  ? Image.asset(ImagePath.splash_bg, fit: BoxFit.fill)
+                  : SafeArea(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Container(
+                              width: 88,
+                              height: 124,
+                              child: Image.asset(
+                                ImagePath.app_icon,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildLoginChannels(),
+                            SizedBox(height: 65),
+                            _buildAgreeText(),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
         ),
       ),
     );

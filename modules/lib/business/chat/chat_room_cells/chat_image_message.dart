@@ -33,7 +33,11 @@ class ChatImageMessage extends ChatMessage {
 
   @override
   Map<String, dynamic> toServer() {
-    return {...super.toServer(), Security.security_jsonBody: info, Security.security_id: id};
+    return {
+      ...super.toServer(),
+      Security.security_jsonBody: info,
+      Security.security_id: id,
+    };
   }
 
   @override
@@ -41,7 +45,8 @@ class ChatImageMessage extends ChatMessage {
     return {...super.toDatabase()};
   }
 
-  ChatImageMessage.fromDatabase(Map<String, Object?> map) : super.fromLocalData(map) {}
+  ChatImageMessage.fromDatabase(Map<String, Object?> map)
+    : super.fromLocalData(map) {}
 
   ChatImageMessage.fromServer(Map map) : super.fromServerData(map) {}
 
@@ -58,7 +63,10 @@ class ChatImageMessage extends ChatMessage {
         lockInfo: {},
         nativeId: (const Uuid().v4()).replaceAll('-', ''),
       ) {
-    Map body = {Security.security_url: url, Security.security_base64: base64 ?? ''};
+    Map body = {
+      Security.security_url: url,
+      Security.security_base64: base64 ?? '',
+    };
     info = jsonEncode(body);
   }
 
@@ -70,13 +78,17 @@ class ChatImageMessage extends ChatMessage {
   }
 
   String get imageUrl => decodedMap[Security.security_url] ?? '';
-  bool get prepared => decodedMap[Security.security_prepared] == 1 || (decodedMap[Security.security_prepared] == null && imageUrl.isNotEmpty);
+
+  bool get prepared =>
+      decodedMap[Security.security_prepared] == 1 ||
+      (decodedMap[Security.security_prepared] == null && imageUrl.isNotEmpty);
 
   String get thumbnailBase64 {
     return decodedMap[Security.security_base64] ?? '';
   }
 
-  bool get locked => lockInfo.isEmpty || lockInfo[Security.security_unlock] == 1;
+  bool get locked =>
+      lockInfo.isEmpty || lockInfo[Security.security_unlock] == 1;
 
   int get unlockPrice => lockInfo[Security.security_cost] ?? 0;
 
@@ -90,7 +102,13 @@ class ChatImageMessage extends ChatMessage {
 }
 
 class ChatImageCell extends ChatCell {
-  ChatImageCell(super.message, {super.key, super.resend, super.unlock, super.reload});
+  ChatImageCell(
+    super.message, {
+    super.key,
+    super.resend,
+    super.unlock,
+    super.reload,
+  });
 
   ChatImageMessage get imageMessage => message as ChatImageMessage;
 
@@ -103,9 +121,17 @@ class ChatImageCell extends ChatCell {
           if (imageMessage.prepared && imageMessage.locked)
             GestureDetector(
               onTap: () {
-                Get.toNamed(Routers.imageBrowser, arguments: {Security.security_imageUrl: imageMessage.imageUrl});
+                Get.toNamed(
+                  Routers.imageBrowser,
+                  arguments: {
+                    Security.security_imageUrl: imageMessage.imageUrl,
+                  },
+                );
               },
-              child: CachedNetworkImage(imageUrl: imageMessage.imageUrl, fit: BoxFit.cover),
+              child: CachedNetworkImage(
+                imageUrl: imageMessage.imageUrl,
+                fit: BoxFit.cover,
+              ),
             )
           else
             renderImageMask(),
@@ -120,8 +146,13 @@ class ChatImageCell extends ChatCell {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: imageMessage.isMine() ? MainAxisAlignment.end : MainAxisAlignment.start,
-            children: [SizedBox.fromSize(size: Size(172, 256), child: buildImageView())],
+            mainAxisAlignment:
+                imageMessage.isMine()
+                    ? MainAxisAlignment.end
+                    : MainAxisAlignment.start,
+            children: [
+              SizedBox.fromSize(size: Size(172, 256), child: buildImageView()),
+            ],
           ),
           renderReloadViewIfNeeded(),
         ],
@@ -140,9 +171,12 @@ class ChatImageCell extends ChatCell {
 
   Widget renderReloadViewIfNeeded() {
     //使Container根据自身内容自适应宽度
-    if (!imageMessage.canReload || type == ChatCellType.category) return SizedBox.shrink();
+    if (!imageMessage.canReload || type == ChatCellType.category)
+      return SizedBox.shrink();
     String text =
-        imageMessage.reloadPrice == 0 ? Security.security_Free : '${imageMessage.reloadPrice} ${imageMessage.reloadCurrencyType == 1 ? 'Gems' : 'Coins'}';
+        imageMessage.reloadPrice == 0
+            ? Security.security_Free
+            : '${imageMessage.reloadPrice} ${imageMessage.reloadCurrencyType == 1 ? 'Gems' : 'Coins'}';
 
     return Row(
       children: [
@@ -155,14 +189,24 @@ class ChatImageCell extends ChatCell {
             margin: EdgeInsets.only(top: 8),
             padding: EdgeInsets.symmetric(horizontal: 8),
             alignment: Alignment.centerLeft,
-            decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(10)), color: Color(0x33000000)),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              color: Color(0x33000000),
+            ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Image.asset(ImagePath.chat_res_refresh, width: 12, height: 12),
+                Image.asset(ImagePath.refresh, width: 12, height: 12),
                 SizedBox(width: 4),
-                Text(text, style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: AppFonts.medium)),
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: AppFonts.medium,
+                  ),
+                ),
               ],
             ),
           ),
@@ -177,26 +221,40 @@ class ChatImageCell extends ChatCell {
       fit: StackFit.expand,
       children: [
         imageMessage.thumbnailBase64.isNotEmpty
-            ? Image.memory(base64Decode(imageMessage.thumbnailBase64), fit: BoxFit.cover)
-            : CachedNetworkImage(imageUrl: imageMessage.imageUrl, fit: BoxFit.cover),
+            ? Image.memory(
+              base64Decode(imageMessage.thumbnailBase64),
+              fit: BoxFit.cover,
+            )
+            : CachedNetworkImage(
+              imageUrl: imageMessage.imageUrl,
+              fit: BoxFit.cover,
+            ),
         BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 100.0, sigmaY: 100.0),
           //显示imageMessage的thumbnailBase64
           child: Container(color: Colors.transparent),
         ),
         //如果图片已经准备好
-        if (imageMessage.prepared) renderUnlockMaskIfNeeded() else renderLoadingMask(),
+        if (imageMessage.prepared)
+          renderUnlockMaskIfNeeded()
+        else
+          renderLoadingMask(),
       ],
     );
   }
 
-  static String kChatImageUnlockPromptKey = Security.security_kChatImageUnlockPromptKey;
+  static String kChatImageUnlockPromptKey =
+      Security.security_kChatImageUnlockPromptKey;
 
-  bool get prompted => Preferences.instance.getString(kChatImageUnlockPromptKey) != null;
+  bool get prompted =>
+      Preferences.instance.getString(kChatImageUnlockPromptKey) != null;
 
   set prompted(bool value) {
     if (value) {
-      Preferences.instance.setString(kChatImageUnlockPromptKey, '$kChatImageUnlockPromptKey:1');
+      Preferences.instance.setString(
+        kChatImageUnlockPromptKey,
+        '$kChatImageUnlockPromptKey:1',
+      );
     } else {
       Preferences.instance.remove(kChatImageUnlockPromptKey);
     }
@@ -204,7 +262,9 @@ class ChatImageCell extends ChatCell {
 
   void showUnlockDialogIfNeeded() {
     // 会员解锁
-    if (MyAccount.isWkPrem && MyAccount.freeImgLeftTimes > 0 || MyAccount.isMthPrem || MyAccount.isYrPrem) {
+    if (MyAccount.isWkPrem && MyAccount.freeImgLeftTimes > 0 ||
+        MyAccount.isMthPrem ||
+        MyAccount.isYrPrem) {
       unlock?.call(imageMessage);
       return;
     }
@@ -230,24 +290,42 @@ class ChatImageCell extends ChatCell {
 
   Widget renderUnlockMaskIfNeeded() {
     return Container(
-      padding: EdgeInsets.only(top: type == ChatCellType.chat ? 56 : 40, bottom: type == ChatCellType.chat ? 20 : 10),
+      padding: EdgeInsets.only(
+        top: type == ChatCellType.chat ? 56 : 40,
+        bottom: type == ChatCellType.chat ? 20 : 10,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              if (type == ChatCellType.chat) Image.asset(ImagePath.chat_lock_portrait, width: 36, height: 36),
+              Image.asset(ImagePath.btm_pic, width: 36, height: 36),
               SizedBox(height: 8),
-              if (!MyAccount.isSubscribed || MyAccount.isWkPrem && MyAccount.freeImgLeftTimes <= 0 || imageMessage.currencyType == 1)
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Image.asset(imageMessage.currencyType == 1 ? ImagePath.gem : ImagePath.coin, width: 24, height: 24),
-                    SizedBox(width: 4),
-                    Text('${imageMessage.unlockPrice}', style: TextStyle(color: Colors.white, fontWeight: AppFonts.black, fontSize: 16)),
-                  ],
-                ),
+              // if (!MyAccount.isSubscribed ||
+              //     MyAccount.isWkPrem && MyAccount.freeImgLeftTimes <= 0 ||
+              //     imageMessage.currencyType == 1)
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image.asset(
+                    imageMessage.currencyType == 1
+                        ? ImagePath.gem
+                        : ImagePath.coin,
+                    width: 24,
+                    height: 24,
+                  ),
+                  SizedBox(width: 4),
+                  Text(
+                    '${imageMessage.unlockPrice}',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: AppFonts.black,
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
 
@@ -262,32 +340,57 @@ class ChatImageCell extends ChatCell {
               width: type == ChatCellType.chat ? 132 : 90,
               child: Stack(
                 children: [
-                  MyAccount.isSubscribed
-                      ? Container(
-                        width: double.infinity,
-                        height: double.infinity,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: Color(0xFF110803).withValues(alpha: 0.4)),
-                        child: Row(
-                          spacing: 7,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Image.asset(ImagePath.premium_gem, width: 16, height: 16),
-                            Text(Copywriting.security_pro_Free, style: TextStyle(color: Color(0xFFFFE96F), fontSize: 14, fontWeight: AppFonts.medium)),
-                          ],
+                  // MyAccount.isSubscribed
+                  //     ? Container(
+                  //       width: double.infinity,
+                  //       height: double.infinity,
+                  //       decoration: BoxDecoration(
+                  //         borderRadius: BorderRadius.all(Radius.circular(8)),
+                  //         color: Color(0xFF110803).withValues(alpha: 0.4),
+                  //       ),
+                  //       child: Row(
+                  //         spacing: 7,
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           Image.asset(
+                  //             ImagePath.premium,
+                  //             width: 16,
+                  //             height: 16,
+                  //           ),
+                  //           Text(
+                  //             Copywriting.security_pro_Free,
+                  //             style: TextStyle(
+                  //               color: Color(0xFFFFE96F),
+                  //               fontSize: 14,
+                  //               fontWeight: AppFonts.medium,
+                  //             ),
+                  //           ),
+                  //         ],
+                  //       ),
+                  //     )
+                  //     :
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                      color: AppColors.primary,
+                    ),
+                    alignment: Alignment.center,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Image.asset(ImagePath.unlock, width: 16, height: 16),
+                        SizedBox(width: 4),
+                        Text(
+                          Security.security_Unlock,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: AppFonts.medium,
+                            fontSize: 14,
+                          ),
                         ),
-                      )
-                      : Container(
-                        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8)), color: AppColors.primary),
-                        alignment: Alignment.center,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Image.asset(ImagePath.chat_res_lock, width: 16, height: 16),
-                            SizedBox(width: 4),
-                            Text(Security.security_Unlock, style: TextStyle(color: Colors.white, fontWeight: AppFonts.medium, fontSize: 14)),
-                          ],
-                        ),
-                      ),
+                      ],
+                    ),
+                  ),
                   if (MyAccount.isWkPrem)
                     Positioned(
                       right: 0,
@@ -295,7 +398,10 @@ class ChatImageCell extends ChatCell {
                       child: Container(
                         decoration: BoxDecoration(
                           color: Color(0xFF000000).withValues(alpha: 0.11),
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(8), bottomLeft: Radius.circular(8)),
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(8),
+                            bottomLeft: Radius.circular(8),
+                          ),
                         ),
                         padding: EdgeInsets.symmetric(horizontal: 4),
                         child: Row(
@@ -306,7 +412,11 @@ class ChatImageCell extends ChatCell {
                               child: Obx(
                                 () => Text(
                                   '${MyAccount.freeImgUsedTimes}/${MyAccount.freeImgUsedTimes + MyAccount.freeImgLeftTimes}',
-                                  style: TextStyle(color: Color(0xFFE9E7C3), fontSize: 9, fontWeight: FontWeight.w400),
+                                  style: TextStyle(
+                                    color: Color(0xFFE9E7C3),
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
                               ),
                             ),
@@ -326,7 +436,11 @@ class ChatImageCell extends ChatCell {
   Widget renderLoadingMask() {
     return Container(
       alignment: Alignment.center,
-      child: SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: AppColors.main, strokeWidth: 2)),
+      child: SizedBox(
+        width: 24,
+        height: 24,
+        child: CircularProgressIndicator(color: AppColors.main, strokeWidth: 2),
+      ),
     );
   }
 }

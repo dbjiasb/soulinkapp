@@ -15,13 +15,18 @@ import './chat_message_handler.dart';
 import './chat_session_handler.dart';
 import 'chat_room_cells/chat_message.dart';
 
-String kEventCenterDidPreparedImageMessage = Security.security_kEventCenterDidPreparedImageMessage;
+String kEventCenterDidPreparedImageMessage =
+    Security.security_kEventCenterDidPreparedImageMessage;
 
-String kEventCenterDidQueriedNewMessages = Security.security_kEventCenterDidQueriedNewMessages;
-String kEventCenterDidReceivedNewMessages = Security.security_kEventCenterDidReceivedNewMessages;
+String kEventCenterDidQueriedNewMessages =
+    Security.security_kEventCenterDidQueriedNewMessages;
+String kEventCenterDidReceivedNewMessages =
+    Security.security_kEventCenterDidReceivedNewMessages;
 
-String kEventCenterDidEnterChatRoom = Security.security_kEventCenterDidEnterChatRoom;
-String kEventCenterWillExitChatRoom = Security.security_kEventCenterWillExitChatRoom;
+String kEventCenterDidEnterChatRoom =
+    Security.security_kEventCenterDidEnterChatRoom;
+String kEventCenterWillExitChatRoom =
+    Security.security_kEventCenterWillExitChatRoom;
 
 //扩展ChatSession类，新增已发送消息id数组
 final _sentMessages = Expando<Set<int>>();
@@ -112,7 +117,10 @@ class ChatManager {
       stopTimer();
     });
 
-    EventCenter.instance.addListener(kEventCenterDidPushNewMessages, onReceivedNewMessages);
+    EventCenter.instance.addListener(
+      kEventCenterDidPushNewMessages,
+      onReceivedNewMessages,
+    );
   }
 
   void onLogin(Event event) {
@@ -128,14 +136,19 @@ class ChatManager {
     stopTimer();
     EventCenter.instance.removeListener(kEventCenterUserDidLogin, onLogin);
     EventCenter.instance.removeListener(kEventCenterUserDidLogout, onLogout);
-    EventCenter.instance.removeListener(kEventCenterDidPushNewMessages, onReceivedNewMessages);
+    EventCenter.instance.removeListener(
+      kEventCenterDidPushNewMessages,
+      onReceivedNewMessages,
+    );
   }
 
   Future<void> onImagePrepared(Map data) async {
     ChatMessage message = ChatMessage.fromServer(data);
     await messageHandler.insertMessage(message);
     //刷新图片
-    EventCenter.instance.sendEvent(kEventCenterDidPreparedImageMessage, {Security.security_message: message});
+    EventCenter.instance.sendEvent(kEventCenterDidPreparedImageMessage, {
+      Security.security_message: message,
+    });
   }
 
   void onReceivedNewMessages(Event event) async {
@@ -157,7 +170,9 @@ class ChatManager {
 
     int lastMessageId = data[Constants.newestTag] ?? 0;
 
-    ChatMessage? lastMessage = await messageHandler.selectMessage(lastMessageId);
+    ChatMessage? lastMessage = await messageHandler.selectMessage(
+      lastMessageId,
+    );
     if (lastMessage == null) {
       getHistoryMessages();
       return;
@@ -167,7 +182,9 @@ class ChatManager {
     if (rawList.isEmpty) return;
 
     ChatMessage firstMessage = ChatMessage.fromServer(rawList.first);
-    ChatSession? session = await sessionHandler.querySession(firstMessage.sessionId);
+    ChatSession? session = await sessionHandler.querySession(
+      firstMessage.sessionId,
+    );
     if (session == null) {
       getHistoryMessages();
       return;
@@ -182,7 +199,8 @@ class ChatManager {
         newestMessage = message;
       }
       //屏蔽礼物消息
-      if (message.type == ChatMessageType.gift || shouldIgnoreMessage(message)) {
+      if (message.type == ChatMessageType.gift ||
+          shouldIgnoreMessage(message)) {
         // debugPrint('[ChatManager] [shouldIgnoreMessage] ${message.id.toString()} type:${message.type.value}');
         continue;
       }
@@ -192,7 +210,9 @@ class ChatManager {
     }
 
     if (newestMessage != null) {
-      debugPrint('[${DateTime.now()}] [ChatManager] [PullTag] [onReceivedNewMessages] ${newestMessage.id.toString()}');
+      debugPrint(
+        '[${DateTime.now()}] [ChatManager] [PullTag] [onReceivedNewMessages] ${newestMessage.id.toString()}',
+      );
       storePullTag(newestMessage.id.toString());
     }
 
@@ -206,15 +226,22 @@ class ChatManager {
 
     await sessionHandler.upsertSession(session);
 
-    EventCenter.instance.sendEvent(kEventCenterDidReceivedNewMessages, {session.id: messages});
+    EventCenter.instance.sendEvent(kEventCenterDidReceivedNewMessages, {
+      session.id: messages,
+    });
   }
 
   //发送消息
   Future<SendMessageResponse> sendMessage(ChatMessage message) async {
-    ApiRequest request = ApiRequest(Apis.security_sendChatMsg, params: {Security.security_msg: message.toServer()});
+    ApiRequest request = ApiRequest(
+      Apis.security_sendChatMsg,
+      params: {Security.security_msg: message.toServer()},
+    );
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
-      ChatMessage newMessage = ChatMessage.fromServer(response.data[Security.security_msg]);
+      ChatMessage newMessage = ChatMessage.fromServer(
+        response.data[Security.security_msg],
+      );
       int result = await messageHandler.updateLocalMessage(newMessage);
       debugPrint('插入消息结果: $result');
       addSentMessages(newMessage);
@@ -251,8 +278,13 @@ class ChatManager {
     if (isQueryingMessages) return;
 
     isQueryingMessages = true;
-    debugPrint('[${DateTime.now()}] [ChatManager] [PullTag] getHistoryMessages: $lastPullTag ');
-    ApiRequest request = ApiRequest(Apis.security_syncChatHistory, params: {Security.security_position: lastPullTag});
+    debugPrint(
+      '[${DateTime.now()}] [ChatManager] [PullTag] getHistoryMessages: $lastPullTag ',
+    );
+    ApiRequest request = ApiRequest(
+      Apis.security_syncChatHistory,
+      params: {Security.security_position: lastPullTag},
+    );
     ApiResponse response = await ApiService.instance.sendRequest(request);
     if (response.isSuccess) {
       await handleApiResponse(response);
@@ -296,7 +328,9 @@ class ChatManager {
 
       late ChatSession session;
       ChatMessage lastMessage = messages.last;
-      ChatSession? localSession = await sessionHandler.querySession(lastMessage.sessionId);
+      ChatSession? localSession = await sessionHandler.querySession(
+        lastMessage.sessionId,
+      );
       if (localSession != null) {
         localSession.lastMessageText = lastMessage.externalText;
         localSession.lastMessageTime = lastMessage.date;
@@ -314,17 +348,26 @@ class ChatManager {
 
       await sessionHandler.upsertSession(session);
 
-      EventCenter.instance.sendEvent(kEventCenterDidQueriedNewMessages, {session.id: messages});
+      EventCenter.instance.sendEvent(kEventCenterDidQueriedNewMessages, {
+        session.id: messages,
+      });
 
       storePullTag(response.data[Constants.pullTag] ?? '');
     }
   }
 
   bool shouldIgnoreMessage(ChatMessage message) {
-    return !supportedMessageTypes.contains(message.type) || isSentMessage(message);
+    return !supportedMessageTypes.contains(message.type) ||
+        isSentMessage(message);
   }
 
-  Set<ChatMessageType> supportedMessageTypes = {ChatMessageType.text, ChatMessageType.call, ChatMessageType.image, ChatMessageType.video, ChatMessageType.gift};
+  Set<ChatMessageType> supportedMessageTypes = {
+    ChatMessageType.text,
+    ChatMessageType.call,
+    ChatMessageType.image,
+    ChatMessageType.video,
+    ChatMessageType.gift,
+  };
 
   void storePullTag(String pullTag) {
     debugPrint('[ChatManager] storePullTag: $pullTag');
@@ -337,7 +380,9 @@ class ChatManager {
 
     lastPullTag = pullTag;
     Preferences.instance.setString(messagePullTag, pullTag);
-    debugPrint('[${DateTime.now()}] [ChatManager] [PullTag] storePullTag: $pullTag [$lastPullTag]');
+    debugPrint(
+      '[${DateTime.now()}] [ChatManager] [PullTag] storePullTag: $pullTag [$lastPullTag]',
+    );
   }
 
   //定时器
@@ -364,7 +409,8 @@ class ChatManager {
 
   void sayHelloIfNeeded(ChatSession session) async {
     //发送消息
-    ApiRequest request = ApiRequest(Apis.security_sayHello,
+    ApiRequest request = ApiRequest(
+      Apis.security_sayHello,
       params: {
         Security.security_userId: int.tryParse(session.id),
         Security.security_toGroup: [0],
@@ -385,15 +431,27 @@ class ChatManager {
 
   Future<ApiResponse> unlockMessage(ChatMessage message) async {
     var usePrem = 0;
-    if (MyAccount.isWkPrem && MyAccount.freeAdoLeftTimes > 0 || MyAccount.isMthPrem || MyAccount.isYrPrem) {
-      usePrem = 1;
-    }
-    ApiRequest request = ApiRequest(Apis.security_deblockingMessage, params: {Security.security_mid: message.uuid, Security.security_usePrem: usePrem});
+    // if (MyAccount.isWkPrem && MyAccount.freeAdoLeftTimes > 0 || MyAccount.isMthPrem || MyAccount.isYrPrem) {
+    //   usePrem = 1;
+    // }
+    ApiRequest request = ApiRequest(
+      Apis.security_deblockingMessage,
+      params: {
+        Security.security_mid: message.uuid,
+        Security.security_usePrem: usePrem,
+      },
+    );
     return await ApiService.instance.sendRequest(request);
   }
 
   Future<ApiResponse> reloadMessage(ChatMessage message) async {
-    ApiRequest request = ApiRequest(Apis.security_replaceMsg, params: {Security.security_uuid: message.uuid, Security.security_action: 1});
+    ApiRequest request = ApiRequest(
+      Apis.security_replaceMsg,
+      params: {
+        Security.security_uuid: message.uuid,
+        Security.security_action: 1,
+      },
+    );
     return await ApiService.instance.sendRequest(request);
   }
 }

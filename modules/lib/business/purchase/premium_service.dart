@@ -1,4 +1,4 @@
-import 'package:modules/base/crypt/security.dart';
+// import 'package:modules/base/crypt/security.dart';
 // import 'package:modules/base/api_service/api_request.dart';
 // import 'package:modules/base/api_service/api_service.dart';
 // import 'package:get/get.dart';
@@ -7,10 +7,12 @@ import 'package:modules/base/crypt/security.dart';
 //
 // import '../../core/account/account_service.dart';
 //
-// class PremiumService {
+// class PremiumManager {
 //   // api
-//   static String get queryPremiumCardsApi => 'queryPremiumCards'; //getPremiumInfoV2
-//   static String get queryMyPremiumInfoApi => 'queryMyPremiumInfo'; //getUserOwnPremiumInfo
+//   static String get queryPremiumCardsApi =>
+//       'queryPremiumCards'; //getPremiumInfoV2
+//   static String get queryMyPremiumInfoApi =>
+//       'queryMyPremiumInfo'; //getUserOwnPremiumInfo
 //
 //   static String get trUid => 'targetRobotUid';
 //
@@ -22,7 +24,8 @@ import 'package:modules/base/crypt/security.dart';
 //
 //   static String get prmItmType => 'premiumItemType';
 //
-//   static String get successTips => 'You\'re now a premium member!\nYour benefits are unlocked.\nExplore your new perks!';
+//   static String get successTips =>
+//       'You\'re now a premium member!\nYour benefits are unlocked.\nExplore your new perks!';
 //
 //   static String get slogan => 'Chat beyond reality, role play without limits';
 //
@@ -32,12 +35,12 @@ import 'package:modules/base/crypt/security.dart';
 //
 //   static String get statusInfo => Security.security_statusInfo;
 //
-//   static PremiumService? _instance;
+//   static PremiumManager? _instance;
 //
-//   PremiumService._();
+//   PremiumManager._();
 //
-//   static PremiumService get instance {
-//     _instance ??= PremiumService._();
+//   static PremiumManager get instance {
+//     _instance ??= PremiumManager._();
 //     return _instance!;
 //   }
 //
@@ -51,46 +54,101 @@ import 'package:modules/base/crypt/security.dart';
 //
 //   int get premiumEndTime => premiumInfo[Security.security_endTime];
 //
-//   String get premiumFormattedEndTime => DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(premiumInfo[Security.security_endTime]));
+//   String get premiumFormattedEndTime => DateFormat('yyyy-MM-dd').format(
+//     DateTime.fromMillisecondsSinceEpoch(premiumInfo[Security.security_endTime]),
+//   );
 //
-//   bool get hasFreeImage => isMonthMember || isYearMember || (isPremium && imageLeftCount > 0);
+//   bool get hasFreeImage =>
+//       isMonthMember || isYearMember || (isPremium && imageLeftCount > 0);
 //
-//   int get imageLeftCount => isPremium ? (premiumInfo[Security.security_usedInfo]?['1']?[Security.security_leftTimes] ?? 0) : 0;
+//   int get imageLeftCount =>
+//       isPremium
+//           ? (premiumInfo[Security.security_usedInfo]?['1']?[Security
+//                   .security_leftTimes] ??
+//               0)
+//           : 0;
 //
-//   set imageLeftCount(int count) => premiumInfo[Security.security_usedInfo]?['1']?[Security.security_leftTimes] = count;
+//   set imageLeftCount(int count) =>
+//       premiumInfo[Security.security_usedInfo]?['1']?[Security
+//               .security_leftTimes] =
+//           count;
 //
-//   bool get hasFreeVideo => isMonthMember || isYearMember || (isPremium && videoLeftCount > 0);
+//   bool get hasFreeVideo =>
+//       isMonthMember || isYearMember || (isPremium && videoLeftCount > 0);
 //
-//   int get videoLeftCount => isPremium ? (premiumInfo[Security.security_usedInfo]?['3']?[Security.security_leftTimes] ?? 0) : 0;
+//   int get videoLeftCount =>
+//       isPremium
+//           ? (premiumInfo[Security.security_usedInfo]?['3']?[Security
+//                   .security_leftTimes] ??
+//               0)
+//           : 0;
 //
-//   set videoLeftCount(int count) => premiumInfo[Security.security_usedInfo]?['3']?[Security.security_leftTimes] = count;
+//   set videoLeftCount(int count) =>
+//       premiumInfo[Security.security_usedInfo]?['3']?[Security
+//               .security_leftTimes] =
+//           count;
 //
-//   bool get hasFreeAudio => isMonthMember || isYearMember || (isPremium && audioLeftCount > 0);
+//   bool get hasFreeAudio =>
+//       isMonthMember || isYearMember || (isPremium && audioLeftCount > 0);
 //
-//   int get audioLeftCount => isPremium ? (premiumInfo[Security.security_usedInfo]?['2']?[Security.security_leftTimes] ?? 0) : 0;
+//   int get audioLeftCount =>
+//       isPremium
+//           ? (premiumInfo[Security.security_usedInfo]?['2']?[Security
+//                   .security_leftTimes] ??
+//               0)
+//           : 0;
 //
-//   set audioLeftCount(int count) => premiumInfo[Security.security_usedInfo]?['2']?[Security.security_leftTimes] = count;
+//   set audioLeftCount(int count) =>
+//       premiumInfo[Security.security_usedInfo]?['2']?[Security
+//               .security_leftTimes] =
+//           count;
 //
-//   int get createGroupLeftCount => isPremium ? (premiumInfo[Security.security_usedInfo]?['12']?[Security.security_leftTimes] ?? 0) : 0;
+//   int get createGroupLeftCount =>
+//       isPremium
+//           ? (premiumInfo[Security.security_usedInfo]?['12']?[Security
+//                   .security_leftTimes] ??
+//               0)
+//           : 0;
 //
-//   set createGroupLeftCount(int count) => premiumInfo[Security.security_usedInfo]?['12']?[Security.security_leftTimes] = count;
+//   set createGroupLeftCount(int count) =>
+//       premiumInfo[Security.security_usedInfo]?['12']?[Security
+//               .security_leftTimes] =
+//           count;
 //
-//   int get createGroupUsedCount => isPremium ? (premiumInfo[Security.security_usedInfo]?['12']?[Security.security_useTimes] ?? 0) : 0;
+//   int get createGroupUsedCount =>
+//       isPremium
+//           ? (premiumInfo[Security.security_usedInfo]?['12']?[Security
+//                   .security_useTimes] ??
+//               0)
+//           : 0;
 //
-//   int get createOCLeftCount => isPremium ? (premiumInfo[Security.security_usedInfo]?['10']?[Security.security_leftTimes] ?? 0) : 0;
+//   int get createOCLeftCount =>
+//       isPremium
+//           ? (premiumInfo[Security.security_usedInfo]?['10']?[Security
+//                   .security_leftTimes] ??
+//               0)
+//           : 0;
 //
-//   set createOCLeftCount(int count) => premiumInfo[Security.security_usedInfo]?['10']?[Security.security_leftTimes] = count;
+//   set createOCLeftCount(int count) =>
+//       premiumInfo[Security.security_usedInfo]?['10']?[Security
+//               .security_leftTimes] =
+//           count;
 //
-//   int get createOCUsedCount => isPremium ? (premiumInfo[Security.security_usedInfo]?['10']?[Security.security_useTimes] ?? 0) : 0;
+//   int get createOCUsedCount =>
+//       isPremium
+//           ? (premiumInfo[Security.security_usedInfo]?['10']?[Security
+//                   .security_useTimes] ??
+//               0)
+//           : 0;
 //
 //   int renewalStatus = 0;
 //   RxMap premiumInfo = {}.obs;
 //
 //   void init() {
-//     EventCenter.instance.addListener(kEventCenterUserDidLogin, (event){
+//     EventCenter.instance.addListener(kEventCenterUserDidLogin, (event) {
 //       actionAfterLogin();
 //     });
-//     EventCenter.instance.addListener(kEventCenterUserDidLogout, (event){
+//     EventCenter.instance.addListener(kEventCenterUserDidLogout, (event) {
 //       onLogout();
 //     });
 //   }
@@ -99,7 +157,11 @@ import 'package:modules/base/crypt/security.dart';
 //     try {
 //       final req = ApiRequest(queryPremiumCardsApi, params: {});
 //       final res = await ApiService.instance.sendRequest(req);
-//       // todo check rtn
+//       if (res.isSuccess && res.data.isNotEmpty) {
+//         return res.data[rItem];
+//       } else {
+//         return null;
+//       }
 //     } catch (e) {
 //       return null;
 //     }
@@ -118,8 +180,7 @@ import 'package:modules/base/crypt/security.dart';
 //     try {
 //       final req = ApiRequest(queryMyPremiumInfoApi, params: {});
 //       final rsp = await ApiService.instance.sendRequest(req);
-//       // todo check rtn
-//       if(rsp.isSuccess){
+//       if (rsp.isSuccess) {
 //         premiumInfo.value = rsp.data[Security.security_ownPremium];
 //       }
 //     } catch (e) {}

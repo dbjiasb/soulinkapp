@@ -6,17 +6,32 @@ enum ListStatus { idle, loading, success, empty, error }
 
 class ListStatusView extends StatelessWidget {
   final ListStatus status;
-  String? description;
+  String? emptyDesc;
+  String? errorDesc;
 
-  ListStatusView({super.key, required this.status,this.description});
+  ListStatusView({
+    super.key,
+    required this.status,
+    this.emptyDesc,
+    this.errorDesc,
+  });
 
   Widget buildEmptyView() {
     return Center(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(ImagePath.list_status_empty, width: 156, height: 156),
-          Text(description ?? Copywriting.security_no_data, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
+          Image.asset(ImagePath.empty_list, width: 156, height: 156),
+          Text(
+            emptyDesc ?? Copywriting.security_no_data,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF9EA1A8),
+            ),
+          ),
+          // Text(description ?? Copywriting.security_no_data, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
+          // >>>>>>> feature/feature_1.0.0
         ],
       ),
     );
@@ -27,10 +42,15 @@ class ListStatusView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(ImagePath.list_status_empty, width: 156, height: 156),
+          Image.asset(ImagePath.empty_list, width: 156, height: 156),
           Text(
-            description ?? Copywriting.security_network_exception__please_try_again_later,
-            style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8)),
+            errorDesc ??
+                Copywriting.security_network_exception__please_try_again_later,
+            style: TextStyle(
+              fontSize: 11,
+              fontWeight: FontWeight.w500,
+              color: Color(0xFF9EA1A8),
+            ),
           ),
         ],
       ),

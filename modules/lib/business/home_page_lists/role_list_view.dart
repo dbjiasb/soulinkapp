@@ -93,8 +93,15 @@ class VirtualRoleItem extends RoleItem {
     params[Security.security_id] = info[Security.security_uid].toString();
     params[Security.security_name] = info[Security.security_nickname] ?? '';
     params[Security.security_avatar] = info[Security.security_avatarUrl] ?? '';
-    params[Security.security_backgroundUrl] = info[Security.security_coverUrl] ?? '';
-    Get.toNamed(Routers.chat, arguments: {Security.security_session: jsonEncode(params), Security.security_call: call});
+    params[Security.security_backgroundUrl] =
+        info[Security.security_coverUrl] ?? '';
+    Get.toNamed(
+      Routers.chat,
+      arguments: {
+        Security.security_session: jsonEncode(params),
+        Security.security_call: call,
+      },
+    );
   }
 
   @override
@@ -104,7 +111,9 @@ class VirtualRoleItem extends RoleItem {
       child: AspectRatio(
         aspectRatio: 168 / 260,
         child: Container(
-          decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(8))),
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
           clipBehavior: Clip.antiAlias,
           child: Stack(
             fit: StackFit.expand,
@@ -112,7 +121,11 @@ class VirtualRoleItem extends RoleItem {
               CachedNetworkImage(
                 imageUrl: coverUrl,
                 fit: BoxFit.cover,
-                errorWidget: (context, url, error) => Image.asset(ImagePath.empty_cover, fit: BoxFit.cover),
+                errorWidget:
+                    (context, url, error) => Image.asset(
+                      ImagePath.default_avatar,
+                      fit: BoxFit.contain,
+                    ),
               ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,7 +136,12 @@ class VirtualRoleItem extends RoleItem {
                     child: BackdropFilter(
                       filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
                       child: Container(
-                        color: Colors.black.withOpacity(0.3),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(ImagePath.person_img_mask),
+                            fit: BoxFit.fitWidth,
+                          ),
+                        ),
                         width: double.infinity,
                         padding: const EdgeInsets.all(12),
                         child: Column(
@@ -136,19 +154,34 @@ class VirtualRoleItem extends RoleItem {
                               children: [
                                 Text(
                                   nickname,
-                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 14),
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w900,
+                                    fontSize: 14,
+                                  ),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                if ([1, 3, 4].contains(info[Constants.acType])) Image.asset(ImagePath.ic_tag_ai, height: 16, width: 21),
+                                if ([1, 3, 4].contains(info[Constants.acType]))
+                                  Image.asset(
+                                    ImagePath.ai_tag,
+                                    height: 16,
+                                    width: 21,
+                                  ),
                               ],
                             ),
-                            Text(
-                              bio,
-                              style: TextStyle(color: Colors.white.withOpacity(0.7), fontWeight: FontWeight.w500, fontSize: 11),
-                              maxLines: 3,
-                              overflow: TextOverflow.ellipsis,
-                            ),
+                            bio.isNotEmpty
+                                ? Text(
+                                  bio,
+                                  style: TextStyle(
+                                    color: Colors.white.withOpacity(0.7),
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 11,
+                                  ),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                )
+                                : Container(),
                           ],
                         ),
                       ),
@@ -167,7 +200,10 @@ class VirtualRoleItem extends RoleItem {
 class RoleListView extends StatelessWidget {
   RoleListView({super.key, required this.type}) {
     // 在构造函数中初始化控制器并传入 type
-    viewController = Get.put(RoleListViewController(type: type), tag: '${type.name}_controller');
+    viewController = Get.put(
+      RoleListViewController(type: type),
+      tag: '${type.name}_controller',
+    );
   }
 
   final RoleListType type;
@@ -195,7 +231,10 @@ class RoleListView extends StatelessWidget {
                         },
                         itemCount: viewController.items.length,
                       )
-                      : ListStatusView(status: viewController.status.value),
+                      : ListStatusView(
+                        status: viewController.status.value,
+                        emptyDesc: 'No chat partner has been initiated yet',
+                      ),
             ),
           ),
         ),
@@ -233,7 +272,10 @@ class RoleListViewController extends GetxController {
 
   addObservers() {
     scrollController.addListener(() {
-      if ((scrollController.position.pixels >= scrollController.position.maxScrollExtent - 64) && _hasMore && loadingMore == false) {
+      if ((scrollController.position.pixels >=
+              scrollController.position.maxScrollExtent - 64) &&
+          _hasMore &&
+          loadingMore == false) {
         loadMoreData();
       }
     });
@@ -259,14 +301,18 @@ class RoleListViewController extends GetxController {
       status.value = ListStatus.loading;
     }
 
-    ApiResponse response = await RoleManager.instance.getRoleList(type: type, version: version, pageIndex: pageIndex, targetUid: targetUid);
+    ApiResponse response = await RoleManager.instance.getRoleList(
+      type: type,
+      version: version,
+      pageIndex: pageIndex,
+      targetUid: targetUid,
+    );
     if (response.isSuccess) {
       List infos = response.data[Security.security_param] ?? [];
       List<RoleItem> newItems = infos.map((e) => RoleItem.fromMap(e)).toList();
 
-      if (pageIndex == 0 && (type == RoleListType.ai || type == RoleListType.custom_ai)) {
+      if (pageIndex == 0) {
         items.clear();
-        // items.add(CreateOcEntryItem({}));
       }
       items.addAll(newItems);
       status.value = items.isEmpty ? ListStatus.empty : ListStatus.success;

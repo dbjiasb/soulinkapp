@@ -28,14 +28,26 @@ class GenPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _logic.initCreatePage();
-    return Scaffold(body: Obx(() => AnimatedSwitcher(duration: const Duration(milliseconds: 200), child: _logic.isGenPage.value ? genBody() : resultBody())));
+    return Scaffold(
+      body: Obx(
+        () => AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: _logic.isGenPage.value ? genBody() : resultBody(),
+        ),
+      ),
+    );
   }
 
   // 生成中页面的 Widget
   Widget genBody() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 44),
-      decoration: BoxDecoration(image: DecorationImage(image: AssetImage(ImagePath.oc_gen_bg), fit: BoxFit.fill)),
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage(ImagePath.oc_gen_bg),
+          fit: BoxFit.fill,
+        ),
+      ),
       child: Stack(
         children: [
           Row(
@@ -45,7 +57,7 @@ class GenPage extends StatelessWidget {
                 onPressed: () {
                   showStopDialog();
                 },
-                icon: Image.asset(ImagePath.icon_back, height: 24, width: 24),
+                icon: Image.asset(ImagePath.back, height: 24, width: 24),
               ),
             ],
           ),
@@ -54,8 +66,25 @@ class GenPage extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    SizedBox(height: 200, width: 200, child: SVGASimpleImage(assetsName: ImagePath.gen_ing)),
-                    Text(Copywriting.security_generating___, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: Color(0xFFFFFFFF))),
+                    SizedBox(
+                      height: 200,
+                      width: 200,
+                      child: Padding(
+                        padding: EdgeInsets.all(50),
+                        child: CircularProgressIndicator(
+                          strokeWidth: 6,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      Copywriting.security_generating___,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w400,
+                        color: Color(0xFFFFFFFF),
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -88,23 +117,42 @@ class GenPage extends StatelessWidget {
                         onPressed: () {
                           startRegeneration();
                         },
-                        icon: Image.asset(ImagePath.oc_regen, height: 32, width: 32),
+                        icon: Image.asset(
+                          ImagePath.refresh,
+                          height: 32,
+                          width: 32,
+                        ),
                       ),
                     ],
                   ),
                   const Expanded(child: SizedBox()),
-                  Obx(() => Row(mainAxisAlignment: MainAxisAlignment.center, spacing: 4, children: indicatorView())),
+                  Obx(
+                    () => Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 4,
+                      children: indicatorView(),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: _logic.goToChat,
                     child: Container(
                       height: 56,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: AppColors.ocMain),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        color: AppColors.ocMain,
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            _logic.isEditPage ? Copywriting.security_modify_Now : Copywriting.security_create_Now,
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w900, fontSize: 16),
+                            _logic.isEditPage
+                                ? Copywriting.security_modify_Now
+                                : Copywriting.security_create_Now,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w900,
+                              fontSize: 16,
+                            ),
                           ),
                         ],
                       ),
@@ -141,7 +189,9 @@ class GenPage extends StatelessWidget {
       confirmText: Security.security_Yes,
       cancelText: Security.security_Cancel,
       onConfirm: () {
-        _logic.isEditPage ? _logic.regenerateInEdition() : _logic.regenerateInCreation();
+        _logic.isEditPage
+            ? _logic.regenerateInEdition()
+            : _logic.regenerateInCreation();
       },
       onCancel: Get.back,
     );
@@ -161,18 +211,32 @@ class GenPage extends StatelessWidget {
             () => Container(
               width: 68,
               height: 68,
-              decoration: const BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(35))),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(35)),
+              ),
               child:
                   _logic.currentAvatar.value.isEmpty
                       ? const CircularProgressIndicator()
-                      : _logic.currentAvatar.value.startsWith(Security.security_https)
+                      : _logic.currentAvatar.value.startsWith(
+                        Security.security_https,
+                      )
                       ? ClipRRect(
                         borderRadius: BorderRadius.circular(35),
-                        child: CachedNetworkImage(imageUrl: _logic.currentAvatar.value, width: 68, height: 68, fit: BoxFit.cover),
+                        child: CachedNetworkImage(
+                          imageUrl: _logic.currentAvatar.value,
+                          width: 68,
+                          height: 68,
+                          fit: BoxFit.cover,
+                        ),
                       )
                       : ClipRRect(
                         borderRadius: BorderRadius.circular(35),
-                        child: Image.file(File(_logic.currentAvatar.value), width: 68, height: 68, fit: BoxFit.cover),
+                        child: Image.file(
+                          File(_logic.currentAvatar.value),
+                          width: 68,
+                          height: 68,
+                          fit: BoxFit.cover,
+                        ),
                       ),
             ),
           ),
@@ -180,8 +244,18 @@ class GenPage extends StatelessWidget {
             top: 56,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-              decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(12)), color: AppColors.ocMain),
-              child: Text(Security.security_focus, style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+                color: AppColors.ocMain,
+              ),
+              child: Text(
+                Security.security_focus,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 11,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         ],
@@ -198,7 +272,16 @@ class GenPage extends StatelessWidget {
         },
         children:
             _logic.results
-                .map((results) => Container(decoration: BoxDecoration(image: DecorationImage(image: FileImage(File(results.localPath)), fit: BoxFit.cover))))
+                .map(
+                  (results) => Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: FileImage(File(results.localPath)),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                )
                 .toList(),
       ),
     );
@@ -210,7 +293,10 @@ class GenPage extends StatelessWidget {
     for (int i = 0; i < _logic.results.length; i++) {
       indicators.add(
         Container(
-          decoration: BoxDecoration(color: i == index ? AppColors.ocMain : Colors.white, borderRadius: const BorderRadius.all(Radius.circular(3))),
+          decoration: BoxDecoration(
+            color: i == index ? AppColors.ocMain : Colors.white,
+            borderRadius: const BorderRadius.all(Radius.circular(3)),
+          ),
           height: 6,
           width: 6,
         ),
@@ -221,11 +307,9 @@ class GenPage extends StatelessWidget {
 }
 
 class GenOcController extends GetxController {
-  OcDependency ocDependency = Get.find<OcDependency>();
+  bool get isEditPage => OcManager.instance.isEdit;
 
-  bool get isEditPage => ocDependency.isEdit;
-
-  Map get config => ocDependency.configs;
+  Map get config => OcManager.instance.configs;
 
   final isGenPage = false.obs;
   Timer? _resultTimer;
@@ -234,7 +318,7 @@ class GenOcController extends GetxController {
   final currentPage = 0.obs;
   final currentAvatar = ''.obs;
 
-  late final List<GenerationResult> results = ocDependency.results;
+  late final List<GenerationResult> results = OcManager.instance.results;
 
   void initEditPage() {
     regenerateInEdition();
@@ -242,7 +326,7 @@ class GenOcController extends GetxController {
 
   Future<void> regenerateInEdition() async {
     isGenPage.value = true;
-    final rtn = await ocDependency.editForBgRegeneration();
+    final rtn = await OcManager.instance.editForBgRegeneration();
     if (rtn) {
       startTimer();
     } else {
@@ -257,7 +341,7 @@ class GenOcController extends GetxController {
   // 获取图片traceId
   Future<void> regenerateInCreation() async {
     isGenPage.value = true;
-    final rtn = await ocDependency.createForBgRegeneration();
+    final rtn = await OcManager.instance.createForBgRegeneration();
     if (rtn) {
       startTimer();
     } else {
@@ -275,7 +359,7 @@ class GenOcController extends GetxController {
   // 轮询结果，如果有结果则结束轮询，进行处理
   Future<void> queryResult() async {
     if (_resultTimer == null || interrupt.value == true) return;
-    final rtn = await ocDependency.queryImageResult();
+    final rtn = await OcManager.instance.queryImageResult();
     if (_resultTimer == null || interrupt.value == true) return;
 
     if (rtn != null && (rtn[Security.security_imageUrl] as String).isNotEmpty) {
@@ -285,7 +369,7 @@ class GenOcController extends GetxController {
 
   Future<void> handleResult(Map rtn) async {
     cancelTimer();
-    await ocDependency.downloadImage(rtn);
+    await OcManager.instance.downloadImage(rtn);
 
     isGenPage.value = false;
 
@@ -333,23 +417,26 @@ class GenOcController extends GetxController {
     EasyLoading.show();
     final xFile = XFile(currentAvatar.value);
     final bytes = await xFile.readAsBytes();
-    final avatarUrl = await FilePushService.instance.upload(bytes, FileType.profile);
+    final avatarUrl = await FilePushService.instance.upload(
+      bytes,
+      FileType.profile,
+    );
     if (avatarUrl != null) {
-      ocDependency.configs[Security.security_chatBackground] = results[currentPage.value].url;
-      ocDependency.configs[Security.security_avatarUrl] = avatarUrl;
+      OcManager.instance.configs[Security.security_chatBackground] =
+          results[currentPage.value].url;
+      OcManager.instance.configs[Security.security_avatarUrl] = avatarUrl;
 
       late final rtn;
       if (isEditPage) {
-        rtn = await ocDependency.update();
+        rtn = await OcManager.instance.update();
       } else {
-        rtn = await ocDependency.createRole();
+        rtn = await OcManager.instance.createRole();
       }
       if (rtn != null) {
         EasyLoading.dismiss();
 
-        ocDependency.cleanTemps();
+        OcManager.instance.cleanTemps();
         Get.until((route) => route.settings.name == Routers.root);
-        Get.delete<OcDependency>();
 
         AccountService.instance.getMyPremInfo();
         Get.toNamed(
@@ -357,16 +444,20 @@ class GenOcController extends GetxController {
           arguments: {
             Security.security_session: jsonEncode({
               Security.security_id: rtn[Security.security_roleUid].toString(),
-              Security.security_name: config[Security.security_nickname] ?? '',
-              Security.security_avatar: config[Security.security_avatarUrl] ?? '',
-              Security.security_backgroundUrl: config[Security.security_coverUrl] ?? '',
+              Security.security_name: config[Security.security_nickName] ?? '',
+              Security.security_avatar:
+                  config[Security.security_avatarUrl] ?? '',
+              Security.security_backgroundUrl:
+                  config[Security.security_coverUrl] ?? '',
             }),
             Security.security_call: false,
           },
         );
       }
     } else {
-      EasyLoading.showToast(Copywriting.security_avatar_upload_failed__please_try_again_later_);
+      EasyLoading.showToast(
+        Copywriting.security_avatar_upload_failed__please_try_again_later_,
+      );
     }
     EasyLoading.dismiss();
   }

@@ -14,6 +14,7 @@ import 'chat_session.dart';
 
 class ChatSessionCell extends StatelessWidget {
   final ChatSession session;
+
   const ChatSessionCell(this.session, {super.key});
 
   Widget buildUnreadNumber() {
@@ -23,10 +24,19 @@ class ChatSessionCell extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 4, vertical: 0),
         alignment: Alignment.center,
         constraints: BoxConstraints(minWidth: 12, minHeight: 12),
-        decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(4)), color: Color(0xFFFF425E)),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+          color: Color(0xFFFF425E),
+        ),
         child: Text(
-          session.unreadNumber.value > 99 ? '99+' : session.unreadNumber.value.toString(),
-          style: TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.w600),
+          session.unreadNumber.value > 99
+              ? '99+'
+              : session.unreadNumber.value.toString(),
+          style: TextStyle(
+            fontSize: 10,
+            color: Colors.white,
+            fontWeight: FontWeight.w600,
+          ),
         ),
       );
     } else {
@@ -38,7 +48,10 @@ class ChatSessionCell extends StatelessWidget {
   Widget build(context) {
     return GestureDetector(
       onTap: () {
-        Get.toNamed(Routers.chat, arguments: {Security.security_session: session.toRouter()});
+        Get.toNamed(
+          Routers.chat,
+          arguments: {Security.security_session: session.toRouter()},
+        );
       },
       child: Container(
         color: Colors.transparent, //不设置背景颜色，否则会影响点击事件，暂不清楚原因
@@ -49,7 +62,13 @@ class ChatSessionCell extends StatelessWidget {
             Container(
               width: 44,
               height: 44,
-              decoration: BoxDecoration(shape: BoxShape.circle, image: DecorationImage(image: NetworkImage(session.avatar), fit: BoxFit.cover)),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(session.avatar),
+                  fit: BoxFit.cover,
+                ),
+              ),
             ),
 
             SizedBox(width: 10),
@@ -66,7 +85,11 @@ class ChatSessionCell extends StatelessWidget {
                           session.name,
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(fontSize: 16, color: Colors.white, fontWeight: FontWeight.w500),
+                          style: const TextStyle(
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
                       ),
                       SizedBox(width: 5),
@@ -77,7 +100,11 @@ class ChatSessionCell extends StatelessWidget {
                     session.lastMessageText,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(fontSize: 11, color: Color(0xFF9EA1A8), fontWeight: FontWeight.w500),
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Color(0xFF9EA1A8),
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ],
               ),
@@ -86,7 +113,14 @@ class ChatSessionCell extends StatelessWidget {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(DateFormatter.diff(session.lastMessageTime), style: TextStyle(fontSize: 11, color: Color(0xFF9EA1A8), fontWeight: FontWeight.w500)),
+                Text(
+                  DateFormatter.diff(session.lastMessageTime),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: Color(0xFF9EA1A8),
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
                 Obx(() => buildUnreadNumber()),
               ],
             ),
@@ -100,14 +134,28 @@ class ChatSessionCell extends StatelessWidget {
 class ChatSessionsView extends StatelessWidget {
   ChatSessionsView({super.key});
 
-  ChatSessionsViewController viewController = Get.put(ChatSessionsViewController());
+  ChatSessionsViewController viewController = Get.put(
+    ChatSessionsViewController(),
+  );
 
   Widget appBarTitle() {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Text(Security.security_Message, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900), softWrap: true),
-        Positioned(bottom: -3, right: 0, child: Image.asset(ImagePath.home_list_selected, height: 10, width: 40)),
+        Text(
+          Security.security_Message,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+          ),
+          softWrap: true,
+        ),
+        Positioned(
+          bottom: -3,
+          right: 0,
+          child: Image.asset(ImagePath.tab_selected, height: 10, width: 40),
+        ),
       ],
     );
   }
@@ -120,7 +168,13 @@ class ChatSessionsView extends StatelessWidget {
   build(context) {
     return Scaffold(
       backgroundColor: Color(0xFF0A0B12),
-      appBar: AppBar(leading: Center(child: appBarTitle()), leadingWidth: 108, toolbarHeight: 44, elevation: 0, backgroundColor: Colors.transparent),
+      appBar: AppBar(
+        leading: Center(child: appBarTitle()),
+        leadingWidth: 108,
+        toolbarHeight: 44,
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: body(),
     );
   }
@@ -135,7 +189,11 @@ class ChatSessionsView extends StatelessWidget {
                   return ChatSessionCell(viewController.sessions[index]);
                 },
               )
-              : ListStatusView(status: viewController.status.value, description: Copywriting.security_no_chat_partner_has_been_initiated_yet),
+              : ListStatusView(
+                status: viewController.status.value,
+                emptyDesc:
+                    Copywriting.security_no_chat_partner_has_been_initiated_yet,
+              ),
     );
   }
 
@@ -167,15 +225,30 @@ class ChatSessionsViewController extends GetxController {
   }
 
   listenEvents() {
-    EventCenter.instance.addListener(kEventCenterDidQueriedNewMessages, onQueriedNewMessage);
-    EventCenter.instance.addListener(kEventCenterDidReceivedNewMessages, onReceivedNewMessages);
+    EventCenter.instance.addListener(
+      kEventCenterDidQueriedNewMessages,
+      onQueriedNewMessage,
+    );
+    EventCenter.instance.addListener(
+      kEventCenterDidReceivedNewMessages,
+      onReceivedNewMessages,
+    );
     EventCenter.instance.addListener(kEventCenterDidEnterChatRoom, onEnterRoom);
   }
 
   removeEvents() {
-    EventCenter.instance.removeListener(kEventCenterDidQueriedNewMessages, onQueriedNewMessage);
-    EventCenter.instance.removeListener(kEventCenterDidReceivedNewMessages, onReceivedNewMessages);
-    EventCenter.instance.removeListener(kEventCenterDidEnterChatRoom, onEnterRoom);
+    EventCenter.instance.removeListener(
+      kEventCenterDidQueriedNewMessages,
+      onQueriedNewMessage,
+    );
+    EventCenter.instance.removeListener(
+      kEventCenterDidReceivedNewMessages,
+      onReceivedNewMessages,
+    );
+    EventCenter.instance.removeListener(
+      kEventCenterDidEnterChatRoom,
+      onEnterRoom,
+    );
   }
 
   void onEnterRoom(Event event) {
@@ -201,7 +274,8 @@ class ChatSessionsViewController extends GetxController {
       var key = item.key;
       var value = item.value;
       if (key is! String || value is! List) continue;
-      ChatSession? session = await ChatManager.instance.sessionHandler.querySession(key);
+      ChatSession? session = await ChatManager.instance.sessionHandler
+          .querySession(key);
       if (session == null) continue;
       if (currentSession == null || currentSession.id != session.id) {
         session.unreadNumber.value = session.unreadNumber.value + value.length;
@@ -218,7 +292,8 @@ class ChatSessionsViewController extends GetxController {
       status.value = ListStatus.loading;
     }
 
-    List<ChatSession> results = await ChatManager.instance.sessionHandler.querySessions();
+    List<ChatSession> results =
+        await ChatManager.instance.sessionHandler.querySessions();
     sessions.clear();
     sessions.addAll(results);
 

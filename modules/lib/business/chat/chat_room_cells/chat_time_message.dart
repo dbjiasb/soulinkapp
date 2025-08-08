@@ -33,7 +33,7 @@ class ChatTimeCell extends ChatCell {
           width: 56,
           height: 44,
           alignment: Alignment.center,
-          decoration: BoxDecoration(color: Color(0xE6EBEFFF), borderRadius: BorderRadius.circular(12)),
+          decoration: BoxDecoration(color: Color(0xffFFF9B4).withValues(alpha:0.9), borderRadius: BorderRadius.circular(12)),
           child: Text(message.date.toString()),
         ),
       ),

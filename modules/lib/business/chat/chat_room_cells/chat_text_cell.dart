@@ -45,21 +45,34 @@ class ChatTextMessage extends ChatMessage {
   }
 
   // 修复后的 fromDatabase 构造函数
-  ChatTextMessage.fromDatabase(Map<String, Object?> map) : super.fromLocalData(map) {
+  ChatTextMessage.fromDatabase(Map<String, Object?> map)
+    : super.fromLocalData(map) {
     text = (map[Security.security_content] as String?) ?? '';
     sessionId = (map[Security.security_sessionId] as String?) ?? '';
-    sendState = ChatMessageSendStatus.fromDigit(map[Security.security_sendState] as int? ?? 0).obs;
+    sendState =
+        ChatMessageSendStatus.fromDigit(
+          map[Security.security_sendState] as int? ?? 0,
+        ).obs;
     bool locked = lockInfo[Security.security_unlock] == 1;
-    audioStatus = ChatTextAudioStatus.fromDigit(locked ? ChatTextAudioStatus.ready.digit : 0).obs;
+    audioStatus =
+        ChatTextAudioStatus.fromDigit(
+          locked ? ChatTextAudioStatus.ready.digit : 0,
+        ).obs;
   }
 
   ChatTextMessage.fromServer(Map map) : super.fromServerData(map) {
     text = map[Security.security_content] ?? '';
     int sessionType = map[Security.security_sessionType] ?? 0;
-    sessionId = sessionType == 0 ? (senderId == ownerId ? receiverId : senderId).toString() : (map[Security.security_sessionId] ?? '');
+    sessionId =
+        sessionType == 0
+            ? (senderId == ownerId ? receiverId : senderId).toString()
+            : (map[Security.security_sessionId] ?? '');
     sendState = ChatMessageSendStatus.fromDigit(0).obs;
     bool locked = map[Security.security_unlock]?[Security.security_unlock] == 1;
-    audioStatus = ChatTextAudioStatus.fromDigit(locked ? ChatTextAudioStatus.ready.digit : 0).obs;
+    audioStatus =
+        ChatTextAudioStatus.fromDigit(
+          locked ? ChatTextAudioStatus.ready.digit : 0,
+        ).obs;
   }
 
   // 改为构造函数
@@ -107,7 +120,15 @@ class ChatTextMessage extends ChatMessage {
 }
 
 class ChatTextCell extends ChatCell {
-  ChatTextCell(ChatTextMessage super.message, {super.key, super.resend, super.onTap, super.unlock, super.reload, super.download});
+  ChatTextCell(
+    ChatTextMessage super.message, {
+    super.key,
+    super.resend,
+    super.onTap,
+    super.unlock,
+    super.reload,
+    super.download,
+  });
 
   ChatTextMessage get textMessage => super.message as ChatTextMessage;
 
@@ -125,7 +146,10 @@ class ChatTextCell extends ChatCell {
             child: Container(
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: isMine ? Color(0xFFFFF9B4).withValues(alpha: 0.9) : Color(0xFF272533).withValues(alpha: 0.9),
+                color:
+                    isMine
+                        ? Color(0xFFFFF9B4).withValues(alpha: 0.9)
+                        : Color(0xFF272533).withValues(alpha: 0.9),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(12),
                   topRight: Radius.circular(12),
@@ -133,7 +157,14 @@ class ChatTextCell extends ChatCell {
                   bottomRight: Radius.circular(isMine ? 4 : 12),
                 ),
               ),
-              child: Text(textMessage.text, style: TextStyle(color: isMine ? Color(0xFF3D3734) : Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
+              child: Text(
+                textMessage.text,
+                style: TextStyle(
+                  color: isMine ? Color(0xFF3D3734) : Colors.white,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
             ),
           ),
         ),
@@ -147,9 +178,26 @@ class ChatTextCell extends ChatCell {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Obx(() => Container(padding: EdgeInsets.only(bottom: 8, top: textMessage.focused.value ? 16 : 0), child: renderMainView())),
         Obx(
-          () => textMessage.focused.value ? Positioned(child: ChatTextAudioView(message: textMessage, unlock: unlock, download: download)) : SizedBox.shrink(),
+          () => Container(
+            padding: EdgeInsets.only(
+              bottom: 8,
+              top: textMessage.focused.value ? 16 : 0,
+            ),
+            child: renderMainView(),
+          ),
+        ),
+        Obx(
+          () =>
+              textMessage.focused.value
+                  ? Positioned(
+                    child: ChatTextAudioView(
+                      message: textMessage,
+                      unlock: unlock,
+                      download: download,
+                    ),
+                  )
+                  : SizedBox.shrink(),
         ),
       ],
     );
@@ -161,7 +209,12 @@ class ChatTextAudioView extends StatelessWidget {
   final Function(ChatMessage message)? unlock;
   final Function(ChatMessage message)? download;
 
-  ChatTextAudioView({super.key, required this.message, required this.unlock, required this.download});
+  ChatTextAudioView({
+    super.key,
+    required this.message,
+    required this.unlock,
+    required this.download,
+  });
 
   ChatTextMessage get textMessage => message as ChatTextMessage;
 
@@ -169,18 +222,25 @@ class ChatTextAudioView extends StatelessWidget {
     ChatTextAudioStatus status = textMessage.audioStatus.value;
     switch (status) {
       case ChatTextAudioStatus.unlock:
-        return Image.asset(ImagePath.chat_tts_lock, width: 16, height: 16);
+        return Image.asset(ImagePath.unlock, width: 16, height: 16);
       case ChatTextAudioStatus.loading:
         return Container(
           padding: EdgeInsets.all(2),
-          child: SizedBox(width: 12, height: 12, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white)),
+          child: SizedBox(
+            width: 12,
+            height: 12,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: Colors.white,
+            ),
+          ),
         );
       case ChatTextAudioStatus.ready:
-        return Image.asset(ImagePath.chat_tts_play, width: 16, height: 16);
+        return Image.asset(ImagePath.audio_to_speak, width: 16, height: 16);
       case ChatTextAudioStatus.playing:
-        return Image.asset(ImagePath.chat_tts_playing, width: 16, height: 16);
+        return Image.asset(ImagePath.audio_speaking, width: 16, height: 16);
       case ChatTextAudioStatus.pause:
-        return Image.asset(ImagePath.chat_tts_play, width: 16, height: 16);
+        return Image.asset(ImagePath.audio_to_speak, width: 16, height: 16);
     }
   }
 
@@ -197,11 +257,11 @@ class ChatTextAudioView extends StatelessWidget {
   }
 
   void showUnlockAlertIfNeeded() {
-    // 会员解锁
-    if (MyAccount.isWkPrem && MyAccount.freeAdoLeftTimes > 0 || MyAccount.isMthPrem || MyAccount.isYrPrem) {
-      unlockMessage(1);
-      return;
-    }
+    // // 会员解锁
+    // if (MyAccount.isWkPrem && MyAccount.freeAdoLeftTimes > 0 || MyAccount.isMthPrem || MyAccount.isYrPrem) {
+    //   unlockMessage(1);
+    //   return;
+    // }
 
     // 普通解锁
     if (textMessage.unlockPrice > 0 && !prompted) {
@@ -231,18 +291,20 @@ class ChatTextAudioView extends StatelessWidget {
       textMessage.audioStatus.value = ChatTextAudioStatus.unlock;
       return;
     }
-    if (usePrem == 1) {
-      if (MyAccount.isWkPrem) {
-        EasyLoading.showToast('Premium Benefits for Audio, used: ${MyAccount.freeAdoUsedTimes},total: ${MyAccount.freeAdoLeftTimes + MyAccount.freeAdoUsedTimes}');
-      } else {
-        EasyLoading.showToast(Copywriting.security_premium_Benefits_for_Audio__unlimited);
-      }
-    }
+    // if (usePrem == 1) {
+    //   if (MyAccount.isWkPrem) {
+    //     EasyLoading.showToast('Premium Benefits for Audio, used: ${MyAccount.freeAdoUsedTimes},total: ${MyAccount.freeAdoLeftTimes + MyAccount.freeAdoUsedTimes}');
+    //   } else {
+    //     EasyLoading.showToast(Copywriting.security_premium_Benefits_for_Audio__unlimited);
+    //   }
+    // }
   }
 
   void play() async {
     //1.判断资源是否存在
-    String? path = ChatVoiceManager.instance.voicePathForUrl(textMessage.audioUrl);
+    String? path = ChatVoiceManager.instance.voicePathForUrl(
+      textMessage.audioUrl,
+    );
 
     if (path == null) {
       //下载
@@ -310,7 +372,14 @@ class ChatTextAudioView extends StatelessWidget {
             if (textMessage.audioDuration > 0)
               Container(
                 margin: EdgeInsets.only(left: 4),
-                child: Text('${textMessage.audioDuration}"', style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                child: Text(
+                  '${textMessage.audioDuration}"',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
           ],
         ),

@@ -13,9 +13,6 @@ import '../../core/account/account_service.dart';
 import '../../core/util/file_upload.dart';
 import '../../shared/widget/avatar_view.dart';
 
-const assetsDir = 'packages/modules/assets/images';
-const accountDir = '$assetsDir/account';
-
 class EditMyInfoPage extends StatelessWidget {
   EditMyInfoPage({super.key});
 
@@ -25,18 +22,38 @@ class EditMyInfoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.secondPage,
+      backgroundColor: AppColors.base_background,
       appBar: AppBar(
-        leading: InkWell(onTap: Get.back, child: Container(padding: EdgeInsets.all(16), child: Image.asset('$assetsDir/icon_back.png', fit: BoxFit.fill))),
+        leading: InkWell(
+          onTap: Get.back,
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Image.asset(ImagePath.back, fit: BoxFit.fill),
+          ),
+        ),
         centerTitle: true,
-        backgroundColor: AppColors.secondPage,
-        title: Text(Copywriting.security_edit_information, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+        backgroundColor: AppColors.base_background,
+        title: Text(
+          Copywriting.security_edit_information,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         actions: [
           InkWell(
             onTap: controller.saveMyInfo,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Text(Security.security_Save, style: TextStyle(color: AppColors.primary, fontSize: 14, fontWeight: FontWeight.bold)),
+              child: Text(
+                Security.security_Save,
+                style: TextStyle(
+                  color: AppColors.ocMain,
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
             ),
           ),
         ],
@@ -54,58 +71,75 @@ class EditMyInfoPage extends StatelessWidget {
                   padding: EdgeInsets.symmetric(vertical: 24),
                   alignment: Alignment.center,
                   child: SizedBox(
-                    height: 68,
-                    width: 68,
+                    height: 88,
+                    width: 88,
                     child: Stack(
                       children: [
                         Obx(
                           () =>
                               MyAccount.avatar.isEmpty
-                                  ? Image.asset(ImagePath.account_default_avatar, height: 68, width: 68)
-                                  : AvatarView(url: MyAccount.avatar, size: 68),
+                                  ? Image.asset(
+                                    ImagePath.default_avatar,
+                                    height: 88,
+                                    width: 88,
+                                  )
+                                  : AvatarView(url: MyAccount.avatar, size: 88),
                         ),
-                        Positioned(right: 0, bottom: 0, child: Image.asset(ImagePath.upload_img_vdo, height: 24, width: 24)),
+                        Positioned(
+                          right: 0,
+                          bottom: 0,
+                          child: Image.asset(
+                            ImagePath.camera,
+                            height: 24,
+                            width: 24,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
-              // 名称
-              _buildNameItem(),
-
-              // 性别
-              _buildGenderItem(),
-
-              // 生日
-              _buildBirthdayItem(),
 
               Container(
-                padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(0xFF1E1A2E)),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.1),
+                  borderRadius: BorderRadius.circular(12),
+                ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(Security.security_Profile, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                      height: 80,
-                      decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(8)),
-                      child: TextField(
-                        controller: controller.profileController,
-                        style: TextStyle(color: Colors.white, fontSize: 11, height: 1.0),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                          isDense: true,
-                          hintText: Copywriting.security_fill_in_your_introduction___,
-                          hintStyle: TextStyle(color: Color(0xFF9EA1A8), fontSize: 11, fontWeight: AppFonts.medium),
-                        ),
-                        textAlignVertical: TextAlignVertical.center,
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
+                    _buildNameItem(),
+                    _buildGenderItem(),
+                    _buildBirthdayItem(),
                   ],
                 ),
               ),
+              // Container(
+              //   padding: EdgeInsets.all(12),
+              //   decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(0xFF1E1A2E)),
+              //   child: Column(
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text(Security.security_Profile, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+              //       Container(
+              //         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              //         height: 80,
+              //         decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(8)),
+              //         child: TextField(
+              //           controller: controller.profileController,
+              //           style: TextStyle(color: Colors.white, fontSize: 11, height: 1.0),
+              //           decoration: InputDecoration(
+              //             border: InputBorder.none,
+              //             isDense: true,
+              //             hintText: 'Fill in your introduction...',
+              //             hintStyle: TextStyle(color: Color(0xFF9EA1A8), fontSize: 11, fontWeight: AppFonts.medium),
+              //           ),
+              //           textAlignVertical: TextAlignVertical.center,
+              //           textAlign: TextAlign.left,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
@@ -117,21 +151,31 @@ class EditMyInfoPage extends StatelessWidget {
     return Container(
       height: 40,
       padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(0xFF1E1A2E)),
       child: Row(
         spacing: 4,
         children: [
-          Text(Security.security_Name, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+          Text(
+            Security.security_Name,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           Spacer(),
           Expanded(
             child: TextField(
               controller: controller.nameController,
               style: TextStyle(color: Colors.white, fontSize: 11, height: 1.0),
-              decoration: InputDecoration(border: InputBorder.none, isDense: true),
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                isDense: true,
+              ),
               textAlignVertical: TextAlignVertical.center,
               textAlign: TextAlign.right,
             ),
           ),
+          Image.asset(ImagePath.right_arrow, height: 16, width: 16),
         ],
       ),
     );
@@ -141,14 +185,28 @@ class EditMyInfoPage extends StatelessWidget {
     return Container(
       height: 40,
       padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(0xFF1E1A2E)),
       child: Row(
         spacing: 4,
         children: [
-          Text(Security.security_Gender, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+          Text(
+            Security.security_Gender,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           Spacer(),
-          Obx(() => Text(controller.genderText.value, style: TextStyle(color: Colors.white, fontSize: 11, height: 1.0))),
-          GestureDetector(onTap: controller.toggleGender, child: Image.asset(ImagePath.arrow_right, height: 16, width: 16)),
+          Obx(
+            () => Text(
+              controller.genderText.value,
+              style: TextStyle(color: Colors.white, fontSize: 11, height: 1.0),
+            ),
+          ),
+          GestureDetector(
+            onTap: controller.toggleGender,
+            child: Image.asset(ImagePath.right_arrow, height: 16, width: 16),
+          ),
         ],
       ),
     );
@@ -158,15 +216,25 @@ class EditMyInfoPage extends StatelessWidget {
     return Container(
       height: 40,
       padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(0xFF1E1A2E)),
       child: Row(
         spacing: 4,
         children: [
-          Text(Security.security_Birthday, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
+          Text(
+            Security.security_Birthday,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 13,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           Spacer(),
           Obx(
             () => Text(
-              DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(controller.birthdayText.value)),
+              DateFormat('yyyy-MM-dd').format(
+                DateTime.fromMillisecondsSinceEpoch(
+                  controller.birthdayText.value,
+                ),
+              ),
               style: TextStyle(color: Colors.white, fontSize: 11, height: 1.0),
             ),
           ),
@@ -174,15 +242,23 @@ class EditMyInfoPage extends StatelessWidget {
             onTap: () async {
               final context = Get.context;
               if (context == null) {
-                EasyLoading.showToast(Copywriting.security_cannot_open_date_picker__please_retry_later);
+                EasyLoading.showToast(
+                  Copywriting
+                      .security_cannot_open_date_picker__please_retry_later,
+                );
                 return;
               }
-              final DateTime? picked = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(1950), lastDate: DateTime(2050));
+              final DateTime? picked = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(1950),
+                lastDate: DateTime(2050),
+              );
               if (picked != null) {
                 controller.handleBirthday(picked);
               }
             },
-            child: Image.asset(ImagePath.arrow_right, height: 16, width: 16),
+            child: Image.asset(ImagePath.right_arrow, height: 16, width: 16),
           ),
         ],
       ),
@@ -204,8 +280,14 @@ class EditMyInfoPage extends StatelessWidget {
               child: Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(8)),
-                child: Text(Copywriting.security_select_from_gallery, style: TextStyle(color: Colors.white, fontSize: 20)),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  Copywriting.security_select_from_gallery,
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
               ),
             ),
             GestureDetector(
@@ -215,8 +297,14 @@ class EditMyInfoPage extends StatelessWidget {
               child: Container(
                 alignment: Alignment.center,
                 padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(8)),
-                child: Text(Copywriting.security_take_it_with_camera, style: TextStyle(color: Colors.white, fontSize: 20)),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.05),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  Copywriting.security_take_it_with_camera,
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
               ),
             ),
           ],
@@ -254,7 +342,10 @@ class EditMyInfoLogic extends GetxController {
   void handleAvatar(XFile pickedFile) async {
     EasyLoading.show(status: Copywriting.security_uploading_new_avatar___);
     final bytes = await pickedFile.readAsBytes();
-    final imgUrl = await FilePushService.instance.upload(bytes, FileType.profile);
+    final imgUrl = await FilePushService.instance.upload(
+      bytes,
+      FileType.profile,
+    );
 
     if (imgUrl != null) {
       await AccountService.instance.updateMyAvatar(imgUrl);
@@ -264,20 +355,20 @@ class EditMyInfoLogic extends GetxController {
   }
 
   void toggleGender() {
-    if(genderText.value == Security.security_Male){
+    if (genderText.value == Security.security_Male) {
       genderText.value = Security.security_Female;
-    }else if(genderText.value == Security.security_Female){
+    } else if (genderText.value == Security.security_Female) {
       genderText.value = Security.security_unknown;
-    }else{
+    } else {
       genderText.value = Security.security_Male;
     }
   }
 
   void saveMyInfo() async {
     var gender = 0;
-    if(genderText.value == Security.security_Male){
+    if (genderText.value == Security.security_Male) {
       gender = 1;
-    } else if(genderText.value == Security.security_Female){
+    } else if (genderText.value == Security.security_Female) {
       gender = 2;
     } else {
       gender = 0;
@@ -290,7 +381,9 @@ class EditMyInfoLogic extends GetxController {
       bio: profileController.text,
     );
     if (!rtn) {
-      EasyLoading.showToast(Copywriting.security_failed_to_update__please_retry_later);
+      EasyLoading.showToast(
+        Copywriting.security_failed_to_update__please_retry_later,
+      );
       return;
     }
     EasyLoading.showToast(Copywriting.security_information_updated_);
@@ -304,7 +397,9 @@ class EditMyInfoLogic extends GetxController {
 
   void handleBirthday(DateTime picked) {
     if (picked.isAfter(DateTime.now())) {
-      EasyLoading.showToast(Copywriting.security_selected_date_is_out_of_range_);
+      EasyLoading.showToast(
+        Copywriting.security_selected_date_is_out_of_range_,
+      );
       return;
     }
     birthdayText.value = picked.millisecondsSinceEpoch;
