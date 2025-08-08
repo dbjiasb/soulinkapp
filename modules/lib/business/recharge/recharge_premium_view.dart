@@ -23,20 +23,36 @@ class RechargePremiumView extends StatelessWidget {
     return GetBuilder<RechargePremiumViewController>(
       init: RechargePremiumViewController(),
       builder: (controller) {
-        return Scaffold(body: Stack(children: [_buildBackground(), _buildBackButton(controller), _buildContent(controller)]));
+        return Scaffold(
+          body: Stack(
+            children: [
+              _buildBackground(),
+              _buildBackButton(controller),
+              _buildContent(controller),
+            ],
+          ),
+        );
       },
     );
   }
 
   Widget _buildBackground() {
-    return Image.asset(ImagePath.premium_rcg_bg, fit: BoxFit.cover, width: double.infinity, height: double.infinity);
+    return Image.asset(
+      ImagePath.rcg_premium_bg,
+      fit: BoxFit.cover,
+      width: double.infinity,
+      height: double.infinity,
+    );
   }
 
   Widget _buildBackButton(RechargePremiumViewController controller) {
     return SafeArea(
       child: GestureDetector(
         onTap: controller.navigateBack,
-        child: Padding(padding: EdgeInsets.only(left: 18, top: 10), child: Image.asset(EncHelper.rcg_icBk, height: 24, width: 24)),
+        child: Padding(
+          padding: EdgeInsets.only(left: 18, top: 10),
+          child: Image.asset(ImagePath.back, height: 24, width: 24),
+        ),
       ),
     );
   }
@@ -51,7 +67,9 @@ class RechargePremiumView extends StatelessWidget {
           } else if (controller.isError.value) {
             return _buildErrorView();
           } else {
-            return controller.isSubscribed ? _buildSubscribedView(controller) : _buildSubscriptionPlans(controller);
+            return controller.isSubscribed
+                ? _buildSubscribedView(controller)
+                : _buildSubscriptionPlans(controller);
           }
         }),
       ),
@@ -63,18 +81,32 @@ class RechargePremiumView extends StatelessWidget {
       child: SizedBox(
         width: 100,
         height: 100,
-        child: CircularProgressIndicator(strokeWidth: 6, valueColor: AlwaysStoppedAnimation<Color>(Colors.deepPurpleAccent)),
+        child: CircularProgressIndicator(
+          strokeWidth: 6,
+          valueColor: AlwaysStoppedAnimation<Color>(Colors.deepPurpleAccent),
+        ),
       ),
     );
   }
 
   Widget _buildErrorView() {
-    return Center(child: Text(EncHelper.rcg_errLoData, style: TextStyle(color: Colors.white)));
+    return Center(
+      child: Text(
+        EncHelper.rcg_errLoData,
+        style: TextStyle(color: Colors.white),
+      ),
+    );
   }
 
   Widget _buildSubscribedView(RechargePremiumViewController controller) {
     return Column(
-      children: [const Spacer(), _buildSuccessHeader(), const SizedBox(height: 32), _buildUserSubscriptionCard(controller), const SizedBox(height: 82)],
+      children: [
+        const Spacer(),
+        _buildSuccessHeader(),
+        const SizedBox(height: 32),
+        _buildUserSubscriptionCard(controller),
+        const SizedBox(height: 82),
+      ],
     );
   }
 
@@ -90,7 +122,14 @@ class RechargePremiumView extends StatelessWidget {
               end: Alignment.centerRight,
             ).createShader(bounds);
           },
-          child: Text(EncHelper.rcg_fuAces, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white)),
+          child: Text(
+            EncHelper.rcg_fuAces,
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
         ),
       ],
     );
@@ -102,14 +141,26 @@ class RechargePremiumView extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [Color(0xFFFF95D9).withValues(alpha: 0.15), Color(0xFFA17BFF).withValues(alpha: 0.10)],
+          colors: [
+            Color(0xFFFF95D9).withValues(alpha: 0.15),
+            Color(0xFFA17BFF).withValues(alpha: 0.10),
+          ],
         ),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(width: 1, color: Color(0xFFFCC0FF).withValues(alpha: 0.30)),
+        border: Border.all(
+          width: 1,
+          color: Color(0xFFFCC0FF).withValues(alpha: 0.30),
+        ),
       ),
       child: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(children: [_buildUserProfileSection(controller), const SizedBox(height: 12), ..._buildActiveFeatures(controller)]),
+        child: Column(
+          children: [
+            _buildUserProfileSection(controller),
+            const SizedBox(height: 12),
+            ..._buildActiveFeatures(controller),
+          ],
+        ),
       ),
     );
   }
@@ -122,15 +173,22 @@ class RechargePremiumView extends StatelessWidget {
           width: 76,
           child: Stack(
             children: [
-              Image.asset(ImagePath.premium_rcg_avatarbg, fit: BoxFit.cover),
+              Image.asset(ImagePath.premium_avatar_bg, fit: BoxFit.cover),
               Padding(
                 padding: const EdgeInsets.all(6),
                 child:
                     controller.userAvatar.isEmpty
-                        ? const Center(child: CircularProgressIndicator(color: Colors.white))
+                        ? const Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        )
                         : ClipRRect(
                           borderRadius: BorderRadius.circular(34),
-                          child: CachedNetworkImage(imageUrl: controller.userAvatar, height: 64, width: 64, fit: BoxFit.cover),
+                          child: CachedNetworkImage(
+                            imageUrl: controller.userAvatar,
+                            height: 64,
+                            width: 64,
+                            fit: BoxFit.cover,
+                          ),
                         ),
               ),
             ],
@@ -140,14 +198,38 @@ class RechargePremiumView extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(children: [Text(controller.username, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold))]),
-            const SizedBox(height: 4),
             Row(
               children: [
-                Text(EncHelper.rcg_expOn, style: TextStyle(color: Color(0xFFAD9BAF), fontSize: 13, fontWeight: FontWeight.w400)),
                 Text(
-                  CalendarHelper.formatDate(date: controller.myPEdTm) ?? EncHelper.rcg_err,
-                  style: const TextStyle(color: Color(0xFFE962F6), fontSize: 13, fontWeight: FontWeight.w400),
+                  controller.username,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Row(
+              spacing: 4,
+              children: [
+                Text(
+                  EncHelper.rcg_expOn,
+                  style: TextStyle(
+                    color: Color(0xFFAD9BAF),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                Text(
+                  CalendarHelper.formatDate(date: controller.myPEdTm) ??
+                      EncHelper.rcg_err,
+                  style: const TextStyle(
+                    color: Color(0xFFE962F6),
+                    fontSize: 13,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ],
             ),
@@ -159,8 +241,11 @@ class RechargePremiumView extends StatelessWidget {
 
   List<Widget> _buildActiveFeatures(RechargePremiumViewController controller) {
     for (var plans in controller.allPlans) {
-      if (plans[EncHelper.rcg_rcgItm][EncHelper.rcg_ppt] == controller.myPCard) {
-        return (plans[EncHelper.rcg_bdesc] as List<dynamic>).map<Widget>((benefit) => _buildFeatureItem(benefit.toString())).toList();
+      if (plans[EncHelper.rcg_rcgItm][EncHelper.rcg_ppt] ==
+          controller.myPCard) {
+        return (plans[EncHelper.rcg_bdesc] as List<dynamic>)
+            .map<Widget>((benefit) => _buildFeatureItem(benefit.toString()))
+            .toList();
       }
     }
     return [];
@@ -172,27 +257,53 @@ class RechargePremiumView extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Image.asset(ImagePath.premium_rcg_bnfheader, height: 16, width: 16),
+          Image.asset(ImagePath.premium_benefit_head, height: 16, width: 16),
           const SizedBox(width: 4),
-          Expanded(child: Text(feature, style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.w500))),
+          Expanded(
+            child: Text(
+              feature,
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
 
   Widget _buildSubscriptionPlans(RechargePremiumViewController controller) {
-    return Column(spacing: 12, children: [const Spacer(), _buildFeatureList(controller), ..._buildPlanOptions(controller), ..._buildFooter(controller)]);
+    return Column(
+      spacing: 12,
+      children: [
+        const Spacer(),
+        _buildFeatureList(controller),
+        ..._buildPlanOptions(controller),
+        ..._buildFooter(controller),
+      ],
+    );
   }
 
   Widget _buildFeatureList(RechargePremiumViewController controller) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16),
-      child: Obx(() => Column(children: controller.selectedPlanFeatures.map((e) => _buildFeatureItem(e)).toList())),
+      child: Obx(
+        () => Column(
+          children:
+              controller.selectedPlanFeatures
+                  .map((e) => _buildFeatureItem(e))
+                  .toList(),
+        ),
+      ),
     );
   }
 
   List<Widget> _buildPlanOptions(RechargePremiumViewController controller) {
-    return [...controller.allPlans.map((plan) => _buildPlanOption(plan, controller))];
+    return [
+      ...controller.allPlans.map((plan) => _buildPlanOption(plan, controller)),
+    ];
   }
 
   double calculateDailyPay(dynamic cardType, dynamic price) {
@@ -211,7 +322,7 @@ class RechargePremiumView extends StatelessWidget {
         default:
           break;
       }
-      double result = price / days ;
+      double result = price / days;
       return double.parse(result.toStringAsFixed(2));
     } catch (e) {
       return 0.00;
@@ -220,7 +331,10 @@ class RechargePremiumView extends StatelessWidget {
 
   double calculateSave(dynamic originValue, dynamic price) {
     try {
-      double original = originValue is String ? double.parse(originValue) : originValue.toDouble();
+      double original =
+          originValue is String
+              ? double.parse(originValue)
+              : originValue.toDouble();
       double current = price is String ? double.parse(price) : price.toDouble();
 
       double savings = (original - current) / original;
@@ -246,7 +360,10 @@ class RechargePremiumView extends StatelessWidget {
     return 0.00;
   }
 
-  Widget _buildPlanOption(Map<dynamic, dynamic> plan, RechargePremiumViewController controller) {
+  Widget _buildPlanOption(
+    Map<dynamic, dynamic> plan,
+    RechargePremiumViewController controller,
+  ) {
     final isSelected = controller.selectedPlan == plan;
     // rcgItem
     final prodInfo = plan[EncHelper.rcg_rcgItm];
@@ -259,9 +376,9 @@ class RechargePremiumView extends StatelessWidget {
 
     // 价格换算
     var chnlInfo = null;
-    if(Platform.isIOS){
+    if (Platform.isIOS) {
       chnlInfo = prodInfo[EncHelper.rcg_chnlInfo]?[EncHelper.rcg_iosChnnl];
-    }else if(Platform.isAndroid){
+    } else if (Platform.isAndroid) {
       chnlInfo = prodInfo[EncHelper.rcg_chnlInfo]?[EncHelper.rcg_adrCnnl];
     }
     // // 不支持安卓和ios以外的平台
@@ -272,8 +389,9 @@ class RechargePremiumView extends StatelessWidget {
     final iapProdDetail = controller.realPrems[prodId];
 
     // 换算结果，包括单位
-    final prodPrc = iapProdDetail?.rawPrice ?? prodInfo[EncHelper.rcg_prc] / 100.0;
-    String prodCurncyType =  iapProdDetail?.currencySymbol ?? '\$';
+    final prodPrc =
+        iapProdDetail?.rawPrice ?? prodInfo[EncHelper.rcg_prc] / 100.0;
+    String prodCurncyType = iapProdDetail?.currencySymbol ?? '\$';
     final originValue = parseToDouble(prodInfo[EncHelper.rcg_ov]); // 没用
     final currentValue = parseToDouble(prodInfo[EncHelper.rcg_prc]); // 没用
 
@@ -291,30 +409,60 @@ class RechargePremiumView extends StatelessWidget {
               ShaderMask(
                 shaderCallback: (Rect bounds) {
                   return LinearGradient(
-                    colors: [Color(0xFFF4BEDA), Color(0xFFBA7BF7), Color(0xFF6F71F6)],
+                    colors: [
+                      Color(0xFFF4BEDA),
+                      Color(0xFFBA7BF7),
+                      Color(0xFF6F71F6),
+                    ],
                     begin: Alignment.centerLeft,
                     end: Alignment.centerRight,
                   ).createShader(bounds);
                 },
-                child: Container(height: 68, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(16))),
+                child: Container(
+                  height: 68,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
               ),
             Center(
               child: Container(
                 margin: EdgeInsets.all(2),
-                decoration: BoxDecoration(color: const Color(0xFF1E1A2E), borderRadius: BorderRadius.circular(16)),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E1A2E),
+                  borderRadius: BorderRadius.circular(16),
+                ),
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
                     Positioned.fill(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 12,
+                        ),
                         child: Row(
                           children: [
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(prodName, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold)),
-                                Text(EncHelper.rcg_dailyPrc(dailyPay), style: TextStyle(color: const Color(0x99FFFFFF), fontSize: 11, fontWeight: FontWeight.w500)),
+                                Text(
+                                  prodName,
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  EncHelper.rcg_dailyPrc(dailyPay),
+                                  style: TextStyle(
+                                    color: const Color(0x99FFFFFF),
+                                    fontSize: 11,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
                               ],
                             ),
                             const Spacer(),
@@ -325,19 +473,37 @@ class RechargePremiumView extends StatelessWidget {
                                     ? ShaderMask(
                                       shaderCallback: (Rect bounds) {
                                         return LinearGradient(
-                                          colors: [Color(0xFFF4BEDA), Color(0xFFBA7BF7), Color(0xFF6F71F6)],
+                                          colors: [
+                                            Color(0xFFF4BEDA),
+                                            Color(0xFFBA7BF7),
+                                            Color(0xFF6F71F6),
+                                          ],
                                           begin: Alignment.centerLeft,
                                           end: Alignment.centerRight,
                                         ).createShader(bounds);
                                       },
                                       child: Text(
                                         '$prodCurncyType ${currentValue / 100}',
-                                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: isSelected ? Colors.white : const Color(0xFF999999)),
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                          color:
+                                              isSelected
+                                                  ? Colors.white
+                                                  : const Color(0xFF999999),
+                                        ),
                                       ),
                                     )
                                     : Text(
                                       '\$${currentValue / 100}',
-                                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: isSelected ? Colors.white : const Color(0xFF999999)),
+                                      style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color:
+                                            isSelected
+                                                ? Colors.white
+                                                : const Color(0xFF999999),
+                                      ),
                                     ),
                                 // if (currentValue < originValue)
                                 //   Text(
@@ -357,7 +523,7 @@ class RechargePremiumView extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (isSelected && dscnt !=null && dscnt > 0)
+                    if (isSelected && dscnt != null && dscnt > 0)
                       Positioned(
                         right: 16,
                         top: -8,
@@ -366,14 +532,26 @@ class RechargePremiumView extends StatelessWidget {
                           width: 87,
                           decoration: BoxDecoration(
                             gradient: LinearGradient(
-                              colors: [Color(0xFFF6C2D8), Color(0xFFDB80F9), Color(0xFFC07CF7), Color(0xFF6F71F6)],
+                              colors: [
+                                Color(0xFFF6C2D8),
+                                Color(0xFFDB80F9),
+                                Color(0xFFC07CF7),
+                                Color(0xFF6F71F6),
+                              ],
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
                             ),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Center(
-                            child: Text(EncHelper.rcg_savPct((dscnt * 100).toInt()), style: TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold)),
+                            child: Text(
+                              EncHelper.rcg_savPct((dscnt * 100).toInt()),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
                         ),
                       ),
@@ -391,7 +569,11 @@ class RechargePremiumView extends StatelessWidget {
     return [
       Text(
         EncHelper.rcg_trmNotic,
-        style: TextStyle(color: Color(0x66FFFFFF), fontSize: 14, fontWeight: FontWeight.w500),
+        style: TextStyle(
+          color: Color(0x66FFFFFF),
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+        ),
         textAlign: TextAlign.left,
       ),
       _buildSubscribeButton(controller),
@@ -410,13 +592,25 @@ class RechargePremiumView extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFFF6C2D8), Color(0xFFDB80F9), Color(0xFFC07CF7), Color(0xFF6F71F6)],
+            colors: [
+              Color(0xFFF6C2D8),
+              Color(0xFFDB80F9),
+              Color(0xFFC07CF7),
+              Color(0xFF6F71F6),
+            ],
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
           borderRadius: BorderRadius.circular(24),
         ),
-        child: Text(EncHelper.rcg_btnSubs, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+        child: Text(
+          EncHelper.rcg_btnSubs,
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }
@@ -427,12 +621,26 @@ class RechargePremiumView extends StatelessWidget {
       children: [
         TextButton(
           onPressed: () => launchUrl(EncHelper.rcg_urlTrms),
-          child: Text(EncHelper.rcg_trms, style: TextStyle(color: Color(0xFFD5D4D3), fontSize: 10, fontWeight: FontWeight.w500)),
+          child: Text(
+            EncHelper.rcg_trms,
+            style: TextStyle(
+              color: Color(0xFFD5D4D3),
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ),
         const SizedBox(width: 12),
         TextButton(
           onPressed: () => launchUrl(EncHelper.rcg_urlPrivacy),
-          child: Text(EncHelper.rcg_privacy, style: TextStyle(color: Color(0xFFD5D4D3), fontSize: 10, fontWeight: FontWeight.w500)),
+          child: Text(
+            EncHelper.rcg_privacy,
+            style: TextStyle(
+              color: Color(0xFFD5D4D3),
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ),
       ],
     );
@@ -440,9 +648,21 @@ class RechargePremiumView extends StatelessWidget {
 
   void launchUrl(String url) {
     if (url == EncHelper.rcg_urlPrivacy) {
-      Get.toNamed(Routers.webView.name, arguments: {EncHelper.rcg_titl: EncHelper.rcg_privacy, EncHelper.rcg_url: url});
-    } else if (url== EncHelper.rcg_urlTrms) {
-      Get.toNamed(Routers.webView.name, arguments: {EncHelper.rcg_titl: EncHelper.rcg_trms, EncHelper.rcg_url: url});
+      Get.toNamed(
+        Routers.webView.name,
+        arguments: {
+          EncHelper.rcg_titl: EncHelper.rcg_privacy,
+          EncHelper.rcg_url: url,
+        },
+      );
+    } else if (url == EncHelper.rcg_urlTrms) {
+      Get.toNamed(
+        Routers.webView.name,
+        arguments: {
+          EncHelper.rcg_titl: EncHelper.rcg_trms,
+          EncHelper.rcg_url: url,
+        },
+      );
     }
   }
 }
@@ -464,14 +684,14 @@ class RechargePremiumViewController extends GetxController {
   final isError = false.obs;
 
   // 未开通时的数据
-  final selectedPlan = <dynamic,dynamic>{}.obs;
+  final selectedPlan = <dynamic, dynamic>{}.obs;
   final allPlans = [].obs;
   final premsCfg = [
     {EncHelper.rcg_id: EncHelper.rcg_iapWekly, EncHelper.rcg_prc: 799},
     {EncHelper.rcg_id: EncHelper.rcg_iapMthly, EncHelper.rcg_prc: 2799},
     {EncHelper.rcg_id: EncHelper.rcg_iapYrly, EncHelper.rcg_prc: 22999},
   ];
-  final realPrems = <String,ProductDetails>{};
+  final realPrems = <String, ProductDetails>{};
 
   List get selectedPlanFeatures {
     for (var plan in allPlans) {
@@ -499,7 +719,9 @@ class RechargePremiumViewController extends GetxController {
           return (e[EncHelper.rcg_id] ?? '').toString();
         }).toSet();
 
-    List<ProductDetails> prds = await PurchaseManager.instance.getIapProducts(ids);
+    List<ProductDetails> prds = await PurchaseManager.instance.getIapProducts(
+      ids,
+    );
     for (var product in prds) {
       realPrems[product.id] = product;
     }
@@ -511,7 +733,6 @@ class RechargePremiumViewController extends GetxController {
         EasyLoading.showToast(msg ?? EncHelper.rcg_errRcg);
       }
     };
-
   }
 
   Future<void> loadSubscriptionData() async {
@@ -530,7 +751,7 @@ class RechargePremiumViewController extends GetxController {
     final rsp = await ApiService.instance.sendRequest(req);
     if (rsp.isSuccess) {
       allPlans.value = rsp.data[EncHelper.rcg_cfg];
-      if(allPlans.isNotEmpty)selectedPlan.value = allPlans.first;
+      if (allPlans.isNotEmpty) selectedPlan.value = allPlans.first;
       allPlans.refresh();
     }
   }
@@ -552,7 +773,9 @@ class RechargePremiumViewController extends GetxController {
       } else if (Platform.isAndroid) {
         chnlInfo = rcgItm[EncHelper.rcg_chnlInfo][EncHelper.rcg_adrCnnl];
       }
-      if (chnlInfo == null || chnlInfo[EncHelper.rcg_inapId] == null || chnlInfo[EncHelper.rcg_inapId].isEmpty) {
+      if (chnlInfo == null ||
+          chnlInfo[EncHelper.rcg_inapId] == null ||
+          chnlInfo[EncHelper.rcg_inapId].isEmpty) {
         EasyLoading.showToast(EncHelper.rcg_errPlafm);
         return;
       }

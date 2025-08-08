@@ -9,6 +9,8 @@ import 'package:modules/base/file_manager/file_manager.dart';
 import 'package:modules/base/preferences/preferences.dart';
 import 'package:modules/base/push_service/push_service.dart';
 import 'package:modules/business/chat/chat_manager.dart';
+import 'package:modules/business/purchase/premium_service.dart';
+
 // import 'package:modules/business/purchase/payment_service.dart';
 import 'package:modules/core/account/account_service.dart';
 
@@ -23,7 +25,7 @@ void startApp(List<String> args) async {
   EventCenter.instance.init();
   PushService.instance.init();
   AccountService.instance.init();
-  // PremiumService.instance.init();
+  PremiumManager.instance.init();
   ChatManager.instance.init();
   runApp(const RootView());
 }

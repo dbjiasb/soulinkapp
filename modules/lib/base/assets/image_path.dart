@@ -100,7 +100,13 @@ abstract final class ImagePath {
   static const String phone_voice =
       'packages/modules/assets/soulink/phone_voice.png';
   static const String premium = 'packages/modules/assets/soulink/premium.png';
+  static const String premium_avatar_bg =
+      'packages/modules/assets/soulink/premium_avatar_bg.png';
+  static const String premium_benefit_head =
+      'packages/modules/assets/soulink/premium_benefit_head.png';
   static const String real_tag = 'packages/modules/assets/soulink/real_tag.png';
+  static const String rcg_premium_bg =
+      'packages/modules/assets/soulink/rcg_premium_bg.png';
   static const String refresh = 'packages/modules/assets/soulink/refresh.png';
   static const String right_arrow =
       'packages/modules/assets/soulink/right_arrow.png';
@@ -122,12 +128,4 @@ abstract final class ImagePath {
       'packages/modules/assets/soulink/unlike_on.png';
   static const String unlock = 'packages/modules/assets/soulink/unlock.png';
   static const String video = 'packages/modules/assets/soulink/video.png';
-
-  // common
-  static const String premium_rcg_bg =
-      'packages/modules/assets/soulink/42ecd67c647771c246871220caa37e45.png';
-  static const String premium_rcg_avatarbg =
-      'packages/modules/assets/soulink/8414c2d1bb017057f03477b1fa6754b4.png';
-  static const String premium_rcg_bnfheader =
-      'packages/modules/assets/soulink/a800048adc83a89410dfce74562314a0.png';
 }
