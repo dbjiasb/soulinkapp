@@ -12,7 +12,7 @@ def extract_dart_strings():
     if not root_dir.exists():
         raise FileNotFoundError(f"Modules目录未找到: {root_dir}")
     unique_strings = set()
-    excluded_files = {"security.dart", "apis.dart", "copywriting.dart", "decrypt.dart", "routes.dart"}
+    excluded_files = {"security.dart", "apis.dart", "copywriting.dart", "decrypt.dart", "routes.dart", "other.dart"}
     
     # 优化后的正则表达式（移除三引号匹配，简化匹配逻辑）
     string_pattern = re.compile(

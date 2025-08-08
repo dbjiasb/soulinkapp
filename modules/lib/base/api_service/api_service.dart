@@ -1,13 +1,14 @@
-import 'package:modules/base/crypt/other.dart';
-import 'package:modules/base/crypt/copywriting.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:modules/base/app_info/app_manager.dart';
 import 'package:modules/base/crypt/constants.dart';
+import 'package:modules/base/crypt/copywriting.dart';
+import 'package:modules/base/crypt/other.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'package:modules/base/preferences/preferences.dart';
 import 'package:uuid/uuid.dart';
 
+import '../casual/casual.dart';
 import '../crypt/crypt.dart';
 import 'api_config.dart';
 import 'api_request.dart';
@@ -68,6 +69,22 @@ class ApiService {
     return _deviceId;
   }
 
+  String _randomIP = '';
+  String get randomIP {
+    if (_randomIP.isEmpty) {
+      _randomIP = Casual.randomIP();
+    }
+    return _randomIP;
+  }
+
+  String _randomTimeZone = '';
+  String get randomTimeZone {
+    if (_randomTimeZone.isEmpty) {
+      _randomTimeZone = Casual.randomTimeZone();
+    }
+    return _randomTimeZone;
+  }
+
   Map<String, dynamic> base() {
     return {
       ..._tokens,
@@ -77,7 +94,7 @@ class ApiService {
       Security.security_platform: "1",
 
       /// platform
-      Security.security_app: "lumina&apple",
+      Security.security_app: "soulink&apple",
 
       ///channel
       Security.security_lang: Security.security_en,
@@ -85,8 +102,8 @@ class ApiService {
       Security.security_build: "1",
 
       /// versionname
-      Security.security_sysVer: "9.168.68.41",
-      Security.security_zone: "UTC-6",
+      Security.security_sysVer: randomIP,
+      Security.security_zone: randomTimeZone,
 
       /// timezone
       Security.security_deviceModel: Security.security_deviceName,
@@ -114,7 +131,12 @@ class ApiService {
           validateStatus: (status) => status! < 500,
           connectTimeout: const Duration(seconds: 30),
           receiveTimeout: const Duration(seconds: 30),
-          headers: {Other.security_content_Type: Other.security_application_json, Other.security_crypt_Tag: cryptTag, Other.security_crypt_Key: cryptKey, ..._tokens}, // 默认 Header
+          headers: {
+            Other.security_content_Type: Other.security_application_json,
+            Other.security_crypt_Tag: cryptTag,
+            Other.security_crypt_Key: cryptKey,
+            ..._tokens,
+          }, // 默认 Header
         ),
       );
 
