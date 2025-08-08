@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:modules/base/crypt/security.dart';
 import 'dart:convert';
 
@@ -62,7 +63,7 @@ class ChatCallCell extends ChatCell {
         child: Container(
           padding: const EdgeInsets.all(12),
           decoration: BoxDecoration(
-            color: Color(0xE6EBEFFF),
+            color: Color(0xffFFF9B4).withValues(alpha:0.9),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(12),
               topRight: Radius.circular(12),
@@ -73,9 +74,9 @@ class ChatCallCell extends ChatCell {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(callMessage.externalText),
+              Image.asset(ImagePath.audio, width: 20, height: 20, color: Colors.black),
               SizedBox(width: 4),
-              Image.asset(ImagePath.phone_call, width: 20, height: 20, color: Color(0xFFE962F6)),
+              Text(callMessage.externalText),
             ],
           ),
         ),

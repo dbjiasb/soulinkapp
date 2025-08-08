@@ -18,15 +18,22 @@ class CreateOcDialog extends StatelessWidget {
   final CreateAiDialogLogic _logic = Get.put(CreateAiDialogLogic());
 
   static Future show() async {
-    return await Get.dialog(useSafeArea: false, Container(alignment: Alignment.bottomCenter, child: CreateOcDialog()));
+    return await Get.dialog(
+      useSafeArea: false,
+      Container(alignment: Alignment.bottomCenter, child: CreateOcDialog()),
+    ).then((_) {
+      Get.delete<CreateAiDialogLogic>();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    _logic.getEntryDraft();
     return Container(
       height: 418,
-      decoration: const BoxDecoration(color: Colors.white, borderRadius: BorderRadius.vertical(top: Radius.circular(24))),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
       child: Column(children: [_buildHeaderSection(), _buildFooterSection()]),
     );
   }
@@ -36,7 +43,8 @@ class CreateOcDialog extends StatelessWidget {
       WebView(),
       arguments: {
         Security.security_title: Copywriting.security_copyright_Agreement,
-        Security.security_url: 'https://cdn.luminaai.buzz/h5/protocol/oc_copyright.html',
+        Security.security_url:
+            'https://cdn.luminaai.buzz/h5/protocol/oc_copyright.html',
       },
     );
   }
@@ -48,15 +56,38 @@ class CreateOcDialog extends StatelessWidget {
       height: 248,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        image: DecorationImage(image: AssetImage(ImagePath.oc_dialog_bg), fit: BoxFit.cover),
+        image: DecorationImage(
+          image: AssetImage(ImagePath.oc_dialog_bg),
+          fit: BoxFit.cover,
+        ),
       ),
-      child: Row(children: [IconButton(onPressed: Get.back, icon: Image.asset(width: 32, height: 32, ImagePath.oc_dialog_back))]),
+      child: Row(
+        children: [
+          IconButton(
+            onPressed: Get.back,
+            icon: Image.asset(width: 32, height: 32, ImagePath.oc_dialog_close),
+          ),
+          Spacer(),
+          IconButton(
+            onPressed: () {},
+            icon: Image.asset(width: 32, height: 32, ImagePath.oc_dialog_ask),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildFooterSection() {
-    const btnTextStyle = TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.w900);
-    final hintTextStyle = TextStyle(color: const Color(0xFF999999), fontSize: 11, fontWeight: AppFonts.medium);
+    const btnTextStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 16,
+      fontWeight: FontWeight.w900,
+    );
+    final hintTextStyle = TextStyle(
+      color: const Color(0xFF999999),
+      fontSize: 11,
+      fontWeight: AppFonts.medium,
+    );
     return Container(
       alignment: Alignment.center,
       padding: EdgeInsets.symmetric(horizontal: 43),
@@ -67,20 +98,47 @@ class CreateOcDialog extends StatelessWidget {
             () => GestureDetector(
               onTap: _logic.consent.value ? (() async => toCreatePage()) : null,
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 20),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 20,
+                ),
                 child: Container(
                   height: 56,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.all(Radius.circular(12)),
-                    color: _logic.consent.value ? const Color(0xFFB86AFF) : const Color(0xFFEED7FF),
+                    color: _logic.consent.value ? AppColors.ocMain : null,
+                    gradient:
+                        _logic.consent.value
+                            ? null
+                            : LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [Color(0xffBDC6C6), Color(0xffD5E1DD)],
+                            ),
                   ),
                   child:
                       _logic.isLoading.value
-                          ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white))
-                          : _logic.shouldPay.value
-                          ? _buildShouldPayWidget(btnTextStyle)
-                          : Wrap(spacing: 2, children: [RichText(text: TextSpan(text: Security.security_Continue, style: btnTextStyle))]),
+                          ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          )
+                          : _logic.canContinue
+                          ? Wrap(
+                            spacing: 2,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  text: Security.security_Continue,
+                                  style: btnTextStyle,
+                                ),
+                              ),
+                            ],
+                          )
+                          : _buildCostWidget(btnTextStyle),
                 ),
               ),
             ),
@@ -95,7 +153,11 @@ class CreateOcDialog extends StatelessWidget {
                     onTap: () {
                       _logic.consent.value = !_logic.consent.value;
                     },
-                    child: Image.asset(_logic.consent.value == true ? ImagePath.report_selected : ImagePath.report_unselect),
+                    child: Image.asset(
+                      _logic.consent.value == true
+                          ? ImagePath.check
+                          : ImagePath.check_bg,
+                    ),
                   ),
                 ),
               ),
@@ -106,7 +168,12 @@ class CreateOcDialog extends StatelessWidget {
                   maxLines: 2,
                   text: TextSpan(
                     children: [
-                      TextSpan(text: Copywriting.security_prior_to_the_creation_process__please_review_our, style: hintTextStyle),
+                      TextSpan(
+                        text:
+                            Copywriting
+                                .security_prior_to_the_creation_process__please_review_our,
+                        style: hintTextStyle,
+                      ),
                       TextSpan(
                         text: Copywriting.security_copyright_Agreement,
                         style: TextStyle(
@@ -122,7 +189,10 @@ class CreateOcDialog extends StatelessWidget {
                                 _showCopyrightAgreement();
                               },
                       ),
-                      TextSpan(text: Copywriting.security_and_indicate_your_consent_, style: hintTextStyle),
+                      TextSpan(
+                        text: Copywriting.security_and_indicate_your_consent_,
+                        style: hintTextStyle,
+                      ),
                     ],
                     style: const TextStyle(fontSize: 14, color: Colors.white),
                   ),
@@ -137,127 +207,85 @@ class CreateOcDialog extends StatelessWidget {
 
   Future<void> toCreatePage() async {
     EasyLoading.show(status: Security.security_Checking);
-    final rtn = await _logic.injectDepen();
+    final rtn = await _logic.payForCreateOc();
     EasyLoading.dismiss();
     if (rtn) {
+      Get.back();
       Get.toNamed(Routers.createBasic);
-    } else {
-      EasyLoading.showToast(_logic.preLoadError.value);
     }
   }
 
-  Widget _buildShouldPayWidget(TextStyle btnTextStyle) {
+  Widget _buildCostWidget(TextStyle btnTextStyle) {
     var btnContent;
-    if (MyAccount.isMthPrem || MyAccount.isYrPrem) {
-      // 权益支付 - 无限
-      btnContent = [Image.asset(width: 18, height: 18, ImagePath.premium_gem)];
-    } else if (MyAccount.isWkPrem && MyAccount.freeOcLeftTimes > 0) {
-      // 权益支付 - 花费一次机会
+    if (_logic.costValue == 0) {
+      // 免费
       btnContent = [
-        Image.asset(width: 18, height: 18, ImagePath.premium_gem),
-        RichText(text: TextSpan(text: '(${MyAccount.freeOcUsedTimes}/${MyAccount.freeOcUsedTimes + MyAccount.freeOcLeftTimes})', style: btnTextStyle)),
+        if (_logic.premiumFree == 1)
+          Image.asset(width: 18, height: 18, ImagePath.premium),
+        Text(_logic.freeText, style: btnTextStyle),
       ];
     } else {
-      // 金币支付
-      btnContent = [Image.asset(width: 18, height: 18, ImagePath.coin), RichText(text: TextSpan(text: '300', style: btnTextStyle))];
+      // 付费
+      btnContent = [
+        RichText(
+          text: TextSpan(
+            text: Copywriting.security_start_create,
+            style: btnTextStyle,
+          ),
+        ),
+        Image.asset(
+          width: 18,
+          height: 18,
+          _logic.costType == 0 ? ImagePath.coin : ImagePath.gem,
+        ),
+        RichText(
+          text: TextSpan(text: '${_logic.costValue}', style: btnTextStyle),
+        ),
+      ];
     }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       spacing: 2,
-      children: [RichText(text: TextSpan(text: Copywriting.security_start_create, style: btnTextStyle)), ...btnContent],
+      children: [...btnContent],
     );
-
-    // if (!myPremium.isPremium || myPremium.isWeakMember && myPremium.createOCUsedCount >= 5) {
-    //   // no-premium
-    //   return Row(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     spacing: 2,
-    //     children: [
-    //       RichText(
-    //         text: const TextSpan(
-    //           text: Copywriting.security_start_create,
-    //           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17, fontFamily: 'SF Pro Bold', color: Color(0xFFD1F254)),
-    //         ),
-    //       ),
-    //       Image.asset(width: 18, height: 18, 'assets/images/create_own_ai_coin.webp', package: 'creator_center'),
-    //       RichText(
-    //         text: const TextSpan(text: '300', style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17, fontFamily: 'SF Pro Bold', color: Color(0xFFD1F254))),
-    //       ),
-    //     ],
-    //   );
-    // } else if (myPremium.isWeakMember && myPremium.createOCUsedCount < 5) {
-    //   // premium-(0-5)
-    //   return Row(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     spacing: 2,
-    //     children: [
-    //       RichText(
-    //         text: const TextSpan(
-    //           text: Copywriting.security_start_create,
-    //           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17, fontFamily: 'SF Pro Bold', color: Color(0xFFD1F254)),
-    //         ),
-    //       ),
-    //       Image.asset(width: 18, height: 18, 'assets/images/ic_premium.webp', package: 'app_biz'),
-    //       RichText(
-    //         text: TextSpan(
-    //           text: ' (${myPremium.createOCUsedCount}/5) Free',
-    //           style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 17, fontFamily: 'SF Pro Bold', color: Color(0xFFD1F254)),
-    //         ),
-    //       ),
-    //     ],
-    //   );
-    // } else {
-    //   // premium-(unlimited)
-    //   return Row(
-    //     mainAxisAlignment: MainAxisAlignment.center,
-    //     spacing: 2,
-    //     children: [
-    //       RichText(
-    //         text: const TextSpan(
-    //           text: Copywriting.security_start_create,
-    //           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17, fontFamily: 'SF Pro Bold', color: Color(0xFFD1F254)),
-    //         ),
-    //       ),
-    //       Image.asset(width: 18, height: 18, 'assets/images/ic_premium.webp', package: 'app_biz'),
-    //       Image.asset(width: 18, height: 18, 'assets/images/ic_unlimited.webp', package: 'app_biz'),
-    //       RichText(
-    //         text: const TextSpan(
-    //           text: Security.security_Free,
-    //           style: TextStyle(fontWeight: FontWeight.w700, fontSize: 17, fontFamily: 'SF Pro Bold', color: Color(0xFFD1F254)),
-    //         ),
-    //       ),
-    //     ],
-    //   );
-    // }
   }
 }
 
 class CreateAiDialogLogic extends GetxController {
   final consent = true.obs;
   var entryInfo = <dynamic, dynamic>{};
-  final preLoadError = ''.obs;
-  final shouldPay = true.obs;
 
-  Future<bool> injectDepen() async {
-    if (shouldPay.value) {
-      // 如果需要支付，则为创建角色
-      // todo 处理会员权利
-      if (!await createDraft()) {
-        preLoadError.value = Copywriting.security_insufficient_balance_;
-        return false;
-      }
-      Get.put(OcDependency(null));
-    } else {
-      Get.put(OcDependency(entryInfo));
+  int get costValue => entryInfo['costValue'] ?? 300;
+
+  int get costType => entryInfo['costType'] ?? 0;
+
+  int get premiumFree => entryInfo['premiumFree'] ?? 0; // 0: 无，1: 有
+
+  String get freeText => costValue == 0 ? entryInfo['freeText'] ?? '' : '';
+
+  bool get canContinue =>
+      entryInfo.isNotEmpty && entryInfo[Security.security_status] == 1;
+
+  @override
+  void onInit() {
+    super.onInit();
+    syncCreateOc();
+  }
+
+  Future<bool> payForCreateOc() async {
+    if (canContinue) return true;
+    if (MyAccount.coins < costValue && premiumFree == 0) {
+      EasyLoading.showToast(Copywriting.security_insufficient_balance_);
+      return false;
     }
-    return true;
+    return await createDraft();
   }
 
   // 预创建角色，触发消费
   Future<bool> createDraft() async {
-    final rsp = await OcDependency.createDraft();
+    final rsp = await OcManager.instance.createDraft();
     if (rsp?[Security.security_statusInfo]?[Security.security_code] == 2000) {
-      // 资产不足，无法创建
       return false;
     }
     return true;
@@ -265,23 +293,15 @@ class CreateAiDialogLogic extends GetxController {
 
   final isLoading = false.obs;
 
-  Future<void> getEntryDraft() async {
+  Future<void> syncCreateOc() async {
     isLoading.value = true;
-    final rsp = OcManager.instance.getDraft();
-    rsp.then((map) {
+    try {
+      final map = await OcManager.instance.getDraft();
       if (map != null) {
         entryInfo = map;
-        if (entryInfo[Security.security_status] == 1) {
-          // 有草稿
-          shouldPay.value = false;
-        } else {
-          // 无草稿
-          shouldPay.value = true;
-        }
-      } else {
-        // map为null，发生异常:null == ret || !ret.isSuccess
       }
+    } finally {
       isLoading.value = false;
-    });
+    }
   }
 }

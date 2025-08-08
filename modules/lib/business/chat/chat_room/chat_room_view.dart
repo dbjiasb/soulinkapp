@@ -36,7 +36,11 @@ class ChatRoomView extends StatelessWidget {
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
 
-  ChatRoomViewController viewController = Get.put(ChatRoomViewController(Get.arguments));
+  ChatRoomViewController viewController = Get.put(
+    ChatRoomViewController(Get.arguments),
+  );
+
+  // used in audio input
 
   void _onBackgroundClicked() {
     viewController.unfocus();
@@ -74,7 +78,7 @@ class ChatRoomView extends StatelessWidget {
 
   Widget _buildChatDrawer() {
     return Drawer(
-      backgroundColor: AppColors.main,
+      backgroundColor: AppColors.base_background,
       child: SafeArea(
         child: ListView(
           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -82,7 +86,9 @@ class ChatRoomView extends StatelessWidget {
             _drawerTemplate(
               Security.security_Report,
               onTap: () {
-                ReportHelper.showReportDialog(int.parse(viewController.session.id));
+                ReportHelper.showReportDialog(
+                  int.parse(viewController.session.id),
+                );
               },
             ),
           ],
@@ -91,17 +97,130 @@ class ChatRoomView extends StatelessWidget {
     );
   }
 
+  // used in audio input
+  final isAudioMaskShow = false.obs;
+  final isAudioCanceled = false.obs;
+
+  void showAudioMask(bool show) {
+    isAudioMaskShow.value = show;
+  }
+
+  void cancelAudio(bool cancel) {
+    isAudioCanceled.value = cancel;
+  }
+
+  Widget _buildAudioInputMask() {
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Obx(() {
+        if (!isAudioMaskShow.value) {
+          return Container();
+        }
+        return Container(
+          height: 210,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [
+                Colors.black.withValues(alpha: 0),
+                Colors.black.withValues(alpha: 0.61),
+                Colors.black.withValues(alpha: 0.75),
+              ],
+            ),
+          ),
+          child: Column(
+            children: [
+              Container(
+                padding: EdgeInsets.only(bottom: 12, top: 30),
+                child: Center(
+                  child: Obx(
+                    () =>
+                        isAudioCanceled.value
+                            ? Text(
+                              'Release Cancel',
+                              style: TextStyle(
+                                color: Color(0xFFFF3E3E),
+                                fontSize: 13,
+                                fontWeight: AppFonts.medium,
+                              ),
+                            )
+                            : Text(
+                              'Release Send',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 13,
+                                fontWeight: AppFonts.medium,
+                              ),
+                            ),
+                  ),
+                ),
+              ),
+              Container(
+                height: 148,
+                clipBehavior: Clip.hardEdge,
+                alignment: Alignment.topCenter,
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                  image: DecorationImage(
+                    image: AssetImage(ImagePath.audio_mask),
+                    fit: BoxFit.fitWidth,
+                    alignment: Alignment.topCenter,
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(height: 10),
+                    Container(
+                      height: 72,
+                      padding: EdgeInsets.all(6),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color:
+                            isAudioCanceled.value
+                                ? Color(0xFFF84652).withValues(alpha: 0.4)
+                                : Color(0xFF29D97F).withValues(alpha: 0.4),
+                      ),
+                      child: Image.asset(
+                        isAudioCanceled.value
+                            ? ImagePath.audio_cancel
+                            : ImagePath.audio_on,
+                      ),
+                    ),
+                    Spacer(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+    );
+  }
+
   Widget _drawerTemplate(String title, {Function()? onTap, Widget? tail}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        decoration: BoxDecoration(color: Color(0xFF2A2132), borderRadius: BorderRadius.circular(8)),
+        decoration: BoxDecoration(
+          color: Color(0xFF2A2132),
+          borderRadius: BorderRadius.circular(8),
+        ),
         padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
         child: Row(
           children: [
-            Text(title, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500)),
+            Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             Spacer(),
-            tail ?? Image.asset(ImagePath.arrow_right, height: 16, width: 16),
+            tail ?? Image.asset(ImagePath.right_arrow, height: 16, width: 16),
           ],
         ),
       ),
@@ -109,7 +228,9 @@ class ChatRoomView extends StatelessWidget {
   }
 
   Widget _buildBackgroundView() {
-    debugPrint('viewController.session.backgroundUrl.value: ${viewController.session.backgroundUrl.value}');
+    debugPrint(
+      'viewController.session.backgroundUrl.value: ${viewController.session.backgroundUrl.value}',
+    );
     return Obx(
       () => // 添加 Obx 响应式监听
           viewController.session.backgroundUrl.value.isNotEmpty
@@ -131,7 +252,12 @@ class ChatRoomView extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: _onBackButtonClicked,
-            child: Container(width: 32, height: 44, alignment: Alignment.center, child: Image.asset(ImagePath.icon_back, width: 24, height: 24)),
+            child: Container(
+              width: 32,
+              height: 44,
+              alignment: Alignment.center,
+              child: Image.asset(ImagePath.back, width: 24, height: 24),
+            ),
           ),
           // SizedBox(width: 4),
           // GestureDetector(
@@ -180,7 +306,36 @@ class ChatRoomView extends StatelessWidget {
           //   ),
           // ),
           Spacer(),
-          Column(children: [Text(viewController.session.name, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold))]), Spacer(),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Get.toNamed(
+                    Routers.person,
+                    arguments: {
+                      Security.security_personId: viewController.userId,
+                    },
+                  );
+                },
+                child: Row(
+                  spacing: 4,
+                  children: [
+                    Text(
+                      viewController.session.name,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Image.asset(ImagePath.right_arrow, height: 16, width: 16),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          Spacer(),
           IconButton(
             onPressed: () {
               _scaffoldKey.currentState?.openEndDrawer();
@@ -207,7 +362,20 @@ class ChatRoomView extends StatelessWidget {
           fit: StackFit.expand,
           children: [
             _buildBackgroundView(),
-            SafeArea(bottom: false, child: Column(children: [_buildNavigationBar(), Obx(() => _buildChatRoomView()), ChatBottomBar()])),
+            SafeArea(
+              bottom: false,
+              child: Column(
+                children: [
+                  _buildNavigationBar(),
+                  Obx(() => _buildChatRoomView()),
+                  ChatBottomBar(
+                    showAudioInputMask: showAudioMask,
+                    cancelAudio: cancelAudio,
+                  ),
+                ],
+              ),
+            ),
+            _buildAudioInputMask(),
           ],
         ),
       ),
@@ -241,7 +409,8 @@ class ChatRoomViewController extends GetxController {
 
   List waitingMessages = [];
 
-  ChatRoomViewController(Map<String, dynamic> arguments) : session = createSession(arguments);
+  ChatRoomViewController(Map<String, dynamic> arguments)
+    : session = createSession(arguments);
 
   @override
   void onInit() async {
@@ -260,17 +429,29 @@ class ChatRoomViewController extends GetxController {
     }
 
     //查聊天记录
-    List<ChatMessage> results = await ChatManager.instance.messageHandler.queryMessages(session.id);
+    List<ChatMessage> results = await ChatManager.instance.messageHandler
+        .queryMessages(session.id);
     messages.addAll(results);
 
     // 消息按照时间分段，每个5分钟为一段，插入一个ChatTimeMessage
     // insertTimeMessages();
 
-    EventCenter.instance.addListener(kEventCenterDidQueriedNewMessages, handlePullMessages);
-    EventCenter.instance.addListener(kEventCenterDidReceivedNewMessages, handlePushMessages);
-    EventCenter.instance.addListener(kEventCenterDidPreparedImageMessage, onImagePrepared);
+    EventCenter.instance.addListener(
+      kEventCenterDidQueriedNewMessages,
+      handlePullMessages,
+    );
+    EventCenter.instance.addListener(
+      kEventCenterDidReceivedNewMessages,
+      handlePushMessages,
+    );
+    EventCenter.instance.addListener(
+      kEventCenterDidPreparedImageMessage,
+      onImagePrepared,
+    );
 
-    UserInfo userInfo = await UserManager.instance.getUserInfo(int.parse(session.id));
+    UserInfo userInfo = await UserManager.instance.getUserInfo(
+      int.parse(session.id),
+    );
     debugPrint('userInfo: ${userInfo.toString()}');
     if (userInfo.coverImageUrl.isNotEmpty) {
       session.backgroundUrl.value = userInfo.coverImageUrl;
@@ -290,7 +471,10 @@ class ChatRoomViewController extends GetxController {
   }
 
   void toCall() {
-    Get.toNamed(Routers.call, arguments: {Security.security_session: session.toRouter()});
+    Get.toNamed(
+      Routers.call,
+      arguments: {Security.security_session: session.toRouter()},
+    );
   }
 
   @override
@@ -298,7 +482,10 @@ class ChatRoomViewController extends GetxController {
     super.onReady();
   }
 
-  bool get isAiChat => session.accountType == 1 || session.accountType == 3 || session.accountType == 4;
+  bool get isAiChat =>
+      session.accountType == 1 ||
+      session.accountType == 3 ||
+      session.accountType == 4;
 
   //如果是ai聊天，则插入一个系统消息
   void insertAiTipsMessageIfNeeded() {
@@ -321,7 +508,8 @@ class ChatRoomViewController extends GetxController {
     // 倒序遍历
     for (int i = messages.length - 1; i >= 0; i--) {
       ChatMessage message = messages[i];
-      if (lastTime == null || message.date.difference(lastTime) >= fiveMinutes) {
+      if (lastTime == null ||
+          message.date.difference(lastTime) >= fiveMinutes) {
         // 插入 ChatTimeMessage
         ChatTimeMessage timeMessage = ChatTimeMessage(message.date);
         messages.insert(i + 1, timeMessage);
@@ -340,7 +528,8 @@ class ChatRoomViewController extends GetxController {
   }
 
   Future<void> refreshSession() async {
-    ChatSession? localSection = await ChatManager.instance.sessionHandler.querySession(session.id);
+    ChatSession? localSection = await ChatManager.instance.sessionHandler
+        .querySession(session.id);
     if (localSection != null) {
       session.lastMessageTime = localSection.lastMessageTime;
       session.lastMessageText = localSection.lastMessageText;
@@ -412,7 +601,9 @@ class ChatRoomViewController extends GetxController {
     if (_generatingTimer != null) {
       return;
     }
-    _generatingTimer = Timer.periodic(const Duration(milliseconds: 1000), (timer) {
+    _generatingTimer = Timer.periodic(const Duration(milliseconds: 1000), (
+      timer,
+    ) {
       onTimeout(timer);
     });
   }
@@ -436,9 +627,18 @@ class ChatRoomViewController extends GetxController {
 
   @override
   void onClose() {
-    EventCenter.instance.removeListener(kEventCenterDidQueriedNewMessages, handlePullMessages);
-    EventCenter.instance.removeListener(kEventCenterDidReceivedNewMessages, handlePushMessages);
-    EventCenter.instance.removeListener(kEventCenterDidPreparedImageMessage, onImagePrepared);
+    EventCenter.instance.removeListener(
+      kEventCenterDidQueriedNewMessages,
+      handlePullMessages,
+    );
+    EventCenter.instance.removeListener(
+      kEventCenterDidReceivedNewMessages,
+      handlePushMessages,
+    );
+    EventCenter.instance.removeListener(
+      kEventCenterDidPreparedImageMessage,
+      onImagePrepared,
+    );
     ChatManager.instance.currentSession = null;
     ChatVoicePlayer.instance.dealloc();
     super.onClose();
@@ -466,7 +666,9 @@ class ChatRoomViewController extends GetxController {
 
   void sendMessage(ChatMessage message) async {
     //先插入到数据库
-    int result = await ChatManager.instance.messageHandler.insertMessage(message);
+    int result = await ChatManager.instance.messageHandler.insertMessage(
+      message,
+    );
     if (result <= 0) return;
     //更新列表
     if (messages.contains(message)) {
@@ -476,10 +678,14 @@ class ChatRoomViewController extends GetxController {
 
     messages.insert(0, message);
     //再发送
-    SendMessageResponse response = await ChatManager.instance.sendMessage(message);
+    SendMessageResponse response = await ChatManager.instance.sendMessage(
+      message,
+    );
     if (response.isSuccess) {
       //用服务器返回的message替换掉自己发出去的message
-      int index = messages.indexWhere((element) => element.nativeId == message.nativeId);
+      int index = messages.indexWhere(
+        (element) => element.nativeId == message.nativeId,
+      );
       if (index >= 0) {
         messages[index] = response.message;
         insertGeneratingMessage();
@@ -507,7 +713,9 @@ class ChatRoomViewController extends GetxController {
 
       message.audioStatus.value = ChatTextAudioStatus.loading;
 
-      TTSResult result = await ChatVoiceManager.instance.textToVoice(textMessage);
+      TTSResult result = await ChatVoiceManager.instance.textToVoice(
+        textMessage,
+      );
       if (result.success) {
         Map extra = result.toJson();
         Map newInfo = {...textMessage.decodedInfo, ...extra};
@@ -525,7 +733,9 @@ class ChatRoomViewController extends GetxController {
     EasyLoading.show();
     ApiResponse response = await ChatManager.instance.unlockMessage(message);
     if (response.isSuccess) {
-      ChatMessage newMessage = ChatMessage.fromServer(response.data[Security.security_msg]);
+      ChatMessage newMessage = ChatMessage.fromServer(
+        response.data[Security.security_msg],
+      );
       await downloadMessageResource(newMessage);
       await ChatManager.instance.messageHandler.insertMessage(newMessage);
 
@@ -555,7 +765,9 @@ class ChatRoomViewController extends GetxController {
     ApiResponse response = await ChatManager.instance.reloadMessage(message);
     if (response.isSuccess) {
       EasyLoading.dismiss();
-      ChatMessage newMessage = ChatMessage.fromServer(response.data[Security.security_msg]);
+      ChatMessage newMessage = ChatMessage.fromServer(
+        response.data[Security.security_msg],
+      );
       await ChatManager.instance.messageHandler.insertMessage(newMessage);
       replaceMessage(newMessage);
     } else {

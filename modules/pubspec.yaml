@@ -26,14 +26,14 @@ dev_dependencies:
 flutter:
   assets:
     - assets/
-    - assets/images/
-    - assets/images/login/
-    - assets/images/call/
-    - assets/images/account/
-    - assets/images/chat/
-    - assets/images/person/
-    - assets/images/oc/
-    - assets/anim/
+    #    - assets/images/
+    #    - assets/images/login/
+    #    - assets/images/call/
+    #    - assets/images/account/
+    #    - assets/images/chat/
+    #    - assets/images/person/
+    #    - assets/images/oc/
+    #    - assets/anim/
     - assets/soulink/
   fonts:
     - family: AiTag

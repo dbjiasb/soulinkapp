@@ -26,14 +26,26 @@ class PersonViewPage extends StatelessWidget {
       body: Stack(
         children: [
           // 底色
-          Container(width: double.infinity, height: double.infinity, color: AppColors.main),
+          Container(
+            width: double.infinity,
+            height: double.infinity,
+            color: AppColors.main,
+          ),
 
           // 背景图
           Positioned.fill(
             child: Obx(
               () => ColorFiltered(
-                colorFilter: ColorFilter.mode(Color(0xFF000000).withValues(alpha: 0.4), BlendMode.srcOver),
-                child: CachedNetworkImage(imageUrl: controller.background, fit: BoxFit.cover),
+                colorFilter: ColorFilter.mode(
+                  Color(0xFF000000).withValues(alpha: 0.4),
+                  BlendMode.srcOver,
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: controller.background,
+                  fit: BoxFit.cover,
+                  errorWidget:
+                      (context, url, error) => Container(color: AppColors.main),
+                ),
               ),
             ),
           ),
@@ -57,9 +69,24 @@ class PersonViewPage extends StatelessWidget {
                             Positioned(
                               top: 0,
                               left: 0,
-                              child: Text(Security.security_Gallery, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+                              child: Text(
+                                Security.security_Gallery,
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
-                            Positioned(bottom: 0, right: 0, child: Image.asset(ImagePath.home_list_selected, height: 10, width: 40)),
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              child: Image.asset(
+                                ImagePath.tab_selected,
+                                height: 10,
+                                width: 40,
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -78,7 +105,12 @@ class PersonViewPage extends StatelessWidget {
             child: SafeArea(
               child: GestureDetector(
                 onTap: Get.back,
-                child: Container(width: 32, height: 44, alignment: Alignment.center, child: Image.asset(ImagePath.icon_back, width: 24, height: 24)),
+                child: Container(
+                  width: 32,
+                  height: 44,
+                  alignment: Alignment.center,
+                  child: Image.asset(ImagePath.back, width: 24, height: 24),
+                ),
               ),
             ),
           ),
@@ -92,9 +124,19 @@ class PersonViewPage extends StatelessWidget {
               onTap: onToChatTap,
               child: Container(
                 alignment: Alignment.center,
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: Color(0xFF8761F1)),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.ocMain,
+                ),
                 height: 52,
-                child: Text(Security.security_Chat, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w900)),
+                child: Text(
+                  Security.security_Chat,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
               ),
             ),
           ),
@@ -126,8 +168,26 @@ class PersonViewPage extends StatelessWidget {
                           radius: 36,
                           backgroundColor: Colors.transparent,
                           child: Container(
-                            decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(width: 1, color: Colors.white.withValues(alpha: 0.8))),
-                            child: ClipOval(child: CachedNetworkImage(imageUrl: controller.avatarUrl, fit: BoxFit.cover)),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                width: 1,
+                                color: Colors.white.withValues(alpha: 0.8),
+                              ),
+                            ),
+                            child: ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl: controller.avatarUrl,
+                                fit: BoxFit.cover,
+                                errorWidget:
+                                    (context, url, error) => Image.asset(
+                                      ImagePath.default_avatar,
+                                      fit: BoxFit.cover,
+                                      width: 72,
+                                      height: 72,
+                                    ),
+                              ),
+                            ),
                           ),
                         ),
                       ],
@@ -135,14 +195,34 @@ class PersonViewPage extends StatelessWidget {
                     Row(
                       spacing: 6,
                       children: [
-                        Text(controller.name, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-                        controller.type != '' ? Image.asset(controller.type, width: 21, height: 16) : Container(),
+                        Text(
+                          controller.name,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        controller.type != ''
+                            ? Image.asset(
+                              controller.type,
+                              width: 21,
+                              height: 16,
+                            )
+                            : Container(),
                       ],
                     ),
                     Row(
                       spacing: 4,
                       children: [
-                        Text('ID: ${controller.id}', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500)),
+                        Text(
+                          'ID: ${controller.id}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
                         // GestureDetector(
                         //   onTap: () {
                         //     Interactions.copyToClipboard(controller.id.toString());
@@ -162,26 +242,49 @@ class PersonViewPage extends StatelessWidget {
   }
 
   Widget _buildGallerySection() {
-    return GridView.count(
-      physics: const NeverScrollableScrollPhysics(), // 1. 禁用GridView自身滚动
-      shrinkWrap: true, // 2. 适应内容高度
-      crossAxisCount: 2,
-      mainAxisSpacing: 7,
-      crossAxisSpacing: 8,
-      childAspectRatio: 168 / 256,
-      children:
-          controller.gallery
-              .map((url) => ClipRRect(borderRadius: BorderRadius.circular(16), child: CachedNetworkImage(imageUrl: url, fit: BoxFit.cover)))
-              .toList(),
+    return Obx(
+      () =>
+          controller.gallery.isNotEmpty
+              ? GridView.count(
+                physics: const NeverScrollableScrollPhysics(),
+                // 1. 禁用GridView自身滚动
+                shrinkWrap: true,
+                // 2. 适应内容高度
+                crossAxisCount: 2,
+                mainAxisSpacing: 7,
+                crossAxisSpacing: 8,
+                childAspectRatio: 168 / 256,
+                children:
+                    controller.gallery
+                        .map(
+                          (url) => ClipRRect(
+                            borderRadius: BorderRadius.circular(16),
+                            child: CachedNetworkImage(
+                              imageUrl: url,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        )
+                        .toList(),
+              )
+              : Container(),
     );
   }
 
   Widget _buildFollowStatsRow() {
     return Row(
       children: [
-        Obx(() => _buildStatItem(Security.security_Followers, controller.followers)),
+        Obx(
+          () =>
+              _buildStatItem(Security.security_Followers, controller.followers),
+        ),
         SizedBox(width: 34),
-        Obx(() => _buildStatItem(Security.security_Followings, controller.followings)),
+        Obx(
+          () => _buildStatItem(
+            Security.security_Followings,
+            controller.followings,
+          ),
+        ),
         Spacer(),
         // _buildFollowButton(),
       ],
@@ -193,50 +296,88 @@ class PersonViewPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 4,
       children: [
-        Text('$value', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: AppFonts.black)),
-        Text(label, style: TextStyle(color: Color(0xFF9EA1A8), fontSize: 11, fontWeight: FontWeight.w500)),
+        Text(
+          '$value',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontWeight: AppFonts.black,
+          ),
+        ),
+        Text(
+          label,
+          style: TextStyle(
+            color: Color(0xFF9EA1A8),
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
   }
 
-  Widget _buildFollowButton() {
-    return Obx(
-      () => GestureDetector(
-        onTap: () {
-          if (controller.star == 0) {
-            controller.followUser();
-          } else {
-            controller.unfollowUser();
-          }
-        },
-        child:
-            controller.star == 0
-                ? _buildButtonContent(Security.security_Follow, ImagePath.add, Color(0xFFE962F6))
-                : _buildButtonContent(Security.security_Followed, null, Colors.transparent, hasBorder: true),
-      ),
-    );
-  }
+  // Widget _buildFollowButton() {
+  //   return Obx(
+  //     () => GestureDetector(
+  //       onTap: () {
+  //         if (controller.star == 0) {
+  //           controller.followUser();
+  //         } else {
+  //           controller.unfollowUser();
+  //         }
+  //       },
+  //       child:
+  //           controller.star == 0
+  //               ? _buildButtonContent(Security.security_Follow, ImagePath.add, Color(0xFFE962F6))
+  //               : _buildButtonContent(Security.security_Followed, null, Colors.transparent, hasBorder: true),
+  //     ),
+  //   );
+  // }
 
-  Widget _buildButtonContent(String text, String? iconPath, Color color, {bool hasBorder = false}) {
+  Widget _buildButtonContent(
+    String text,
+    String? iconPath,
+    Color color, {
+    bool hasBorder = false,
+  }) {
     return Container(
       height: 36,
       width: 98,
       alignment: Alignment.center,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: color, border: hasBorder ? Border.all(width: 2, color: Colors.white) : null),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        color: color,
+        border: hasBorder ? Border.all(width: 2, color: Colors.white) : null,
+      ),
       child: Row(
         spacing: 4,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           if (iconPath != null) Image.asset(iconPath, height: 18, width: 18),
-          Text(text, style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: AppFonts.black)),
+          Text(
+            text,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 14,
+              fontWeight: AppFonts.black,
+            ),
+          ),
         ],
       ),
     );
   }
 
   Widget _buildAboutHerSection() {
-    final outlineStyle = TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w800);
-    final normalStyle = TextStyle(color: Color(0xFF9EA1A8), fontSize: 12, fontWeight: AppFonts.medium);
+    final outlineStyle = TextStyle(
+      color: Colors.white,
+      fontSize: 13,
+      fontWeight: FontWeight.w800,
+    );
+    final normalStyle = TextStyle(
+      color: Color(0xFF9EA1A8),
+      fontSize: 12,
+      fontWeight: AppFonts.medium,
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -244,25 +385,57 @@ class PersonViewPage extends StatelessWidget {
       children: [
         _buildSectionTitle(Copywriting.security_about_her),
         _buildInfoRow([
-          Obx(() => _buildInfoTile(Security.security_Gender, _getGenderText(controller.gender), outlineStyle, normalStyle)),
+          Obx(
+            () => _buildInfoTile(
+              Security.security_Gender,
+              _getGenderText(controller.gender),
+              outlineStyle,
+              normalStyle,
+            ),
+          ),
           Obx(
             () => _buildInfoTile(
               Copywriting.security_birth_date,
-              DateFormat('yyyy-MM-dd').format(DateTime.fromMillisecondsSinceEpoch(controller.birthday)),
+              DateFormat('yyyy-MM-dd').format(
+                DateTime.fromMillisecondsSinceEpoch(controller.birthday),
+              ),
               outlineStyle,
               normalStyle,
             ),
           ),
 
-          Obx(() => _buildInfoTile(Security.security_Age, controller.age.toString(), outlineStyle, normalStyle)),
+          Obx(
+            () => _buildInfoTile(
+              Security.security_Age,
+              controller.age.toString(),
+              outlineStyle,
+              normalStyle,
+            ),
+          ),
         ]),
         _buildInfoRow([
-          Obx(() => _buildInfoTile(Security.security_Constellation, controller.constellation, outlineStyle, normalStyle)),
-          Obx(() => _buildInfoTile(Security.security_Location, controller.location.isEmpty ? '/' : controller.location, outlineStyle, normalStyle)),
+          Obx(
+            () => _buildInfoTile(
+              Security.security_Constellation,
+              controller.constellation,
+              outlineStyle,
+              normalStyle,
+            ),
+          ),
+          Obx(
+            () => _buildInfoTile(
+              Security.security_Location,
+              controller.location.isEmpty ? '/' : controller.location,
+              outlineStyle,
+              normalStyle,
+            ),
+          ),
           Obx(
             () => _buildInfoTile(
               Security.security_Education,
-              controller.education.isEmpty || controller.education.first == null ? '/' : controller.location,
+              controller.education.isEmpty || controller.education.first == null
+                  ? '/'
+                  : controller.location,
               outlineStyle,
               normalStyle,
             ),
@@ -286,13 +459,27 @@ class PersonViewPage extends StatelessWidget {
     return Row(spacing: 7, children: children);
   }
 
-  Widget _buildInfoTile(String title, String value, TextStyle valueStyle, TextStyle titleStyle) {
+  Widget _buildInfoTile(
+    String title,
+    String value,
+    TextStyle valueStyle,
+    TextStyle titleStyle,
+  ) {
     return Expanded(
       child: AspectRatio(
         aspectRatio: 110 / 60,
         child: Container(
-          decoration: BoxDecoration(color: Color(0xFF12151D), borderRadius: BorderRadius.circular(12)),
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [Text(value, style: valueStyle), Text(title, style: titleStyle)]),
+          decoration: BoxDecoration(
+            color: Color(0xFF12151D),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(value, style: valueStyle),
+              Text(title, style: titleStyle),
+            ],
+          ),
         ),
       ),
     );
@@ -307,7 +494,11 @@ class PersonViewPage extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 8),
           child: Text(
             controller.profile.isEmpty ? '......' : controller.profile,
-            style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ],
@@ -315,7 +506,14 @@ class PersonViewPage extends StatelessWidget {
   }
 
   Widget _buildSectionTitle(String title) {
-    return Text(title, style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold));
+    return Text(
+      title,
+      style: TextStyle(
+        color: Colors.white,
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+      ),
+    );
   }
 
   void onToChatTap() {
@@ -349,7 +547,9 @@ class PersonViewController extends GetxController {
 
   Map get baseInfo => userInfo[EncHelper.ps_bsif] ?? {};
 
-  String get avatarUrl => userInfo[EncHelper.ps_bsif]?[EncHelper.ps_avturl] ?? ImagePath.account_default_avatar;
+  String get avatarUrl =>
+      userInfo[EncHelper.ps_bsif]?[EncHelper.ps_avturl] ??
+      ImagePath.default_avatar;
 
   String get background => personalInfo[EncHelper.ps_bg] ?? '';
 
@@ -378,8 +578,10 @@ class PersonViewController extends GetxController {
   int get star => personalInfo[EncHelper.ps_str] ?? 0;
 
   String get type {
-    if (baseInfo[EncHelper.ps_act] == 1 || baseInfo[EncHelper.ps_act] == 3 || baseInfo[EncHelper.ps_act] == 4) {
-      return ImagePath.ic_tag_ai;
+    if (baseInfo[EncHelper.ps_act] == 1 ||
+        baseInfo[EncHelper.ps_act] == 3 ||
+        baseInfo[EncHelper.ps_act] == 4) {
+      return ImagePath.ai_tag;
     }
     return '';
   }
@@ -395,7 +597,9 @@ class PersonViewController extends GetxController {
     }
     personalInfo.value = arguments[EncHelper.ps_if];
     if (personalInfo.isEmpty) {
-      EasyLoading.showToast(Copywriting.security_no_user_information__getting_back___);
+      EasyLoading.showToast(
+        Copywriting.security_no_user_information__getting_back___,
+      );
       Get.back();
     }
   }
@@ -404,7 +608,9 @@ class PersonViewController extends GetxController {
     EasyLoading.show(status: Copywriting.security_loading___);
     final rtn = await PersonManager.instance.getUserInfo(uid);
     if (rtn.data == {}) {
-      EasyLoading.show(status: Copywriting.security_cannot_get_information__please_retry_later);
+      EasyLoading.show(
+        status: Copywriting.security_cannot_get_information__please_retry_later,
+      );
       EasyLoading.dismiss();
       return;
     }

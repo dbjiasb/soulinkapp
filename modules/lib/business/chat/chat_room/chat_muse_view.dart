@@ -19,11 +19,10 @@ class ChatMuseView extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Container(
-        color: Color(0xB3150C09),
         child: SafeArea(
           bottom: true,
           child: Container(
-            height: 192,
+            height: 200,
             padding: EdgeInsets.all(12),
             child: Obx(
               () => Stack(
@@ -31,24 +30,16 @@ class ChatMuseView extends StatelessWidget {
                   ListView.separated(
                     itemBuilder: (context, index) {
                       return Container(
-                        decoration: BoxDecoration(color: Color(0x59000000), borderRadius: BorderRadius.circular(12)),
+                        decoration: BoxDecoration(color: Color(0xff000000).withValues(alpha: 0.3), borderRadius: BorderRadius.circular(12)),
                         child: Stack(
                           alignment: Alignment.center,
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Image.asset(ImagePath.chat_tips_decoration_left, width: 32, height: 32),
-                                Image.asset(ImagePath.chat_tips_decoration_right, width: 32, height: 32),
-                              ],
-                            ),
-
                             Container(
                               padding: EdgeInsets.symmetric(vertical: 12, horizontal: 24),
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 viewController.items[index],
-                                style: TextStyle(color: Color(0xFFFACFFF), fontWeight: FontWeight.w600, fontSize: 11, height: 1.8),
+                                style: TextStyle(color: Color(0xFFC4AFFF), fontWeight: FontWeight.w600, fontSize: 11, height: 1.8),
                               ),
                             ),
                           ],
