@@ -29,7 +29,14 @@ class AccountSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(Security.security_Setting, style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold)),
+        title: Text(
+          Security.security_Setting,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         backgroundColor: AppColors.base_background,
         elevation: 0,
         leading: IconButton(
@@ -42,28 +49,48 @@ class AccountSettings extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              margin: EdgeInsets.symmetric(horizontal: 16,vertical: 12),
+              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               padding: EdgeInsets.zero,
-              decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.1),borderRadius: BorderRadius.circular(12)),
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
               child: Column(
-                children: items.map((e)=> GestureDetector(
-                  onTap: e.onTap,
-                  child: Container(
-                    height: 44,
-                    padding: EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        Text(e.title, style: TextStyle(color: Colors.white, fontSize: 14,fontWeight: FontWeight.bold)),
-                        Spacer(),
-                        Image.asset(ImagePath.right_arrow, height: 16, width: 16),
-                      ],
-                    ),
-                  ),
-                )).toList(),
+                children:
+                    items
+                        .map(
+                          (e) => GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: e.onTap,
+                            child: Container(
+                              height: 44,
+                              padding: EdgeInsets.all(12),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    e.title,
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Image.asset(
+                                    ImagePath.right_arrow,
+                                    height: 16,
+                                    width: 16,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
               ),
             ),
-            
-            // log out 
+
+            // log out
             GestureDetector(
               onTap: logout,
               child: Container(
@@ -74,9 +101,16 @@ class AccountSettings extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                 ),
                 alignment: Alignment.center,
-                child: Text('Log out',style: TextStyle(color: Color(0xffF84652),fontSize: 14,fontWeight: FontWeight.bold),),
+                child: Text(
+                  'Log out',
+                  style: TextStyle(
+                    color: Color(0xffF84652),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
@@ -84,11 +118,24 @@ class AccountSettings extends StatelessWidget {
   }
 
   void checkTermsOfService() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Terms of service', Security.security_url: 'https://cdn.luminaai.buzz/lumina/termsofservice.html'});
+    Get.toNamed(
+      Routers.webView.name,
+      arguments: {
+        Security.security_title: 'Terms of service',
+        Security.security_url:
+            'https://cdn.luminaai.buzz/lumina/termsofservice.html',
+      },
+    );
   }
 
   void checkPrivacyPolicy() {
-    Get.toNamed(Routers.webView.name, arguments: {Security.security_title: 'Privacy policy', Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html'});
+    Get.toNamed(
+      Routers.webView.name,
+      arguments: {
+        Security.security_title: 'Privacy policy',
+        Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html',
+      },
+    );
   }
 
   void logout() {
