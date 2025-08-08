@@ -29,37 +29,57 @@ class BasicCore extends StatelessWidget {
         Expanded(
           child: SingleChildScrollView(
             child: Column(
+              spacing: 20,
               children: [
-                _createInfoLabel(Security.security_Identify),
-                const SizedBox(height: 12),
-                _createRoleImageSection(),
-                const SizedBox(height: 8),
-                _createNameInputSection(),
-                const SizedBox(height: 8),
-                _createGenderSelectionSection(),
-                const SizedBox(height: 20),
-                _createInfoLabel(Security.security_Sound),
-                const SizedBox(height: 12),
-                _createSoundSelectionSection(),
-                const SizedBox(height: 20),
-                _createInfoLabel(Security.security_Age),
-                const SizedBox(height: 12),
-                _createAgeSliderSection(),
-                const SizedBox(height: 20),
-                _createInfoLabel(Security.security_Personality),
-                const SizedBox(height: 12),
-                _createShynessSliderSection(),
-                const SizedBox(height: 8),
-                _createOptimismSliderSection(),
-                const SizedBox(height: 8),
-                _createMysterySliderSection(),
-                const SizedBox(height: 20),
-                _createInfoLabel(Security.security_Physique),
-                const SizedBox(height: 12),
-                _createBodyTypeSliderSection(),
-                const SizedBox(height: 32),
+                _createBaseInfoSection(), // role image, name
+                _createGenderSelectionSection(), // gender
+                _createSoundSelectionSection(), // sound
+                _createSlidableSection(
+                  title: Security.security_Age,
+                  widgets: [
+                    _createSliderSection(
+                      leftLabel: '18',
+                      rightLabel: '60',
+                      value: _controller.characterAge,
+                      onChanged: _controller.adjustAge,
+                    ),
+                  ],
+                ),
+                _createSlidableSection(
+                  title: Security.security_Personality,
+                  widgets: [
+                    _createSliderSection(
+                      leftLabel: Security.security_Shy,
+                      rightLabel: Security.security_Flirty,
+                      value: _controller.shynessLevel,
+                      onChanged: _controller.adjustShynessLevel,
+                    ),
+                    _createSliderSection(
+                      leftLabel: EncHelper.cr_pesi,
+                      rightLabel: Security.security_Optimistic,
+                      value: _controller.optimismLevel,
+                      onChanged: _controller.adjustOptimismLevel,
+                    ),
+                    _createSliderSection(
+                      leftLabel: Security.security_Ordinary,
+                      rightLabel: Security.security_Mysterious,
+                      value: _controller.mysteryLevel,
+                      onChanged: _controller.adjustMysteryLevel,
+                    ),
+                  ],
+                ),
+                _createSlidableSection(
+                  title: Security.security_Physique,
+                  widgets: [
+                    _createSliderSection(
+                      leftLabel: Security.security_Slim,
+                      rightLabel: Security.security_Curvy,
+                      value: _controller.bodyType,
+                      onChanged: _controller.adjustBodyType,
+                    ),
+                  ],
+                ),
                 _createPhysiqueDetailsSection(),
-                const SizedBox(height: 20),
                 _createPhysiqueToggleButton(),
                 Obx(
                   () =>
@@ -152,31 +172,43 @@ class BasicCore extends StatelessWidget {
     );
   }
 
+  Widget _createBaseInfoSection() {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: _createInfoLabel(Security.security_Identify),
+        ),
+        const SizedBox(height: 12),
+        _createRoleImageSection(),
+        const SizedBox(height: 12),
+        _createNameInputSection(),
+      ],
+    );
+  }
+
   Widget _createInfoLabel(String label) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        spacing: 4,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
-              fontSize: 14,
-            ),
+    return Row(
+      spacing: 4,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w700,
+            fontSize: 14,
           ),
-          const Text(
-            '*',
-            style: TextStyle(
-              color: AppColors.ocMain,
-              fontWeight: FontWeight.w700,
-              fontSize: 12,
-            ),
+        ),
+        const Text(
+          '*',
+          style: TextStyle(
+            color: AppColors.ocMain,
+            fontWeight: FontWeight.w700,
+            fontSize: 12,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -306,7 +338,7 @@ class BasicCore extends StatelessWidget {
 
   Widget _createNameInputSection() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
         height: 90,
         padding: const EdgeInsets.all(12),
@@ -419,7 +451,7 @@ class BasicCore extends StatelessWidget {
   Widget _createGenderSelectionSection() {
     return Obx(() {
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Container(
           padding: const EdgeInsets.all(12),
           height: 90,
@@ -569,294 +601,191 @@ class BasicCore extends StatelessWidget {
   Widget _createSoundSelectionSection() {
     return Obx(
       () => Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Color(0xff272533),
-            borderRadius: BorderRadius.all(Radius.circular(12)),
-          ),
-          height: 48,
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: playSelectedSound,
-                child: Container(
-                  color: Colors.transparent,
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 12),
-                      Obx(
-                        () =>
-                            _controller.soundPlaying.value
-                                ? const SizedBox(
-                                  width: 16,
-                                  height: 16,
-                                  child: CircularProgressIndicator(
-                                    color: AppColors.ocMain,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          spacing: 12,
+          children: [
+            _createInfoLabel(Security.security_Sound),
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xff272533),
+                borderRadius: BorderRadius.all(Radius.circular(12)),
+              ),
+              height: 48,
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: playSelectedSound,
+                    child: Container(
+                      color: Colors.transparent,
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Row(
+                        children: [
+                          const SizedBox(width: 12),
+                          Obx(
+                            () =>
+                                _controller.soundPlaying.value
+                                    ? const SizedBox(
+                                      width: 16,
+                                      height: 16,
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.ocMain,
+                                      ),
+                                    )
+                                    : Image.asset(ImagePath.oc_tone),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            Copywriting.security_click_to_play,
+                            style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xFF999999),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  Expanded(
+                    child: GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onTap: () {
+                        _controller.navigateToVoiceLibrary();
+                      },
+                      child: Container(
+                        color: Colors.transparent,
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        alignment: Alignment.centerRight,
+                        child: Row(
+                          spacing: 20,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            _controller.selectedSound[Security.security_name] !=
+                                    null
+                                ? Text(
+                                  _controller.selectedSound[Security
+                                      .security_name],
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xffababad),
                                   ),
                                 )
-                                : Image.asset(ImagePath.oc_tone),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(
-                        Copywriting.security_click_to_play,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF999999),
+                                : Container(),
+                            Image.asset(
+                              height: 16,
+                              width: 16,
+                              ImagePath.right_arrow,
+                            ),
+                            const SizedBox(width: 12),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-
-              Expanded(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () {
-                    _controller.navigateToVoiceLibrary();
-                  },
-                  child: Container(
-                    color: Colors.transparent,
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    alignment: Alignment.centerRight,
-                    child: Row(
-                      spacing: 20,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        _controller.selectedSound[Security.security_name] !=
-                                null
-                            ? Text(
-                              _controller.selectedSound[Security.security_name],
-                              style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xffababad),
-                              ),
-                            )
-                            : Container(),
-                        Image.asset(
-                          height: 16,
-                          width: 16,
-                          ImagePath.right_arrow,
-                        ),
-                        const SizedBox(width: 12),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _createAgeSliderSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Color(0xff272533),
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            children: [
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '18',
-                    style: TextStyle(
-                      color: Color(0xffababad),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 11,
-                    ),
-                  ),
-                  Text(
-                    '60',
-                    style: TextStyle(
-                      color: Color(0xffababad),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 11,
                     ),
                   ),
                 ],
               ),
-              Obx(
-                () => Slider(
-                  activeColor: AppColors.ocMain,
-                  inactiveColor: const Color(0xFF171425),
-                  min: 18,
-                  max: 60,
-                  label: _controller.characterAge.value.toInt().toString(),
-                  value: _controller.characterAge.value.toDouble(),
-                  onChanged: (value) => _controller.adjustAge(value.toInt()),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _createShynessSliderSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xff272533),
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    Security.security_Shy,
-                    style: TextStyle(
-                      color: Color(0xffababad),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 11,
-                    ),
-                  ),
-                  Text(
-                    Security.security_Flirty,
-                    style: TextStyle(
-                      color: Color(0xffababad),
-                      fontWeight: FontWeight.w500,
-                      fontSize: 11,
-                    ),
-                  ),
-                ],
-              ),
-              Obx(
-                () => Slider(
-                  activeColor: AppColors.ocMain,
-                  inactiveColor: const Color(0xFF171425),
-                  min: 0,
-                  max: 100,
-                  value: _controller.shynessLevel.value,
-                  onChanged: _controller.adjustShynessLevel,
-                ),
-              ),
-            ],
-          ),
-        ),
+  Widget _createSliderSection({
+    required String leftLabel,
+    required String rightLabel,
+    required RxDouble value,
+    required ValueChanged<double> onChanged,
+    bool alignBetween = true,
+  }) {
+    return Container(
+      decoration: const BoxDecoration(
+        color: Color(0xff272533),
+        borderRadius: BorderRadius.all(Radius.circular(12)),
       ),
-    );
-  }
-
-  Widget _createOptimismSliderSection() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xff272533),
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+      child: Padding(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment:
+                  alignBetween
+                      ? MainAxisAlignment.spaceBetween
+                      : MainAxisAlignment.center,
+              children: [
+                if (!alignBetween)
+                  Expanded(
+                    child: Text(
+                      textAlign: TextAlign.left,
+                      leftLabel,
+                      style: const TextStyle(
+                        color: Color(0xffababad),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 11,
+                      ),
+                    ),
+                  )
+                else
                   Text(
-                    EncHelper.cr_pesi,
+                    leftLabel,
                     style: const TextStyle(
                       color: Color(0xffababad),
                       fontWeight: FontWeight.w500,
                       fontSize: 11,
                     ),
                   ),
+                if (!alignBetween)
+                  Expanded(
+                    child: Text(
+                      textAlign: TextAlign.right,
+                      rightLabel,
+                      style: const TextStyle(
+                        color: Color(0xffababad),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 11,
+                      ),
+                    ),
+                  )
+                else
                   Text(
-                    Security.security_Optimistic,
-                    style: TextStyle(
+                    rightLabel,
+                    style: const TextStyle(
                       color: Color(0xffababad),
                       fontWeight: FontWeight.w500,
                       fontSize: 11,
                     ),
                   ),
-                ],
+              ],
+            ),
+            Obx(
+              () => Slider(
+                activeColor: AppColors.ocMain,
+                inactiveColor: const Color(0xFF171425),
+                min: 0,
+                max: 100,
+                value: value.value,
+                onChanged: onChanged,
               ),
-              Obx(
-                () => Slider(
-                  activeColor: AppColors.ocMain,
-                  inactiveColor: const Color(0xFF171425),
-                  min: 0,
-                  max: 100,
-                  value: _controller.optimismLevel.value,
-                  onChanged: _controller.adjustOptimismLevel,
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _createMysterySliderSection() {
+  Widget _createSlidableSection({
+    required String title,
+    required List<Widget> widgets,
+  }) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xff272533),
-          borderRadius: BorderRadius.all(Radius.circular(12)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      textAlign: TextAlign.left,
-                      Security.security_Ordinary,
-                      style: TextStyle(
-                        color: Color(0xffababad),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 11,
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      textAlign: TextAlign.right,
-                      Security.security_Mysterious,
-                      style: TextStyle(
-                        color: Color(0xffababad),
-                        fontWeight: FontWeight.w500,
-                        fontSize: 11,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Obx(
-                () => Slider(
-                  activeColor: AppColors.ocMain,
-                  inactiveColor: const Color(0xFF171425),
-                  min: 0,
-                  max: 100,
-                  value: _controller.mysteryLevel.value,
-                  onChanged: _controller.adjustMysteryLevel,
-                ),
-              ),
-            ],
-          ),
-        ),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        spacing: 8,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [_createInfoLabel(title), ...widgets],
       ),
     );
   }
@@ -1134,7 +1063,7 @@ class BasicPage extends StatelessWidget {
         backgroundColor: Color(0xff070512),
         leading: IconButton(
           onPressed: () {
-            _controller.ocDependency.save();
+            OcManager.instance.save();
             Get.back();
           },
           icon: Image.asset(ImagePath.back, height: 24, width: 24),
@@ -1203,7 +1132,7 @@ class BasicPage extends StatelessWidget {
             onTap:
                 _controller.canProceed.value
                     ? () {
-                      _controller.ocDependency.save();
+                      OcManager.instance.save();
                       Get.toNamed(Routers.createAdvance.name);
                     }
                     : null,
@@ -1241,13 +1170,7 @@ class BasicPage extends StatelessWidget {
 }
 
 class BasicController extends GetxController {
-  OcDependency ocDependency = Get.find<OcDependency>();
-
-  bool get isEditMode => ocDependency.isEdit;
-
-  Map get characterConfig => ocDependency.configs;
-
-  get saveCharacter => ocDependency.save();
+  Map get characterConfig => OcManager.instance.configs;
 
   // Navigation control
   final canProceed = false.obs;
@@ -1267,7 +1190,7 @@ class BasicController extends GetxController {
   final selectedGender = 2.obs;
 
   // Character age
-  final characterAge = 18.obs;
+  final characterAge = 18.0.obs;
 
   // Voice settings
   final voiceConfigurations = <Map<dynamic, dynamic>>[].obs;
@@ -1309,9 +1232,9 @@ class BasicController extends GetxController {
     if (characterConfig[Security.security_age] == null ||
         characterConfig[Security.security_age] < 18 ||
         characterConfig[Security.security_age] > 60) {
-      characterAge.value = 18;
+      characterAge.value = 18.0;
     } else {
-      characterAge.value = characterConfig[Security.security_age];
+      characterAge.value = characterConfig[Security.security_age].toDouble();
     }
 
     // Gender
@@ -1495,7 +1418,8 @@ class BasicController extends GetxController {
         ),
       );
 
-      if (characterConfig[EncHelper.cr_tvid].isNotEmpty) {
+      if (characterConfig[EncHelper.cr_tvid] != null &&
+          characterConfig[EncHelper.cr_tvid] != '') {
         for (var config in voiceConfigurations) {
           if (config[Security.security_vid] ==
               characterConfig[EncHelper.cr_tvid]) {
@@ -1530,7 +1454,7 @@ class BasicController extends GetxController {
         uploadedImageUrl,
       );
       characterConfig[EncHelper.cr_piurl] = uploadedImageUrl;
-      ocDependency.traceId =
+      OcManager.instance.traceId =
           validationResult?[Security.security_statusInfo]?[Security
               .security_traceId] ??
           '';
@@ -1579,9 +1503,9 @@ class BasicController extends GetxController {
     }
   }
 
-  void adjustAge(int newAge) {
+  void adjustAge(double newAge) {
     characterAge.value = newAge;
-    characterConfig[Security.security_age] = characterAge.value;
+    characterConfig[Security.security_age] = characterAge.value.toInt();
   }
 
   void adjustShynessLevel(double level) {

@@ -378,7 +378,7 @@ class AdvancePage extends StatelessWidget {
         backgroundColor: Color(0xff070512),
         leading: IconButton(
           onPressed: () {
-            _logic.ocDependency.save();
+            OcManager.instance.save();
             Get.back();
           },
           icon: Image.asset(ImagePath.back, height: 24, width: 24),
@@ -491,7 +491,7 @@ class AdvancePage extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                _logic.ocDependency.save();
+                OcManager.instance.save();
                 Get.back();
               },
               icon: Image.asset(ImagePath.back, height: 24, width: 24),
@@ -534,11 +534,7 @@ class AdvancePage extends StatelessWidget {
 }
 
 class AdvanceController extends GetxController {
-  OcDependency ocDependency = Get.find<OcDependency>();
-
-  bool get isEditPage => ocDependency.isEdit;
-
-  Map get config => ocDependency.configs;
+  Map get config => OcManager.instance.configs;
 
   final toGen = false.obs;
 
@@ -657,7 +653,7 @@ class AdvanceController extends GetxController {
       );
       return;
     }
-    ocDependency.save();
+    OcManager.instance.save();
     Get.toNamed(Routers.createGen.name);
   }
 
