@@ -32,7 +32,7 @@ class AccountView extends StatelessWidget {
 
   String get ID => MyAccount.id;
 
-  final myPremium = PremiumManager.instance;
+  // final myPremium = PremiumManager.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -214,90 +214,90 @@ class AccountView extends StatelessWidget {
     );
   }
 
-  Widget PremiumArea() {
-    return GestureDetector(
-      onTap: () {
-        Get.toNamed(Routers.rechargePremium.name);
-      },
-      child: Container(
-        height: 54,
-        padding: EdgeInsets.symmetric(horizontal: 12),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Color(0xffdac6ae), Color(0xffe3b5e5), Color(0xffc4b2ea)],
-          ),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Row(
-          spacing: 8,
-          children: [
-            Image.asset(ImagePath.premium, height: 24, width: 24),
-            Text(
-              Copywriting.security_feelie_Pro,
-              style: TextStyle(
-                color: AppColors.base_background,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            Spacer(),
-            Obx(
-              () =>
-                  myPremium.isPremium
-                      ? Row(
-                        spacing: 4,
-                        children: [
-                          Text(
-                            EncHelper.rcg_expOn,
-                            style: TextStyle(
-                              color: Color(0xFFababad),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Text(
-                            CalendarHelper.formatDate(
-                                  date: myPremium.premiumFormattedEndTime,
-                                ) ??
-                                EncHelper.rcg_err,
-                            style: const TextStyle(
-                              color: Color(0xFFFFCB05),
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          Image.asset(
-                            ImagePath.right_arrow,
-                            height: 16,
-                            width: 16,
-                          ),
-                        ],
-                      )
-                      : Container(
-                        height: 32,
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [Color(0xfff4a07f), Color(0xffea5076)],
-                          ),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          Security.security_Subscribe,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  // Widget PremiumArea() {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       Get.toNamed(Routers.rechargePremium.name);
+  //     },
+  //     child: Container(
+  //       height: 54,
+  //       padding: EdgeInsets.symmetric(horizontal: 12),
+  //       decoration: BoxDecoration(
+  //         gradient: LinearGradient(
+  //           colors: [Color(0xffdac6ae), Color(0xffe3b5e5), Color(0xffc4b2ea)],
+  //         ),
+  //         borderRadius: BorderRadius.circular(12),
+  //       ),
+  //       child: Row(
+  //         spacing: 8,
+  //         children: [
+  //           Image.asset(ImagePath.premium, height: 24, width: 24),
+  //           Text(
+  //             Copywriting.security_feelie_Pro,
+  //             style: TextStyle(
+  //               color: AppColors.base_background,
+  //               fontSize: 14,
+  //               fontWeight: FontWeight.bold,
+  //             ),
+  //           ),
+  //           Spacer(),
+  //           Obx(
+  //             () =>
+  //                 myPremium.isPremium
+  //                     ? Row(
+  //                       spacing: 4,
+  //                       children: [
+  //                         Text(
+  //                           EncHelper.rcg_expOn,
+  //                           style: TextStyle(
+  //                             color: Color(0xFFababad),
+  //                             fontSize: 13,
+  //                             fontWeight: FontWeight.w400,
+  //                           ),
+  //                         ),
+  //                         Text(
+  //                           CalendarHelper.formatDate(
+  //                                 date: myPremium.premiumFormattedEndTime,
+  //                               ) ??
+  //                               EncHelper.rcg_err,
+  //                           style: const TextStyle(
+  //                             color: Color(0xFFFFCB05),
+  //                             fontSize: 13,
+  //                             fontWeight: FontWeight.w400,
+  //                           ),
+  //                         ),
+  //                         Image.asset(
+  //                           ImagePath.right_arrow,
+  //                           height: 16,
+  //                           width: 16,
+  //                         ),
+  //                       ],
+  //                     )
+  //                     : Container(
+  //                       height: 32,
+  //                       padding: EdgeInsets.symmetric(horizontal: 12),
+  //                       decoration: BoxDecoration(
+  //                         gradient: LinearGradient(
+  //                           colors: [Color(0xfff4a07f), Color(0xffea5076)],
+  //                         ),
+  //                         borderRadius: BorderRadius.circular(8),
+  //                       ),
+  //                       alignment: Alignment.center,
+  //                       child: Text(
+  //                         Security.security_Subscribe,
+  //                         style: TextStyle(
+  //                           color: Colors.white,
+  //                           fontSize: 14,
+  //                           fontWeight: FontWeight.bold,
+  //                         ),
+  //                       ),
+  //                     ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
   Widget CompanionsArea() {
     return Column(

@@ -25,7 +25,7 @@ void startApp(List<String> args) async {
   EventCenter.instance.init();
   PushService.instance.init();
   AccountService.instance.init();
-  PremiumManager.instance.init();
+  // PremiumManager.instance.init();
   ChatManager.instance.init();
   runApp(const RootView());
 }
