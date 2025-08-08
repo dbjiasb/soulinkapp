@@ -10,6 +10,8 @@ import 'package:modules/business/chat/create_image/create_image_manager.dart';
 import 'package:modules/shared/widget/balance_view.dart';
 import 'package:modules/shared/widget/list_status_view.dart';
 
+import '../../../shared/app_theme.dart';
+
 class CreateImagePanel extends GetView<CreateImagePanelController> {
   CreateImagePanel({super.key});
 
@@ -32,15 +34,24 @@ class CreateImagePanel extends GetView<CreateImagePanelController> {
               () => Container(
                 decoration:
                     (index == viewController.selectedIndex.value)
-                        ? BoxDecoration(color: const Color(0xFFF7E5FF), borderRadius: BorderRadius.circular(8))
+                        ? BoxDecoration(
+                          color: const Color(0xFFF5E5FF),
+                          borderRadius: BorderRadius.circular(8),
+                        )
                         : null,
-                padding: (index == viewController.selectedIndex.value) ? const EdgeInsets.symmetric(horizontal: 8) : EdgeInsets.zero,
+                padding:
+                    (index == viewController.selectedIndex.value)
+                        ? const EdgeInsets.symmetric(horizontal: 8)
+                        : EdgeInsets.zero,
                 alignment: Alignment.center,
                 child: Text(
                   viewController.config.value.prompts[index].name,
                   style: TextStyle(
                     fontSize: 13,
-                    color: (index == viewController.selectedIndex.value) ? Color(0xFF7D2DFF) : const Color(0xFFC1C1C2),
+                    color:
+                        (index == viewController.selectedIndex.value)
+                            ? AppColors.primary
+                            : const Color(0xFFC1C1C2),
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -68,7 +79,10 @@ class CreateImagePanel extends GetView<CreateImagePanelController> {
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(16), color: const Color(0xFFF1F0F4)),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: const Color(0xFFF1F0F4),
+                ),
                 child: SingleChildScrollView(
                   child: Wrap(
                     spacing: 8,
@@ -78,25 +92,67 @@ class CreateImagePanel extends GetView<CreateImagePanelController> {
                             .map(
                               (e) => GestureDetector(
                                 onTap: () {
-                                  if (viewController.config.value.prompts[index].selectedItem.value == e) {
-                                    viewController.config.value.prompts[index].selectedItem.value = null;
+                                  if (viewController
+                                          .config
+                                          .value
+                                          .prompts[index]
+                                          .selectedItem
+                                          .value ==
+                                      e) {
+                                    viewController
+                                        .config
+                                        .value
+                                        .prompts[index]
+                                        .selectedItem
+                                        .value = null;
                                   } else {
-                                    viewController.config.value.prompts[index].selectedItem.value = e;
+                                    viewController
+                                        .config
+                                        .value
+                                        .prompts[index]
+                                        .selectedItem
+                                        .value = e;
                                   }
                                 },
                                 child: Obx(
                                   () => Container(
-                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                      vertical: 8,
+                                    ),
                                     decoration:
-                                        (e == viewController.config.value.prompts[index].selectedItem.value)
-                                            ? BoxDecoration(color: const Color(0xFF7D2DFF), borderRadius: BorderRadius.circular(8))
-                                            : BoxDecoration(borderRadius: BorderRadius.circular(8), color: Color(0xFFE6DFE9)),
+                                        (e ==
+                                                viewController
+                                                    .config
+                                                    .value
+                                                    .prompts[index]
+                                                    .selectedItem
+                                                    .value)
+                                            ? BoxDecoration(
+                                              color: const Color(0xFF7D2DFF),
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                            )
+                                            : BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              color: Color(0xFFE2DFE5),
+                                            ),
                                     child: Text(
                                       e[Security.security_desc] ?? '',
                                       style: TextStyle(
                                         fontWeight: FontWeight.w500,
                                         fontSize: 12,
-                                        color: (e == viewController.config.value.prompts[index].selectedItem.value) ? Colors.white : const Color(0xFF999999),
+                                        color:
+                                            (e ==
+                                                    viewController
+                                                        .config
+                                                        .value
+                                                        .prompts[index]
+                                                        .selectedItem
+                                                        .value)
+                                                ? Colors.white
+                                                : const Color(0xFF999999),
                                       ),
                                     ),
                                   ),
@@ -128,15 +184,36 @@ class CreateImagePanel extends GetView<CreateImagePanelController> {
             height: 44,
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              gradient: LinearGradient(colors: [Color(0xFF8556FE), Color(0xFFF656FF)], begin: Alignment.centerLeft, end: Alignment.centerRight),
+              color: AppColors.primary,
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(Security.security_Create, style: TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w900)),
-                Container(padding: const EdgeInsets.symmetric(horizontal: 4), child: Image.asset(viewController.currencyIcon, width: 16, height: 16)),
-                Text(viewController.price.toString(), style: const TextStyle(fontSize: 14, color: Colors.white, fontWeight: FontWeight.w900)),
+                Text(
+                  Security.security_Create,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 4),
+                  child: Image.asset(
+                    viewController.currencyIcon,
+                    width: 16,
+                    height: 16,
+                  ),
+                ),
+                Text(
+                  viewController.price.toString(),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                  ),
+                ),
               ],
             ),
           ),
@@ -152,7 +229,13 @@ class CreateImagePanel extends GetView<CreateImagePanelController> {
       child: Container(
         height: 488,
         padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24))),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          ),
+        ),
         child: Stack(
           children: [
             Column(
@@ -162,10 +245,23 @@ class CreateImagePanel extends GetView<CreateImagePanelController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(Copywriting.security_create_images_that_you_like, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: Colors.black)),
+                      Text(
+                        Copywriting.security_create_images_that_you_like,
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black,
+                        ),
+                      ),
                       BalanceView(
                         type: BalanceType.coin,
-                        style: BalanceViewStyle(color: Color(0xFF7D2DFF), bgColor: Color(0xFFF1F0F4), borderRadius: 8, height: 24, padding: 8),
+                        style: BalanceViewStyle(
+                          color: AppColors.primary,
+                          bgColor: Color(0xFFF1F0F4),
+                          borderRadius: 8,
+                          height: 24,
+                          padding: 8,
+                        ),
                       ),
                     ],
                   ),
@@ -179,7 +275,12 @@ class CreateImagePanel extends GetView<CreateImagePanelController> {
 
                 Expanded(child: Obx(() => buildTabBarView())),
 
-                Obx(() => viewController.listStatus.value == ListStatus.success ? buildCreateImageButton() : SizedBox.shrink()),
+                Obx(
+                  () =>
+                      viewController.listStatus.value == ListStatus.success
+                          ? buildCreateImageButton()
+                          : SizedBox.shrink(),
+                ),
               ],
             ),
             Obx(() => ListStatusView(status: viewController.listStatus.value)),
@@ -201,9 +302,9 @@ class CreateImagePanelController extends GetxController {
   }
 
   String get currencyIcon {
-    if(config.value.type == 1){
+    if (config.value.type == 1) {
       return ImagePath.gem;
-    }else{
+    } else {
       return ImagePath.coin;
     }
   }
@@ -221,16 +322,19 @@ class CreateImagePanelController extends GetxController {
   }
 
   void getCreateImageConfigs() async {
-    if (config.value.prompts.isEmpty && listStatus.value != ListStatus.loading) {
+    if (config.value.prompts.isEmpty &&
+        listStatus.value != ListStatus.loading) {
       listStatus.value = ListStatus.loading;
     }
 
     int userId = Get.find<ChatRoomViewController>().userId;
 
-    CreateImageConfig result = await CreateImageManager.instance.getCreateImageConfigs(userId);
+    CreateImageConfig result = await CreateImageManager.instance
+        .getCreateImageConfigs(userId);
 
     if (result.success) {
-      listStatus.value = result.prompts.isEmpty ? ListStatus.empty : ListStatus.success;
+      listStatus.value =
+          result.prompts.isEmpty ? ListStatus.empty : ListStatus.success;
       if (result.prompts.isNotEmpty) {
         selectedIndex.value = 0;
       }
@@ -251,7 +355,10 @@ class CreateImagePanelController extends GetxController {
     if (options.isEmpty) return;
 
     EasyLoading.show(status: Copywriting.security_generating_in_progress);
-    ApiResponse response = await CreateImageManager.instance.createImage(Get.find<ChatRoomViewController>().userId, options);
+    ApiResponse response = await CreateImageManager.instance.createImage(
+      Get.find<ChatRoomViewController>().userId,
+      options,
+    );
     if (response.isSuccess) {
       EasyLoading.dismiss();
       //关闭弹窗
