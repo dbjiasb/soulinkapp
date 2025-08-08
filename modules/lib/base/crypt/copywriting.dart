@@ -129,4 +129,5 @@ abstract final class Copywriting {
   static late final String security_if_you_sign_in__you_agree_to = decrypt('vgJQ30E/9q+48CgIlCfRV3cR7FRaRJ5tPlzps2KKi2o='); // If you sign in, you agree to 
   static late final String security_send_me_a_picture = decrypt('QzNgSswCPVDpxxucnHABDRSuzc/D8zEgip9vdUaHmyM='); // Send me a picture
   static late final String security_send_me_a_video = decrypt('cHuD5FaCSNCioG0gzfWAuA=='); // Send me a video
+  static late final String security_and_indicate_your_consent_ = decrypt('f90CqbMagkUfbXNMDZcx28LpAdAGhBxHfFg2qd4NwW0='); //  and indicate your consent.
 }

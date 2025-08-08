@@ -1,3 +1,4 @@
+import 'package:modules/base/crypt/copywriting.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:modules/base/assets/image_path.dart';
@@ -34,7 +35,7 @@ class SkeletonView extends StatelessWidget {
     } else if (icon == Security.security_personal) {
       normalIconPath = ImagePath.bottom_bar_personal_normal;
       selectedIconPath = ImagePath.bottom_bar_personal_selected;
-    } else if (icon == 'create oc') {
+    } else if (icon == Security.security_createoc) {
       normalIconPath = ImagePath.bottom_bar_create_oc_entry;
       selectedIconPath = ImagePath.bottom_bar_create_oc_entry;
     } else {
@@ -116,7 +117,7 @@ class SkeletonViewController extends GetxController {
       normalBuilder: () => Image.asset(ImagePath.bottom_bar_list_normal, width: 28, height: 28),
     ),
     BottomBarItem(
-      name: 'create oc',
+      name: Security.security_createoc,
       pageBuilder: () {
         return Container();
       },

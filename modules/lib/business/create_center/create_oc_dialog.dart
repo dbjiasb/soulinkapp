@@ -116,7 +116,7 @@ class CreateOcDialog extends StatelessWidget {
                                 _showCopyrightAgreement();
                               },
                       ),
-                      TextSpan(text: ' and indicate your consent.', style: hintTextStyle),
+                      TextSpan(text: Copywriting.security_and_indicate_your_consent_, style: hintTextStyle),
                     ],
                     style: const TextStyle(fontSize: 14, color: Colors.white),
                   ),

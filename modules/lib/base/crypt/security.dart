@@ -399,4 +399,5 @@ abstract final class Security {
   static late final String security_Photo = decrypt('572R1O+6tk2luGK8uMmfNg==');
   static late final String security_gallery = decrypt('CtVMNxxKY/jcYPunJDIECw==');
   static late final String security_star = decrypt('b0bnmhjXCwrbhWRFjNU3IA==');
+  static late final String security_createoc = decrypt('mzWCl5HWIj+2lJf3MYDJQA=='); // createoc
 }
