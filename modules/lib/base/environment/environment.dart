@@ -10,19 +10,33 @@ class Environment {
   }
 
   static EnvironmentType _parseEnvironment(List<String> args) {
-    if (kDebugMode) {
-      return EnvironmentType.dev;
-    }
+    // if (kDebugMode) {
+    //   return EnvironmentType.dev;
+    // }
     // 优先从编译参数读取
-    String env = String.fromEnvironment(Security.security_ENV, defaultValue: '');
+    String env = String.fromEnvironment(
+      Security.security_ENV,
+      defaultValue: '',
+    );
     if (env.isNotEmpty) {
-      return env == Security.security_dev ? EnvironmentType.dev : EnvironmentType.prod;
+      return env == Security.security_dev
+          ? EnvironmentType.dev
+          : EnvironmentType.prod;
     }
 
     // 其次从命令行参数读取
-    final envArg = args.firstWhere((arg) => arg.startsWith('--env='), orElse: () => '--env=prod').split('=').last;
+    final envArg =
+        args
+            .firstWhere(
+              (arg) => arg.startsWith('--env='),
+              orElse: () => '--env=prod',
+            )
+            .split('=')
+            .last;
 
-    return envArg == Security.security_dev ? EnvironmentType.dev : EnvironmentType.prod;
+    return envArg == Security.security_dev
+        ? EnvironmentType.dev
+        : EnvironmentType.prod;
   }
 }
 

@@ -45,17 +45,10 @@ class LoginChannelView extends StatelessWidget {
   _onPrivacyPolicyClicked() {
     Get.toNamed(
       Routers.webView.name,
-      // <<<<<<< HEAD
-      //       arguments: {
-      //         Security.security_title: 'Privacy policy',
-      //         Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html',
-      //       },
-      // =======
       arguments: {
         Security.security_title: Copywriting.security_privacy_policy,
         Security.security_url: 'https://cdn.luminaai.buzz/lumina/privacy.html',
       },
-      // >>>>>>> feature/feature_1.0.0
     );
   }
 
@@ -63,15 +56,9 @@ class LoginChannelView extends StatelessWidget {
     Get.toNamed(
       Routers.webView.name,
       arguments: {
-        // <<<<<<< HEAD
-        //         Security.security_title: 'Terms of service',
-        //         Security.security_url:
-        //             'https://cdn.luminaai.buzz/lumina/termsofservice.html',
-        // =======
         Security.security_title: Copywriting.security_terms_of_service,
         Security.security_url:
             'https://cdn.luminaai.buzz/lumina/termsofservice.html',
-        // >>>>>>> feature/feature_1.0.0
       },
     );
   }
@@ -94,7 +81,6 @@ class LoginChannelView extends StatelessWidget {
   }
 
   Widget _buildBottomTips() {
-    // <<<<<<< HEAD
     const TextStyle linkStyle = TextStyle(
       color: Colors.white,
       fontSize: 12,
@@ -105,10 +91,6 @@ class LoginChannelView extends StatelessWidget {
       fontSize: 12,
       fontWeight: FontWeight.w500,
     );
-    // =======
-    //     const TextStyle linkStyle = TextStyle(color: Colors.white, fontSize: 12, decoration: TextDecoration.underline);
-    //     const TextStyle normalStyle = TextStyle(color: Color(0xFFABABAD), fontSize: 12, fontWeight: FontWeight.w500);
-    // >>>>>>> feature/feature_1.0.0
 
     return RichText(
       text: TextSpan(
@@ -170,20 +152,13 @@ class LoginChannelView extends StatelessWidget {
     );
     LoginChannel apple = LoginChannel(
       Security.security_apple,
-      // <<<<<<< HEAD
-      // 'Sign in with Apple',
       Copywriting.security_sign_in_with_Apple,
       Icon(Icons.apple, size: 24, color: Colors.black),
-      // =======
-      //       Copywriting.security_sign_in_with_Apple,
-      //       Image.asset(ImagePath.login_apple, height: 24, width: 24),
-      // >>>>>>> feature/feature_1.0.0
       Colors.white,
       AppColors.base_background,
       () async {
         ApiResponse response = await AccountService.instance.loginWithApple();
         if (response.isSuccess) {
-          //弹出所有页面并进入主页
           Get.offAllNamed(Routers.root.name);
         } else {
           EasyLoading.showError(response.description);
@@ -241,67 +216,50 @@ class LoginChannelView extends StatelessWidget {
     );
   }
 
+  final showSplashView = true.obs;
+
   @override
   Widget build(BuildContext context) {
+    Future.delayed(const Duration(seconds: 5), () {
+      showSplashView.value = false;
+    });
     return Scaffold(
       backgroundColor: AppColors.base_background,
       body: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: Stack(
-          children: [
-            SafeArea(
-              child: Container(
-                child: Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        padding: EdgeInsets.fromLTRB(140, 140, 140, 0),
-                        child: Column(
-                          spacing: 24,
-                          children: [
-                            Container(
+        child: Obx(
+          () =>
+              showSplashView.value
+                  ? Image.asset(ImagePath.splash_bg, fit: BoxFit.fill)
+                  : SafeArea(
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            alignment: Alignment.center,
+                            child: Container(
                               width: 88,
-                              height: 88,
-                              decoration: BoxDecoration(
-                                color: Color(0xff727272),
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(26),
-                                ),
-                                border: Border.all(
-                                  color: Colors.white,
-                                  width: 3,
-                                ),
+                              height: 124,
+                              child: Image.asset(
+                                ImagePath.app_icon,
+                                fit: BoxFit.fill,
                               ),
                             ),
-
-                            Text(
-                              'Soulink',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
+                          ),
+                        ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            _buildLoginChannels(),
+                            SizedBox(height: 65),
+                            _buildAgreeText(),
                           ],
                         ),
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          _buildLoginChannels(),
-                          SizedBox(height: 65),
-                          _buildAgreeText(),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     );

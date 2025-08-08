@@ -68,7 +68,6 @@ class PersonViewPage extends StatelessWidget {
                         width: 60,
                         child: Stack(
                           children: [
-                            // <<<<<<< HEAD
                             Positioned(
                               top: 0,
                               left: 0,
@@ -81,7 +80,6 @@ class PersonViewPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            // Positioned(top:0,left:0,child: Text('Gallery',style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),)),
                             Positioned(
                               bottom: 0,
                               right: 0,
@@ -91,10 +89,6 @@ class PersonViewPage extends StatelessWidget {
                                 width: 40,
                               ),
                             ),
-                            // =======
-                            //                             Positioned(top:0,left:0,child: Text(Security.security_Gallery,style: TextStyle(color: Colors.white,fontSize: 16,fontWeight: FontWeight.bold),)),
-                            // Positioned(bottom:0,right:0,child: Image.asset(ImagePath.home_list_selected,height: 10,width: 40,))
-                            // >>>>>>> feature/feature_1.0.0
                           ],
                         ),
                       ),

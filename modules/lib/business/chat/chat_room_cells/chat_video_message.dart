@@ -324,15 +324,6 @@ class ChatVideoCell extends ChatCell {
                   //         spacing: 7,
                   //         mainAxisAlignment: MainAxisAlignment.center,
                   //         children: [
-                  //           // <<<<<<< HEAD
-                  //           Image.asset(
-                  //             ImagePath.premium,
-                  //             width: 16,
-                  //             height: 16,
-                  //           ),
-                  //           // Text('Pro Free', style: TextStyle(color: Color(0xFFFFE96F), fontSize: 14, fontWeight: AppFonts.medium)),
-                  //           // =======
-                  //           //                             Image.asset(ImagePath.premium_gem, width: 16, height: 16),
                   //           Text(
                   //             Copywriting.security_pro_Free,
                   //             style: TextStyle(

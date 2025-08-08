@@ -179,15 +179,6 @@ class AccountService {
   }
 
   Future<ApiResponse> getVerifyCode(String account, AccountType type) async {
-    // <<<<<<< HEAD
-    //     ApiRequest request = ApiRequest(
-    //       'fetchVerificationCode',
-    //       params: {
-    //         Security.security_account: account,
-    //         Security.security_type: type.value,
-    //       },
-    //     );
-    // =======
     ApiRequest request = ApiRequest(
       Apis.security_fetchVerificationCode,
       params: {
@@ -195,7 +186,6 @@ class AccountService {
         Security.security_type: type.value,
       },
     );
-    // >>>>>>> feature/feature_1.0.0
     ApiResponse response = await ApiService.instance.sendRequest(request);
     return response;
   }
@@ -225,16 +215,6 @@ class AccountService {
   }
 
   //登录
-  // <<<<<<< HEAD
-  //   Future<ApiResponse> login(
-  //     String account,
-  //     String password,
-  //     AccountType accountType, {
-  //     String thirdName = '',
-  //   }) async {
-  //     ApiRequest request = ApiRequest(
-  //       'signIn',
-  // =======
   Future<ApiResponse> login(
     String account,
     String password,
@@ -243,7 +223,6 @@ class AccountService {
   }) async {
     ApiRequest request = ApiRequest(
       Apis.security_signIn,
-      // >>>>>>> feature/feature_1.0.0
       params: {
         Security.security_account: account,
         Security.security_token: password,
@@ -368,17 +347,10 @@ class AccountService {
 
   /// balance
   void refreshBalance() async {
-    // <<<<<<< HEAD
-    //     final req = ApiRequest(
-    //       'fetchBalance',
-    //       params: {Security.security_uid: account.id},
-    //     );
-    // =======
     final req = ApiRequest(
       Apis.security_fetchBalance,
       params: {Security.security_uid: account.id},
     );
-    // >>>>>>> feature/feature_1.0.0
     final rsp = await ApiService.instance.sendRequest(req);
 
     if (rsp.statusCode != 200 || rsp.bsnsCode != 0) return;

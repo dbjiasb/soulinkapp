@@ -77,33 +77,6 @@ class VoiceCallView extends StatelessWidget {
     switch (viewController.callStatus.value) {
       case CallStatus.connecting:
         return Column(
-          // <<<<<<< HEAD
-          //           children: [
-          //             SizedBox(height: 184),
-          //             Text(
-          //               'Connecting...',
-          //               style: TextStyle(
-          //                 fontSize: 14,
-          //                 fontWeight: FontWeight.w500,
-          //                 color: Color(0xFFABABAD),
-          //               ),
-          //             ),
-          //           ],
-          //         );
-          //       case CallStatus.aiThinking:
-          //         return Column(
-          //           children: [
-          //             SizedBox(height: 184),
-          //             Text(
-          //               'I\'m thinking...',
-          //               style: TextStyle(
-          //                 fontSize: 14,
-          //                 fontWeight: FontWeight.w500,
-          //                 color: Color(0xFFABABAD),
-          //               ),
-          //             ),
-          //           ],
-          // =======
           children: [
             SizedBox(height: 184),
             Text(
@@ -175,16 +148,6 @@ class VoiceCallView extends StatelessWidget {
               ),
             ),
             SizedBox(height: 4),
-            // <<<<<<< HEAD
-            //             Text(
-            //               'Interrupt AI',
-            //               style: TextStyle(
-            //                 fontSize: 14,
-            //                 color: Color(0xFFABABAD),
-            //                 fontWeight: FontWeight.w500,
-            //               ),
-            //             ),
-            // =======
             Text(
               Copywriting.security_interrupt_AI,
               style: TextStyle(
@@ -193,7 +156,6 @@ class VoiceCallView extends StatelessWidget {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            // >>>>>>> feature/feature_1.0.0
           ],
         );
       case CallStatus.userSpeaking:
@@ -205,16 +167,6 @@ class VoiceCallView extends StatelessWidget {
               child: SVGASimpleImage(assetsName: ImagePath.speaking),
             ),
             SizedBox(height: 16),
-            // <<<<<<< HEAD
-            //             Text(
-            //               'I\'am listening...',
-            //               style: TextStyle(
-            //                 fontSize: 14,
-            //                 fontWeight: FontWeight.w500,
-            //                 color: Color(0xFFABABAD),
-            //               ),
-            //             ),
-            // =======
             Text(
               Copywriting.security_i__am_listening___,
               style: TextStyle(
@@ -223,7 +175,6 @@ class VoiceCallView extends StatelessWidget {
                 color: Color(0xFFABABAD),
               ),
             ),
-            // >>>>>>> feature/feature_1.0.0
           ],
         );
     }
@@ -335,16 +286,6 @@ class VoiceCallView extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          // <<<<<<< HEAD
-                          //                           Text(
-                          //                             'Call Duration',
-                          //                             style: TextStyle(
-                          //                               fontSize: 13,
-                          //                               fontWeight: FontWeight.w500,
-                          //                               color: Colors.white,
-                          //                             ),
-                          //                           ),
-                          // =======
                           Text(
                             Copywriting.security_call_Duration,
                             style: TextStyle(
@@ -353,7 +294,6 @@ class VoiceCallView extends StatelessWidget {
                               color: Colors.white,
                             ),
                           ),
-                          // >>>>>>> feature/feature_1.0.0
                           Obx(
                             () => Text(
                               DateFormatter.formatSeconds(

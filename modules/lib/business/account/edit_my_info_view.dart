@@ -32,11 +32,7 @@ class EditMyInfoPage extends StatelessWidget {
           ),
         ),
         centerTitle: true,
-        // <<<<<<< HEAD
         backgroundColor: AppColors.base_background,
-        // title: Text('Edit information', style: TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-        // =======
-        // backgroundColor: AppColors.secondPage,
         title: Text(
           Copywriting.security_edit_information,
           style: TextStyle(
@@ -45,7 +41,6 @@ class EditMyInfoPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        // >>>>>>> feature/feature_1.0.0
         actions: [
           InkWell(
             onTap: controller.saveMyInfo,
@@ -112,30 +107,9 @@ class EditMyInfoPage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    // <<<<<<< HEAD
                     _buildNameItem(),
                     _buildGenderItem(),
                     _buildBirthdayItem(),
-                    // // =======
-                    //                     Text(Security.security_Profile, style: TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.bold)),
-                    //                     Container(
-                    //                       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                    //                       height: 80,
-                    //                       decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(8)),
-                    //                       child: TextField(
-                    //                         controller: controller.profileController,
-                    //                         style: TextStyle(color: Colors.white, fontSize: 11, height: 1.0),
-                    //                         decoration: InputDecoration(
-                    //                           border: InputBorder.none,
-                    //                           isDense: true,
-                    //                           hintText: Copywriting.security_fill_in_your_introduction___,
-                    //                           hintStyle: TextStyle(color: Color(0xFF9EA1A8), fontSize: 11, fontWeight: AppFonts.medium),
-                    //                         ),
-                    //                         textAlignVertical: TextAlignVertical.center,
-                    //                         textAlign: TextAlign.left,
-                    //                       ),
-                    //                     ),
-                    // >>>>>>> feature/feature_1.0.0
                   ],
                 ),
               ),

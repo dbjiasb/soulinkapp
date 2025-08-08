@@ -334,7 +334,6 @@ class AccountView extends StatelessWidget {
           ],
         ),
 
-        // <<<<<<< HEAD
         Expanded(
           child: Obx(
             () =>
@@ -458,21 +457,12 @@ class AccountView extends StatelessWidget {
   }
 
   Widget _buildEmptyView() {
-    // <<<<<<< HEAD
-    //     return Center(
-    //       child: Text(
-    //         'No companions yet',
-    //         style: TextStyle(color: Color(0xFFA0A0A0), fontSize: 12),
-    //       ),
-    //     );
-    // =======
     return Center(
       child: Text(
         Copywriting.security_no_companions_yet,
         style: TextStyle(color: Color(0xFFA0A0A0), fontSize: 12),
       ),
     );
-    // >>>>>>> feature/feature_1.0.0
   }
 }
 

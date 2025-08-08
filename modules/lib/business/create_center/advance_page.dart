@@ -321,15 +321,11 @@ class AdvanceCore extends StatelessWidget {
                             runAlignment: WrapAlignment.center,
                             spacing: 4,
                             children: [
-                              // <<<<<<< HEAD
                               Image.asset(
                                 ImagePath.boarder_add,
                                 height: 16,
                                 width: 16,
                               ),
-                              // const Text('Add rounds', style: TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500)),
-                              // =======
-                              //                               Image.asset(ImagePath.oc_add_pic, height: 16, width: 16),
                               Text(
                                 Copywriting.security_add_rounds,
                                 style: TextStyle(

@@ -1,6 +1,7 @@
 abstract final class ImagePath {
   // 新資源文件 勿刪
   static const String ai_tag = 'packages/modules/assets/soulink/ai_tag.png';
+  static const String app_icon = 'packages/modules/assets/soulink/app_icon.png';
   static const String audio = 'packages/modules/assets/soulink/audio.png';
   static const String audio_cancel =
       'packages/modules/assets/soulink/audio_cancel.png';
@@ -114,6 +115,8 @@ abstract final class ImagePath {
   static const String setting = 'packages/modules/assets/soulink/setting.png';
   static const String speaking =
       'packages/modules/assets/soulink/speaking.svga';
+  static const String splash_bg =
+      'packages/modules/assets/soulink/splash_bg.png';
   static const String tab_selected =
       'packages/modules/assets/soulink/tab_selected.png';
   static const String tip_off = 'packages/modules/assets/soulink/tip_off.png';

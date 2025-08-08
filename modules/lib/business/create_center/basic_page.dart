@@ -394,18 +394,13 @@ class BasicCore extends StatelessWidget {
                         contentPadding: EdgeInsets.zero,
                         isDense: true,
                         border: InputBorder.none,
-                        // <<<<<<< HEAD
-                        // hintText: 'Name your character',
                         hintStyle: TextStyle(
                           color: Color(0xff636268),
                           fontSize: 11,
                           height: 1.2,
                           fontWeight: FontWeight.w500,
                         ),
-                        // =======
                         hintText: Copywriting.security_name_your_character,
-                        // hintStyle: TextStyle(color: Colors.white, fontSize: 11, height: 1.2, fontWeight: FontWeight.w500),
-                        // >>>>>>> feature/feature_1.0.0
                       ),
                       style: const TextStyle(
                         color: Colors.white,

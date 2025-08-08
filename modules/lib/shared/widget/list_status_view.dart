@@ -21,11 +21,7 @@ class ListStatusView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // <<<<<<< HEAD
           Image.asset(ImagePath.empty_list, width: 156, height: 156),
-          // Text(emptyDesc ?? 'No data', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, color: Color(0xFF9EA1A8))),
-          // =======
-          // Image.asset(ImagePath.list_status_empty, width: 156, height: 156),
           Text(
             emptyDesc ?? Copywriting.security_no_data,
             style: TextStyle(
@@ -48,13 +44,8 @@ class ListStatusView extends StatelessWidget {
         children: [
           Image.asset(ImagePath.empty_list, width: 156, height: 156),
           Text(
-            // <<<<<<< HEAD
-            //             errorDesc ?? 'Network exception, please try again later',
             errorDesc ??
                 Copywriting.security_network_exception__please_try_again_later,
-            // =======
-            //             description ?? Copywriting.security_network_exception__please_try_again_later,
-            // >>>>>>> feature/feature_1.0.0
             style: TextStyle(
               fontSize: 11,
               fontWeight: FontWeight.w500,

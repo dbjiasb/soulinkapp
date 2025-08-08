@@ -28,13 +28,33 @@ class HomePageView extends StatelessWidget {
                 ? Stack(
                   clipBehavior: Clip.none,
                   children: [
-                    Text(viewController.items[index].title, style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w900), softWrap: true),
-                    Positioned(bottom: -3, right: 0, child: Image.asset(ImagePath.tab_selected, height: 10, width: 40)),
+                    Text(
+                      viewController.items[index].title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w900,
+                      ),
+                      softWrap: true,
+                    ),
+                    Positioned(
+                      bottom: -3,
+                      right: 0,
+                      child: Image.asset(
+                        ImagePath.tab_selected,
+                        height: 10,
+                        width: 40,
+                      ),
+                    ),
                   ],
                 )
                 : Text(
                   viewController.items[index].title,
-                  style: TextStyle(color: Colors.white.withValues(alpha: 0.4), fontSize: 16, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    color: Colors.white.withValues(alpha: 0.4),
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
       ),
     );
@@ -105,9 +125,12 @@ class HomePageViewController extends GetxController {
   PageController pageController = PageController();
   var selectedIndex = 0.obs;
   List<RoleListItem> items = [
-    RoleListItem(Security.security_Discovery, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.ai))),
-    RoleListItem(Security.security_Real, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.real))),
-    RoleListItem(Security.security_OC, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.custom_ai))),
-    RoleListItem(Copywriting.security_pro_only, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.pro_only))),
+    RoleListItem(
+      Security.security_Discovery,
+      () => KeepAliveWrapper(child: RoleListView(type: RoleListType.ai)),
+    ),
+    // RoleListItem(Security.security_Real, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.real))),
+    // RoleListItem(Security.security_OC, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.custom_ai))),
+    // RoleListItem(Copywriting.security_pro_only, () => KeepAliveWrapper(child: RoleListView(type: RoleListType.pro_only))),
   ];
 }
