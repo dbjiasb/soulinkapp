@@ -44,8 +44,7 @@ class CreateOcDialog extends StatelessWidget {
       WebView(),
       arguments: {
         Security.security_title: Copywriting.security_copyright_Agreement,
-        Security.security_url:
-            'https://cdn.luminaai.buzz/h5/protocol/oc_copyright.html',
+        Security.security_url: AppManager.instance.createOcHtml,
       },
     );
   }
@@ -71,13 +70,7 @@ class CreateOcDialog extends StatelessWidget {
           Spacer(),
           IconButton(
             onPressed: () {
-              Get.toNamed(
-                Routers.webView,
-                arguments: {
-                  Security.security_title: 'Copyright Agreement',
-                  Security.security_url: AppManager.instance.createOcHtml,
-                },
-              );
+              _showCopyrightAgreement();
             },
             icon: Image.asset(width: 32, height: 32, ImagePath.oc_dialog_ask),
           ),
@@ -218,11 +211,12 @@ class CreateOcDialog extends StatelessWidget {
   Future<void> toCreatePage() async {
     EasyLoading.show(status: Security.security_Checking);
     final rtn = await _logic.payForCreateOc();
-    EasyLoading.dismiss();
     if (rtn) {
+      EasyLoading.dismiss();
       Get.back();
       Get.toNamed(Routers.createBasic);
     }
+    EasyLoading.dismiss();
   }
 
   Widget _buildCostWidget(TextStyle btnTextStyle) {
